@@ -1,73 +1,77 @@
-% https://github.com/martinhelso/phduio-article-based
+\documentclass[final,colophon,english]{phduio}
+\usepackage{phdstyle}
+\usepackage[toc]{glossaries}
 
-% Add [final] to remove marginal notes:
-\documentclass[colophon, english]{phduio}
+% Remove border around links
+\hypersetup{hidelinks}
 
-\usepackage{phdstyle}   % Custom style
-\usepackage{kantlipsum} % Dummy text
+% See the following link for documentation:
+% https://github.com/uio-latex/phduio-article-based
 
 \author{Jonas Markussen}
-\title{SmartIO: PCIe Device Sharing}
-\subtitle{Optional subtitle}
-\department{Department}
-\faculty{Faculty}
-\affiliation
-{
-    Optional Second Affiliation
-    \and
-    Optional Further Specification
-}
-\ISSN{1234-5678}           % Request correct number from repro@uio.no
-\dissertationseries{1234}  % Request correct number from repro@uio.no
+\title{SmartIO: Multi-host device sharing and memory disaggregation in PCI~Express}
 
+\department{Department of Informatics}
+\faculty{Faculty of Mathematics and Natural Sciences}
 
-\includeonly
-{
-    sections/dedication,
-    sections/preface,
-    sections/papers,
-    sections/introduction,
-    sections/paperI,
-    sections/paperII,
-    sections/paperIII,
-    sections/appendixA,
-    sections/appendixB,
+% Additional affiliations
+\affiliation{
+    Dolphin Interconnect Solutions
+    \AND
+    Simula Research Laboratory
 }
 
+% Request correct numbers from repro@uio.no
+\ISSN{xxxx-xxxx}
+\dissertationseries{xxxx}
+
+
+% Create glossary list
+\makeglossaries
+\input{glossary}
+
+% Objectives
+\newcounter{objective}
+\newcommand{\objective}[1]{Objective~\refstepcounter{objective}\theobjective\label[objective]{obj:#1}}
+\crefname{objective}{objective}{objectives}
+\Crefname{objective}{Objective}{Objectives}
 
 \begin{document}
+	% Folios in Roman numerals, unnumbered chapters.
+	\frontmatter 
 
-    \frontmatter        % Folios in Roman numerals, unnumbered chapters.
+	\uiotitle
 
-    \uiotitle
+	\include{sections/dedication}
+	\include{sections/preface}
+	\include{sections/papers}
 
-    \include{sections/dedication}
-    \include{sections/preface}
-    \include{sections/papers}
- 
-    \cleartorecto
-    \tableofcontents    % Or \tableofcontents*
-    \cleartorecto
-    \listoffigures      % Or \listoffigures*
-    \cleartorecto
-    \listoftables       % Or \listoftables*
+	\cleartorecto
+	\tableofcontents
+	\cleartorecto
+	\listoffigures
+	\cleartorecto
+	\listoftables
+	\cleartorecto
+	\printglossary[title=List of Acronyms,nonumberlist]
 
-    \mainmatter         % Folios in Arabic numerals, numbered chapters.
+	% Folios in Arabic numerals, numbered chapters.
+	\mainmatter
 
-    \include{sections/introduction}
+	\include{sections/intro}
 
-    \paper              % "Chapter" is renamed "Paper"
-    \paperpage          % Similar to \part*{Papers}, but appears in TOC
-    \numberofpapers{3}  % Specify size of thumb indices
+	% List of papers
+	\paper % "Chapter" is renamed "Paper"
+	%\paperpage % Similar to \part*{Papers}, but appears in TOC
+	\part*{Published Papers}\addcontentsline{toc}{part}{Published Papers}
+	\clearforchapter
 
-    \include{sections/paperI}
-    \include{sections/paperII}
-    \include{sections/paperIII}
+	% Specify size of thumb indices
+	\numberofpapers{5} 
 
-    \appendix           % "Chapter" is renamed "Appendix"
-    \appendixpage       % Similar to \part*{Appendices}, but appears in TOC
-
-    \include{sections/appendixA}
-    \include{sections/appendixB}
-
+	\include{sections/NOSSDAV-2016}
+	\include{sections/MMSys-2016}
+	\include{sections/SRMPDS-2018}
+	\include{sections/CC-2019}
+	\include{sections/TOCS-2021}
 \end{document}

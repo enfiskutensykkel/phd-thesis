@@ -1,0 +1,45 @@
+\chapter{SmartIO: Zero-overhead Device Sharing through PCIe Networking}
+\label{paper:TOCS-2021}
+\paperthumb
+
+\begin{description}
+	\item[Authors:]
+		\textbf{Jonas Markussen}, Lars Bj{\o}rlykke Kristiansen, P{\aa}l Halvorsen,
+		Halvor Kielland-Gyrud, H{\aa}kon Kvale Stensland, Carsten Griwodz
+
+	\item[Abstract:]
+		The large variety of compute-heavy and data-driven applications accelerate the need for a distributed
+		I/O solution that enables cost-effective scaling of resources between networked hosts. For example,
+		in a cluster system, different machines may have various devices available at different times, 
+		but moving workloads to remote units over the network is often costly and introduce 
+		large overheads compared to accessing local resources. 
+		%
+		To facilitate I/O disaggregation and device sharing among hosts connected using PCIe non-transparent
+		bridges, we present SmartIO. NVMes, GPUs, network adapters, or any other standard PCIe device may be 
+		borrowed and accessed directly, as if they were local to the remote machines.
+		%
+		We provide capabilities beyond existing disaggregation solutions 
+		by combining traditional I/O with distributed shared-memory functionality, allowing devices 
+		to become part of the same global address space as cluster applications.
+		Software is entirely removed from the data path, and simultaneous sharing of a device among 
+		application processes running on remote hosts is enabled.
+		%
+		Our experimental results show that I/O devices can be shared with remote hosts,
+		achieving native PCIe performance.
+		%
+		Thus, compared to existing device distribution mechanisms, SmartIO provides more efficient, low-cost resource
+		sharing, increasing the overall system performance.
+
+	\item[Candidate's contributions:]
+		Some stuff
+
+	\item[Published in:]
+		ACM Transactions on Computer Systems~(TOCS), 
+		June~2021, volume~38, issue~1-2, article~2, pp.~2:1--2:78.
+		\doi{10.1145/3462545}
+
+	\item[Contributed to:]
+		\Cref{obj:main,obj:sub1}
+
+\end{description}
+\includearticle[numbers=none]{papers/TOCS-2021}

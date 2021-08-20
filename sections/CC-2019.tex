@@ -1,0 +1,48 @@
+\chapter{Flexible Device Compositions and Dynamic Resource Sharing in PCIe Interconnected Clusters using Device~Lending}
+\label{paper:CC-2019}
+\paperthumb
+
+\begin{description}
+	\item[Authors:]
+		\textbf{Jonas Markussen}, Lars Bj{\o}rlykke Kristiansen, Rune Johan Borgli, H{\aa}kon Kvale Stensland,
+		Friedrich Seifert, Michael Riegler, Carsten Griwodz, P{\aa}l Halvorsen
+
+	\item[Abstract:]
+		Modern workloads often exceed the processing and I/O capabilities provided by resource virtualization,
+		requiring direct access to the physical hardware in order to reduce latency and computing overhead.
+		For computers interconnected in a cluser, access to remote hardware resources often requires facilitation
+		both in hardware and specialized drivers with virtualization support. This limits the availability of
+		resources to specific devices and drivers that are supported by the virtualization technology being used, as
+		well as what the interconnection technology supports.
+		%
+		For PCI Express (PCIe) clusters, we have previously proposed Device Lending as a solution for enabling direct
+		low latency access to remote devices.
+		The method has extremely low computing overhead, and does not
+		require any application- or device-specific distribution mechanisms. Any PCIe device, such as network cards disks, and
+		GPUs, can easily be shared among the connected hosts.
+		In this work, we have extended our solution with support for a Virtual Machine (VM) hypervisor.
+		Physical remote devices can be  ``passed through'' to VM guests, enabling direct access to physical resources 
+		while still retaining the flexibility of virtualization. Additionally, we have also implemented multi-device
+		support, enabling shortest-path peer-to-peer transfers between remote devices residing in different hosts.
+		%
+		Our experimental results prove that multiple remote devices can be used, achieving bandwidth and latency
+		close to native PCIe, and without requiring any additional support in device drivers. 
+		I/O intensive workloads run seamlessly using both local and remote resources.
+		With our added VM and multi-device support, Device Lending offers highly customizable 
+		configurations of remote devices that can be dynamically reassigned and shared to optimize resource 
+		utilization, thus enabling a flexible composable I/O infrastructure for VMs as well as bare-metal
+		machines.
+
+	\item[Candidate's contributions:]
+		Some stuff
+
+	\item[Published in:]
+		Cluster Computing,
+		June~2020, volume~23, issue~2, pp.~1211--1234.
+		\doi{10.1007/s10586-019-02988-0}
+
+	\item[Contributed to:]
+		\Cref{obj:main}
+
+\end{description}
+\includearticle{papers/CC-2019}

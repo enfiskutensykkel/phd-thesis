@@ -1,0 +1,43 @@
+\chapter{Device Lending in PCI Express Networks}
+\label{paper:NOSSDAV-2016}
+\paperthumb
+
+\begin{description}
+	\item[Authors:]
+		Lars Bj{\o}rlykke Kristian, \textbf{Jonas Markussen}, H{\aa}kon Kvale Stensland,
+		Michael Riegler, Hugo Kohmann, Friedrich Seifert, Roy Nordstr{\o}m, Carsten Griwodz, P{\aa}l Halvorsen
+
+	\item[Abstract:]
+	The challenge of scaling IO performance of multimedia systems to demands
+	of their users has attracted much research.
+	A lot of effort has gone into
+	development of distributed systems that add little latency and computing overhead.
+	For machines in PCI Express (PCIe) clusters,
+	we propose Device Lending as a novel solution which works at a system
+	level.
+	%
+	Device Lending achieves low latency and extremely low computing overhead without
+	requiring \textit{any} application-specific distribution mechanisms.
+	For the application, the remote IO resource appears local.
+	In fact, even the drivers of the operating system remain unaware that
+	hardware resources are located in remote machines.
+	%
+	By enabling machines in a PCIe cluster to lend a wide variety of hardware, 
+	cluster machines can get temporary access to a pool of IO resources. 
+	Network cards, FPGAs, SSDs, and even GPUs can easily be shared among computers.
+	Our proposed solution, Device Lending, works transparently without requiring any modifications to drivers,
+	operating systems or software applications.
+
+	\item[Candidate's contributions:]
+		Some stuff
+
+	\item[Published in:]
+		Proceedings of the 26th International Workshop on Network and Operating Systems Support for Digital Audio and Video~(NOSSDAV'16),
+		May~2016, article~10, pp.~10:1--10:6.
+		\doi{10.1145/2910642.2910650}
+
+	\item[Contributed to:]
+		\Cref{obj:main}
+
+\end{description}
+\includearticle[]{papers/NOSSDAV-2016}

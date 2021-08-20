@@ -1,0 +1,40 @@
+\chapter{Flexible Device Sharing in PCIe Clusters using Device~Lending}
+\label{paper:SRMPDS-2018}
+\paperthumb
+
+\begin{description}
+	\item[Authors:]
+		\textbf{Jonas Markussen}, Lars Bj{\o}rlykke Kristiansen, H{\aa}kon Kvale Stensland,
+		Friedrich Seifert, Carsten Griwodz, P{\aa}l Halvorsen
+
+	\item[Abstract:]
+	Processing workloads may have very high IO demands, exceeding the capabilities provided by resource
+	virtualization and requiring direct access to the physical hardware.
+	%
+	For computers that are interconnected in PCI Express (PCIe) networks, we have previously proposed 
+	%
+	Device Lending as a solution for assigning devices to remote hosts. In this paper, we
+	explain how we have extended our implementation with support for the Linux Kernel-based Virtual
+	Machine (KVM) hypervisor.
+	Using our extended Device Lending, it becomes possible to dynamically ``pass through'' physical remote devices
+	to VM guests while still retaining the flexibility of virtualization, something that previously required
+	extensive facilitation in both hypervisor and device drivers in the form of paravirtualization.
+	%
+	We have also improved our original implementation with support for interoperability between remote devices.
+	We show that it is possible to use multiple devices residing in different hosts, while still achieving the same
+	bandwidth and latency as native PCIe, and without requiring any additional support in device drivers. 
+
+
+	\item[Candidate's contributions:]
+		Some stuff
+
+	\item[Published in:]
+		Proceedings of the 47th International Conference on Parallel Processing Companion~(ICPP'18),
+		August~2018, article~48, pp.~48:1--48:10.
+		\doi{https://doi.org/10.1145/3229710.3229759}
+
+	\item[Contributed to:]
+		\Cref{obj:main}
+
+\end{description}
+\includearticle{papers/SRMPDS-2018}
