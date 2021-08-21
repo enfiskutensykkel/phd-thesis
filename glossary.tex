@@ -1,3 +1,42 @@
-\newacronym{pci}{PCI}{Peripheral Component Interconnect}
+\newcommand{\newacronymwithentry}[4]{%
+\newglossaryentry{gls-#1}{
+name={#2},
+description={#4}
+}
+\newglossaryentry{#1}{
+type=\acronymtype,
+name={#2},
+description={#3, \glsseeformat[Glossary:]{gls-#1}{}},
+first={#3~(#2)\glsadd{gls-#1}}
+}
+}
+
+\newacronym{ntb}{NTB}{non-transparent bridge}
+\newacronym{rdma}{RDMA}{remote direct memory access}
+\newacronym{io}{I/O}{input/output}
+\newacronym{cpu}{CPU}{central processing unit}
+\newacronym{os}{OS}{operating system}
+\newacronym{vm}{VM}{virtual machine}
+\newacronym{iommu}{IOMMU}{I/O memory management unit}
+\newacronym{nvme}{NVMe}{Non-Volatile Memory Express}
+\newacronym{ssd}{SSD}{solid-state flash memory drive}
+\newacronym{gpu}{GPU}{graphics processing unit}
+\newacronym{fpga}{FPGA}{field-programmable gate array}
+\newacronym{nic}{NIC}{network interface card}
+\newacronym{pf}{PF}{physical device function}
+\newacronym{vf}{VF}{SR-IOV virtual device function}
 \newacronym{pcie}{PCIe}{Peripheral Component Interconnect Express}
-\newacronym{ntb}{NTB}{Non-Transparent Bridge}
+
+
+\newacronymwithentry{sriov}{SR-IOV}{Single-Root I/O Virtualization}
+{Single-root I/O virtualization allows a single device to virtualize multiple device functions in hardware}
+
+\newacronymwithentry{dma}{DMA}{Direct Memory Access}
+{Devices capable of direct memory access can access system memory and even memory regions of other devices}
+
+\newacronymwithentry{bar}{BAR}{Base Address Register}
+{The start address of a memory region of a device, used synonymously for the device memory region itself}
+
+
+
+\newacronym{mriov}{MR-IOV}{Multi-Root I/O Virtualization}

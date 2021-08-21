@@ -11,6 +11,9 @@ main.glo
 main.gls
 main.ist
 main.run.xml
+main.acn
+main.acr
+main.alg
 *-blx.bib
 *.cut
 main.pdf

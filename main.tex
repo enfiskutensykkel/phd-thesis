@@ -2,13 +2,14 @@
 \pdfminorversion=7
 \documentclass[final,colophon,english]{phduio}
 \usepackage{phdstyle}
-\usepackage[toc]{glossaries}
+\usepackage[toc,acronym,nonumberlist,seeautonumberlist]{glossaries}
+
+% See the following link for documentation:
+% https://github.com/uio-latex/phduio-article-based
 
 % Remove border around links
 \hypersetup{hidelinks}
 
-% See the following link for documentation:
-% https://github.com/uio-latex/phduio-article-based
 
 \author{Jonas Markussen}
 \title{SmartIO: Multi-host device sharing and memory disaggregation in PCI~Express}
@@ -23,12 +24,13 @@
     Simula Research Laboratory
 }
 
+
 % Request correct numbers from repro@uio.no
 \ISSN{xxxx-xxxx}
 \dissertationseries{xxxx}
 
 
-% Create glossary list
+% Glossary stuff
 \makeglossaries
 \input{glossary}
 
@@ -37,6 +39,7 @@
 \newcommand{\objective}[1]{Objective~\refstepcounter{objective}\theobjective\label[objective]{obj:#1}}
 \crefname{objective}{objective}{objectives}
 \Crefname{objective}{Objective}{Objectives}
+
 
 \begin{document}
 	% Folios in Roman numerals, unnumbered chapters.
@@ -48,6 +51,11 @@
 	\include{sections/preface}
 	\include{sections/papers}
 
+	% We don't like uppercase
+	\renewcommand{\listfigurename}{List of figures}
+	\renewcommand{\listtablename}{List of tables}
+
+	% Print all of the lists
 	\cleartorecto
 	\tableofcontents
 	\cleartorecto
@@ -55,7 +63,10 @@
 	\cleartorecto
 	\listoftables
 	\cleartorecto
-	\printglossary[title=List of Acronyms,nonumberlist]
+	\printglossary[title=List of acronyms,type=\acronymtype]
+	\cleartorecto
+	\setglossarystyle{altlist}
+	\printglossary[title=Glossary,type=main]
 
 	% Folios in Arabic numerals, numbered chapters.
 	\mainmatter
@@ -71,6 +82,7 @@
 	% Specify size of thumb indices
 	\numberofpapers{5} 
 
+	%glsresetall?
 	\include{sections/NOSSDAV-2016}
 	\include{sections/MMSys-2016}
 	\include{sections/SRMPDS-2018}
