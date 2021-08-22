@@ -1,5 +1,5 @@
 \chapter{SmartIO: Zero-overhead Device Sharing through PCIe Networking}
-\label{paper:TOCS-2021}
+\label{paper:TOCS}
 \paperthumb
 
 \begin{description}
@@ -31,7 +31,20 @@
 		sharing, increasing the overall system performance.
 
 	\item[Candidate's contributions:]
-		Some stuff
+		Markussen and Kristiansen came up with ideas for the device-oriented memory disaggregation extension to the \gls{sisci}, 
+		and combining this new contribution with previous work into the complete SmartIO system. 
+		%
+		Thus, this paper also summarizes \crefrange{paper:NOSSDAV}{paper:CC}.
+		%
+		Markussen contributed to the design and implementation the functionality required for several of the new \acrshort{api} functions.
+		%
+		Furthermore, Markussen came up with the idea for, designed and implemented the prototype \acrshort{nvme} driver using this \acrshort{api} extension.
+		%
+		Additionally, he designed and implemented several workloads for this \acrshort{nvme} driver using \acrshortpl{gpu} and Device~Lending
+		in order to demonstrate the novelty and completeness of the SmartIO solution.
+		%
+		Markussen wrote most of the text, and designed and performed a set of new of experiments evaluating all aspects of the SmartIO system.
+		
 
 	\item[Published in:]
 		ACM Transactions on Computer Systems~(TOCS), 
@@ -41,7 +54,7 @@
 		\doi{10.1145/3462545}
 
 	\item[Contributed to:]
-		\Cref{obj:main,obj:sub1}
+		TODO
 
 \end{description}
 \includearticle[numbers=none]{papers/TOCS-2021}
