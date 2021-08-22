@@ -10,7 +10,8 @@
 		name={#4},
 		description={#5, \glsseeformat[Glossary:]{gls-#3}{}},
 		first={#5~(#4)\glsadd{gls-#3}},
-		text={#4\glsadd{gls-#3}}
+		text={#4\glsadd{gls-#3}},
+		short={#4\glsadd{gls-#3}}
 	}
 }
 
@@ -38,6 +39,9 @@
 \newacronym{pci}{PCI}{Peripheral Component Interconnect}
 \newacronym{pcie}{PCIe}{Peripheral Component Interconnect Express}
 \newacronym{mriov}{MR-IOV}{Multi-Root I/O Virtualization}
+\newacronym{ram}{RAM}{random access memory}
+
+\newacronym{mdev}{MDEV}{mediated device driver}
 
 
 % Stuff with glossary entries
@@ -57,6 +61,9 @@
 
 \newdualentry{bar}{BAR}{Base Address Register}
 {The start address of a memory region of a device, used synonymously for the device memory region itself}
+
+\newdualentry{p2p}{P2P}{peer-to-peer}
+{A \acrshort{pcie} feature allowing two devices to directly transfer data between each other without going through host \acrshort{ram}}
 
 \newglossaryentry{io}{
 	name={input/output},
