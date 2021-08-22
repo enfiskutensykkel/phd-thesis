@@ -1,42 +1,70 @@
-\newcommand{\newacronymwithentry}[4]{%
-\newglossaryentry{gls-#1}{
-name={#2},
-description={#4}
-}
-\newglossaryentry{#1}{
-type=\acronymtype,
-name={#2},
-description={#3, \glsseeformat[Glossary:]{gls-#1}{}},
-first={#3~(#2)\glsadd{gls-#1}}
-}
+% Some things have both an acronym and needs a glossary entry
+\DeclareDocumentCommand{\newdualentry}{ O{} O{} m m m m }{
+	\newglossaryentry{gls-#3}{
+		name={#5},
+		description={#6},#1
+	}
+	\makeglossaries
+	\newglossaryentry{#3}{
+		type=\acronymtype,
+		name={#4},
+		description={#5, \glsseeformat[Glossary:]{gls-#3}{}},
+		first={#5~(#4)\glsadd{gls-#3}},
+		text={#4\glsadd{gls-#3}}
+	}
 }
 
+% For the abstract of each paper, 
+% we don't want to change the text but still want the link.
+\newcommand{\lgls}[2]{%
+\glslink{#1}{#2}\glsadd{#1}%
+}
+
+
+% Define a bunch of acronyms and abbreviations
 \newacronym{ntb}{NTB}{non-transparent bridge}
 \newacronym{rdma}{RDMA}{remote direct memory access}
-\newacronym{io}{I/O}{input/output}
 \newacronym{cpu}{CPU}{central processing unit}
 \newacronym{os}{OS}{operating system}
 \newacronym{vm}{VM}{virtual machine}
 \newacronym{iommu}{IOMMU}{I/O memory management unit}
 \newacronym{nvme}{NVMe}{Non-Volatile Memory Express}
-\newacronym{ssd}{SSD}{solid-state flash memory drive}
+\newacronym{ssd}{SSD}{solid-state flash memory device}
 \newacronym{gpu}{GPU}{graphics processing unit}
 \newacronym{fpga}{FPGA}{field-programmable gate array}
 \newacronym{nic}{NIC}{network interface card}
 \newacronym{pf}{PF}{physical device function}
 \newacronym{vf}{VF}{SR-IOV virtual device function}
+\newacronym{pci}{PCI}{Peripheral Component Interconnect}
 \newacronym{pcie}{PCIe}{Peripheral Component Interconnect Express}
+\newacronym{mriov}{MR-IOV}{Multi-Root I/O Virtualization}
 
 
-\newacronymwithentry{sriov}{SR-IOV}{Single-Root I/O Virtualization}
-{Single-root I/O virtualization allows a single device to virtualize multiple device functions in hardware}
+% Stuff with glossary entries
+\newdualentry{sriov}{SR-IOV}{Single-Root I/O Virtualization}
+{Allows a single device to virtualize multiple device functions in hardware}
 
-\newacronymwithentry{dma}{DMA}{Direct Memory Access}
+\newdualentry{dma}{DMA}{direct memory access}
 {Devices capable of direct memory access can access system memory and even memory regions of other devices}
 
-\newacronymwithentry{bar}{BAR}{Base Address Register}
+\newglossaryentry{paravirtualization}{
+	name={paravirtualization},
+	description={A paravirtualized device relies on facilitation by the hypervisor in order to use host resources}
+}
+
+\newdualentry{kvm}{KVM}{Linux kernel-based virtual machine hypervisor}
+{Software running in the Linux kernel on the host to assist and facilitate a \acrshort{vm} emulator (such as Qemu)}
+
+\newdualentry{bar}{BAR}{Base Address Register}
 {The start address of a memory region of a device, used synonymously for the device memory region itself}
 
+\newglossaryentry{io}{
+	name={input/output},
+	description={Any interaction with a hardware device, for example reading from a storage device},
+	text={I/O}
+}
 
-
-\newacronym{mriov}{MR-IOV}{Multi-Root I/O Virtualization}
+\newglossaryentry{disaggregation}{
+	name={disaggregation},
+	description={Dividing up a resource, such as memory or a device, into smaller components, and making them available to remote units}
+}

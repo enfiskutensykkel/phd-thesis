@@ -2,7 +2,8 @@
 \pdfminorversion=7
 \documentclass[final,colophon,english]{phduio}
 \usepackage{phdstyle}
-\usepackage[toc,acronym,nonumberlist,seeautonumberlist]{glossaries}
+\usepackage[toc,acronym,seeautonumberlist]{glossaries}
+\usepackage{xparse}
 
 % See the following link for documentation:
 % https://github.com/uio-latex/phduio-article-based
@@ -11,7 +12,7 @@
 \hypersetup{hidelinks}
 
 
-\author{Jonas Markussen}
+\author{Jonas S{\ae}ther Markussen}
 \title{SmartIO: Multi-host device sharing and memory disaggregation in PCI~Express}
 
 \department{Department of Informatics}
@@ -47,7 +48,7 @@
 
 	\uiotitle
 
-	\include{sections/dedication}
+	\include{sections/abstract}
 	\include{sections/preface}
 	\include{sections/papers}
 
@@ -63,15 +64,18 @@
 	\cleartorecto
 	\listoftables
 	\cleartorecto
-	\printglossary[title=List of acronyms,type=\acronymtype]
-	\cleartorecto
-	\setglossarystyle{altlist}
-	\printglossary[title=Glossary,type=main]
+	\printglossary[title=List of acronyms,type=\acronymtype,nonumberlist]
 
 	% Folios in Arabic numerals, numbered chapters.
 	\mainmatter
 
-	\include{sections/intro}
+	\include{chapters/intro}
+	\include{chapters/overview}
+	\include{chapters/concl}
+
+	\cleartorecto
+	\setglossarystyle{altlist}
+	\printglossary[title=Glossary,type=main]
 
 	% List of papers
 	\paper % "Chapter" is renamed "Paper"
@@ -82,7 +86,6 @@
 	% Specify size of thumb indices
 	\numberofpapers{5} 
 
-	%glsresetall?
 	\include{sections/NOSSDAV-2016}
 	\include{sections/MMSys-2016}
 	\include{sections/SRMPDS-2018}
