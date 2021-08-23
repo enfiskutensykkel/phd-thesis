@@ -26,12 +26,13 @@
 
 
 	\item[Candidate's contributions:]
-		Markussen designed and implemented the \acrshort{mdev}/\acrshort{kvm} extension to the Device~Lending implementation from \cref{paper:NOSSDAV}, with input from Kristiansen.
+		Markussen designed and implemented the \acrshort{mdev}/\acrshort{kvm} extension to Device~Lending.
 		%
-		Markussen also implemented the mechanism for facilitating \acrshort{p2p} between devices
-		in different lenders.
+		Markussen also implemented the mechanism for facilitating \acrshort{p2p} between devices in different lenders,
+		including the mechanism for resolving \gls{io} addresses.
 		%
-		Markussen identified the \acrshort{iommu} performance issues with the original Device~Lending implementation, and he and Kristiansen came up with a workaround for avoiding the \acrshort{iommu} in the data path. 
+		Markussen investigated and identified several performance issues with the original Device~Lending implementation, 
+		and he and Kristiansen implemented solutions that improved the data path performance. 
 		%
 		Markussen wrote most of the text, and he designed and performed all the experiments, including writing the necessary performance benchmarking programs.
 
