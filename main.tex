@@ -69,9 +69,9 @@
 	% Folios in Arabic numerals, numbered chapters.
 	\mainmatter
 
-	\include{chapters/intro}
-	\include{chapters/overview}
-	\include{chapters/concl}
+	\include{sections/introduction}
+	\include{sections/overview}
+	\include{sections/conclusion}
 
 	\cleartorecto
 	\setglossarystyle{altlist}
@@ -86,9 +86,14 @@
 	% Specify size of thumb indices
 	\numberofpapers{5} 
 
-	\include{sections/NOSSDAV-2016}
-	\include{sections/MMSys-2016}
-	\include{sections/SRMPDS-2018}
-	\include{sections/CC-2019}
-	\include{sections/TOCS-2021}
+	\include{sections/paper-nossdav}
+	\includearticle[]{papers/nossdav}
+	\include{sections/paper-mmsys}
+	\includearticle{papers/mmsys}
+	\include{sections/paper-srmpds}
+	\includearticle{papers/srmpds}
+	\include{sections/paper-cc}
+	\includearticle{papers/cc}
+	\include{sections/paper-tocs}
+	\includearticle[numbers=none]{papers/tocs}
 \end{document}
