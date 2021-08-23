@@ -23,7 +23,6 @@
 
 
 % Define a bunch of acronyms and abbreviations
-\newacronym{ntb}{NTB}{non-transparent bridge}
 \newacronym{rdma}{RDMA}{remote direct memory access}
 \newacronym{cpu}{CPU}{central processing unit}
 \newacronym{os}{OS}{operating system}
@@ -41,8 +40,10 @@
 \newacronym{mriov}{MR-IOV}{Multi-Root I/O Virtualization}
 \newacronym{ram}{RAM}{random access memory}
 \newacronym{api}{API}{application programming interface}
+\newacronym{kvm}{KVM}{Linux kernel-based virtual machine hypervisor}
 
 \newacronym{mdev}{MDEV}{mediated device driver}
+\newacronym{sisci}{SISCI}{Software Infrastructure Shared-Memory Cluster Interconnect}
 
 
 % Stuff with glossary entries
@@ -57,8 +58,13 @@
 	description={A paravirtualized device relies on facilitation by the hypervisor in order to use host resources}
 }
 
-\newdualentry{kvm}{KVM}{Linux kernel-based virtual machine hypervisor}
-{Software running in the Linux kernel on the host to assist and facilitate a \acrshort{vm} emulator (such as Qemu)}
+\newglossaryentry{hypervisor}{
+	name={hypervisor},
+	description={Software running in kernel space on the host, assisting and facilitating a \acrshort{vm} emulator (such as Qemu)}
+}
+
+\newdualentry{ntb}{NTB}{non-transparent bridge}
+{A special \acrshort{pcie} device that extends the \acrshort{pcie} bus out of a single computer and connecting several systems}
 
 \newdualentry{bar}{BAR}{Base Address Register}
 {The start address of a memory region of a device, used synonymously for the device memory region itself}
@@ -77,7 +83,3 @@
 	description={Dividing up a resource, such as memory or a device, into smaller components, and making them available to remote units}
 }
 
-\newglossaryentry{sisci}{
-	name={SISCI~API},
-	description={Software Infrastructure Shared-Memory Cluster Interconnect \acrshort{api}}
-}
