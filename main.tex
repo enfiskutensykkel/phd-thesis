@@ -8,8 +8,11 @@
 % See the following link for documentation:
 % https://github.com/uio-latex/phduio-article-based
 
-% Remove border around links
-\hypersetup{hidelinks}
+
+% Can't ever have enough headlines
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
 
 
 \author{Jonas S{\ae}ther Markussen}
@@ -41,13 +44,22 @@
 \crefname{objective}{objective}{objectives}
 \Crefname{objective}{Objective}{Objectives}
 
-
 \begin{document}
 	% Folios in Roman numerals, unnumbered chapters.
 	\frontmatter 
 
 	\uiotitle
 
+	% Do some hyperref magic because we don't like
+	% the template defaults
+	\hypersetup{
+		hidelinks, % no borders around links
+		colorlinks=false, % don't color links
+		linktoc=all, % link to pages in TOC as well
+	}
+
+	% Prefacing sections
+	\include{sections/dedication}
 	\include{sections/abstract}
 	\include{sections/preface}
 	\include{sections/papers}
@@ -61,9 +73,10 @@
 	\tableofcontents
 	\cleartorecto
 	\listoffigures
+	%\cleartorecto
+	%\listoftables
 	\cleartorecto
-	\listoftables
-	\cleartorecto
+	\setglossarystyle{list}
 	\printglossary[title=List of acronyms,type=\acronymtype,nonumberlist]
 
 	% Folios in Arabic numerals, numbered chapters.
@@ -73,10 +86,9 @@
 	\include{sections/overview}
 	\include{sections/conclusion}
 
-	\cleartorecto
 	\setglossarystyle{altlist}
-	\printglossary[title=Glossary,type=main]
-
+	\printglossary[type=main]
+	
 	% List of papers
 	\paper % "Chapter" is renamed "Paper"
 	%\paperpage % Similar to \part*{Papers}, but appears in TOC

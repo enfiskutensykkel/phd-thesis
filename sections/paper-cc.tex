@@ -20,10 +20,10 @@
 		The method has extremely low computing overhead, and does not
 		require any application- or device-specific distribution mechanisms. Any \lgls{pcie}{PCIe} device, such as network cards disks, and
 		\lgls{gpu}{GPUs}, can easily be shared among the connected hosts.
-		In this work, we have extended our solution with support for a \lgls{vm}{Virtual Machine (VM)} hypervisor.
+		In this work, we have extended our solution with support for a \lgls{vm}{Virtual Machine (VM)} \lgls{hypervisor}{hypervisor}.
 		Physical remote devices can be  ``passed through'' to \lgls{vm}{VM} guests, enabling direct access to physical resources 
 		while still retaining the flexibility of virtualization. Additionally, we have also implemented multi-device
-		support, enabling shortest-path peer-to-peer transfers between remote devices residing in different hosts.
+		support, enabling shortest-path \lgls{p2p}{peer-to-peer} transfers between remote devices residing in different hosts.
 		%
 		Our experimental results prove that multiple remote devices can be used, achieving bandwidth and latency
 		close to native \lgls{pcie}{PCIe}, and without requiring any additional support in device drivers. 
@@ -39,12 +39,10 @@
 		Markussen and Kristiansen developed the idea for a mechanism for detecting the guest-physical memory layout of a \acrshort{vm}, and Markussen
 		extended the \acrshort{mdev} implementation with support for this.
 		%
-		Markussen was responsible for investigating performance bottlenecks and identified several weak areas,
-		and he contributed to further improve the overall performance for both Device~Lending and \acrshort{mdev}.
-		%
 		He also extended the evaluation by designing and performing additional \acrshort{p2p} and \acrshort{vm} performance experiments,
-		as well as conducting a new experiment with an \gls{io}-heavy machine~learning workload 
-		to demonstrate the improved performance.
+		as well as conducting a new experiment with an \gls{io}-heavy machine~learning workload to demonstrate the improved performance.
+		%
+		Markussen took the initiative to continue to investigate potential performance bottlenecks, and contributed to further improve the overall performance for both Device~Lending and \acrshort{mdev}.
 		%
 		Markussen wrote most of the text for this paper, and also improved and extended the \acrshort{gpu} benchmarking programs used
 		for \cref{paper:SRMPDS}.
