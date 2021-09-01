@@ -4,16 +4,29 @@
 \section{Problem statement}\label{sec:objectives}
 A couple of lines stating the research problem
 
-
-The main goal of this thesis is to develop a framework that unifies
+Moving data within a computer cluster is expensive in several ways, and cluster performance is a active area of research. In this thesis, we therefore address the resource sharing and IO performance challenges between computing nodes in a cluster, under the following research question: 
+\begin{quote}
+    Can we develop an easy to use distributed resource sharing system, yet efficient, low-cost, increasing the overall system performance, in a PCIe-based cluster?
+\end{quote}
+In particular, this research questions are broken down to the following objectives:
 \begin{description}
-	\item[\objective{lending}:] device lending, framework
-	\item[\objective{mdev}:] mdev
-	\item[\objective{api}:] combine host communication and memory disaggregation with i/o, nvme driver
-	\item[\objective{performance}:] native PCIe performance
-	\item[\objective{lol}:]
+	\item[\objective{lending}:] The framework should be able to efficiently and transparently share devices like disks and GPUs between machines.
+	\item[\objective{performance}:] The performance of using remote devices in the system should be close to local access and native PCIe performance.
+	\item[\objective{experiments}:] To prove real-world deployment capabilities, the system should be tested on realistic and relevant workloads and benchmarks.
 	
 \end{description}
+
+Then you 
+
+%The main goal of this thesis is to develop a framework that %unifies
+%\begin{description}
+%	\item[\objective{lending}:] device lending, framework
+%	\item[\objective{mdev}:] mdev
+%	\item[\objective{api}:] combine host communication and memory disaggregation with i/o, nvme driver
+%	\item[\objective{performance}:] native PCIe performance
+%	\item[\objective{lol}:]
+%	
+%\end{description}
 
 \section{Scope and limitations}
 
