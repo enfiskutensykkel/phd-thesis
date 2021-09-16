@@ -111,17 +111,21 @@
 
 %% Cross references and links
 \RequirePackage[obeyspaces, spaces, hyphens]{url}             % Format URLs
-\urlstyle{sf}
+%\urlstyle{sf}
+\urlstyle{same}
 \RequirePackage{varioref}                                     % \vref
 \RequirePackage[pdfusetitle]{hyperref}                        % Clickable links
 \RequirePackage[nameinlink, capitalize, noabbrev]{cleveref}   % \cref
 \RequirePackage{doi}           % Ignore LaTeX syntax in DOI links
 \renewcommand{\doitext}{DOI:\space}
+%\renewcommand{\doitext}{DOI:~}
 
 
 %% Bibliography
 \RequirePackage{mathscinet}
 \RequirePackage[backend    = biber,
+                maxbibnames=99,
+		maxcitenames=99,
                 sortcites  = true,
                 giveninits = true,
                 doi        = true,
@@ -129,8 +133,8 @@
                 url        = true,
 		hyperref   = true,
                 sortlocale = no_NB,
-		backref    = true,
-		style      = ACM-Reference-Format]{biblatex}
+		backref    = false,
+		style      = numeric-comp]{biblatex}
 \DeclareNameAlias{sortname}{family-given}
 \DeclareNameAlias{default}{family-given}
 \DeclareFieldFormat[article]{volume}{\bibstring{jourvol}\addnbspace#1}
@@ -143,10 +147,11 @@
     \setunit{\addcomma\space}
     \printfield{eid}
 }
-%\DefineBibliographyStrings{english}{%
-%	backrefpage = {page},
-%	backrefpages = {pages},
-%}
+\DefineBibliographyStrings{english}{%
+	backrefpage = {cited on page},
+	backrefpages = {cited on pages},
+}
+\addbibresource{papers.bib}
 \addbibresource{bibliography.bib}
 
 
