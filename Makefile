@@ -7,6 +7,7 @@ all: $(TEXFILE).pdf
 
 $(TEXFILE).pdf:
 	pdflatex -synctex=1 $(TEXFILE)
+	biber $(TEXFILE)
 	makeglossaries $(TEXFILE)
 	pdflatex -synctex=1 $(TEXFILE)
 	pdflatex -synctex=1 $(TEXFILE)

@@ -124,12 +124,13 @@
 \RequirePackage[backend    = biber,
                 sortcites  = true,
                 giveninits = true,
-                doi        = false,
-                isbn       = false,
-                url        = false,
-                sortlocale = nb_NO,
-                style      = alphabetic,
-                refsection = chapter]{biblatex}
+                doi        = true,
+                isbn       = true,
+                url        = true,
+		hyperref   = true,
+                sortlocale = no_NB,
+		backref    = true,
+		style      = ACM-Reference-Format]{biblatex}
 \DeclareNameAlias{sortname}{family-given}
 \DeclareNameAlias{default}{family-given}
 \DeclareFieldFormat[article]{volume}{\bibstring{jourvol}\addnbspace#1}
@@ -142,8 +143,11 @@
     \setunit{\addcomma\space}
     \printfield{eid}
 }
-\addbibresource{bibliographies/chapter2.bib}
-\addbibresource{bibliographies/chapter4.bib}
+%\DefineBibliographyStrings{english}{%
+%	backrefpage = {page},
+%	backrefpages = {pages},
+%}
+\addbibresource{bibliography.bib}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% USER-DEFINED MACROS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
