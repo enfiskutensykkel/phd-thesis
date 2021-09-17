@@ -11,7 +11,7 @@
 		description={#5, \glsseeformat[Glossary:]{gls-#3}{}},
 		first={#5~(#4)\glsadd{gls-#3}},
 		text={#4\glsadd{gls-#3}},
-		short={#4\glsadd{gls-#3}}
+		short={#4\glsadd{gls-#3}},#2
 	}
 }
 
@@ -64,7 +64,7 @@
 	description={Software running in kernel space on the host, assisting and facilitating a \acrshort{vm} emulator (such as Qemu)}
 }
 
-\newdualentry{ntb}{NTB}{non-transparent bridge}
+\newdualentry[][firstplural={non-transparent bridges~(NTBs)}]{ntb}{NTB}{non-transparent bridge}
 {A special \acrshort{pcie} device that extends the \acrshort{pcie} bus out of a single computer and connecting several systems}
 
 \newdualentry{bar}{BAR}{Base Address Register}

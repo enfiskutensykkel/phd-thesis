@@ -3,18 +3,24 @@
 \gls{pcie}
 \gls{gpu}
 \gls{fpga}
+\gls{ntb}
 
 \section{Problem statement}\label{sec:objectives}
-The wide variety of data-driven cluster computing applications today rely on a combination of shared memory, high-volume storage, and hardware accelerators, such as \glspl{gpu} or \glspl{fpga}.
+%The wide variety of data-driven cluster computing applications today rely on a combination of shared memory, high-volume storage, and hardware accelerators, such as \glspl{gpu} or \glspl{fpga}.
 %
-However, while moving data efficiently between networked nodes in a cluster has been a research challenge for decades, moving workloads and data to remote units over the network remains a costly operation that introduces large performance overheads compared to accessing local resources.
+%However, while moving data efficiently between networked nodes in a cluster has been a research challenge for decades, moving workloads and data to remote units over the network remains a costly operation that introduces large performance overheads compared to accessing local resources.
 %
-In addition, something something complexity and generality.
-%
-In this thesis, we
-\begin{quote}
-    Can we develop a framework for sharing resources in a \gls{pcie}-networked cluster that makes it easier for individual nodes to scale out and use remote resources while maintaining native \gls{pcie} performance.
+%In addition, something something complexity and generality:
+
+The research question for this thesis is:
+\begin{quote}\itshape
+    Can computers in a \gls{pcie}-networked cluster use the address translation abilities of \glspl{ntb} to allow their internal devices and memory to be shared with other machines in the cluster, and used as if these resources were local to the remote machines?
 \end{quote}
+
+
+%\begin{quote}
+ %   Can we develop a framework for sharing resources in a \gls{pcie}-networked cluster that makes it easier for individual nodes to scale out and use remote resources while maintaining native \gls{pcie} performance.
+%\end{quote}
 
 
 %\begin{quote}\bfseries
@@ -24,52 +30,51 @@ In this thesis, we
     
     %seamlessly combines distributed shared-memory functionality with traditional \gls{io}, has native \gls{pcie} performance, and simultaneously makes it easier to scale out and increase overall performance in the cluster system?
 %\end{quote}    
-    minimizes complexity blurs the distinction 
+%    minimizes complexity blurs the distinction 
     
-     and,
-    by blurring the distinction between remote and local, 
+ 
+%    by blurring the distinction between remote and local, 
     
-    distributing devices and sharing resources 
+ %   distributing devices and sharing resources 
     
     
-	Can we blur out the distinction between local and remote in a \gls{pcie}-cluster by developing a system for sharing and distributing resources
-	that allows nodes to share resources with native \gls{pcie} performance.
+	%Can we blur out the distinction between local and remote in a \gls{pcie}-cluster by developing a system for sharing and distributing resources
+	%that allows nodes to share resources with native \gls{pcie} performance.
 
 %This has created a need for an efficient \gls{io} resource sharing solution.
 
-Can a framework be created
+%Can a framework be created
 
-	in order to meet latency and throughput requirements of modern, data-driven workloads?
-In this thesis, we address this challenge under the following research question:
-\begin{quote}\bfseries
-	Can we develop a system for sharing and distributing resources in a \gls{pcie}-networked cluster, allowing cluster nodes to share resources with native \gls{pcie} performance,
-	in order to meet latency and throughput requirements of modern, data-driven workloads?
-\end{quote}
+%	in order to meet latency and throughput requirements of modern, data-driven workloads?
+%In this thesis, we address this challenge under the following research question:
+%\begin{quote}\bfseries
+%	Can we develop a system for sharing and distributing resources in a \gls{pcie}-networked cluster, allowing cluster nodes to share resources with native \gls{pcie} performance,	in order to meet latency and throughput requirements of modern, data-driven workloads?
+%\end{quote}
 
-Moving data within a computer cluster is expensive in several ways, and cluster performance is a active area of research. 
-In this thesis, we therefore address the resource sharing and IO performance challenges between computing nodes in a cluster, under the following research question: 
-
+%Moving data within a computer cluster is expensive in several ways, and cluster performance is a active area of research. 
+%In this thesis, we therefore address the resource sharing and IO performance challenges between computing nodes in a cluster, under the following research question: 
 
 
-\begin{quote}
-    Can we develop an easy to use distributed resource sharing system, yet efficient, low-cost, increasing the overall system performance, in a PCIe-based cluster?
-\end{quote}
+
+%\begin{quote}
+ %   Can we develop an easy to use distributed resource sharing system, yet efficient, low-cost, increasing the overall system performance, in a PCIe-based cluster?
+%\end{quote}
 
 
-In particular, this research question is broken down to the following objectives:
+%In particular, this research question is broken down to the following objectives:
 
 
 
 %the latency and throughput requirements of modern, data-driven workloads, 
-In particular, this research questions are broken down to the following objectives:
-\begin{description}
-	\item[\objective{lending}:] The framework should be able to efficiently and transparently share devices like disks and GPUs between machines.
-	\item[\objective{performance}:] The performance of using remote devices in the system should be close to local access and native PCIe performance.
-	\item[\objective{experiments}:] To prove real-world deployment capabilities, the system should be tested on realistic and relevant workloads and benchmarks.
+%In particular, this research questions are broken down to the following objectives:
+%\begin{description}
+	%\item[\objective{lending}:] The framework should be able to efficiently and transparently share devices like disks and GPUs between machines.
+	%\item[\objective{performance}:] The performance of using remote devices in the system should be close to local access and native PCIe performance.
+	%\item[\objective{experiments}:] To prove real-world deployment capabilities, the system should be tested on realistic and relevant workloads and benchmarks.
 	
-\end{description}
+%\end{description}
 
-Then you 
+%Then you 
 
 %The main goal of this thesis is to develop a framework that %unifies
 %\begin{description}
