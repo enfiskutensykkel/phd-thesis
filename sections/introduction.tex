@@ -1,22 +1,66 @@
 \chapter{Introduction}\label{sec:intro}
 \section{Background and motivation}
-\gls{pcie}
-\gls{gpu}
-\gls{fpga}
+%Modern cluster computing applications, particularly those that involve machine learning and other data-driven tasks, have high demands to \gls{io} performance. These applications may rely on a wide variety combinations of shared memory, high-volume storage, and hardware accelerators, such as \glspl{gpu} or \glspl{fpga}. 
+
+%If \gls{io} resources, such as memory and devices, are distributed scarcely in the cluster, cluster nodes may become bottlenecks when a workload require heavy computation on \glspl{gpu} or fast access to storage. Contrarily, over-provisioning nodes with resources may lead to individual devices becoming underutilized if the workload's demands are more sporadic. In order to meet latency and throughput requirements of these workloads, and at the same time prevent that resources become underutilized, it is desirable to allow individual machines in the cluster to dynamically scale up or down their available \gls{io} resources based on current workload requirements.
+
+
+%However, while moving data efficiently between networked nodes in a cluster has been a research challenge for decades, moving workloads and data to remote units over the network remains a costly operation that introduces large performance overheads compared to accessing local resources. 
+
+
+
 \gls{ntb}
+\gls{pcie}
+\gls{cpu}
+\gls{fpga}
+\gls{gpu}
+\gls{dma}
+\gls{os}
+%\glspl{os}
+\gls{userspace}
 
 \section{Problem statement}\label{sec:objectives}
-%The wide variety of data-driven cluster computing applications today rely on a combination of shared memory, high-volume storage, and hardware accelerators, such as \glspl{gpu} or \glspl{fpga}.
+Although \gls{pcie} was originally designed as a local \gls{io} bus, connecting devices to the \gls{cpu} on a motherboard, using \gls{pcie} as a high-speed interconnection technology is a compelling alternative to traditional networking technologies due to its very low latency overhead and memory addressing properties.
 %
-%However, while moving data efficiently between networked nodes in a cluster has been a research challenge for decades, moving workloads and data to remote units over the network remains a costly operation that introduces large performance overheads compared to accessing local resources.
+However, since individual computer systems operate with different \gls{pcie} address domains, interconnecting systems using \gls{pcie} require translating memory transactions from one address domain to another. 
 %
-%In addition, something something complexity and generality:
-
-The research question for this thesis is:
+Such address translation is most commonly made possible by using \glspl{ntb}, allowing computer systems to map (parts of) the address space of other, remote computer systems. 
+%
+By using \glspl{ntb}, remote resources, such as memory and \gls{io} devices, could be mapped into a local system and accessed through the \gls{ntb}. 
+%
+Similarly, a remote device capable of \gls{dma} could also use the \gls{ntb} to access local resources. 
+%
+Consequently, \glspl{ntb} could be exploited to create a network where the inner components of all computers in the cluster,~i.e., \glspl{cpu} and \gls{pcie} devices, are connected to the same, shared \gls{pcie} fabric.
+%
+From this, we formulate the following research question:
 \begin{quote}\itshape
-    Can computers in a \gls{pcie}-networked cluster use the address translation abilities of \glspl{ntb} to allow their internal devices and memory to be shared with other machines in the cluster, and used as if these resources were local to the remote machines?
+    Can computers in a \gls{pcie}-networked cluster system use the address translation abilities of \glspl{ntb} to allow their internal memory and devices to be shared with other remote machines in the cluster, and used as if these resources were local to the remote machines?
 \end{quote}
 
+To answer this, the overall goal of this thesis is to develop a solution for dynamically sharing \gls{io} resources and distributing devices in a \gls{pcie} cluster system. A couple of more sentences to include the key points commented out below. Then the list of objectives.
+%
+%Allow all hosts to contribute their own devices and access remote resources, even at the same time
+%The system should allow all computers in the network to contribute their own resources, and access remote resources as if they were locally installed.
+%
+%Support dynamic hardware configuration that allows the operating system and user space applications to make use of remotely installed devices in the same way as locally installed devices
+%Our system effectively makes all
+%hosts, including their internal resources (both devices and memory), part of a common PCIe domain.
+% - scaling out and increasing overall I/O utilization / performance becomes easier
+% - multiple abstr levels (physical hosts, vms, disaggregation)
+% - all standard PCIe devices
+% - should work as if locally installed / abstract away network topology / blur distinction between remote and local
+% - "as if local" also means performance(!)
+% - combines traditional distributed I/O with shared-memory mindset
+% - distributed
+%This would allow \gls{os} and \gls{userspace} applications to make use of remotely installed resources in the same way as if they were locally installed. 
+
+%In particular, this research question can be broken down into the following objectives:
+%\begin{description}
+	%\item[\objective{lending}:] The framework should be able to efficiently and transparently share devices like disks and GPUs between machines.
+	%\item[\objective{performance}:] The performance of using remote devices in the system should be close to local access and native PCIe performance.
+%	\item[\objective{experiments}:] To prove real-world deployment capabilities, the system should be tested on realistic and relevant workloads and benchmarks.
+	
+%\end{description}
 
 %\begin{quote}
  %   Can we develop a framework for sharing resources in a \gls{pcie}-networked cluster that makes it easier for individual nodes to scale out and use remote resources while maintaining native \gls{pcie} performance.

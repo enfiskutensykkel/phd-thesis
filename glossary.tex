@@ -21,13 +21,12 @@
 \glslink{#1}{#2}\glsadd{#1}%
 }
 
+\makeglossaries
 
 % Define a bunch of acronyms and abbreviations
 \newacronym{rdma}{RDMA}{remote direct memory access}
 \newacronym{cpu}{CPU}{central processing unit}
-\newacronym{os}{OS}{operating system}
-\newacronym{vm}{VM}{virtual machine}
-\newacronym{iommu}{IOMMU}{I/O memory management unit}
+\newacronym[plural={OSes}]{os}{OS}{operating system}
 \newacronym{nvme}{NVMe}{Non-Volatile Memory Express}
 \newacronym{ssd}{SSD}{solid-state flash memory device}
 \newacronym{gpu}{GPU}{graphics processing unit}
@@ -54,6 +53,9 @@
 \newdualentry{dma}{DMA}{direct memory access}
 {Devices capable of direct memory access can access system memory and even memory regions of other devices}
 
+\newdualentry{vm}{VM}{virtual machine}
+{A computer system emulated in software}
+
 \newglossaryentry{paravirtualization}{
 	name={paravirtualization},
 	description={A paravirtualized device relies on facilitation by the hypervisor in order to use host resources}
@@ -61,9 +63,10 @@
 
 \newglossaryentry{hypervisor}{
 	name={hypervisor},
-	description={Software running in kernel space on the host, assisting and facilitating a \acrshort{vm} emulator (such as Qemu)}
+	description={Software running in kernel space on the host, assisting and facilitating a virtual machine emulator (such as Qemu)}
 }
 
+%longplural={non-transparent bridges}
 \newdualentry[][firstplural={non-transparent bridges~(NTBs)}]{ntb}{NTB}{non-transparent bridge}
 {A special \acrshort{pcie} device that extends the \acrshort{pcie} bus out of a single computer and connecting several systems}
 
@@ -84,3 +87,20 @@
 	description={Dividing up a resource, such as memory or a device, into smaller components, and making them available to remote units}
 }
 
+\newglossaryentry{kernel space}{
+    name={kernel space},
+    description={Virtual memory and execution privileges suitable for \acrshort{os} kernel and device drivers}
+}
+
+\newglossaryentry{userspace}{
+    name={user space},
+    description={Virtual memory and execution privileges suitable for application software, in contrast to kernel space}
+}
+
+\newglossaryentry{pass-through}{
+    name={pass-through},
+    description={Allowing a device to be accessed directly by a virtual machine by using a system's IOMMU to map memory for the device}
+}
+
+\newdualentry{iommu}{IOMMU}{I/O memory management unit}
+{A unit creates separate virtual address spaces for devices and protects against rogue DMA transactions}
