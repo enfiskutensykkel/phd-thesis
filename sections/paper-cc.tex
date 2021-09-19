@@ -1,5 +1,5 @@
 \chapter{Flexible Device Compositions and Dynamic Resource Sharing in PCIe Interconnected Clusters using Device~Lending}
-\label{paper:CC}
+\label{paper:cc}
 \paperthumb
 
 \begin{description}
@@ -34,7 +34,7 @@
 		machines.
 
 	\item[Candidate's contributions:]
-		This paper is an extension of \cref{paper:SRMPDS}.
+		This paper is an extension of \cref{paper:srmpds}.
 		%
 		Markussen and Kristiansen developed the idea for a mechanism for detecting the guest-physical memory layout of a \acrshort{vm}, and Markussen
 		extended the \acrshort{mdev} implementation with support for this.
@@ -45,17 +45,49 @@
 		Markussen took the initiative to continue to investigate potential performance bottlenecks, and contributed to further improve the overall performance for both Device~Lending and \acrshort{mdev}.
 		%
 		Markussen wrote most of the text for this paper, and also improved and extended the \acrshort{gpu} benchmarking programs used
-		for \cref{paper:SRMPDS}.
+		for \cref{paper:srmpds}.
 
 
 	\item[Published in:]
-		Cluster Computing,
-		online~September~2019,
-		issue~date~June~2020, 
+		\emph{Cluster Computing}. Springer.
+		Published online~September~2019,
+		issue~date~June~2020,
 		volume~23, issue~2, pp.~1211--1234.
-		\doi{10.1007/s10586-019-02988-0}
+
+	\item[DOI:] \href{https://doi.org/10.1007/s10586-019-02988-0}{10.1007/s10586-019-02988-0}
 
 	\item[Contributed to:]
 		TODO
 
 \end{description}
+
+\includepaper{papers/cc}{
+	1, section, 1, Introduction, sec:cc-intro,
+	2, section, 1, PCIe overview, sec:cc-pcie,
+	3, subsection, 2, Memory addressing and forwarding, sec:cc-pcie-addr,
+	3, subsection, 2, Virtualization support and pass-through, sec:cc-pcie-iommu,
+	4, subsection, 2, Non-transparent bridging, sec:cc-pcie-ntb,
+	4, section, 1, Related work, sec:cc-rw,
+	4, subsection, 2, Distributed I/O using RDMA, sec:cc-rw-rdma,
+	5, subsection, 2, Virtualization approaches, sec:cc-rw-virt,
+	5, subsection, 2, Partitioning the fabric, sec:cc-rw-part,
+	5, section, 1, Device Lending, sec:cc-lending,
+	6, section, 1, Supporting virtual machine borrowers, sec:cc-mdev,
+	8, section, 1, Supporting multiple devices and peer-to-peer, sec:cc-p2p,
+	9, section, 1, Performance evaluation, sec:cc-eval,
+	9, subsection, 2, IOMMU performance penalty, sec:cc-eval-iommu,
+	11, subsection, 2, Native peer-to-peer evaluation, sec:cc-eval-native-p2p,
+	11, subsubsection, 3, Bare-metal bandwidth evaluation, sec:cc-eval-native-p2p-bw,
+	14, subsubsection, 3, Bare-metal latency evaluation, sec:cc-eval-native-p2p-lat,
+	14, subsection, 2, VM peer-to-peer evaluation, sec:cc-eval-mdev-p2p,
+	15, subsubsection, 3, VM bandwidth evaluation, sec:cc-eval-mdev-p2p-bw,
+	16, subsubsection, 3, VM latency evaluation, sec:cc-eval-mdev-p2p-lat,
+	17, subsection, 2, Pass-through NVMe experiments, sec:cc-eval-nvme,
+	18, subsection, 2, Image classificaiton workload, sec:cc-eval-ml,
+	19, section, 1, Discussion, sec:cc-disc,
+	19, subsection, 2, I/O address virtualization, sec:cc-disc-iommu,
+	20, subsection, 2, VM migration, sec:cc-disc-migration,
+	20, subsection, 2, Security considerations, sec:cc-disc-security,
+	20, subsection, 2, Interrupt forwarding, sec:cc-disc-intr,
+	20, section, 1, Conclusion, sec:cc-concl
+}

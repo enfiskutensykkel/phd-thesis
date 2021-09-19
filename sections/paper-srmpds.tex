@@ -1,5 +1,5 @@
 \chapter{Flexible Device Sharing in PCIe Clusters using Device~Lending}
-\label{paper:SRMPDS}
+\label{paper:srmpds}
 \paperthumb
 
 \begin{description}
@@ -37,12 +37,36 @@
 		Markussen wrote most of the text, and he designed and performed all the experiments, including writing the necessary performance benchmarking programs.
 
 	\item[Published in:]
-		Proceedings of the 47th International Conference on Parallel Processing Companion~(ICPP'18) ---
-		The 17th International Workshop on Scheduling and Resource Management for Parallel and Distributed Systems~(SRMPDS'18),
+		\emph{Proceedings of the 47th International Conference on Parallel Processing Companion}.
+		ICPP'18 Comp. ACM.
+		%Part of \emph{the 17th International Workshop on Scheduling and Resource Management for Parallel and Distributed Systems}.
 		August~2018, article~48, pp.~48:1--48:10.
-		\doi{10.1145/3229710.3229759}
+
+	\item[DOI:] \href{https://doi.org/10.1145/3229710.3229759}{10.1145/3229710.3229759}
 
 	\item[Contributed to:]
 		TODO
 
 \end{description}
+
+\includepaper{papers/srmpds}{
+	1, section, 1, Introduction, sec:srmpds-intro,
+	2, section, 1, PCIe overview, sec:srmpds-pcie,
+	2, subsection, 2, Memory addressing and forwarding, sec:srmpds-pcie-addr,
+	2, subsection, 2, Virtualization support and pass-through, sec:srmpds-pcie-virt,
+	2, subsection, 2, Non-transparent bridging, sec:srmpds-pcie-ntb,
+	3, section, 1, Related work, sec:srmpds-rw,
+	3, subsection, 2, Distributed IO using RDMA, sec:srmpds-rw-rdma,
+	3, subsection, 2, Virtualization approaches, sec:srmpds-rw-virt,
+	3, subsection, 2, Partitioning the fabric, sec:srmpds-rw-part,
+	4, section, 1, Device Lending, sec:srmpds-lending,
+	5, section, 1, Supporting virtual borrowers, sec:srmpds-mdev,
+	6, section, 1, Multi-device interoperability, sec:srmpds-p2p,
+	6, section, 1, Performance evaluation, sec:srmpds-eval,
+	6, subsection, 2, IOMMU performance penalty, sec:srmpds-eval-iommu,
+	7, subsection, 2, Pass-through comparison, sec:srmpds-eval-mdev,
+	7, subsection, 2, Device-to-device evaluation, sec:srmpds-eval-p2p,
+	%8, subsubsection, 3, Bandwidth, sec:srmpds-eval-p2p-bw,
+	%8, subsubsection, 3, Latency, sec;srmpds-eval-p2p-lat,
+	9, section, 1, Discussion and conclustion, sec:srmpds-concl
+}

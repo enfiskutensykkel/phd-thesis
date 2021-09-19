@@ -1,6 +1,7 @@
 % Suppress warnings about PDF version
 \pdfminorversion=7
 \documentclass[final,colophon,english]{phduio}
+\usepackage{pdfpages}
 \usepackage{phdstyle}
 \usepackage[toc,acronym,seeautonumberlist]{glossaries}
 \usepackage{xparse}
@@ -22,7 +23,7 @@
 
 % Additional affiliations
 \affiliation{
-    Dolphin Interconnect Solutions
+    Dolphin Interconnect 
     \AND
     Simula Research Laboratory
 }
@@ -43,6 +44,16 @@
 \crefname{objective}{objective}{objectives}
 \Crefname{objective}{Objective}{Objectives}
 
+% Include article
+\DeclareDocumentCommand{\includepaper}{ O{} m m}{
+	\includearticle[#1]{#2}{#3}
+}
+
+%\renewcommand{\includepaper}{}
+
+\NewDocumentCommand{\includepapersect}{
+}
+
 \begin{document}
 	% Folios in Roman numerals, unnumbered chapters.
 	\frontmatter 
@@ -61,13 +72,26 @@
 	\include{sections/dedication}
 	\include{sections/abstract}
 	\include{sections/preface}
-	\include{sections/papers}
 
-	% We don't like uppercase
+	% Paper list
+	\cleartorecto
+	\chapter{List of papers}
+	\section*{\cref{paper:nossdav}}
+	\fullcite{Kristiansen2016}
+	\section*{\cref{paper:mmsys}}
+	\fullcite{Pogorelov2016}
+	\section*{\cref{paper:srmpds}}
+	\fullcite{Markussen2018}
+	\section*{\cref{paper:cc}}
+	\fullcite{Markussen2019}
+	\section*{\cref{paper:tocs}}
+	\fullcite{Markussen2021}
+
+	% We don't like uppercase in section titles
 	\renewcommand{\listfigurename}{List of figures}
 	\renewcommand{\listtablename}{List of tables}
 
-	% Print all of the lists
+	% Print all of the other lists
 	\cleartorecto
 	\tableofcontents
 	\cleartorecto
@@ -98,15 +122,25 @@
 
 	% Specify size of thumb indices
 	\numberofpapers{5} 
+	
+	% We don't want to prefix section titles with the chapter number in the TOC for the papers
+	\counterwithout{section}{chapter}
 
+	\setcounter{section}{0}
 	\include{sections/paper-nossdav}
-	%\includearticle[]{papers/nossdav}
+
+	\setcounter{section}{0}
 	\include{sections/paper-mmsys}
-	%\includearticle{papers/mmsys}
+
+	\setcounter{section}{0}
 	\include{sections/paper-srmpds}
-	%\includearticle{papers/srmpds}
+
+	\setcounter{section}{0}
 	\include{sections/paper-cc}
-	%\includearticle{papers/cc}
+
+	\setcounter{section}{0}
 	\include{sections/paper-tocs}
-	%\includearticle[numbers=none]{papers/tocs}
+
+	% Restore section titles prefix the chapter number
+	\counterwithin{section}{chapter}
 \end{document}

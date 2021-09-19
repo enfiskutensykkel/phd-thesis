@@ -1,5 +1,5 @@
 \chapter{SmartIO: Zero-overhead Device Sharing through PCIe Networking}
-\label{paper:TOCS}
+\label{paper:tocs}
 \paperthumb
 
 \begin{description}
@@ -31,7 +31,7 @@
 		sharing, increasing the overall system performance.
 
 	\item[Candidate's contributions:]
-		The ideas for the device-oriented extension to the \acrshort{sisci}~\acrshort{api} grew out from Markussen's experiences with implementing MDEV for \cref{paper:SRMPDS} and \cref{paper:CC}.
+		The ideas for the device-oriented extension to the \acrshort{sisci}~\acrshort{api} grew out from Markussen's experiences with implementing MDEV for \cref{paper:srmpds} and \cref{paper:cc}.
 		%
 		Markussen contributed with several new ideas for the design of this \acrshort{api}, and implemented these.
 		%
@@ -53,13 +53,73 @@
 		
 
 	\item[Published in:]
-		ACM Transactions on Computer Systems, 
-		online~June~2021,
+		\emph{Transactions on Computer Systems}. ACM.
+		Published online~June~2021,
 		issue~date~July~2021, 
 		volume~38, issue~1-2, article~2, pp.~2:1--2:78.
-		\doi{10.1145/3462545}
+
+	\item[DOI:] \href{https://doi.org/10.1145/3462545}{10.1145/3462545}
 
 	\item[Contributed to:]
 		TODO
 
 \end{description}
+
+\includepaper[numbers=low]{papers/tocs}{
+	2, section, 1, Introduction, sec:tocs-intro,
+	5, section, 1, System overview, sec:tocs-overview,
+	6, subsection, 2, Motivation and challenges, sec:tocs-overview-motivation,
+	7, subsection, 2, Overall design, sec:tocs-overview-design,
+	9, section, 1, PCIe-interconnected clusters, sec:tocs-pcie,
+	9, subsection, 2, PCIe endpoints, sec:tocs-pcie-ep,
+	10, subsection, 2, Address-based routing, sec:tocs-pcie-addr,
+	11, subsection, 2, Non-transparent bridging, sec:tocs-pcie-ntb,
+	13, section, 1, Device Lending, sec:tocs-lending,
+	13, subsection, 2, Shadow device, sec:tocs-lending-vdev,
+	14, subsection, 2, Intercepting configuration cycles, sec:tocs-lending-cfgspace,
+	14, subsection, 2, DMA window, sec:tocs-lending-dma,
+	15, subsection, 2, Shortest path routing, sec:tocs-lending-p2p,
+	16, section, 1, VM pass-through using MDEV, sec:tocs-mdev,
+	17, subsection, 2, Mediated devices, sec:tocs-mdev-vfio,
+	18, subsection, 2, Mapping VM memory for device, sec:tocs-mdev-dma,
+	20, subsection, 2, Peer-to-peer between devices, sec:tocs-mdev-p2p,
+	20, subsection, 2, Relaying interrupts, sec:tocs-mdev-intr,
+	21, subsection, 2, VM migration, sec:tocs-mdev-migration,
+	21, section, 1, Distrubted NVMe driver, sec:tocs-nvme,
+	22, subsection, 2, Device driver API, sec:tocs-api,
+	23, subsection, 2, Driver implementation, sec:tocs-nvme-impl,
+	25, subsection, 2, Multipath failover, sec:tocs-nvme-failover,
+	26, subsection, 2, GPU support, sec:tocs-nvme-gpu,
+	29, subsection, 2, Multicast, sec:tocs-nvme-mcast,
+	29, section, 1, Performance evaluation, sec:tocs-eval,
+	31, subsection, 2, Device Lending, sec:tocs-eval-lending,
+	31, subsubsection, 3, Latency tests, sec:tocs-eval-lending-lat,
+	33, subsubsection, 3, Throughput tests, sec:tocs-eval-lending-bw,
+	35, subsubsection, 3, Longer PCIe paths, sec:tocs-eval-lending-path,
+	37, subsubsection, 3, Peer-to-peer: local vs. remote, sec:tocs-eval-lending-p2p-1L,
+	39, subsubsection, 3, Peer-to-peer: multiple lenders, sec:tocs-eval-lending-p2p-2L,
+	41, subsubsection, 3, Sharing SR-IOV devices, sec:tocs-eval-sriov,
+	45, subsection, 2, Scaling heavy workloads, sec:tocs-eval-ml,
+	46, subsection, 2, VM pass-through with MDEV, sec:tocs-eval-mdev,
+	47, subsubsection, 3, IOMMU performance penalty, sec:tocs-eval-iommu,
+	48, subsubsection, 3, Pass-through comparison, sec:tocs-eval-mdev-vfio,
+	50, subsection, 2, Distributed NVMe driver evaluation, sec:tocs-eval-nvme,
+	52, subsubsection, 3, Optimizing data access patterns, sec:tocs-eval-nvme-sq,
+	54, subsubsection, 3, Sharing a single-function NVMe device, sec:tocs-eval-nvme-sharing,
+	56, subsubsection, 3, NVMe-oF RDMA comparison, sec:tocs-eval-nvmeof,
+	60, section, 1, Discussion, sec:tocs-disc,
+	60, subsection, 2, Security, sec:tocs-disc-security,
+	61, subsection, 2, Supported OSes, sec:tocs-disc-os,
+	62, subsection, 2, Supported CPU architectures, sec:tocs-disc-cpu,
+	62, subsection, 2, Supported devices, sec:tocs-disc-devs,
+	63, subsection, 2, Alternative NTB implementations, sec:tocs-disc-ntbs,
+	63, subsection, 2, Scalability, sec:tocs-disc-scalability,
+	65, subsection, 2, Disaggregated and composable infrastructure, sec:tocs-disc-composable,
+	66, section, 1, Related work, sec:tocs-rw,
+	66, subsection, 2, PCIe fabric partitioning, sec:tocs-rw-partioning,
+	67, subsection, 2, NTB-based solutions, sec:tocs-rw-ntb,
+	68, subsection, 2, Distributed I/O using RDMA, sec:tocs-rw-rdma,
+	70, subsection, 2, NVMe queue distribution, sec:tocs-rw-nvme,
+	70, subsection, 2, Memory disaggregation, sec:tocs-rw-disaggr,
+	72, section, 1, Conclusion, sec:tocs-concl
+}

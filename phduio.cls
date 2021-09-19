@@ -476,7 +476,7 @@
 
 %% Include PDFs containing separate papers
 %% Based on code by Dag Langmyhr
-\newcommand{\includearticle}[2][]
+\newcommand{\includearticle}[3][]
 {
     \cleartorecto
 
@@ -504,7 +504,7 @@
 
     \setkeys{phduio@keys}{#1}
 
-    \includepdf[pages = {-}, pagecommand = {\thispagestyle{\phduio@ps}}]{#2}
+    \includepdf[pages = {-}, pagecommand = {\thispagestyle{\phduio@ps}}, addtotoc={#3}]{#2}
 }
 
 \define@key{phduio@keys}{numbers}{ \def \phduio@ps{#1} }
