@@ -40,6 +40,7 @@
 \newacronym{ram}{RAM}{random access memory}
 \newacronym{api}{API}{application programming interface}
 \newacronym{kvm}{KVM}{Linux kernel-based virtual machine hypervisor}
+\newacronym{bios}{BIOS}{Basic Input/Output System}
 
 \newacronym{mdev}{MDEV}{mediated device driver}
 \newacronym{sisci}{SISCI}{Software Infrastructure Shared-Memory Cluster Interconnect}
@@ -53,9 +54,6 @@
 \newdualentry{dma}{DMA}{direct memory access}
 {Devices capable of direct memory access can access system memory and even memory regions of other devices}
 
-\newdualentry{vm}{VM}{virtual machine}
-{A computer system emulated in software}
-
 \newglossaryentry{paravirtualization}{
 	name={paravirtualization},
 	description={A paravirtualized device relies on facilitation by the hypervisor in order to use host resources}
@@ -66,9 +64,12 @@
 	description={Software running in kernel space on the host, assisting and facilitating a virtual machine emulator (such as Qemu)}
 }
 
+\newdualentry[][firstplural={virtual machines~(VMs)}]{vm}{VM}{virtual machine}
+{A computer system emulated in software}
+
 %longplural={non-transparent bridges}
 \newdualentry[][firstplural={non-transparent bridges~(NTBs)}]{ntb}{NTB}{non-transparent bridge}
-{A special \acrshort{pcie} device that extends the \acrshort{pcie} bus out of a single computer and connecting several systems}
+{A special PCIe device that extends the PCIe bus out of a single computer and connecting several systems}
 
 \newdualentry{bar}{BAR}{Base Address Register}
 {The start address of a memory region of a device, used synonymously for the device memory region itself}

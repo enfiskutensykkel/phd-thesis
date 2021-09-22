@@ -75,15 +75,15 @@
 	\cleartorecto
 	\chapter{List of papers}
 	\section*{\cref{paper:nossdav}}
-	\fullcite{Kristiansen2016}
+	\fullcite{paper:nossdav}
 	\section*{\cref{paper:mmsys}}
-	\fullcite{Pogorelov2016}
+	\fullcite{paper:mmsys}
 	\section*{\cref{paper:srmpds}}
-	\fullcite{Markussen2018}
+	\fullcite{paper:srmpds}
 	\section*{\cref{paper:cc}}
-	\fullcite{Markussen2019}
+	\fullcite{paper:cc}
 	\section*{\cref{paper:tocs}}
-	\fullcite{Markussen2021}
+	\fullcite{paper:tocs}
 
 	% We don't like uppercase in section titles
 	\renewcommand{\listfigurename}{List of figures}
@@ -110,7 +110,7 @@
 	\setglossarystyle{altlist}
 	\printglossary[type=main]
 	%\urlstyle{same} % Reset URL style for references
-	\printbibliography
+	\printbibliography[notkeyword=paper]
 	
 	% List of papers
 	\paper % "Chapter" is renamed "Paper"
