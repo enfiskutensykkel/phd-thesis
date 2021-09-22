@@ -33,7 +33,7 @@
 \newacronym{fpga}{FPGA}{field-programmable gate array}
 \newacronym{nic}{NIC}{network interface card}
 \newacronym{pf}{PF}{physical device function}
-\newacronym{vf}{VF}{SR-IOV virtual device function}
+\newacronym{vf}{VF}{virtual device function}
 \newacronym{pci}{PCI}{Peripheral Component Interconnect}
 \newacronym{pcie}{PCIe}{Peripheral Component Interconnect Express}
 \newacronym{mriov}{MR-IOV}{Multi-Root I/O Virtualization}
@@ -74,8 +74,10 @@
 \newdualentry{bar}{BAR}{Base Address Register}
 {The start address of a memory region of a device, used synonymously for the device memory region itself}
 
-\newdualentry{p2p}{P2P}{peer-to-peer}
-{A \acrshort{pcie} feature allowing two devices to directly transfer data between each other without going through host \acrshort{ram}}
+\newglossaryentry{p2p}{
+    name={peer-to-peer},
+    description={A \acrshort{pcie} feature allowing two devices to directly transfer data between each other without going through host \acrshort{ram}}
+}
 
 \newglossaryentry{io}{
 	name={input/output},

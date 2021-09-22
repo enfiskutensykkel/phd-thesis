@@ -9,7 +9,11 @@
 
 
 %Consequently, \glspl{ntb} could be exploited to create a network where the inner components of all computers in the cluster,~i.e., \glspl{cpu} and \gls{pcie} devices, are connected to the same, shared \gls{pcie} fabric.
+%the latency and throughput requirements of modern, data-driven workloads, 
 %
+    %that makes it easier for nodes to scale out in order to increase overall performance in the cluster and 
+    
+    %seamlessly combines distributed shared-memory functionality with traditional \gls{io}, has native \gls{pcie} performance, and simultaneously makes it easier to scale out and increase overall performance in the cluster system?
 
 \cite{Taherkordi2018}
 %\gls{ntb}
@@ -63,7 +67,7 @@ Hence, the goal of this thesis is to develop an infrastructure for sharing and d
     %       From the objectives, it should be clear that NTBs are necessary anyway
     Can \glspl{ntb} be leveraged to allow the internal memory and devices of individual computers in a \gls{pcie}-networked cluster to be shared with and used by remote machines in the cluster, as if these resources were local to the remote machines?
 \end{quote}
-
+%
 In particular, this research question can be broken down into the following objectives:
 %
 \begin{description}
@@ -71,12 +75,12 @@ In particular, this research question can be broken down into the following obje
 \end{description}
 Perhaps the main motivation for our goal of building a system for \gls{io} resource sharing is to make it easier to scale out and use more resources than there are available in a single computer. 
 If any standard \gls{pcie} device inside any machine could be shared with other machines, the \gls{io} resource utilization in the cluster can be greatly increased.
-Additionally, by avoid dedicated resource servers and allowing all computers in the cluster to participate in the sharing, contributing their own resources and using resources shared by others, we would effectively enable a distributed, \gls{p2p} sharing model. This objective sets our solution apart from existing \gls{pcie}-based solutions, as these require a central server or that devices are directly attached to a \gls{pcie} switch.
+Additionally, by avoiding dedicated servers and allowing all computers in the cluster to participate in the sharing, contributing their own resources and using resources shared by others, we would effectively enable a distributed, peer-to-peer sharing model. This objective sets our goal apart from existing \gls{pcie}-based solutions, as these require a central server or that devices are directly attached to a \gls{pcie} switch.
 
 \begin{description}
     \item[\objective{transparent}:] The fact that resources may be remote should be functionally transparent, allowing systems to use remote resources in the same way as if they were local, without requiring any modifications to device hardware, device drivers, host \gls{os}, or application software.
 \end{description}
-If our solution could make remote devices behave as if they were locally installed, presenting resources to the system on a level ``underneath'' the \gls{os}, it would become possible to distribute devices to \emph{physical} hosts as well, and not only \glspl{vm}. 
+If the solution could make remote devices behave as if they were locally installed, presenting resources to the system on a level ``underneath'' the \gls{os}, it would become possible to distribute devices to \emph{physical} hosts as well, and not only \glspl{vm}. 
 In other words, remote resources should appear as if they were part of the local \gls{pcie} device tree, and application software could make use of remote devices using native interfaces the same way it would use local devices.
 %
 Furthermore, by avoiding application- or device-specific middleware, and instead memory-mapping remote system and device memory directly, existing device drivers and even the host \gls{os} itself would be able to interact with remote resources natively.
@@ -85,7 +89,7 @@ Avoiding any special adaptions to software would make scaling out significantly 
 \begin{description}    
     \item[\objective{performance}:] The fact that resources may be remote should be transparent with regard to performance, remote resources should be used with native \gls{pcie} performance, and as close to local access as possible.
 \end{description}
-Moving data efficiently between networked machines in a cluster has been a research challenge for decades. However, moving workloads and data to remote units over the network remains a costly operation that introduces large performance overheads compared to accessing local resources. 
+Moving data efficiently between networked machines in a cluster has been a research challenge for decades. Despite this, moving workloads and data to remote units over the network remains a costly operation that introduces large performance overheads compared to accessing local resources. 
 Therefore, in order to further blur the hard separation between ``remote'' and ``local'', remote resources should not only behave functionally as if they were locally installed in the system using them, but also have comparable performance.
 To achieve this, any communication overhead and intermediate data copying in the critical path must be completely avoided, a requirement that rules out (most) traditional methods of sharing resources over a network. 
 Remote resources should be accessed directly over \emph{native} \gls{pcie}, which would improve the overall \gls{io} performance in the cluster.
@@ -93,74 +97,37 @@ Remote resources should be accessed directly over \emph{native} \gls{pcie}, whic
 \begin{description}    
     \item[\objective{dynamic}:] Shared resources should be distributed \emph{dynamically}, and direct access to device memory and system memory should be configured in run-time, also between multiple devices residing in different hosts.
 \end{description}
-As stated in \cref{obj:transparent}, the solution should work for physical hosts, and not only \glspl{vm}. Therefore, it must be possible to assign and reassign resources while all machines in the cluster are running, without requiring that hosts reboot or changes to settings in the \gls{bios}.
+As stated in \cref{obj:transparent}, the solution should work for physical hosts, and not only \glspl{vm}. Therefore, it must be possible to assign and reassign resources while all machines in the cluster are running, without requiring rebooting hosts or changing settings in the \gls{bios}.
 For devices, this introduces the requirement that the \gls{os} supports hot-adding devices to the system --- something most modern \gls{os} implementations do.
 Not only would this would allow systems to dynamically scale up or down their \gls{io} resources based on immediate workload requirements, but devices could be more efficiently partitioned between machines in the cluster, increasing the overall resource utilization. 
 Furthermore, the solution should also be able to automatically discover resource location, without requiring that the user knows anything about the underlying \gls{pcie} network topology, and dynamically set up memory-mappings between devices, \glspl{cpu}, and memory resources. An example would be enabling \gls{pcie} \gls{p2p} between two or more \gls{dma}-capable devices that are physically installed in different machines.
 
     
 \begin{description}
-    \item[\objective{disaggregation}:] \Gls{disaggregation} of system memory, device memory, and device \emph{functionality} should be supported, and the solution should be able to distribute component parts to different hosts, as well as provide software facilities for resources that do not support \gls{disaggregation} in hardware.
+    \item[\objective{api}:] \Gls{disaggregation} of system memory, device memory, and device \emph{functionality} should be supported, and the solution should be able to distribute component parts to different hosts, as well as provide software facilities for resources that do not support \gls{disaggregation} in hardware.
 \end{description}
-
-
-Some details here (combining traditional I/O with shared memory, machine that lends out still is operative), also nvme driver here? , we would be able to support sharing on multiple abstraction levels. sriov, software \gls{api}
-
+Because most device drivers are written in a way that assumes exclusive control over a device, some devices implement virtualization support in hardware,~i.e., \gls{sriov}, that makes them appear to a system as having multiple \glspl{vf}. 
+%
+The solution should be able to \glslink{disaggregation}{disaggregate} such \gls{sriov}-capable devices, and distribute their \glspl{vf} to different machines, allowing multiple computers to use the same device simultaneously.
+%
+However, since not all devices implement \gls{sriov}, the solution should also provide a device driver \gls{api} that will make it possible to \glslink{disaggregation}{disaggregate} memory resources in software.
+%
+This \gls{api} should provide facilities for memory-mapping device registers as well as mapping shared memory segments for a \gls{dma}-capable device.
+%
+Effectively, this would bring shared-memory concepts to device driver implementations, allowing device operation and device resources to become part of the same global address space as distributed cluster applications.
+%
+This would allow multiple machines to simultaneously share the same, non-\gls{sriov} device, as well as making it possible to combine traditional \gls{io} with \gls{pcie} cluster capabilities such as zero-copy data transfer and multicasting.
+%
+Moreover, the \gls{api} should be designed so that a driver implementation does not need to consider the system-local address space of the computer system where a device is installed, thus alleviating the complexity of programming device drivers for remote devices using \glspl{ntb}.
 
 \begin{description}    
-    \item[\objective{experiments}:] To prove real-world deployment capabilities, the solution should be tested on realistic and relevant workloads and benchmarks, and an exhaustive performance evaluation of all components of the implementation should be provided.
- \end{description}
-including benchmarks for a bunch of scenarios and devices and topologies
-
-
-%Allow all hosts to contribute their own devices and access remote resources, even at the same time
-%The system should allow all computers in the network to contribute their own resources, and access remote resources as if they were locally installed.
-%
-%Support dynamic hardware configuration that allows the operating system and user space applications to make use of remotely installed devices in the same way as locally installed devices
-%Our system effectively makes all
-%hosts, including their internal resources (both devices and memory), part of a common PCIe domain.
-% - must be dynamic / no reboot required
-% - no performance overhead caused by communication
-% - scaling out and increasing overall I/O utilization / performance becomes easier
-% - multiple abstr levels (physical hosts, vms, disaggregation)
-% - all standard PCIe devices
-% - should work as if locally installed / abstract away network topology / blur distinction between remote and local
-% - "as if local" also means performance(!)
-% - combines traditional distributed I/O with shared-memory mindset
-% - distributed
-%This would allow \gls{os} and \gls{userspace} applications to make use of remotely installed resources in the same way as if they were locally installed. 
-
-%If computers in a cluster are to contribute their own devices and memory and share these internal resources with other machines in the cluster, it is desirable for machines to use remote resources in the same way they would use local resources.
-
-%\begin{quote}
- %   Can we develop a framework for sharing resources in a \gls{pcie}-networked cluster that makes it easier for individual nodes to scale out and use remote resources while maintaining native \gls{pcie} performance.
-%\end{quote}
-
-
-    %that makes it easier for nodes to scale out in order to increase overall performance in the cluster and 
-    
-    %seamlessly combines distributed shared-memory functionality with traditional \gls{io}, has native \gls{pcie} performance, and simultaneously makes it easier to scale out and increase overall performance in the cluster system?
-%\end{quote}    
-%    minimizes complexity blurs the distinction 
-    
- 
-%    by blurring the distinction between remote and local, 
-    
- %   distributing devices and sharing resources 
-    
-    
-	%Can we blur out the distinction between local and remote in a \gls{pcie}-cluster by developing a system for sharing and distributing resources
-	%that allows nodes to share resources with native \gls{pcie} performance.
-
-%This has created a need for an efficient \gls{io} resource sharing solution.
-
-%	in order to meet latency and throughput requirements of modern, data-driven workloads?
-%In this thesis, we address this challenge under the following research question:
-%\begin{quote}\bfseries
-%	Can we develop a system for sharing and distributing resources in a \gls{pcie}-networked cluster, allowing cluster nodes to share resources with native \gls{pcie} performance,	in order to meet latency and throughput requirements of modern, data-driven workloads?
-%\end{quote}
-
-%the latency and throughput requirements of modern, data-driven workloads, 
+    \item[\objective{experiments}:] To prove real-world deployment capabilities, the solution should be tested on realistic and relevant workloads and benchmarks.
+\end{description}
+To confirm that \gls{io} resources can be distributed to, and shared with, remote machines, a comprehensive performance evaluation covering all components of the implementation is needed.
+All parts should be thoroughly tested with latency and throughput in mind, in order to reveal any potential performance bottlenecks. The solution should provide \emph{native} \gls{pcie} performance, as stated in \cref{obj:performance}.
+An additional point is to use standardized test suites as far as possible, to demonstrate that application software really can be unmodified (as stated in \cref{obj:transparent}).
+Moreover, a real-world workload relying on a combination of several devices, including computing accelerators, should be used to show that a solution is a viable approach for resource scaling.
+Finally, a prototype device driver using the device-oriented \gls{api} (\cref{obj:api}) should be developed and evaluated. This driver should demonstrate that it is possible to \glslink{disaggregation}{disaggregate} a non-\gls{sriov} device in software, and shared with multiple machines simultaneously. The driver should also demonstrate how it can rely on memory \gls{disaggregation} capabilities to implement data path optimizations.
 
 
 \section{Scope and limitations}
@@ -188,3 +155,4 @@ including benchmarks for a bunch of scenarios and devices and topologies
 % should experiments be central
 
 \section{Outline}
+%outline also of papers, to hammer home that this is a paper collection
