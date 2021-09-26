@@ -71,7 +71,7 @@ Hence, the goal of this thesis is to develop an infrastructure for sharing and d
 In particular, this research question can be broken down into the following objectives:
 %
 \begin{description}
-    \item[\objective{distributed}:] Ubiquitous sharing in the cluster should be supported, allowing any machine to contribute any of its internal \gls{pcie} devices, and allow any machine to be able to use shared devices, even contributing and using resources at the same time.
+    \item[\objective{distributed}:] Ubiquitous sharing in the cluster should be supported, allowing any machine to contribute any of its internal \gls{pcie} devices, and allowing any machine to be able to use shared devices, even contributing and using resources at the same time.
 \end{description}
 Perhaps the main motivation for our goal of building a system for \gls{io} resource sharing is to make it easier to scale out and use more resources than there are available in a single computer. 
 If any standard \gls{pcie} device inside any machine could be shared with other machines, the \gls{io} resource utilization in the cluster can be greatly increased.
@@ -110,9 +110,10 @@ Because most device drivers are written in a way that assumes exclusive control 
 %
 The solution should be able to \glslink{disaggregation}{disaggregate} such \gls{sriov}-capable devices, and distribute their \glspl{vf} to different machines, allowing multiple computers to use the same device simultaneously.
 %
-However, since not all devices implement \gls{sriov}, the solution should also provide a device driver \gls{api} that will make it possible to \glslink{disaggregation}{disaggregate} memory resources in software.
+However, since not all devices implement \gls{sriov}, the solution should also provide a device driver \gls{api} that will make it possible to \glslink{disaggregation}{disaggregate} memory and device resources in software.
 %
-This \gls{api} should provide facilities for memory-mapping device registers as well as mapping shared memory segments for a \gls{dma}-capable device.
+In addition to the native sharing capabilities described in \crefrange{obj:distributed}{obj:dynamic}, this \gls{api} 
+should provide facilities for memory-mapping device registers as well as mapping shared memory segments for a \gls{dma}-capable device.
 %
 Effectively, this would bring shared-memory concepts to device driver implementations, allowing device operation and device resources to become part of the same global address space as distributed cluster applications.
 %
@@ -124,10 +125,12 @@ Moreover, the \gls{api} should be designed so that a driver implementation does 
     \item[\objective{experiments}:] To prove real-world deployment capabilities, the solution should be tested on realistic and relevant workloads and benchmarks.
 \end{description}
 To confirm that \gls{io} resources can be distributed to, and shared with, remote machines, a comprehensive performance evaluation covering all components of the implementation is needed.
-All parts should be thoroughly tested with latency and throughput in mind, in order to reveal any potential performance bottlenecks. The solution should provide \emph{native} \gls{pcie} performance, as stated in \cref{obj:performance}.
-An additional point is to use standardized test suites as far as possible, to demonstrate that application software really can be unmodified (as stated in \cref{obj:transparent}).
-Moreover, a real-world workload relying on a combination of several devices, including computing accelerators, should be used to show that a solution is a viable approach for resource scaling.
-Finally, a prototype device driver using the device-oriented \gls{api} (\cref{obj:api}) should be developed and evaluated. This driver should demonstrate that it is possible to \glslink{disaggregation}{disaggregate} a non-\gls{sriov} device in software, and shared with multiple machines simultaneously. The driver should also demonstrate how it can rely on memory \gls{disaggregation} capabilities to implement data path optimizations.
+As the solution should provide \emph{native} \gls{pcie} performance (\cref{obj:performance}), all parts should be thoroughly tested with latency and throughput in mind, in order to reveal any potential performance bottlenecks.
+Standardized test suites should be used as far as possible, to prove that application software really can be unmodified (\cref{obj:transparent}).
+%
+Moreover, to demonstrate that the implementation is a viable solution for scaling resources (\crefrange{obj:distributed}{obj:transparent}), the evaluation should also include workloads relying on different \gls{pcie} network topologies and include several types of devices, such as \glspl{nvme}, \glspl{gpu}, and network cards
+%
+Finally, a prototype device driver using the device-oriented \gls{api} (\cref{obj:api}) should be developed and evaluated. This driver should demonstrate that it is possible to \glslink{disaggregation}{disaggregate} a non-\gls{sriov} device in software, and shared with multiple machines simultaneously. The driver should also demonstrate how it can rely on memory \gls{disaggregation} and shared memory capabilities to implement data path optimizations.
 
 
 \section{Scope and limitations}
@@ -152,7 +155,9 @@ Finally, a prototype device driver using the device-oriented \gls{api} (\cref{ob
 \section{Research methodology}
 
 \section{Contributions}
-% should experiments be central
+The research of this thesis contributes to the
+
+
 
 \section{Outline}
 %outline also of papers, to hammer home that this is a paper collection
