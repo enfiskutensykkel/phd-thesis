@@ -41,12 +41,12 @@
 % Objectives
 \newcounter{objective}
 \newcommand{\objective}[1]{Objective~\refstepcounter{objective}\theobjective\label[objective]{obj:#1}}
-\crefname{objective}{objective}{objectives}
+\crefname{objective}{Objective}{Objectives}
 \Crefname{objective}{Objective}{Objectives}
 
 % Include article
 \DeclareDocumentCommand{\includepaper}{ O{} m m}{
-	%\includearticle[#1]{#2}{#3}
+	\includearticle[#1]{#2}{#3}
 }
 
 \NewDocumentCommand{\includepapersect}{
