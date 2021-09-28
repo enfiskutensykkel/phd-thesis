@@ -163,12 +163,11 @@ In short, we have developed a system called \emph{SmartIO} for sharing resources
 %
 In particular, the main contributions of this thesis are listed as follows:
 \begin{itemize}
+    \item Testing and evaluation of a mechanism for distributing \gls{pcie} devices to remote systems (see \cref{paper:nossdav} and \cref{paper:mmsys}). \Glspl{nvme}, \glspl{gpu}, network adapters, and any standard \gls{pcie} device may be assigned to a remote system, appearing to the remote system as if the device has been dynamically hot-added to the system.
 
-    \item Testing and evaluation of the Device~Lending mechanism for distributing \gls{pcie} devices to remote systems (see \cref{paper:nossdav} and \cref{paper:mmsys}). Using Device~Lending, \glspl{nvme}, \glspl{gpu}, network adapters, and any \gls{pcie} device may be assigned to a remote system, appearing to the remote system as if the device has been dynamically hot-added to the system.
-
-	\item Development of an extension to \gls{kvm} based on the \gls{mdev} interface, implementing support for distributing devices to \glspl{vm} running on any host machine in the cluster (see \cref{paper:srmpds} and \cref{paper:cc}). Direct access to remote physical hardware devices are enabled for \gls{vm} guests.  . This allows (remote) device resources to be ``passed through'' to \glspl{vm} and used with bare-metal performance.
+	\item Development of an extension to \gls{kvm} based on the \gls{mdev} interface, implementing support for distributing devices to \glspl{vm} running on any host machine in the cluster (see \cref{paper:srmpds} and \cref{paper:cc}). Direct access to remote physical hardware devices are enabled for \gls{vm} guests. This allows (remote) device resources to be ``passed through'' to \glspl{vm} and used with bare-metal performance.
 	
-    \item Improvement of the Device~Lending mechanism and \gls{mdev} extension with support for devices in different physical machines (see \cref{paper:srmpds} and \cref{paper:cc}). A method for resolving device memory addresses and setting up memory mappings, in a way that is transparent to both the devices and the device drivers, is implemented. This enables direct data transfers between multiple devices without violating the principle of making devices appear local to the system(s) using them.
+    \item Improvement of the device distribution mechanism, and the \gls{mdev} extension of it, with support for devices in different physical machines (see \cref{paper:srmpds} and \cref{paper:cc}). A method for resolving device memory addresses and setting up memory mappings, in a way that is transparent to both the devices and the device drivers, is implemented. This enables direct data transfers between multiple devices without violating the principle of making devices appear local to the system(s) using them.
 
     \item Development of a new device-oriented \gls{api} for writing device drivers as shared-memory applications (see \cref{paper:tocs}).
     %
@@ -182,14 +181,13 @@ In particular, the main contributions of this thesis are listed as follows:
 	This makes it easier to optimize data flow through the \gls{pcie} network, as software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
 
     \item Development of a prototype \gls{nvme} device driver using our device-oriented \gls{api} (see \cref{paper:tocs}).
-    Although the Device~Lending component of SmartIO makes it possible to use existing device drivers, most device drivers are written in a way that assumes exclusive control over the device. Therefore, using Device~Lending or the \gls{mdev} extension, a device (function) may only be used by a single user at the time.
+    Although the device distribution components of SmartIO makes it possible to use existing device drivers, most device drivers are written in a way that assumes exclusive control over the device. Therefore, a distributed device (function) may only be used by a single user at the time.
     To demonstrate software-enabled \gls{disaggregation}, we have implemented a \emph{distributed} \gls{nvme} driver. As a proof of concept, we show a single NVMe device can be shared and operated by multiple cluster machines simultaneously, without requiring \gls{sriov}.
 	This driver also demonstrates how multiple sharing aspects of SmartIO may be combined, 
-	by \glslink{disaggregation}{disaggregating} (remote) GPU memory and enabling memory access optimizations.
+	by \glslink{disaggregation}{disaggregating} remote GPU memory and enabling memory access optimizations.
 
-    \item A comprehensive performance evaluation covering all parts of SmartIO and the implementation of performance optimizations (see \cref{paper:srmpds}, \cref{paper:cc}, and \cref{paper:tocs}). With the goal of not incurring any performance overhead beyond that of native \gls{pcie}, the performance of using remote resources with SmartIO is comparable to that of local access (in terms of latency and throughput).
-    
-    \item Demonstration of the real-world capabilities of SmartIO, by testing it on realistic large-scale workloads (see \cref{paper:mmsys}, \cref{paper:cc}, \cref{paper:tocs}). Two different image classification workloads relying on multiple \glspl{gpu} and \gls{nvme} storage have been tested with SmartIO, in order to prove that it is a viable solution for cost-effective scaling of \gls{io} resources.
+    \item A comprehensive performance evaluation covering all parts of SmartIO and the implementation of performance optimizations (see \cref{paper:mmsys}, \cref{paper:srmpds}, \cref{paper:cc}, and \cref{paper:tocs}). With the goal of not incurring any performance overhead beyond that of native \gls{pcie}, the performance of using remote resources with SmartIO is comparable to that of local access (in terms of latency and throughput).
+    To demonstrate real-world capabilities, two different image classification workloads relying on multiple \glspl{gpu} and \gls{nvme} storage have been tested with SmartIO, in order to prove that it is a viable solution for cost-effective scaling of \gls{io} resources in realistic scenarios.
 	
 \end{itemize}
 
