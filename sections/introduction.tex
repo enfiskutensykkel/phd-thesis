@@ -156,38 +156,45 @@ Finally, a prototype device driver using the device-oriented \gls{api} (\cref{ob
 \section{Research methodology}
 
 \section{Contributions}
-The work presented in this thesis contributes to the topic of \gls{io} facilitation and resource sharing in distributed computing systems.
+The work of this thesis contributes to the topic of \gls{io} facilitation and resource sharing in distributed computing systems, and has been presented in five peer-reviewed venues: two conference workshop publications, one short-length demonstration paper, and two journal articles.
+These publications are included as \crefrange{paper:nossdav}{paper:tocs} and contain the bulk of the implementation details, particularly \cref{paper:tocs} which presents the entire solution as a whole.
+
+In short, we have developed a system called \emph{SmartIO} for sharing resources and distributing devices in a heterogeneous, \gls{pcie}-networked cluster. 
 %
-In particular, we have developed a system called \emph{SmartIO} for sharing resources and distributing devices in a heterogeneous, \gls{pcie}-networked cluster.
-%
-The main contributions of this work are listed as follows:
+In particular, the main contributions of this thesis are listed as follows:
 \begin{itemize}
-	\item Improvements to the Device~Lending mechanism~\cite{Kristiansen2015}, and the integration of this mechanism into the SmartIO solution.
-		Device~Lending makes it possible to distribute \glspl{nvme}, \glspl{gpu}, network adapters, and any standard \gls{pcie} device to remote systems and used by existing application software and device drivers without requiring any modifications.
-		The improvements to this mechanism include:
-		\begin{itemize}
-			\item Developing support for multiple devices and enabling \gls{p2p} between them.
-			\item Identifying performance bottlenecks and improving the performance to the point where using remote resources becomes comparable to local access
-			\item Development of an interrupt forwarding mechanism that makes it possible to support share \gls{sriov} \glspl{vf} to different machines on newer Linux kernels.
-		\end{itemize}
 
-	\item Extending Device~Lending to \glspl{vm} by developing an interface extension to \gls{kvm} based on \gls{mdev}.
+    \item Testing and evaluation of the Device~Lending mechanism for distributing \gls{pcie} devices to remote systems (see \cref{paper:nossdav} and \cref{paper:mmsys}). Using Device~Lending, \glspl{nvme}, \glspl{gpu}, network adapters, and any \gls{pcie} device may be assigned to a remote system, appearing to the remote system as if the device has been dynamically hot-added to the system.
 
+	\item Development of an extension to \gls{kvm} based on the \gls{mdev} interface, implementing support for distributing devices to \glspl{vm} running on any host machine in the cluster (see \cref{paper:srmpds} and \cref{paper:cc}). Direct access to remote physical hardware devices are enabled for \gls{vm} guests.  . This allows (remote) device resources to be ``passed through'' to \glspl{vm} and used with bare-metal performance.
+	
+    \item Improvement of the Device~Lending mechanism and \gls{mdev} extension with support for devices in different physical machines (see \cref{paper:srmpds} and \cref{paper:cc}). A method for resolving device memory addresses and setting up memory mappings, in a way that is transparent to both the devices and the device drivers, is implemented. This enables direct data transfers between multiple devices without violating the principle of making devices appear local to the system(s) using them.
 
+    \item Development of a new device-oriented \gls{api} for writing device drivers as shared-memory applications (see \cref{paper:tocs}).
+    %
+	This \gls{api} makes it possible to \glslink{disaggregation}{disaggregate} devices and device memory in software, similarly to \gls{rdma} \gls{disaggregation} solutions.
+	Unlike \gls{rdma} solutions, however, remote resources can be memory-mapped directly into the virtual address space of a software process.
+	%
+	Through our \gls{api}, device driver implementations may take full advantage of \gls{pcie}
+	shared memory capabilities, such as remote memory access and multicasting, without requiring
+	awareness of the underlying \gls{pcie} topology and the different address domains of remote systems.
+	%
+	This makes it easier to optimize data flow through the \gls{pcie} network, as software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
+
+    \item Development of a prototype \gls{nvme} device driver using our device-oriented \gls{api} (see \cref{paper:tocs}).
+    Although the Device~Lending component of SmartIO makes it possible to use existing device drivers, most device drivers are written in a way that assumes exclusive control over the device. Therefore, using Device~Lending or the \gls{mdev} extension, a device (function) may only be used by a single user at the time.
+    To demonstrate software-enabled \gls{disaggregation}, we have implemented a \emph{distributed} \gls{nvme} driver. As a proof of concept, we show a single NVMe device can be shared and operated by multiple cluster machines simultaneously, without requiring \gls{sriov}.
+	This driver also demonstrates how multiple sharing aspects of SmartIO may be combined, 
+	by \glslink{disaggregation}{disaggregating} (remote) GPU memory and enabling memory access optimizations.
+
+    \item A comprehensive performance evaluation covering all parts of SmartIO and the implementation of performance optimizations (see \cref{paper:srmpds}, \cref{paper:cc}, and \cref{paper:tocs}). With the goal of not incurring any performance overhead beyond that of native \gls{pcie}, the performance of using remote resources with SmartIO is comparable to that of local access (in terms of latency and throughput).
+    
+    \item Demonstration of the real-world capabilities of SmartIO, by testing it on realistic large-scale workloads (see \cref{paper:mmsys}, \cref{paper:cc}, \cref{paper:tocs}). Two different image classification workloads relying on multiple \glspl{gpu} and \gls{nvme} storage have been tested with SmartIO, in order to prove that it is a viable solution for cost-effective scaling of \gls{io} resources.
+	
 \end{itemize}
 
-%In short, SmartIO is a flexible framework for device distribution and resource sharing that enables cost-effective and efficient scaling of resources between PCIe-networked machines.
 
-The work of this thesis has been presented in five peer-reviewed publications:
-\begin{itemize}
-	\item The Device~Lending mechanism has been presented in \cref{paper:nossdav}
-\end{itemize}
-
-The work of this thesis has been presented in five peer-reviewed publications: two conference workshop papers, one short-length paper (demo paper), and two journal articles.
-%
-These publications are included as \crefrange{paper:nossdav}{paper:tocs}.
-%
-Additionally, several components of SmartIO has already been incorporated into the product line of Dolphin Interconnect Solutions, and is seeing real-world deployments.
+Finally, it should be mentioned that several components of SmartIO have already been incorporated into the product line of Dolphin Interconnect Solutions, and others are currently being adapted for real-world deployment.
 
 
 %\begin{itemize}
@@ -204,20 +211,9 @@ Additionally, several components of SmartIO has already been incorporated into t
 %	\item SmartIO also includes our MDEV extension to Device~Lending. This interface extends the Linux
 %		Kernel-based Virtual Machine hypervisor~(KVM).
 %		%
-%		Our extension facilitates direct access to remote physical devices for VM guests, allowing VMs
-%		to run on any host in the network and use (remote) devices with bare-metal performance.
 %		
-%	\item We have created a new device-oriented API for writing device drivers as shared-memory applications.
-%		This makes it possible to disaggregate devices in software, similarly to RDMA disaggregation solutions.
-%		%
-%		Unlike RDMA, however, resources are accessed over native PCIe, which allows
-%		resources to be shared without introducing a performance penalty.
-%		%
-%		Through our API, device driver implementations may take full advantage of PCIe
-%		shared memory capabilities, such as remote memory access and multicasting, without requiring
-%		awareness of the PCIe topology and the different address domains of remote systems.
-%		%
-%		This makes it easier for application software to optimize data flow through the PCIe network.
+%		
+
 %
 %	\item We have developed a prototype NVMe device driver using our new device-oriented API. Although the Device~Lending
 %		component of SmartIO makes it possible to use existing device drivers, most device drivers
@@ -256,18 +252,7 @@ Additionally, several components of SmartIO has already been incorporated into t
 %
 %\end{itemize}
 
-%Unlike existing solutions for distributed \gls{io}, SmartIO seamlessly combines traditional \gls{io} with distributed shared-memory functionality, and is, therefore, able to provide sharing capabilities at multiple abstraction levels.
-%Devices may be distributed to physical hosts and to \glspl{vm} alike, and SmartIO also provides facilities for \glslink{disaggregation}{disaggregating} devices and memory resources in software, similarly to \gls{rdma} solutions.
-%%
-%Unlike \gls{rdma} solutions, however, resources are accessed over native \gls{pcie}, allowing them to be shared without introducing a performance penalty.
-%
-%%
-%Also unlike existing \gls{pcie}-based solutions, SmartIO is fully distributed and avoids dedicated servers.
-%All machines in the cluster can contribute their own local resources and access remote resources, even at the same time.
-%%
-%Finally, by using \gls{pcie} shared memory techniques, SmartIO is able to abstract away the physical location of devices and memory resources. 
-%Memory addresses are translated between different address domains by SmartIO in a manner that is transparent to application software, device drivers, and even the \gls{os}.
-%This makes it possible to provide optimizations based on resource locality and minimizing data movement, without requiring the user to be aware of the underlying PCIe topology.
+
 %
 
 \section{Outline}

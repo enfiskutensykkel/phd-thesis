@@ -1,0 +1,29 @@
+\chapter{SmartIO}\label{sec:smartio}
+
+Unlike existing solutions for distributed \gls{io}, SmartIO seamlessly combines traditional \gls{io} with distributed shared-memory functionality, and is, therefore, able to provide sharing capabilities at multiple abstraction levels.
+Devices may be distributed to physical hosts and to \glspl{vm} alike, and SmartIO also provides facilities for \glslink{disaggregation}{disaggregating} devices and memory resources in software.
+
+
+However, as resources are accessed over native \gls{pcie}, they can be shared and used by remote machines without introducing a performance penalty.
+%%
+%Also unlike existing \gls{pcie}-based solutions, SmartIO is fully distributed and avoids dedicated servers.
+%All machines in the cluster can contribute their own local resources and access remote resources, even at the same time.
+%%
+%Finally, by using \gls{pcie} shared memory techniques, SmartIO is able to abstract away the physical location of devices and memory resources. 
+%Memory addresses are translated between different address domains by SmartIO in a manner that is transparent to application software, device drivers, and even the \gls{os}.
+%This makes it possible to provide optimizations based on resource locality and minimizing data movement, without requiring the user to be aware of the underlying PCIe topology.
+\section{General idea}
+\section{Architecture}
+
+\section{Implementation overview}
+\subsection{Device Lending}
+\subsection{MDEV}
+\subsection{API extension}
+
+\section{NVMe driver}
+
+\section{Workload}
+
+\section{Performance measurements}
+
+\section{Related work}\label{sec:rw}
