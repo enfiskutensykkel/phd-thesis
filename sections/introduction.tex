@@ -1,5 +1,7 @@
 \chapter{Introduction}\label{chapter:intro}
-\section{Background and motivation}
+% background goes here
+
+\section{Motivation and challenges}\label{sec:motivation}
 
 %Modern cluster computing applications, particularly those that involve machine learning and other data-driven tasks, have high demands to \gls{io} performance. These applications may rely on a wide variety combinations of shared memory, high-volume storage, and hardware accelerators, such as \glspl{gpu} or \glspl{fpga}. 
 
@@ -129,7 +131,7 @@ To confirm that \gls{io} resources can be distributed to, and shared with, remot
 As the solution should provide \emph{native} \gls{pcie} performance (\cref{obj:performance}), all parts should be thoroughly tested with latency and throughput in mind, in order to reveal any potential performance bottlenecks.
 Standardized test suites should be used as far as possible, to prove that application software really can be unmodified (\cref{obj:transparent}).
 %
-Moreover, to demonstrate that the implementation is a viable solution for scaling resources (\crefrange{obj:distributed}{obj:transparent}), the evaluation should also include workloads relying on different \gls{pcie} network topologies and include several types of devices, such as \glspl{nvme}, \glspl{gpu}, and network cards
+Moreover, to demonstrate that the implementation is a viable solution for scaling resources (\crefrange{obj:distributed}{obj:transparent}), the evaluation should also include workloads relying on different \gls{pcie} network topologies and include several types of devices, such as \glspl{nvme}, \glspl{gpu}, and network cards.
 %
 Finally, a prototype device driver using the device-oriented \gls{api} (\cref{obj:disaggregation}) should be developed and evaluated. This driver should demonstrate that it is possible to \glslink{disaggregation}{disaggregate} a non-\gls{sriov} device in software, and shared with multiple machines simultaneously. The driver should also demonstrate how it can rely on memory \gls{disaggregation} and shared memory capabilities to implement data path optimizations.
 
@@ -159,17 +161,17 @@ Finally, a prototype device driver using the device-oriented \gls{api} (\cref{ob
 The work of this thesis contributes to the topic of \gls{io} facilitation and resource sharing in distributed computing systems, and has been presented in five peer-reviewed venues: two conference workshop publications, one short-length demonstration paper, and two journal articles.
 These publications are included as \crefrange{paper:nossdav}{paper:tocs} and contain the bulk of the implementation details, particularly \cref{paper:tocs} which presents the entire solution as a whole.
 
-In short, we have developed a system called \emph{SmartIO} for sharing resources and distributing devices in a heterogeneous, \gls{pcie}-networked cluster. 
+We have developed a system called \emph{SmartIO} for sharing resources and distributing devices in a heterogeneous, \gls{pcie}-networked cluster.
 %
 In particular, the main contributions of this thesis are listed as follows:
 \begin{itemize}
-    \item Testing and evaluation of a mechanism for distributing \gls{pcie} devices to remote systems (see \cref{paper:nossdav} and \cref{paper:mmsys}). \Glspl{nvme}, \glspl{gpu}, network adapters, and any standard \gls{pcie} device may be assigned to a remote system, appearing to the remote system as if the device has been dynamically hot-added to the system.
+    \item Testing and evaluation of the \emph{Device~Lending} mechanism for \textbf{distributing \gls{pcie} devices to remote systems} (see \cref{paper:nossdav} and \cref{paper:mmsys}). Using Device~Lending, any standard \gls{pcie} device, such as \glspl{nvme}, \glspl{gpu}, network adapters, and \glspl{fpga}, may be assigned to a remote system. The device appear to the remote system as if it has been dynamically hot-added to the system, allowing existing device drivers to use the device without requiring any modifications to software.
 
-    \item Development of an extension to \gls{kvm} based on the \gls{mdev} interface, implementing support for distributing devices to \glspl{vm} running on any host machine in the cluster (see \cref{paper:srmpds} and \cref{paper:cc}). Direct access to remote physical hardware devices are enabled for \gls{vm} guests. This allows (remote) device resources to be ``passed through'' to \glspl{vm} and used with bare-metal performance.
+    \item Implementation of a \textbf{new mechanism for distributing devices to \glspl{vm}} running on any host machine in the cluster (see \cref{paper:srmpds} and \cref{paper:cc}). We have developed an extension to \gls{kvm} based on the \emph{\gls{mdev}} interface, enabling direct access to remote physical hardware devices for \gls{vm} guests. This allows (remote) device resources to be ``passed through'' to \glspl{vm} and used with bare-metal performance.
 	
-    \item Improvement of the device distribution mechanism, and the \gls{mdev} extension of it, with support for devices in different physical machines (see \cref{paper:srmpds} and \cref{paper:cc}). A method for resolving device memory addresses and setting up memory mappings, in a way that is transparent to both the devices and the device drivers, is implemented. This enables direct data transfers between multiple devices without violating the principle of making devices appear local to the system(s) using them.
+    \item Improvement of the Device~Lending and \gls{kvm}/\gls{mdev} implementations with \textbf{support for multiple devices} and \textbf{supporting devices in different physical machines} (see \cref{paper:srmpds} and \cref{paper:cc}). A method for resolving device memory addresses and setting up memory mappings, in a way that is transparent to both the devices and the device drivers, is implemented. This enables direct data transfers between multiple devices without violating the principle of making devices appear local to the system(s) using them.
 
-    \item Development of a new device-oriented \gls{api} for writing device drivers as shared-memory applications (see \cref{paper:tocs}).
+    \item Development of a \textbf{new device-oriented \gls{api}} for writing device drivers as shared-memory applications (see \cref{paper:tocs}).
     %
 	This \gls{api} makes it possible to \glslink{disaggregation}{disaggregate} devices and device memory in software, similarly to \gls{rdma} \gls{disaggregation} solutions.
 	Unlike \gls{rdma} solutions, however, remote resources can be memory-mapped directly into the virtual address space of a software process.
@@ -180,42 +182,39 @@ In particular, the main contributions of this thesis are listed as follows:
 	%
 	This makes it easier to optimize data flow through the \gls{pcie} network, as software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
 
-\item Development of a prototype \gls{nvme} device driver using our device-oriented \gls{api} (see \cref{paper:tocs}).\footnote{The prototype \gls{nvme} device driver is open source and can be found at \\\texttt{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}}
-    Although the device distribution components of SmartIO makes it possible to use existing device drivers, most device drivers are written in a way that assumes exclusive control over the device. Therefore, a distributed device (function) may only be used by a single user at the time.
+\item Development of a \textbf{new prototype \gls{nvme} device driver} using our device-oriented \gls{api} (see \cref{paper:tocs}).\footnote{The prototype \gls{nvme} device driver is open source and can be found at \mbox{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}}
+    Although the Device~Lending mechanism and \gls{mdev} extension makes it possible to use existing device drivers, most device drivers are written in a way that assumes exclusive control over the device. Therefore, a distributed device (function) may only be used by a single user at the time.
     To demonstrate software-enabled \gls{disaggregation}, we have implemented a \emph{distributed} \gls{nvme} driver. As a proof of concept, we show a single NVMe device can be shared and operated by multiple cluster machines simultaneously, without requiring \gls{sriov}.
 	This driver also demonstrates how multiple sharing aspects of SmartIO may be combined, 
 	by \glslink{disaggregation}{disaggregating} remote GPU memory and enabling memory access optimizations.
 
-    \item A comprehensive performance evaluation covering all parts of SmartIO and the implementation of performance optimizations (see \cref{paper:mmsys}, \cref{paper:srmpds}, \cref{paper:cc}, and \cref{paper:tocs}). With the goal of not incurring any performance overhead beyond that of native \gls{pcie}, the performance of using remote resources with SmartIO is comparable to that of local access (in terms of latency and throughput).
-    To demonstrate real-world capabilities, two different image classification workloads relying on multiple \glspl{gpu} and \gls{nvme} storage have been tested with SmartIO, in order to prove that it is a viable solution for cost-effective scaling of \gls{io} resources in realistic scenarios.
+    \item A \textbf{comprehensive performance evaluation} covering all parts of SmartIO and the implementation of performance optimizations (see \cref{paper:mmsys}, \cref{paper:cc}, and \cref{paper:tocs}). With the goal of not incurring any performance overhead beyond that of native \gls{pcie}, the performance of using remote resources with SmartIO is comparable to that of local access (in terms of latency and throughput).
+    To demonstrate real-world capabilities, two different image classification workloads relying on multiple \glspl{gpu} and \gls{nvme} storage have been tested with SmartIO, proving that it is a viable solution for cost-effective scaling of \gls{io} resources in realistic scenarios.
 	
 \end{itemize}
-
-
-Finally, it should be mentioned that several components of SmartIO have already been incorporated into the product line of Dolphin Interconnect Solutions, and others are currently being adapted for real-world deployment.
+%
+Finally, it should be noted that the research of this thesis has had impact on real systems, as several components of SmartIO have already been incorporated into the product line of Dolphin Interconnect Solutions, and others are currently being adapted for real-world deployment.\footnote{{\url{https://www.dolphinics.com/solutions/pcie_smart_io.html}}}
 
 
 \section{Outline}
 This thesis describes the SmartIO system for efficient sharing of resources between \gls{pcie}-networked computers.
 %
 The rest of this thesis is organized as follows:
-\begin{itemize}
-	\item \textbf{\cref{chapter:smartio}:} presents the overall ideas and challenges for SmartIO. 
+\begin{description}
+    \item[\cref{chapter:smartio}]
+        presents the overall ideas and challenges for SmartIO. 
 		We give a high-level overview of the implementation and 
 		also related work
-
-	\item \textbf{\cref{chapter:concl}:} 
-
-	\item \textbf{\cref{paper:nossdav}:}
-
-	\item \textbf{\cref{paper:mmsys}:}
-
-	\item \textbf{\cref{paper:srmpds}:}
-
-	\item \textbf{\cref{paper:cc}:}
-
-	\item \textbf{\cref{paper:tocs}:}
-\end{itemize}
-
-
-%outline also of papers, to hammer home that this is a paper collection
+		
+	\item[\cref{chapter:conclusion}]
+	
+	\item[\cref{paper:nossdav}]
+	
+	\item[\cref{paper:mmsys}]
+	
+	\item[\cref{paper:srmpds}]
+	
+	\item[\cref{paper:cc}]
+	
+	\item[\cref{paper:tocs}]
+\end{description}
