@@ -57,8 +57,37 @@ there is a need for a solution that enables dynamic scaling and efficient sharin
 %
 This thesis contributes to this goal by ...
 
+
+
 \section{Background and motivation}\label{sec:motivation}
-\gls{sisci}
+\Gls{pcie} is the de~facto standard for connecting devices to a computer system.
+%
+Due to its very low latency overhead and memory addressing properties, using \gls{pcie} as a high-speed interconnection technology is a compelling alternative to traditional networking technologies~\cite{url:Meduri2011,Lim2019}.
+%
+However, because \gls{pcie} was originally designed as a local \gls{io} bus, connecting devices to the \gls{cpu} on a motherboard, individual computer systems operate with different \gls{pcie} address domains.
+%
+Hence, extending the \gls{pcie} bus out of single computer and connecting several systems to the same \gls{pcie} fabric requires translating memory transactions from one address domain to another.
+
+By far, the most common way of translating addresses between different \gls{pcie} address domains is by using a special type of device called \gls{ntb}~\cite{whitepaper:PLX,whitepaper:Regula2004,Tu2018}.
+%
+\Glspl{ntb} can be embedded as a \gls{cpu} feature~\cite{whitepaper:Sullivan2010,url:LinuxNTB-AMD}, but are more commonly implemented in \gls{pcie} switch chips~\cite{whitepaper:PLX,pex8733}.
+%
+Using such \gls{ntb}-capable switch chips to implement a peripheral device, independent computer systems can interconnect with plug-in adapter cards and external cables~\cite{Ravindran2008,Lim2019,Tu2014,Tu2018}, as depicted in \cref{fig:cluster-example}.
+%
+The inherent memory address translation capabilities of \glspl{ntb} make it possible for a machine to map (parts of) the address space of remote systems.
+%
+More interesting, however, is the fact that in such \gls{pcie} networks, both \glspl{cpu} and internal \gls{pcie} devices are attached to the same, shared \gls{pcie} fabric.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.95\textwidth]{Cluster-Overview}
+    \caption{Example of a heterogeneous \glsentrytext{pcie}-networked cluster with external cables and adapter cards capable of \glsentrytext{ntb}.}
+  	\label{fig:cluster-example}
+\end{figure}
+
+
+
+%\gls{sisci}
 
 
 %Traditional approaches to distributed \gls{io} over network may incur additional latency overheads
@@ -140,8 +169,8 @@ Additionally, by avoiding dedicated servers and allowing all computers in the cl
 If the solution could make remote devices behave as if they were locally installed, presenting resources to the system on a level ``underneath'' the \gls{os}, it would become possible to distribute devices to \emph{physical} hosts as well, and not only \glspl{vm}. 
 In other words, remote resources should appear as if they were part of the local \gls{pcie} device tree, and application software could make use of remote devices using native interfaces the same way it would use local devices.
 %
-Furthermore, by avoiding application- or device-specific middleware, and instead memory-mapping remote system and device memory directly, existing device drivers and even the host \gls{os} itself would be able to interact with remote resources natively.
-Avoiding any special adaptions to software would make scaling out significantly easier than what is currently possible with existing middleware-based solutions for distributed \gls{io}, particularly those based on \gls{rdma}.
+Furthermore, by avoiding application- or device-specific \gls{middleware}, and instead memory-mapping remote system and device memory directly, existing device drivers and even the host \gls{os} itself would be able to interact with remote resources natively.
+Avoiding any special adaptions to software would make scaling out significantly easier than what is currently possible with existing \gls{middleware}-based solutions for distributed \gls{io}, particularly those based on \gls{rdma}.
 
 \begin{description}    
     \item[\objective{performance}:] The fact that resources may be remote should be transparent with regard to performance, remote resources should be used with native \gls{pcie} performance, and as close to local access as possible.
@@ -190,6 +219,7 @@ Moreover, to demonstrate the completeness of the solution, the evaluation should
 Finally, a prototype device driver using the device driver \gls{api} (\cref{obj:disaggregation}) should be developed and evaluated. This driver should demonstrate that it is possible to \glslink{disaggregation}{disaggregate} a non-\gls{sriov} device in software, and shared with multiple machines simultaneously. The driver should also demonstrate how it can rely on memory \gls{disaggregation} and shared memory capabilities to implement data path optimizations.
 
 
+
 \section{Scope and limitations}
 % limitation: systems must support pcie p2p (or use switches that do)
 %limitation: systems must support hot-plugging
@@ -210,6 +240,8 @@ Finally, a prototype device driver using the device driver \gls{api} (\cref{obj:
 % for linux only?
 
 \section{Research methodology}
+
+
 
 \section{Contributions}
 The work of this thesis contributes to the topic of \gls{io} facilitation and resource sharing in distributed computing systems, and has been presented in five peer-reviewed venues: two conference workshop publications, one short-length demonstration paper, and two journal articles.

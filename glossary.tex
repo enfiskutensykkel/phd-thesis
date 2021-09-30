@@ -1,10 +1,10 @@
+
 % Some things have both an acronym and needs a glossary entry
 \DeclareDocumentCommand{\newdualentry}{ O{} O{} m m m m }{
 	\newglossaryentry{gls-#3}{
         name={#5 (#4)},
 		description={#6},#1
 	}
-	\makeglossaries
 	\newglossaryentry{#3}{
 		type=\acronymtype,
 		name={#4},
@@ -14,6 +14,7 @@
 		short={#4\glsadd{gls-#3}},
         firstplural={#5s~(#4s)},#2
 	}
+	\makeglossaries
 }
 
 % For the abstract of each paper, 
@@ -22,7 +23,6 @@
 \glslink{#1}{#2}\glsadd{#1}%
 }
 
-\makeglossaries
 
 % Define a bunch of acronyms and abbreviations
 \newacronym{rdma}{RDMA}{remote direct memory access}
@@ -59,7 +59,7 @@
 {Devices capable of direct memory access can access system memory and even memory regions of other devices}
 
 %longplural={non-transparent bridges}
-\newdualentry{ntb}{NTB}{Non-Transparent Bridge}
+\newdualentry{ntb}{NTB}{non-transparent bridge}
 {A special PCIe device that extends the PCIe bus out of a single computer and connecting several systems}
 
 \newdualentry{bar}{BAR}{Base Address Register}
