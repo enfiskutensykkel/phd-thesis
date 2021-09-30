@@ -37,21 +37,21 @@ Distributing VMs across hosts in the network in a way that maximizes resource ut
 
 Another challenge is the networking technology itself. Despite having been a research topic for decades, moving data to remote units over a network remains a costly operation that introduces large performance overheads, compared to using local resources.
 %
-As such, many network adapters support zero-copy of application memory from one system to another through \gls{rdma}~\cite{Huang2012}.
+As such, many \glspl{nic} support zero-copy of application memory from one system to another through \gls{rdma}~\cite{Huang2012}.
 %
 \Gls{rdma} is not only used in many distributed shared-memory cluster applications, but is also frequently used for implementing \gls{io} resource \gls{disaggregation} in software.
 %
-For example, \glspl{nvme} may be \glslink{disaggregation}{disaggregated} and shared in the cluster with very low latency using \gls{rdma}.
-This is the case for \gls{nvmeof}~\cite{Guz2018}, where \gls{rdma} is used to provide direct access and avoid going through the block-layer on the \gls{os} on the server.
+For example, \glspl{nvme} may be \glslink{disaggregation}{disaggregated} and shared with remote systems with very low latency.
+This is the case for \gls{nvmeof}, where \gls{rdma} is used to provide direct access and avoid going through the block-layer on the \gls{os} on the server~\cite{Guz2018}.
 %
 Similarly, the result of a \gls{gpu} computation may be copied out of \gls{gpu} memory and onto the network directly using \gls{rdma}, without being copied to system memory first and going through the network stack~\cite{Venkatesh2014}.
 %
-The benefit of \gls{rdma} \gls{disaggregation} is that resources may be shared by several hosts in the cluster.
+Another benefit of \gls{rdma}-based \gls{disaggregation} is that a single resource may be shared by multiple machines in the cluster at the same time.
 %
-However, while \gls{rdma} allows data to be transferred efficiently over the network, translation between the network protocol and the local \gls{io} bus is unavoidable. 
+However, since \gls{rdma} \gls{disaggregation} is usually implemented as application-specific \gls{middleware}, it often requires application software to use specific programming models and semantics like message-passing.
+%
+Moreover, even though \gls{rdma} allows data to be transferred efficiently over the network, translation between the network protocol and the local \gls{io} bus is unavoidable. 
 Compared to accessing a local device, this protocol translation incurs latency overheads that are not insignificant.
-%
-Moreover, since \gls{rdma} \gls{disaggregation} is usually implemented as application-specific \gls{middleware}, it often requires application software to use specific programming models and semantics like message-passing.
 
 
 
