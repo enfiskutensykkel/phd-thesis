@@ -125,19 +125,22 @@
 \RequirePackage{mathscinet}
 \RequirePackage[backend    = biber,
                 maxbibnames=99,
-		        maxcitenames=99,
+                maxcitenames=99,
                 sortcites  = true,
                 giveninits = true,
                 doi        = true,
                 isbn       = true,
                 url        = true,
-		        hyperref   = true,
-		        defernumbers = true,
-                sortlocale = no_NB,
-		        backref    = false,
-		        %natbib     = true,
-		        style      = numeric-comp,
-		        sorting=ydnt]{biblatex}
+                hyperref   = true,
+                defernumbers = true,
+                %sortlocale = no_NB,
+                sortlocale = en_US,
+                backref    = true,
+                %natbib     = true,
+                style      = numeric-comp,
+                %bibstyle   = numeric,
+                %citestyle   = numeric-comp,
+                sorting=ydnt]{biblatex}
 \DeclareNameAlias{sortname}{family-given}
 \DeclareNameAlias{default}{family-given}
 \DeclareFieldFormat[article]{volume}{\bibstring{jourvol}\addnbspace#1}
@@ -151,8 +154,8 @@
     \printfield{eid}
 }
 \DefineBibliographyStrings{english}{%
-	backrefpage = {cited on page},
-	backrefpages = {cited on pages},
+        backrefpage = {cited on page},
+        backrefpages = {cited on pages},
 }
 \addbibresource{papers.bib}
 \addbibresource{bibliography.bib}

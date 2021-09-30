@@ -1,12 +1,66 @@
 \chapter{Introduction}\label{chapter:intro}
-% background goes here
+Modern cluster computing applications often have high requirements to \gls{io} performance.
+%
+For example, many computing clusters rely on compute accelerators, such as \glspl{gpu} and \glspl{fpga}, to increase the processing speed.
+%
+In recent years, we have also seen a convergence of the high-performance computing, big~data, and machine~learning research fields.
+%
+This has led to new demands to \gls{io} performance where distributed, high-volume storage is becoming a requirement for high-performance computing, while low latency networking and facilitating access to compute accelerators have become cloud computing issues~\cite{Trivedi2011,Coates2013,Taherkordi2018}.
+%
+If resources are distributed scarcely in the cluster, cluster machines with resources may become bottlenecks when a workload requires heavy computation on \glspl{gpu} or fast access to storage.
+%
+Contrarily, over-provisioning machines with resources may lead to devices becoming underutilized if the workload's demands are more sporadic.
+%
+Heterogeneous workloads may even require widely different compositions of devices and memory resources for individual machines.
+%
+Being able to share and dynamically partition devices between machines in a cluster leads to more efficient
+utilization, as individual machines may scale up or down \gls{io} resources based on current workload requirements.
 
-\section{Motivation and challenges}\label{sec:motivation}
 
-%Modern cluster computing applications, particularly those that involve machine learning and other data-driven tasks, have high demands to \gls{io} performance. These applications may rely on a wide variety combinations of shared memory, high-volume storage, and hardware accelerators, such as \glspl{gpu} or \glspl{fpga}. 
 
-%If \gls{io} resources, such as memory and devices, are distributed scarcely in the cluster, cluster nodes may become bottlenecks when a workload require heavy computation on \glspl{gpu} or fast access to storage. Contrarily, over-provisioning nodes with resources may lead to individual devices becoming underutilized if the workload's demands are more sporadic. In order to meet latency and throughput requirements of these workloads, and at the same time prevent that resources become underutilized, it is desirable to allow individual machines in the cluster to dynamically scale up or down their available \gls{io} resources based on current workload requirements.
+In cloud computing environments, such dynamic scaling and resource partitioning is often handled through virtualization. 
+\Gls{vm} \glspl{hypervisor} may dynamically add virtual \gls{io} devices to \gls{vm} instances on demand.
+%
+It is even possible to temporarily suspend computation to migrate \glspl{vm} to \gls{host} machines with more hardware resources available, should the \gls{vm}'s requirements exceed the available local resources.
+%
+However, resource virtualization may not be viable when the raw, bare-metal \gls{io} performance is required, for example in the case of \gls{gpu}-intensive machine~learning workloads.
+%
+In this regard, it is possible to \glslink{passthrough}{``pass through''} physical \gls{io} devices to a \gls{vm} \gls{guest} using an \gls{iommu}.
+%
+The \gls{iommu} facilitates direct access to hardware from the \gls{guest} without compromising the virtualized environment.
+%
+Although \gls{passthrough} allows physical hardware to be used with minimal software overhead, this technique suffers from a lack of flexibility as the physical devices are tightly coupled with the hosts they are installed in.
+%
+Distributing VMs across hosts in the network in a way that maximizes resource utilization and adapts dynamically to varying gls{io} requirements, without sacrificing the bare-metal performance that pass-through provides, remains a challenge.
 
+
+
+Another challenge is the networking technology itself. Despite having been a research topic for decades, moving data to remote units over a network remains a costly operation that introduces large performance overheads, compared to using local resources.
+%
+As such, many network adapters support zero-copy of application memory from one system to another through \gls{rdma}~\cite{Huang2012}.
+%
+\Gls{rdma} is not only used in many distributed shared-memory cluster applications, but is also frequently used for implementing \gls{io} resource \gls{disaggregation} in software.
+%
+For example, \glspl{nvme} may be \glslink{disaggregation}{disaggregated} and shared in the cluster with very low latency using \gls{rdma}.
+This is the case for \gls{nvmeof}~\cite{Guz2018}, where \gls{rdma} is used to provide direct access and avoid going through the block-layer on the \gls{os} on the server.
+%
+Similarly, the result of a \gls{gpu} computation may be copied out of \gls{gpu} memory and onto the network directly using \gls{rdma}, without being copied to system memory first and going through the network stack~\cite{Venkatesh2014}.
+%
+The benefit of \gls{rdma} \gls{disaggregation} is that resources may be shared by several hosts in the cluster.
+%
+However, while \gls{rdma} allows data to be transferred efficiently over the network, translation between the network protocol and the local \gls{io} bus is unavoidable. 
+Compared to accessing a local device, this protocol translation incurs latency overheads that are not insignificant.
+%
+Moreover, since \gls{rdma} \gls{disaggregation} is usually implemented as application-specific \gls{middleware}, it often requires application software to use specific programming models and semantics like message-passing.
+
+
+
+\section{Background and motivation}\label{sec:motivation}
+\gls{sisci}
+
+
+%Traditional approaches to distributed \gls{io} over network may incur additional latency overheads
+%
 
 %However, while moving data efficiently between networked nodes in a cluster has been a research challenge for decades, moving workloads and data to remote units over the network remains a costly operation that introduces large performance overheads compared to accessing local resources. 
 
@@ -18,7 +72,6 @@
     
     %seamlessly combines distributed shared-memory functionality with traditional \gls{io}, has native \gls{pcie} performance, and simultaneously makes it easier to scale out and increase overall performance in the cluster system?
 
-\cite{Taherkordi2018}
 %\gls{ntb}
 %\gls{pcie}
 %\gls{cpu}
@@ -44,19 +97,19 @@
 %The \gls{ntb} translate addresses between the different address domains of the independent systems.
 %
 
-By using \glspl{ntb}, the \gls{pcie} bus of independent computers can be interconnected, creating a network fabric where the \glspl{cpu} and internal \gls{pcie} devices of all systems are directly attached.
-%
-Through such \gls{pcie} networking, scaling out and using more hardware resources than there are available in a single computer becomes possible, increasing the overall resource utilization and system performance. 
-%
-Remote resources, such as memory and devices, could be mapped into a local system and accessed through the \gls{ntb}. 
-%
-Similarly, a remote device capable of \gls{dma} could also use the \gls{ntb} to access local resources. 
-%
-However, setting up such \gls{ntb} mappings requires awareness of the address space on the remote system.
-%
-Device drivers interacting with a remote device must use addresses that corresponds with the remote device's address space.
-%
-As this greatly increases the programming complexity and require extensive modifications to existing device driver software, it is not a viable approach for enabling resource sharing among computers  as is.
+%By using \glspl{ntb}, the \gls{pcie} bus of independent computers can be interconnected, creating a network fabric where the \glspl{cpu} and internal \gls{pcie} devices of all systems are directly attached.
+%%
+%Through such \gls{pcie} networking, scaling out and using more hardware resources than there are available in a single computer becomes possible, increasing the overall resource utilization and system performance. 
+%%
+%Remote resources, such as memory and devices, could be mapped into a local system and accessed through the \gls{ntb}. 
+%%
+%Similarly, a remote device capable of \gls{dma} could also use the \gls{ntb} to access local resources. 
+%%
+%However, setting up such \gls{ntb} mappings requires awareness of the address space on the remote system.
+%%
+%Device drivers interacting with a remote device must use addresses that corresponds with the remote device's address space.
+%%
+%As this greatly increases the programming complexity and require extensive modifications to existing device driver software, it is not a viable approach for enabling resource sharing among computers  as is.
 
 
 
@@ -92,8 +145,8 @@ Avoiding any special adaptions to software would make scaling out significantly 
 \begin{description}    
     \item[\objective{performance}:] The fact that resources may be remote should be transparent with regard to performance, remote resources should be used with native \gls{pcie} performance, and as close to local access as possible.
 \end{description}
-Moving data efficiently between networked machines in a cluster has been a research challenge for decades. Despite this, moving workloads and data to remote units over the network remains a costly operation that introduces large performance overheads compared to accessing local resources. 
-Therefore, in order to further blur the hard separation between ``remote'' and ``local'', remote resources should not only behave functionally as if they were locally installed in the system using them, but also have comparable performance.
+Moving data to remote units over the network introduces large performance overheads compared to accessing local resources. 
+In order to further blur the hard separation between ``remote'' and ``local'', remote resources should not only behave functionally as if they were locally installed in the system using them, but also have comparable performance.
 To achieve this, any communication overhead and intermediate data copying in the critical path must be completely avoided, a requirement that rules out (most) traditional methods of sharing resources over a network. 
 Remote resources should be accessed directly over \emph{native} \gls{pcie}, which would improve the overall \gls{io} performance in the cluster.
 
@@ -133,7 +186,7 @@ Standardized test suites should be used as far as possible, to prove that applic
 %
 Moreover, to demonstrate that the implementation is a viable solution for scaling resources (\crefrange{obj:distributed}{obj:transparent}), the evaluation should also include workloads relying on different \gls{pcie} network topologies and include several types of devices, such as \glspl{nvme}, \glspl{gpu}, and network cards.
 %
-Finally, a prototype device driver using the device-oriented \gls{api} (\cref{obj:disaggregation}) should be developed and evaluated. This driver should demonstrate that it is possible to \glslink{disaggregation}{disaggregate} a non-\gls{sriov} device in software, and shared with multiple machines simultaneously. The driver should also demonstrate how it can rely on memory \gls{disaggregation} and shared memory capabilities to implement data path optimizations.
+Finally, a prototype device driver using the device driver \gls{api} (\cref{obj:disaggregation}) should be developed and evaluated. This driver should demonstrate that it is possible to \glslink{disaggregation}{disaggregate} a non-\gls{sriov} device in software, and shared with multiple machines simultaneously. The driver should also demonstrate how it can rely on memory \gls{disaggregation} and shared memory capabilities to implement data path optimizations.
 
 
 \section{Scope and limitations}
@@ -165,24 +218,22 @@ We have developed a system called \emph{SmartIO} for sharing resources and distr
 %
 In particular, the main contributions of this thesis are listed as follows:
 \begin{itemize}
-    \item Testing and evaluation of the \emph{Device~Lending} mechanism for \textbf{distributing \gls{pcie} devices to remote systems} (see \cref{paper:nossdav} and \cref{paper:mmsys}). Using Device~Lending, any standard \gls{pcie} device, such as \glspl{nvme}, \glspl{gpu}, network adapters, and \glspl{fpga}, may be assigned to a remote system. The device appear to the remote system as if it has been dynamically hot-added to the system, allowing existing device drivers to use the device without requiring any modifications to software.
+    \item Testing and evaluation of the \emph{Device~Lending} mechanism for \textbf{distributing \gls{pcie} devices to remote systems} (see \cref{paper:nossdav} and \cref{paper:mmsys}). Using Device~Lending, any standard \gls{pcie} device, such as \glspl{nvme}, \glspl{gpu}, \glspl{nic}, and \glspl{fpga}, may be assigned to a remote system. The device appear to the remote system as if it has been dynamically hot-added to the system, allowing existing device drivers to use the device without requiring any modifications to software.
 
-    \item Implementation of a \textbf{new mechanism for distributing devices to \glspl{vm}} running on any host machine in the cluster (see \cref{paper:srmpds} and \cref{paper:cc}). We have developed an extension to \gls{kvm} based on the \emph{\gls{mdev}} interface, enabling direct access to remote physical hardware devices for \gls{vm} guests. This allows (remote) device resources to be ``passed through'' to \glspl{vm} and used with bare-metal performance.
+    \item Implementation of a \textbf{new mechanism for distributing devices to \glspl{vm}} running on any host machine in the cluster (see \cref{paper:srmpds} and \cref{paper:cc}). We have developed an extension to \gls{kvm} based on the \emph{\gls{mdev}} interface, enabling direct access to remote physical hardware devices for \gls{vm} guests and setting up memory mappings for the devices. This \gls{mdev} implementation includes a method for dynamically discovering guest-physical memory layout. Using this \gls{mdev} extension, local and remote devices can be \glslink{passthrough}{``passed through''} to \glspl{vm} and used with bare-metal performance.
 	
-    \item Improvement of the Device~Lending and \gls{kvm}/\gls{mdev} implementations with \textbf{support for multiple devices} and \textbf{supporting devices in different physical machines} (see \cref{paper:srmpds} and \cref{paper:cc}). A method for resolving device memory addresses and setting up memory mappings, in a way that is transparent to both the devices and the device drivers, is implemented. This enables direct data transfers between multiple devices without violating the principle of making devices appear local to the system(s) using them.
+    \item Improvement of the Device~Lending and \gls{kvm}/\gls{mdev} mechanisms by implementing \textbf{support for multiple devices} and \textbf{supporting devices in different physical machines} (see \cref{paper:srmpds} and \cref{paper:cc}). A method for resolving device memory addresses and setting up memory mappings, in a way that is transparent to both the devices and the device drivers, is implemented. This enables direct data transfers between multiple devices without violating the principle of making devices appear local to the system(s) using them.
 
-    \item Development of a \textbf{new device-oriented \gls{api}} for writing device drivers as shared-memory applications (see \cref{paper:tocs}).
+    \item Extension of the \gls{sisci} shared-memory \gls{api} with new, \textbf{device-oriented programming semantics} for writing device drivers as shared-memory applications (see \cref{paper:tocs}).
     %
-	This \gls{api} makes it possible to \glslink{disaggregation}{disaggregate} devices and device memory in software, similarly to \gls{rdma} \gls{disaggregation} solutions.
+	This \gls{api} extension makes it possible to \glslink{disaggregation}{disaggregate} devices and device memory in software, similarly to \gls{rdma} \gls{disaggregation} solutions.
 	Unlike \gls{rdma} solutions, however, remote resources can be memory-mapped directly into the virtual address space of a software process.
 	%
-	Through our \gls{api}, device driver implementations may take full advantage of \gls{pcie}
-	shared memory capabilities, such as remote memory access and multicasting, without requiring
-	awareness of the underlying \gls{pcie} topology and the different address domains of remote systems.
+	Through our \gls{api} extension, device driver implementations may take full advantage of \gls{pcie} shared memory capabilities, such as remote memory access and multicasting, without requiring awareness of the underlying \gls{pcie} topology and the different address domains of remote systems.
 	%
 	This makes it easier to optimize data flow through the \gls{pcie} network, as software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
 
-\item Development of a \textbf{new prototype \gls{nvme} device driver} using our device-oriented \gls{api} (see \cref{paper:tocs}).\footnote{The prototype \gls{nvme} device driver is open source and can be found at \mbox{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}}
+    \item Development of a \textbf{new prototype \gls{nvme} device driver} using our device-oriented \gls{api} extension (see \cref{paper:tocs}).\footnote{The prototype \gls{nvme} device driver is open source and can be found at \mbox{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}}
     Although the Device~Lending mechanism and \gls{mdev} extension makes it possible to use existing device drivers, most device drivers are written in a way that assumes exclusive control over the device. Therefore, a distributed device (function) may only be used by a single user at the time.
     To demonstrate software-enabled \gls{disaggregation}, we have implemented a \emph{distributed} \gls{nvme} driver. As a proof of concept, we show a single NVMe device can be shared and operated by multiple cluster machines simultaneously, without requiring \gls{sriov}.
 	This driver also demonstrates how multiple sharing aspects of SmartIO may be combined, 
@@ -203,18 +254,19 @@ The rest of this thesis is organized as follows:
 \begin{description}
     \item[\cref{chapter:smartio}]
         presents the overall ideas and challenges for SmartIO. 
-		We give a high-level overview of the implementation and 
-		also related work
-		
-	\item[\cref{chapter:conclusion}]
-	
-	\item[\cref{paper:nossdav}]
-	
-	\item[\cref{paper:mmsys}]
-	
-	\item[\cref{paper:srmpds}]
-	
-	\item[\cref{paper:cc}]
-	
-	\item[\cref{paper:tocs}]
+        We give a high-level overview of the implementation and 
+        also related work
+
+    \item[\cref{chapter:conclusion}]
+
+    \item[\cref{paper:nossdav}]
+
+    \item[\cref{paper:mmsys}]
+
+    \item[\cref{paper:srmpds}]
+
+    \item[\cref{paper:cc}]
+
+    \item[\cref{paper:tocs}]
 \end{description}
+

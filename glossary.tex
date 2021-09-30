@@ -1,7 +1,7 @@
 % Some things have both an acronym and needs a glossary entry
 \DeclareDocumentCommand{\newdualentry}{ O{} O{} m m m m }{
 	\newglossaryentry{gls-#3}{
-		name={#5},
+        name={#5 (#4)},
 		description={#6},#1
 	}
 	\makeglossaries
@@ -11,7 +11,8 @@
 		description={#5, \glsseeformat[Glossary:]{gls-#3}{}},
 		first={#5~(#4)\glsadd{gls-#3}},
 		text={#4\glsadd{gls-#3}},
-		short={#4\glsadd{gls-#3}},#2
+		short={#4\glsadd{gls-#3}},
+        firstplural={#5s~(#4s)},#2
 	}
 }
 
@@ -27,8 +28,9 @@
 \newacronym{rdma}{RDMA}{remote direct memory access}
 \newacronym{cpu}{CPU}{central processing unit}
 \newacronym[plural={OSes}]{os}{OS}{operating system}
-\newacronym[firstplural={Non-Volatile Memory Express devices (NVMes)}]{nvme}{NVMe}{Non-Volatile Memory Express}
-\newacronym{ssd}{SSD}{solid-state flash memory device}
+\newacronym{nvme}{NVMe}{non-volatile memory express storage device}
+\newacronym{nvmeof}{NVMe-oF}{NVMe over Fabrics}
+\newacronym{ssd}{SSD}{solid-state flash memory storage device}
 \newacronym{gpu}{GPU}{graphics processing unit}
 \newacronym{fpga}{FPGA}{field-programmable gate array}
 \newacronym{nic}{NIC}{network interface card}
@@ -37,40 +39,27 @@
 \newacronym{pci}{PCI}{Peripheral Component Interconnect}
 \newacronym{pcie}{PCIe}{Peripheral Component Interconnect Express}
 \newacronym{mriov}{MR-IOV}{Multi-Root I/O Virtualization}
-\newacronym{ram}{RAM}{random access memory}
+\newacronym{ram}{RAM}{Random Access Memory}
 \newacronym{api}{API}{application programming interface}
-\newacronym{kvm}{KVM}{Linux kernel-based virtual machine hypervisor}
 \newacronym{bios}{BIOS}{Basic Input/Output System}
 \newacronym{msi}{MSI}{message-signalled interrupts}
 \newacronym{msix}{MSI-X}{extended message-signalled interrupts}
+\newacronym{vm}{VM}{virtual machine}
 
-\newacronym{mdev}{MDEV}{mediated device driver}
+\newacronym{mdev}{MDEV}{Mediated Device Driver}
 \newacronym{sisci}{SISCI}{Software Infrastructure Shared-Memory Cluster Interconnect}
-\newacronym{fio}{FIO}{flexible I/O tester}
+\newacronym{fio}{FIO}{Flexible I/O tester}
 
 
 % Stuff with glossary entries
 \newdualentry{sriov}{SR-IOV}{Single-Root I/O Virtualization}
 {Allows a single device to virtualize multiple device functions in hardware}
 
-\newdualentry{dma}{DMA}{direct memory access}
+\newdualentry{dma}{DMA}{Direct Memory Access}
 {Devices capable of direct memory access can access system memory and even memory regions of other devices}
 
-\newglossaryentry{paravirtualization}{
-	name={paravirtualization},
-	description={A paravirtualized device relies on facilitation by the hypervisor in order to use host resources}
-}
-
-\newglossaryentry{hypervisor}{
-	name={hypervisor},
-	description={Software running in kernel space on the host, assisting and facilitating a virtual machine emulator (such as Qemu)}
-}
-
-\newdualentry[][firstplural={virtual machines~(VMs)}]{vm}{VM}{virtual machine}
-{A computer system emulated in software}
-
 %longplural={non-transparent bridges}
-\newdualentry[][firstplural={non-transparent bridges~(NTBs)}]{ntb}{NTB}{non-transparent bridge}
+\newdualentry{ntb}{NTB}{Non-Transparent Bridge}
 {A special PCIe device that extends the PCIe bus out of a single computer and connecting several systems}
 
 \newdualentry{bar}{BAR}{Base Address Register}
@@ -81,11 +70,9 @@
     description={A \acrshort{pcie} feature allowing two devices to directly transfer data between each other without going through host \acrshort{ram}}
 }
 
-\newglossaryentry{io}{
-	name={input/output},
-	description={Any interaction with a hardware device, for example reading from a storage device},
-	text={I/O}
-}
+
+\newdualentry[][first={I/O}]{io}{I/O}{input/output}
+{Any interaction with a hardware device}
 
 \newglossaryentry{disaggregation}{
 	name={disaggregation},
@@ -102,10 +89,45 @@
     description={Virtual memory and execution privileges suitable for application software, in contrast to kernel space}
 }
 
-\newglossaryentry{pass-through}{
+\newglossaryentry{passthrough}{
     name={pass-through},
-    description={Allowing a device to be accessed directly by a virtual machine by using a system's IOMMU to map memory for the device}
+    description={Allowing a physical hardware device to be accessed directly by a virtual machine guest by using a system's IOMMU to map memory for the device}
 }
 
-\newdualentry{iommu}{IOMMU}{I/O memory management unit}
+\newglossaryentry{guest}{
+    name={virtual machine guest},
+    description={A software-emulated computer system},
+    text={guest}
+}
+
+\newglossaryentry{host}{
+    name={virtual machine host},
+    description={The physical machine running, or ``hosting'', one or more virtual machines},
+    text={host}
+}
+
+
+\newglossaryentry{middleware}{
+    name={middleware},
+    description={A software service that provides facilitation beyond functionality available from the OS}
+}
+
+
+\newglossaryentry{paravirtualization}{
+	name={paravirtualization},
+	description={A paravirtualized device relies on facilitation by the hypervisor in order to use host resources}
+}
+
+\newglossaryentry{hypervisor}{
+	name={hypervisor},
+	description={Kernel space software on a virtual machine host, assisting and facilitating a virtual machine emulator (such as Qemu)}
+}
+
+
+\newdualentry{iommu}{IOMMU}{I/O Memory Management Unit}
 {A unit creates separate virtual address spaces for devices and protects against rogue DMA transactions}
+
+\newacronym[%
+	first={Linux kernel-based virtual machine hypervisor~(KVM)\glsadd{hypervisor}},
+	short={KVM\glsadd{hypervisor}}
+]{kvm}{KVM}{Linux kernel-based virtual machine hypervisor \glsseeformat[Glossary:]{hypervisor}{}}
