@@ -27,3 +27,9 @@ However, as resources are accessed over native \gls{pcie}, they can be shared an
 \section{Performance measurements}\label{sec:eval}
 
 \section{Related work}\label{sec:rw}
+% RW first??
+%An example of this is rCUDA, where multiple clients may run jobs on the same \gls{gpu} by relying ~\cite{Duato2010}
+\Gls{rdma}-based \gls{disaggregation} can even allow a single resource to be shared by several machines in the cluster at the same time. 
+%
+However, since \gls{rdma} requires software to use specific programming models and semantics like message-passing, \gls{rdma}-based \gls{disaggregation} solutions are usually implemented as part of the application itself or as device-specific \gls{middleware}.
+%

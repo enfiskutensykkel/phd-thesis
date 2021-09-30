@@ -35,7 +35,8 @@ Distributing VMs across hosts in the network in a way that maximizes resource ut
 
 
 
-Another challenge is the networking technology itself. Despite having been a research topic for decades, moving data to remote units over a network remains a costly operation that introduces large performance overheads, compared to using local resources.
+Another challenge is the networking technology itself. 
+Despite having been a research topic for decades, moving data to remote units over a network remains a costly operation that introduces large performance overheads, compared to using local resources.
 %
 As such, many \glspl{nic} support zero-copy of application memory from one system to another through \gls{rdma}~\cite{Huang2012}.
 %
@@ -46,14 +47,15 @@ This is the case for \gls{nvmeof}, where \gls{rdma} is used to provide direct ac
 %
 Similarly, the result of a \gls{gpu} computation may be copied out of \gls{gpu} memory and onto the network directly using \gls{rdma}, without being copied to system memory first and going through the network stack~\cite{Venkatesh2014}.
 %
-Another benefit of \gls{rdma}-based \gls{disaggregation} is that a single resource may be shared by multiple machines in the cluster at the same time.
-%
-However, since \gls{rdma} \gls{disaggregation} is usually implemented as application-specific \gls{middleware}, it often requires application software to use specific programming models and semantics like message-passing.
-%
-Moreover, even though \gls{rdma} allows data to be transferred efficiently over the network, translation between the network protocol and the local \gls{io} bus is unavoidable. 
+However, even though \gls{rdma} allows data to be transferred efficiently over the network, translation between the network protocol and the local \gls{io} bus is unavoidable. 
 Compared to accessing a local device, this protocol translation incurs latency overheads that are not insignificant.
 
 
+
+In order to meet the latency and throughput requirements of data-driven and compute-heavy workloads in cluster computing applications,
+there is a need for a solution that enables dynamic scaling and efficient sharing of resources between networked machines. 
+%
+This thesis contributes to this goal by ...
 
 \section{Background and motivation}\label{sec:motivation}
 \gls{sisci}
@@ -66,7 +68,6 @@ Compared to accessing a local device, this protocol translation incurs latency o
 
 
 %Consequently, \glspl{ntb} could be exploited to create a network where the inner components of all computers in the cluster,~i.e., \glspl{cpu} and \gls{pcie} devices, are connected to the same, shared \gls{pcie} fabric.
-%the latency and throughput requirements of modern, data-driven workloads, 
 %
     %that makes it easier for nodes to scale out in order to increase overall performance in the cluster and 
     
@@ -184,7 +185,7 @@ To confirm that \gls{io} resources can be distributed to, and shared with, remot
 As the solution should provide \emph{native} \gls{pcie} performance (\cref{obj:performance}), all parts should be thoroughly tested with latency and throughput in mind, in order to reveal any potential performance bottlenecks.
 Standardized test suites should be used as far as possible, to prove that application software really can be unmodified (\cref{obj:transparent}).
 %
-Moreover, to demonstrate that the implementation is a viable solution for scaling resources (\crefrange{obj:distributed}{obj:transparent}), the evaluation should also include workloads relying on different \gls{pcie} network topologies and include several types of devices, such as \glspl{nvme}, \glspl{gpu}, and network cards.
+Moreover, to demonstrate the completeness of the solution, the evaluation should also include workloads relying on different \gls{pcie} network topologies and include several types of devices, such as \glspl{nvme}, \glspl{gpu}, and \glspl{nic}.
 %
 Finally, a prototype device driver using the device driver \gls{api} (\cref{obj:disaggregation}) should be developed and evaluated. This driver should demonstrate that it is possible to \glslink{disaggregation}{disaggregate} a non-\gls{sriov} device in software, and shared with multiple machines simultaneously. The driver should also demonstrate how it can rely on memory \gls{disaggregation} and shared memory capabilities to implement data path optimizations.
 
@@ -240,7 +241,7 @@ In particular, the main contributions of this thesis are listed as follows:
 	by \glslink{disaggregation}{disaggregating} remote GPU memory and enabling memory access optimizations.
 
     \item A \textbf{comprehensive performance evaluation} covering all parts of SmartIO and the implementation of performance optimizations (see \cref{paper:mmsys}, \cref{paper:cc}, and \cref{paper:tocs}). With the goal of not incurring any performance overhead beyond that of native \gls{pcie}, the performance of using remote resources with SmartIO is comparable to that of local access (in terms of latency and throughput).
-    To demonstrate real-world capabilities, two different image classification workloads relying on multiple \glspl{gpu} and \gls{nvme} storage have been tested with SmartIO, proving that it is a viable solution for cost-effective scaling of \gls{io} resources in realistic scenarios.
+        To prove that SmartIO is a viable and efficient solution for \gls{io} resource sharing also for realistic scenarios, two different image classification workloads relying on multiple \glspl{gpu} and \gls{nvme} storage have also been tested.
 	
 \end{itemize}
 %
