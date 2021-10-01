@@ -7,14 +7,13 @@ In recent years, we have also seen a convergence of the high-performance computi
 %
 This has led to new demands to \gls{io} performance where fast access to high-volume storage devices is becoming a requirement for high-performance computing, while low latency networking and making use of compute accelerators have become cloud computing issues~\cite{Trivedi2011,Coates2013,Taherkordi2018}.
 %
-If devices are distributed scarcely in the cluster, cluster machines with \gls{io} resources may become bottlenecks when a workload requires heavy computation on \glspl{gpu} or fast access to storage.
+If devices are distributed scarcely in the cluster, cluster machines with \gls{io} resources may become bottlenecks, for example when a workload requires heavy computation on \glspl{gpu} or fast access to storage.
 %
 Contrarily, over-provisioning machines with resources may lead to devices becoming underutilized if the workload's \gls{io} demands are more sporadic.
 %
 Heterogeneous workloads may even require widely different compositions of devices and memory resources for individual machines in the cluster.
 %
-Being able to share and dynamically partition devices between machines in a cluster leads to more efficient
-utilization, as individual machines may scale up or down \gls{io} resources based on current workload requirements.
+Being able to share and partition devices between machines in a cluster in runtime leads to more efficient utilization, as individual machines may dynamically scale up or down \gls{io} resources based on current workload requirements.
 
 
 
