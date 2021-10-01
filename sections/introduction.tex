@@ -1,17 +1,17 @@
 \chapter{Introduction}\label{chapter:intro}
-Modern cluster computing applications often have high requirements to \gls{io} performance.
+Cluster computing applications often have high requirements to \gls{io} performance.
 %
 For example, many computing clusters rely on compute accelerators, such as \glspl{gpu} and \glspl{fpga}, to increase the processing speed.
 %
 In recent years, we have also seen a convergence of the high-performance computing, big~data, and machine~learning research fields.
 %
-This has led to new demands to \gls{io} performance where distributed, high-volume storage is becoming a requirement for high-performance computing, while low latency networking and facilitating access to compute accelerators have become cloud computing issues~\cite{Trivedi2011,Coates2013,Taherkordi2018}.
+This has led to new demands to \gls{io} performance where fast access to high-volume storage devices is becoming a requirement for high-performance computing, while low latency networking and making use of compute accelerators have become cloud computing issues~\cite{Trivedi2011,Coates2013,Taherkordi2018}.
 %
-If resources are distributed scarcely in the cluster, cluster machines with resources may become bottlenecks when a workload requires heavy computation on \glspl{gpu} or fast access to storage.
+If devices are distributed scarcely in the cluster, cluster machines with \gls{io} resources may become bottlenecks when a workload requires heavy computation on \glspl{gpu} or fast access to storage.
 %
-Contrarily, over-provisioning machines with resources may lead to devices becoming underutilized if the workload's demands are more sporadic.
+Contrarily, over-provisioning machines with resources may lead to devices becoming underutilized if the workload's \gls{io} demands are more sporadic.
 %
-Heterogeneous workloads may even require widely different compositions of devices and memory resources for individual machines.
+Heterogeneous workloads may even require widely different compositions of devices and memory resources for individual machines in the cluster.
 %
 Being able to share and dynamically partition devices between machines in a cluster leads to more efficient
 utilization, as individual machines may scale up or down \gls{io} resources based on current workload requirements.
@@ -21,7 +21,7 @@ utilization, as individual machines may scale up or down \gls{io} resources base
 In cloud computing environments, such dynamic scaling and resource partitioning is often handled through virtualization. 
 \Gls{vm} \glspl{hypervisor} may dynamically add virtual \gls{io} devices to \gls{vm} instances on demand.
 %
-It is even possible to temporarily suspend computation to migrate \glspl{vm} to \gls{host} machines with more hardware resources available, should the \gls{vm}'s requirements exceed the available local resources.
+It is even possible to temporarily suspend computation to migrate \glspl{vm} to \gls{host} machines with more hardware resources available, should the requirements of a \gls{vm} \gls{guest} exceed the available local resources.
 %
 However, resource virtualization may not be viable when the raw, bare-metal \gls{io} performance is required, for example in the case of \gls{gpu}-intensive machine~learning workloads.
 %
@@ -31,12 +31,12 @@ The \gls{iommu} facilitates direct access to hardware from the \gls{guest} witho
 %
 Although \gls{passthrough} allows physical hardware to be used with minimal software overhead, this technique suffers from a lack of flexibility as the physical devices are tightly coupled with the hosts they are installed in.
 %
-Distributing VMs across hosts in the network in a way that maximizes resource utilization and adapts dynamically to varying gls{io} requirements, without sacrificing the bare-metal performance that pass-through provides, remains a challenge.
+Distributing VMs across hosts in the network in a way that maximizes resource utilization and adapts dynamically to varying \gls{io} requirements, without sacrificing the bare-metal performance that pass-through provides, remains a challenge.
 
 
 
 Another challenge is the networking technology itself. 
-Despite having been a research topic for decades, moving data to remote units over a network remains a costly operation that introduces large performance overheads, compared to using local resources.
+Despite having been a research topic for decades, moving data to remote units over a network remains a costly operation that introduces large performance overheads compared to using local resources.
 %
 As such, many \glspl{nic} support zero-copy of application memory from one system to another through \gls{rdma}~\cite{Huang2012}.
 %
@@ -47,8 +47,10 @@ This is the case for \gls{nvmeof}, where \gls{rdma} is used to provide direct ac
 %
 Similarly, the result of a \gls{gpu} computation may be copied out of \gls{gpu} memory and onto the network directly using \gls{rdma}, without being copied to system memory first and going through the network stack~\cite{Venkatesh2014}.
 %
-However, even though \gls{rdma} allows data to be transferred efficiently over the network, translation between the network protocol and the local \gls{io} bus is unavoidable. 
+However, while \gls{rdma} allows data to be transferred efficiently over the network, translation between the network protocol and the local \gls{io} bus is unavoidable. 
 Compared to accessing a local device, this protocol translation incurs latency overheads that are not insignificant.
+%
+Moreover, since \gls{rdma} requires the use of specific programming models like message-passing~\cite{Jiang2004}, \gls{disaggregation} solutions based on \gls{rdma} are usually implemented either as application-specific \gls{middleware}, or as part of the application itself.
 
 
 
@@ -64,9 +66,11 @@ This thesis contributes to this goal by ...
 %
 Due to its very low latency overhead and memory addressing properties, using \gls{pcie} as a high-speed interconnection technology is a compelling alternative to traditional networking technologies~\cite{url:Meduri2011,Lim2019}.
 %
-However, because \gls{pcie} was originally designed as a local \gls{io} bus, connecting devices to the \gls{cpu} on a motherboard, individual computer systems operate with different \gls{pcie} address domains.
+However, because \gls{pcie} was originally designed for connecting devices to the \gls{cpu} on a motherboard, individual computer systems operate with different \gls{pcie} address domains.
 %
-Hence, extending the \gls{pcie} bus out of single computer and connecting several systems to the same \gls{pcie} fabric requires translating memory transactions from one address domain to another.
+Hence, extending the \gls{pcie} bus out of single computer and connecting independent systems to the same \gls{pcie} fabric requires translating memory transactions from one address domain to another.
+
+
 
 By far, the most common way of translating addresses between different \gls{pcie} address domains is by using a special type of device called \gls{ntb}~\cite{whitepaper:PLX,whitepaper:Regula2004,Tu2018}.
 %
@@ -84,6 +88,39 @@ More interesting, however, is the fact that in such \gls{pcie} networks, both \g
     \caption{Example of a heterogeneous \glsentrytext{pcie}-networked cluster with external cables and adapter cards capable of \glsentrytext{ntb}.}
   	\label{fig:cluster-example}
 \end{figure}
+
+
+Using \gls{pcie} networking, built with \gls{pcie} networking can allow resources to be accessed with very little performance overhead as no protocol translation between the network and the local \gls{io} bus is required.
+
+
+Remote resources, such as memory and \gls{io} devices, can be mapped into a local system and accessed through the \gls{ntb}.
+Similarly, a remote device capable of \gls{dma} may also use the \gls{ntb} to access local resources.
+
+%
+%Remote resources, such as memory and I/O devices, can be mapped for a local system through the NTB.
+%Similarly, by reverse-mapping local resources for a remote device, a device capable of DMA can access these
+%resources directly. 
+%
+This eliminates the need to use memory on the remote node as an intermediate step when transferring data.
+%
+As illustrated in Figure~\ref{fig:smartio-direct-access}, 
+software overhead can be avoided, since all memory address translations can be done in NTB hardware.
+However, while some disaggregation approaches using NTBs have been proposed in the past~\cite{Hou2013,Tu2014}, 
+%these implementations present solutions where devices are owned by a dedicated server. As distributing
+%resources is generally only possible to hosts that are directly connected to the same switch as this
+%server, these approaches forgo the flexibility of fully distributed cluster computing systems.
+%Alternative PCIe-based solutions rely on additional virtualization functionality in the PCIe switch
+%chip hardware to partition the PCIe fabric and create virtual device trees for each individual host~\cite{chung2018,microsemi2019}. 
+%%
+%These solutions allow devices to be directly attached a switch rather than a server. 
+%%However, distributing devices is still only possible to hosts that
+%%are directly connected to the same switch.
+%%
+%%Moreover
+%However, these solutions are only able to disaggregate resources at the device level. Sharing the same
+%device with multiple hosts either requires virtualization
+%support in the device itself,~i.e., Single-Root I/O Virtualization~(SR-IOV), 
+%or additional distribution methods, such as RDMA.
 
 
 

@@ -117,8 +117,8 @@
 \RequirePackage[pdfusetitle]{hyperref}                        % Clickable links
 \RequirePackage[nameinlink, capitalize, noabbrev]{cleveref}   % \cref
 \RequirePackage{doi}           % Ignore LaTeX syntax in DOI links
-%\renewcommand{\doitext}{DOI:\space}
-\renewcommand{\doitext}{DOI:~}
+\renewcommand{\doitext}{DOI:\space}
+%\renewcommand{\doitext}{DOI:~}
 
 
 %% Bibliography
@@ -127,7 +127,7 @@
                 maxbibnames=99,
                 maxcitenames=99,
                 sortcites  = true,
-                giveninits = true,
+                giveninits = false,
                 doi        = true,
                 isbn       = true,
                 url        = true,
@@ -141,8 +141,8 @@
                 %bibstyle   = numeric,
                 %citestyle   = numeric-comp,
                 sorting=nyt]{biblatex}
-\DeclareNameAlias{sortname}{family-given}
-\DeclareNameAlias{default}{family-given}
+\DeclareNameAlias{sortname}{given-family}
+\DeclareNameAlias{default}{given-family}
 \DeclareFieldFormat[article]{volume}{\bibstring{jourvol}\addnbspace#1}
 \DeclareFieldFormat[article]{number}{\bibstring{number}\addnbspace#1}
 \renewbibmacro*{volume+number+eid}

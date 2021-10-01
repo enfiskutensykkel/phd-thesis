@@ -28,10 +28,14 @@
     Simula Research Laboratory
 }
 
-
 % Request correct numbers from repro@uio.no
 \ISSN{xxxx-xxxx}
 \dissertationseries{xxxx}
+
+% Include article
+\DeclareDocumentCommand{\includepaper}{ O{} m m}{
+	%\includearticle[#1]{#2}{#3}
+}
 
 
 % Glossary stuff
@@ -43,11 +47,6 @@
 \newcommand{\objective}[1]{Objective~\refstepcounter{objective}\theobjective\label[objective]{obj:#1}}
 \crefname{objective}{Objective}{Objectives}
 \Crefname{objective}{Objective}{Objectives}
-
-% Include article
-\DeclareDocumentCommand{\includepaper}{ O{} m m}{
-	%\includearticle[#1]{#2}{#3}
-}
 
 \begin{document}
 	% Folios in Roman numerals, unnumbered chapters.
@@ -64,7 +63,7 @@
 	}
 
 	% Prefacing sections
-	\include{sections/dedication}
+	%\include{sections/dedication}
 	\include{sections/abstract}
 	\include{sections/preface}
 
