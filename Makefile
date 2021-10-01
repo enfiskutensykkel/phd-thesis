@@ -10,6 +10,7 @@ $(TEXFILE).pdf:
 	biber $(TEXFILE)
 	makeglossaries $(TEXFILE)
 	pdflatex -synctex=1 $(TEXFILE)
+	makeglossaries $(TEXFILE)
 	pdflatex -synctex=1 $(TEXFILE)
 
 

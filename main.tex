@@ -4,6 +4,7 @@
 \usepackage{pdfpages}
 \usepackage{phdstyle}
 \usepackage[toc,acronym,seeautonumberlist]{glossaries}
+\usepackage{glossaries-extra}
 \usepackage{xparse}
 
 % See the following link for documentation:
@@ -35,6 +36,7 @@
 % Include article
 \DeclareDocumentCommand{\includepaper}{ O{} m m}{
 	%\includearticle[#1]{#2}{#3}
+    \newpage\thispagestyle{empty}~\newpage\thispagestyle{empty}
 }
 
 
