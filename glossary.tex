@@ -1,48 +1,23 @@
 
-\def\glossarylink{Glossary:}
+% Some basic computer related abbreviations not necessary to define for first use
+\newacronym{bios}{BIOS}{Basic Input/Output System}
+\glsunset{bios}
 
-% Some things have both an acronym and needs a glossary entry
-\DeclareDocumentCommand{\newdualentry}{ O{} O{} m m m m }{
-	\newglossaryentry{gls-#3}{
-        name={#5 (#4)},
-		description={#6},#1
-	}
-    \makeglossaries
-	\newglossaryentry{#3}{
-		type=\acronymtype,
-		name={#4},
-		description={#5, \glsseeformat[\glossarylink]{gls-#3}{}},
-		first={#5~(#4)\glsadd{gls-#3}},
-		text={#4\glsadd{gls-#3}},
-		short={#4\glsadd{gls-#3}},
-        firstplural={#5s~(#4s)},#2
-	}
-	\makeglossaries
-}
+\newdualentry{io}{I/O}{input/output}
+{Any interaction with a hardware device}
+\glsunset{io}
 
+\newacronym{ram}{RAM}{random access memory}
 
-% Some things should refer something in the dictionary
-\DeclareDocumentCommand{\newlinkedacronym}{ O{} m m m m }{
-    \newacronym[%
-        first={#5~(#4)\glsadd{#2}},
-        firstplural={#5s~(#4s)\glsadd{#2}},
-        short={#4\glsadd{#2}},#1
-    ]{#3}{#4}{#5 \glsseeformat[\glossarylink]{#2}{}}
-    \makeglossaries
-}
-
-% For the abstract of each paper, 
-% we don't want to change the text but still want the link.
-\DeclareDocumentCommand{\lgls}{ m m }{%
-\glsdisp{#1}{#2}\glsadd{#1}\ifglsentryexists{gls-#1}{\glsadd{gls-#1}}{}%
-}
-
-\makeglossaries
-
-% Define a bunch of acronyms and abbreviations
-\newacronym{rdma}{RDMA}{remote direct memory access}
 \newacronym{cpu}{CPU}{central processing unit}
+
 \newacronym[plural={OSes}]{os}{OS}{operating system}
+
+\newacronym{pci}{PCI}{Peripheral Component Interconnect}
+\newacronym{pcie}{PCIe}{Peripheral Component Interconnect Express}
+
+
+\newacronym{rdma}{RDMA}{remote direct memory access}
 \newacronym{nvme}{NVMe}{non-volatile memory express storage device}
 \newacronym{nvmeof}{NVMe-oF}{NVMe over Fabrics}
 \newacronym{ssd}{SSD}{solid-state flash memory storage device}
@@ -50,43 +25,34 @@
 \newacronym{fpga}{FPGA}{field-programmable gate array}
 \newacronym{nic}{NIC}{network interface card}
 \newacronym{pf}{PF}{physical device function}
-\newacronym{pci}{PCI}{Peripheral Component Interconnect}
-\newacronym{pcie}{PCIe}{Peripheral Component Interconnect Express}
 \newacronym{mriov}{MR-IOV}{Multi-Root I/O Virtualization}
-\newacronym{ram}{RAM}{Random Access Memory}
 \newacronym{api}{API}{application programming interface}
-\newacronym{bios}{BIOS}{Basic Input/Output System}
 \newacronym{msi}{MSI}{message-signalled interrupts}
 \newacronym{msix}{MSI-X}{extended message-signalled interrupts}
 \newacronym{vm}{VM}{virtual machine}
-
 \newacronym{mdev}{MDEV}{Mediated Device Driver}
 \newacronym{sisci}{SISCI}{Software Infrastructure Shared-Memory Cluster Interconnect}
 \newacronym{fio}{FIO}{Flexible I/O tester}
 
 
-% Stuff with glossary entries
 \newdualentry{sriov}{SR-IOV}{Single-Root I/O Virtualization}
 {Allows a single device to virtualize multiple device functions in hardware}
 
 \newdualentry{dma}{DMA}{Direct Memory Access}
 {Devices capable of direct memory access can access system memory and even memory regions of other devices}
 
-%longplural={non-transparent bridges}
 \newdualentry{ntb}{NTB}{non-transparent bridge}
-{A special PCIe device that extends the PCIe bus out of a single computer and connecting several systems}
+{A special \glsfmtshort{pcie} device that translates memory transactions between different address domains}
 
 \newdualentry{bar}{BAR}{Base Address Register}
 {The start address of a memory region of a device, used synonymously for the device memory region itself}
 
 \newglossaryentry{p2p}{
     name={peer-to-peer},
-    description={A \acrshort{pcie} feature allowing two devices to directly transfer data between each other without going through host \acrshort{ram}}
+    description={A \glsfmtshort{pcie} feature allowing two devices to directly transfer data between each other without going through host \glsfmtshort{ram}}
 }
 
 
-\newdualentry[][first={I/O}]{io}{I/O}{input/output}
-{Any interaction with a hardware device}
 
 \newglossaryentry{disaggregation}{
 	name={disaggregation},
@@ -95,7 +61,7 @@
 
 \newglossaryentry{kernel space}{
     name={kernel space},
-    description={Virtual memory and execution privileges suitable for \acrshort{os} kernel and device drivers}
+    description={Virtual memory and execution privileges suitable for \glsfmtlong{os} kernel and device drivers}
 }
 
 \newglossaryentry{userspace}{
@@ -105,7 +71,7 @@
 
 \newglossaryentry{passthrough}{
     name={pass-through},
-    description={Allowing a physical hardware device to be accessed directly by a \acrlong{vm} guest by using a system's \acrshort{iommu} to map memory for the device}
+    description={Allowing a physical hardware device to be accessed directly by a \glsfmtlong{vm} guest by using a system's \glsfmtlong{iommu} to map memory for the device}
 }
 
 \newglossaryentry{guest}{
@@ -116,14 +82,14 @@
 
 \newglossaryentry{host}{
     name={virtual machine host},
-    description={The physical machine running one or more \acrlongpl{vm}},
+    description={The physical machine running one or more \glsfmtlongpl{vm}},
     text={host}
 }
 
 
 \newglossaryentry{middleware}{
     name={middleware},
-    description={A software service that provides facilitation beyond functionality available from the \acrshort{os}}
+    description={A software service that provides facilitation beyond functionality available from the \glsfmtlong{os}}
 }
 
 
@@ -134,18 +100,15 @@
 
 \newglossaryentry{hypervisor}{
 	name={hypervisor},
-	description={Kernel space software on a virtual machine host, assisting and facilitating a virtual machine emulator (such as Qemu)}
+	description={Kernel space software on a \glsfmtlong{vm} host, assisting and facilitating a virtual machine emulator (such as Qemu)}
 }
 
 
 \newdualentry{iommu}{IOMMU}{I/O Memory Management Unit}
-{A unit creates separate virtual address spaces for devices and protects against rogue DMA transactions}
+{A unit embedded on the \glsfmtlong{cpu} that creates separate virtual address spaces for devices and prevents \glsfmtlong{dma} transactions outside these virtual address spaces}
 
-\newacronym[%
-	first={Linux kernel-based virtual machine hypervisor~(KVM)\glsadd{hypervisor}},
-	short={KVM\glsadd{hypervisor}}
-]{kvm}{KVM}{Linux kernel-based virtual machine hypervisor \glsseeformat[Glossary:]{hypervisor}{}}
+
+\newlinkedacronym{hypervisor}{kvm}{KVM}{Linux kernel-based virtual machine hypervisor}
 
 \newlinkedacronym{gls-sriov}{vf}{VF}{virtual device function}
 
-\makeglossaries
