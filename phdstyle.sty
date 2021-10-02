@@ -133,9 +133,11 @@
                 url        = true,
                 hyperref   = true,
                 defernumbers = true,
-                %sortlocale = no_NB,
-                sortlocale = en_US,
+                sortlocale = auto,
                 backref    = true,
+                alldates   = comp,
+                urldate    = short,
+                dateabbrev = false,
                 %natbib     = true,
                 style      = numeric-comp,
                 %bibstyle   = numeric,
@@ -145,6 +147,7 @@
 \DeclareNameAlias{default}{given-family}
 \DeclareFieldFormat[article]{volume}{\bibstring{jourvol}\addnbspace#1}
 \DeclareFieldFormat[article]{number}{\bibstring{number}\addnbspace#1}
+\DeclareFieldFormat{urldate}{\mkbibbrackets{\bibstring{urlseen}\space#1}}
 \renewbibmacro*{volume+number+eid}
 {
     \printfield{volume}
@@ -156,6 +159,7 @@
 \DefineBibliographyStrings{english}{%
         backrefpage = {cited on page},
         backrefpages = {cited on pages},
+        urlseen = {Accessed:},
 }
 \addbibresource{papers.bib}
 \addbibresource{bibliography.bib}
