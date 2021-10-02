@@ -17,7 +17,6 @@
 \newacronym{pcie}{PCIe}{Peripheral Component Interconnect Express}
 
 
-\newacronym{rdma}{RDMA}{remote direct memory access}
 \newacronym{nvme}{NVMe}{non-volatile memory express storage device}
 \newacronym{nvmeof}{NVMe-oF}{NVMe over Fabrics}
 \newacronym{ssd}{SSD}{solid-state flash memory storage device}
@@ -38,8 +37,11 @@
 \newdualentry{sriov}{SR-IOV}{Single-Root I/O Virtualization}
 {Allows a single device to virtualize multiple device functions in hardware}
 
-\newdualentry{dma}{DMA}{Direct Memory Access}
+\newdualentry{dma}{DMA}{direct memory access}
 {Devices capable of direct memory access can access system memory and even memory regions of other devices}
+
+\newdualentry{rdma}{RDMA}{remote direct memory access}
+{Using the network adapter to copy memory directly onto the network, without going through the network stack}
 
 \newdualentry{ntb}{NTB}{non-transparent bridge}
 {A special \glsfmtshort{pcie} device that translates memory transactions between different address domains}
@@ -51,8 +53,6 @@
     name={peer-to-peer},
     description={A \glsfmtshort{pcie} feature allowing two devices to directly transfer data between each other without going through host \glsfmtshort{ram}}
 }
-
-
 
 \newglossaryentry{disaggregation}{
 	name={disaggregation},

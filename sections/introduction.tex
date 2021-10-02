@@ -13,7 +13,7 @@ Contrarily, over-provisioning machines with resources may lead to devices becomi
 %
 Heterogeneous workloads may even require widely different compositions of devices and memory resources for individual machines in the cluster.
 %
-Being able to share and partition devices between machines in a cluster in runtime leads to more efficient utilization, as individual machines may dynamically scale up or down \gls{io} resources based on current workload requirements.
+Being able to share and partition devices between machines in a cluster in run-time leads to more efficient utilization, as individual machines may dynamically scale up or down \gls{io} resources based on current workload requirements.
 
 
 
@@ -61,6 +61,13 @@ This thesis contributes to this goal by ...
 
 
 \section{Background and motivation}\label{sec:motivation}
+\begin{figure}
+	\centering
+	\includegraphics[width=.95\textwidth]{Cluster-Overview}
+    \caption{Example of a heterogeneous \glsfmtshort{pcie}-networked cluster with external cables and adapter cards capable of \glsfmtshort{ntb}.}
+  	\label{fig:cluster-example}
+\end{figure}
+
 \Gls{pcie} is the de~facto standard for connecting devices to a computer system.
 %
 Due to its very low latency overhead and memory addressing properties, using \gls{pcie} as a high-speed interconnection technology is a compelling alternative to traditional networking technologies~\cite{url:Meduri2011,Lim2019}.
@@ -70,23 +77,17 @@ However, because \gls{pcie} was originally designed for connecting devices to th
 Hence, extending the \gls{pcie} bus out of single computer and connecting independent systems to the same \gls{pcie} fabric requires translating memory transactions from one address domain to another.
 
 
-\begin{figure}
-	\centering
-	\includegraphics[width=.95\textwidth]{Cluster-Overview}
-    \caption{Example of a heterogeneous \glsfmtshort{pcie}-networked cluster with external cables and adapter cards capable of \glsfmtshort{ntb}.}
-  	\label{fig:cluster-example}
-\end{figure}
-
-
 By far, the most common way of translating addresses between different \gls{pcie} address domains is by using a special type of device called \gls{ntb}~\cite{whitepaper:PLX,whitepaper:Regula2004,Tu2018}.
 %
 \Glspl{ntb} can be embedded as a \gls{cpu} feature~\cite{whitepaper:Sullivan2010,url:LinuxNTB-AMD}, but are more commonly implemented in \gls{pcie} switch chips~\cite{whitepaper:PLX,pex8733}.
 %
-Using such \gls{ntb}-capable switch chips to implement a peripheral device, independent computer systems can interconnect with plug-in adapter cards and external cables~\cite{Ravindran2008,Lim2019,Tu2014,Tu2018}, as depicted in \cref{fig:cluster-example}.
-%
+Using such \gls{ntb}-capable switch chips to implement peripheral devices, independent computer systems can interconnect with plug-in adapter cards and external cables~\cite{Ravindran2008,Lim2019,Tu2014,Tu2018}, as depicted in \cref{fig:cluster-example}.
+
+
+More interesting, however, is the fact that in such \gls{pcie} networks, both \glspl{cpu} and internal \gls{pcie} devices are attached to the same, shared \gls{pcie} fabric.
+
 The inherent memory address translation capabilities of \glspl{ntb} make it possible for a machine to map (parts of) the address space of remote systems.
 %
-More interesting, however, is the fact that in such \gls{pcie} networks, both \glspl{cpu} and internal \gls{pcie} devices are attached to the same, shared \gls{pcie} fabric.
 
 
 Using \gls{pcie} networking, built with \gls{pcie} networking can allow resources to be accessed with very little performance overhead as no protocol translation between the network and the local \gls{io} bus is required.
@@ -94,6 +95,8 @@ Using \gls{pcie} networking, built with \gls{pcie} networking can allow resource
 
 Remote resources, such as memory and \gls{io} devices, can be mapped into a local system and accessed through the \gls{ntb}.
 Similarly, a remote device capable of \gls{dma} may also use the \gls{ntb} to access local resources.
+
+\cref{sec:tocs-intro}
 
 %
 %Remote resources, such as memory and I/O devices, can be mapped for a local system through the NTB.
@@ -183,50 +186,56 @@ Utilizing \gls{pcie} \glspl{ntb} to share resources among machines in a \gls{pci
 solution for abstracting away the physical location of a resource, including the address space of the computer system it is installed in. Moreover, as it is desirable to avoid modifications to existing device drivers and application software, such a solution must also be able to present the resource to the system as if it was locally installed.
 %
 Hence, the goal of this thesis is to develop an infrastructure for sharing and distributing \gls{io} resources,~i.e., devices and memory, in a way that eliminates the distinction between local and remote access of a resource. The challenges of this goal are addressed under the following research question: 
-\begin{quote}\itshape
+\begin{restatable}{question}{researchquestion}
     % TODO: Consider making this more general for PCIe networks instead, and remove reference to NTBs
     %       From the objectives, it should be clear that NTBs are necessary anyway
     Can \glspl{ntb} be leveraged to allow the internal memory and devices of individual computers in a \gls{pcie}-networked cluster to be shared with and used by remote machines in the cluster, as if these resources were local to the remote machines?
-\end{quote}
+\end{restatable}
 %
 In particular, this research question can be broken down into the following objectives:
 %
-\begin{description}
-    \item[\objective{distributed}:] Ubiquitous sharing in the cluster should be supported, allowing any machine to contribute any of its internal \gls{pcie} devices, and allowing any machine to be able to use shared devices, even contributing and using devices at the same time.
-\end{description}
+\begin{objective}\label{obj:distributed}
+    Ubiquitous sharing in the cluster should be supported, allowing any machine to contribute any of its internal \gls{pcie} devices, and allowing any machine to be able to use shared devices, even contributing and using devices at the same time.
+\end{objective}
 Perhaps the main motivation for our goal of building a system for \gls{io} resource sharing is to make it easier to scale out and use more resources than there are available in a single computer. 
 If any standard \gls{pcie} device inside any machine could be shared with other machines, the \gls{io} resource utilization in the cluster can be greatly increased.
 Additionally, by avoiding dedicated servers and allowing all computers in the cluster to participate in the sharing, contributing their own resources and using resources shared by others, we would effectively enable a distributed, peer-to-peer sharing model. This objective sets our goal apart from existing \gls{pcie}-based solutions, as these require a central server or that devices are directly attached to a \gls{pcie} switch.
 
-\begin{description}
-    \item[\objective{transparent}:] The fact that resources may be remote should be functionally transparent, allowing systems to use remote resources in the same way as if they were local, without requiring any modifications to device hardware, device drivers, host \gls{os}, or application software.
-\end{description}
+
+
+\begin{objective}\label{obj:transparent}
+    The fact that resources may be remote should be functionally transparent, allowing systems to use remote resources in the same way as if they were local, without requiring any modifications to device hardware, device drivers, host \gls{os}, or application software.
+\end{objective}
 If the solution could make remote devices behave as if they were locally installed, presenting resources to the system on a level ``underneath'' the \gls{os}, it would become possible to distribute devices to \emph{physical} hosts as well, and not only \glspl{vm}. 
 In other words, remote resources should appear as if they were part of the local \gls{pcie} device tree, and application software could make use of remote devices using native interfaces the same way it would use local devices.
 %
 Furthermore, by avoiding application- or device-specific \gls{middleware}, and instead memory-mapping remote system and device memory directly, existing device drivers and even the host \gls{os} itself would be able to interact with remote resources natively.
 Avoiding any special adaptions to software would make scaling out significantly easier than what is currently possible with existing \gls{middleware}-based solutions for distributed \gls{io}, particularly those based on \gls{rdma}.
 
-\begin{description}    
-    \item[\objective{performance}:] The fact that resources may be remote should be transparent with regard to performance, remote resources should be used with native \gls{pcie} performance, and as close to local access as possible.
-\end{description}
+
+
+\begin{objective}\label{obj:performance}
+    The fact that resources may be remote should be transparent with regard to performance, remote resources should be used with native \gls{pcie} performance, and as close to local access as possible.
+\end{objective}
 Moving data to remote units over the network introduces large performance overheads compared to accessing local resources. 
 In order to further blur the hard separation between ``remote'' and ``local'', remote resources should not only behave functionally as if they were locally installed in the system using them, but also have comparable performance.
 To achieve this, any communication overhead and intermediate data copying in the critical path must be completely avoided, a requirement that rules out (most) traditional methods of sharing resources over a network. 
 Remote resources should be accessed directly over \emph{native} \gls{pcie}, which would improve the overall \gls{io} performance in the cluster.
 
-\begin{description}    
-    \item[\objective{dynamic}:] Shared resources should be distributed \emph{dynamically}, and direct access to device memory and system memory should be configured in run-time, also between multiple devices residing in different hosts.
-\end{description}
+
+
+\begin{objective}\label{obj:dynamic}
+    Shared resources should be distributed \emph{dynamically}, and direct access to device memory and system memory should be configured in run-time, also between multiple devices residing in different hosts.
+\end{objective}
 As stated in \cref{obj:transparent}, the solution should work for physical hosts, and not only \glspl{vm}. Therefore, it must be possible to assign and reassign resources while all machines in the cluster are running, without requiring rebooting hosts or changing settings in the \gls{bios}.
 For devices, this introduces the requirement that the \gls{os} supports hot-adding devices to the system --- something most modern \gls{os} implementations do.
 Not only would this would allow systems to dynamically scale up or down their \gls{io} resources based on immediate workload requirements, but devices could be more efficiently partitioned between machines in the cluster, increasing the overall resource utilization. 
 Furthermore, the solution should also be able to automatically discover resource location, without requiring that the user knows anything about the underlying \gls{pcie} network topology, and dynamically set up memory-mappings between devices, \glspl{cpu}, and memory resources. An example would be enabling \gls{pcie} \gls{p2p} between two or more \gls{dma}-capable devices that are physically installed in different machines.
 
     
-\begin{description}
-    \item[\objective{disaggregation}:] \Gls{disaggregation} of system memory, device memory, and device \emph{functionality} should be supported, and the solution should be able to distribute component parts to different hosts, as well as provide software facilities for resources that do not support \gls{disaggregation} in hardware.
-\end{description}
+\begin{objective}\label{obj:disaggregation}
+    \Gls{disaggregation} of system memory, device memory, and device \emph{functionality} should be supported, and the solution should be able to distribute component parts to different hosts, as well as provide software facilities for resources that do not support \gls{disaggregation} in hardware.
+\end{objective}
 Because most device drivers are written in a way that assumes exclusive control over a device, some devices implement virtualization support in hardware,~i.e., \gls{sriov}, that makes them appear to a system as having multiple \glspl{vf}. 
 %
 The solution should be able to \lgls{disaggregation}{disaggregate} such \gls{sriov}-capable devices, and distribute their \glspl{vf} to different machines, allowing multiple computers to use the same device simultaneously.
@@ -242,9 +251,11 @@ This would allow multiple machines to simultaneously share the same, non-\gls{sr
 %
 Moreover, the \gls{api} should be designed so that a driver implementation does not need to consider the system-local address space of the computer system where a device is installed, thus alleviating the complexity of programming device drivers for remote devices using \glspl{ntb}.
 
-\begin{description}    
-    \item[\objective{experiments}:] To prove real-world deployment capabilities, the solution should be tested on realistic and relevant workloads and benchmarks.
-\end{description}
+
+
+\begin{objective}\label{obj:experiments}
+    To prove real-world deployment capabilities, the solution should be tested on realistic and relevant workloads and benchmarks.
+\end{objective}
 To confirm that \gls{io} resources can be distributed to, and shared with, remote machines, a comprehensive performance evaluation covering all components of the implementation is needed.
 As the solution should provide \emph{native} \gls{pcie} performance (\cref{obj:performance}), all parts should be thoroughly tested with latency and throughput in mind, in order to reveal any potential performance bottlenecks.
 Standardized test suites should be used as far as possible, to prove that application software really can be unmodified (\cref{obj:transparent}).

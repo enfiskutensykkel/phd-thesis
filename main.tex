@@ -3,9 +3,10 @@
 \documentclass[final,english,colophon]{phduio}
 \usepackage{pdfpages}
 \usepackage{phdstyle}
-\usepackage[toc,acronym,seeautonumberlist]{glossaries}
+\usepackage[toc,acronym]{glossaries}
 \usepackage{glossaries-extra}
 \usepackage{xparse}
+\usepackage[all]{hypcap}
 
 % See the following link for documentation:
 % https://github.com/uio-latex/phduio-article-based
@@ -36,14 +37,51 @@
 
 % Include article (and add some blank pages)
 \DeclareDocumentCommand{\includepaper}{ O{} m m}{
-	%\includearticle[#1]{#2}{#3}
+	\includearticle[#1]{#2}{#3}
     \newpage\thispagestyle{empty}~\newpage\thispagestyle{empty}
 }
 
 
-% Thesis objectives
-\newcounter{objective}
-\newcommand{\objective}[1]{Objective~\refstepcounter{objective}\theobjective\label[objective]{obj:#1}}
+% Thesis research question and proposition/objectives
+\makeatletter
+\newenvironment{question}
+{\begin{quote}\itshape}
+{\end{quote}\ignorespacesafterend\noindent}
+\makeatother
+
+%\declaretheoremstyle[
+%    name={Research Question},
+%    headfont=\bfseries\sffamily,
+%    notefont=\normalfont,
+%    bodyfont=\normalfont\itshape,
+%    headpunct={:},
+%    spaceabove=\topsep,
+%    spacebelow=\topsep,
+%]{question}
+%\declaretheorem[
+%    style=question,
+%    numbered=no,
+%    preheadhook=\ignorespacesafterend,
+%    postheadhook=\noindent\protect\leftskip=2em\rightskip=2em,
+%    postfoothook=\ignorespacesafterend\noindent
+%]{question}
+
+\declaretheoremstyle[
+    name={Objective},
+    headfont=\bfseries\sffamily,
+    notefont=\normalfont,
+    bodyfont=\normalfont,
+    headpunct={:},
+    spaceabove=18pt,
+    spacebelow=6pt,
+    postheadhook=\protect\leftskip=0em\rightskip=0em\hangindent=2.6em,
+    postfoothook=\ignorespacesafterend\noindent
+]{objective}
+\declaretheorem[
+    style=objective,
+    numbered=yes
+]{objective}
+
 \crefname{objective}{Objective}{Objectives}
 \Crefname{objective}{Objective}{Objectives}
 
@@ -53,6 +91,11 @@
 \setabbreviationstyle[acronym]{long-short}
 \def\myglossarytitle{Glossary}
 
+\renewcommand{\glsseeformat}[3][\seename]{%
+    \\*%
+    \emph{#1} \glsseelist{#2}%
+}
+
 % Some terms have both an acronym and needs a glossary entry
 \DeclareDocumentCommand{\newdualentry}{ O{} O{} m m m m }{
 	\newglossaryentry{gls-#3}{
@@ -60,30 +103,32 @@
 		description={#6},#1
 	}
     \makeglossaries
-	\newglossaryentry{#3}{
-		type=\acronymtype,
-		name={#4},
-		description={#5, \glsseeformat[\myglossarytitle:]{gls-#3}{}},
-		long={#5\glsadd{gls-#3}},
+    \newglossaryentry{#3}{
+        type=\acronymtype,
+        name={#4},
+        see={[\myglossarytitle:]{gls-#3}},
+        description={#5},%\glsseeformat[\myglossarytitle:]{gls-#3}{}},
+        long={#5\glsadd{gls-#3}},
         longplural={#5s\glsadd{gls-#3}},
-		text={#4\glsadd{gls-#3}},
-		short={#4\glsadd{gls-#3}},
-		first={#5~(#4)\glsadd{gls-#3}},
+        text={#4\glsadd{gls-#3}},
+        short={#4\glsadd{gls-#3}},
+        first={#5~(#4)\glsadd{gls-#3}},
         firstplural={#5s~(#4s)\glsadd{gls-#3}},#2
-	}
+    }
     \makeglossaries
 }
 
 
-% Some terms need to refer something else in the dictionary
+% Some terms need to refer something else in the glossary
 \DeclareDocumentCommand{\newlinkedacronym}{ O{} m m m m }{
-    \newacronym[%
+    \newacronym[
+        see={[\myglossarytitle:]{#2}},
         first={#5~(#4)\glsadd{#2}},
         firstplural={#5s~(#4s)\glsadd{#2}},
         short={#4\glsadd{#2}},
         long={#5\glsadd{#2}},
         longplural={#5s\glsadd{#2}},#1
-    ]{#3}{#4}{#5 \glsseeformat[\myglossarytitle:]{#2}{}}
+    ]{#3}{#4}{#5}
     \makeglossaries
 }
 
@@ -94,6 +139,12 @@
 \makeglossaries
 \input{glossary}
 \makeglossaries
+
+
+% Reference sections in a paper
+%\DeclareDocumentCommand{\pref}{ m m }{
+    
+
 
 \begin{document}
 	% Folios in Roman numerals, unnumbered chapters.
@@ -141,7 +192,7 @@
 	%\listoftables
 	\cleartorecto
 	\setglossarystyle{list}
-    \printglossary[title=List of acronyms,type=\acronymtype]%,nonumberlist]
+    \printglossary[title=List of abbreviations,type=\acronymtype]%,nonumberlist]
 
 	% Folios in Arabic numerals, numbered chapters.
 	\mainmatter
