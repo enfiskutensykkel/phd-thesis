@@ -35,11 +35,26 @@
 \dissertationseries{xxxx}
 
 
-% Include article (and add some blank pages)
+% Include article
 \DeclareDocumentCommand{\includepaper}{ O{} m m}{
+	% We don't want to prefix section titles with the chapter number in the TOC for the papers
+	\counterwithout{section}{chapter}
+
+	\setcounter{section}{0}
+
+    \newpage\thispagestyle{empty}~\newpage\thispagestyle{empty}
 	\includearticle[#1]{#2}{#3}
+
+	% Restore section titles prefix the chapter number
+	\counterwithin{section}{chapter}
+
+    % Add two blank pages after paper
     \newpage\thispagestyle{empty}~\newpage\thispagestyle{empty}
 }
+
+
+% Refer to a section in a paper from the main body
+\NewDocumentCommand{\paperref}{ m m }{\hyperref[sec:#1-#2]{\cref*{paper:#1}, \cref*{sec:#1-#2}}}
 
 
 % Thesis research question and proposition/objectives
@@ -141,11 +156,6 @@
 \makeglossaries
 
 
-% Reference sections in a paper
-%\DeclareDocumentCommand{\pref}{ m m }{
-    
-
-
 \begin{document}
 	% Folios in Roman numerals, unnumbered chapters.
 	\frontmatter 
@@ -214,25 +224,10 @@
 
 	% Specify size of thumb indices
 	\numberofpapers{5} 
-	
-	% We don't want to prefix section titles with the chapter number in the TOC for the papers
-	\counterwithout{section}{chapter}
 
-	\setcounter{section}{0}
 	\include{sections/paper-nossdav}
-
-	\setcounter{section}{0}
 	\include{sections/paper-mmsys}
-
-	\setcounter{section}{0}
 	\include{sections/paper-srmpds}
-
-	\setcounter{section}{0}
 	\include{sections/paper-cc}
-
-	\setcounter{section}{0}
 	\include{sections/paper-tocs}
-
-	% Restore section titles prefix the chapter number
-	\counterwithin{section}{chapter}
 \end{document}
