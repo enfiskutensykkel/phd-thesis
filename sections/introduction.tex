@@ -63,8 +63,8 @@ This thesis contributes to this goal by ...
 \section{Background and motivation}\label{sec:motivation}
 \begin{figure}
 	\centering
-	\includegraphics[width=.95\textwidth]{Cluster-Overview}
-    \caption{Example of a heterogeneous \glsfmtshort{pcie}-networked cluster with external cables and adapter cards capable of \glsfmtshort{ntb}.}
+    \includegraphics[width=.95\linewidth]{cluster-example}
+    \caption[Example of a heterogeneous \glsfmtshort{pcie}-networked cluster with \glsfmtshort{ntb} adapter cards and external cables]{Example of a heterogeneous \gls{pcie} cluster with external \gls{pcie} links using adapter cards capable of \gls{ntb}. The \glspl{cpu} as well as internal devices of each cluster machine~(node) are all attached to the same \gls{pcie} network fabric.}
   	\label{fig:cluster-example}
 \end{figure}
 
@@ -96,7 +96,6 @@ Using \gls{pcie} networking, built with \gls{pcie} networking can allow resource
 Remote resources, such as memory and \gls{io} devices, can be mapped into a local system and accessed through the \gls{ntb}.
 Similarly, a remote device capable of \gls{dma} may also use the \gls{ntb} to access local resources.
 
-\cite{url:LinuxNTB-Drivers}
 
 %
 %Remote resources, such as memory and I/O devices, can be mapped for a local system through the NTB.

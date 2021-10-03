@@ -1,12 +1,14 @@
 % Suppress warnings about PDF version
 \pdfminorversion=7
-\documentclass[final,english,colophon]{phduio}
+\documentclass[final,USenglish,colophon]{phduio}
 \usepackage{pdfpages}
 \usepackage{phdstyle}
 \usepackage[toc,acronym]{glossaries}
 \usepackage{glossaries-extra}
 \usepackage{xparse}
 \usepackage[all]{hypcap}
+%\usepackage{layout}
+%\usepackage{showframe}
 
 % See the following links for documentation:
 % https://www.mn.uio.no/english/research/phd/thesis-adjudication/layout/latex-template.html
@@ -15,11 +17,6 @@
 %
 % https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/biblatex-guide.pdf
 % https://ctan.uib.no/macros/latex/contrib/biblatex/doc/biblatex.pdf
-
-
-% Can't ever have enough headlines
-\setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{3}
 
 
 \author{Jonas S{\ae}ther Markussen}
@@ -56,11 +53,17 @@
 }
 
 
+% Can't ever have enough headlines
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+
 % Refer to a section in a paper from the main body
 \NewDocumentCommand{\paperref}{ m m }{\hyperref[sec:#1-#2]{\cref*{paper:#1}, \cref*{sec:#1-#2}}}
 
 
-% Thesis research question and proposition/objectives
+% Thesis, research question and proposition/objectives
+
 \makeatletter
 \newenvironment{question}
 {\begin{quote}\itshape}
@@ -99,7 +102,6 @@
     style=objective,
     numbered=yes
 ]{objective}
-
 \crefname{objective}{Objective}{Objectives}
 \Crefname{objective}{Objective}{Objectives}
 
