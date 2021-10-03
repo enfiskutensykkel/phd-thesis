@@ -3,9 +3,10 @@
 \documentclass[final,USenglish,colophon]{phduio}
 \usepackage{pdfpages}
 \usepackage{phdstyle}
-\usepackage[toc,acronym]{glossaries}
+\usepackage[toc,acronym,seeautonumberlist]{glossaries}
 \usepackage{glossaries-extra}
 \usepackage{xparse}
+\usepackage{subcaption}
 \usepackage[all]{hypcap}
 %\usepackage{layout}
 %\usepackage{showframe}
@@ -132,6 +133,7 @@
         longplural={#5s\glsadd{gls-#3}},
         text={#4\glsadd{gls-#3}},
         short={#4\glsadd{gls-#3}},
+        shortplural={#4s\glsadd{gls-#3}},
         first={#5~(#4)\glsadd{gls-#3}},
         firstplural={#5s~(#4s)\glsadd{gls-#3}},#2
     }
@@ -146,6 +148,7 @@
         first={#5~(#4)\glsadd{#2}},
         firstplural={#5s~(#4s)\glsadd{#2}},
         short={#4\glsadd{#2}},
+        shortplural={#4\glsadd{#2}},
         long={#5\glsadd{#2}},
         longplural={#5s\glsadd{#2}},#1
     ]{#3}{#4}{#5}
