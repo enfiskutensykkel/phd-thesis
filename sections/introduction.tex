@@ -64,7 +64,7 @@ This thesis contributes to this goal by ...
 \begin{figure}
 	\centering
     \includegraphics[width=.97\linewidth]{cluster-example}
-    \caption[Example of a heterogeneous \glsfmtshort{pcie}-networked cluster with \glsfmtshort{ntb} adapter cards and external cables]{Example of a heterogeneous \glsxtrshort{pcie} cluster with external \glsxtrshort{pcie} links using adapter cards capable of \glsxtrshort{ntb}. The \glsxtrshortpl{cpu} as well as internal devices of each cluster machine~(node) are all attached to the same \glsxtrshort{pcie} network fabric.}
+    \caption[Example of a heterogeneous \glsfmtshort{pcie}-networked cluster with \glsfmtshort{ntb} adapter cards and external cables]{Example of a heterogeneous \glsxtrshort{pcie} cluster with external \glsxtrshort{pcie} links using adapter cards capable of \glsxtrshort{ntb}. The \glsxtrshortpl{cpu} as well as internal devices of all cluster machines~(nodes) are all attached to the same \glsxtrshort{pcie} network fabric.}
   	\label{fig:cluster-example}
 \end{figure}
 
@@ -96,7 +96,8 @@ Using such \gls{ntb}-capable switch chips to implement peripheral devices, indep
         \includegraphics{direct-access-smartio}
         \caption{Accessing remote resources over native \glsxtrshort{pcie}.}\label{fig:direct-access-smartio}
     \end{subfigure}
-    \caption[Remote hardware can be accessed directly by using \glsfmtshortpl{ntb}]{Many \gls{disaggregation} solutions have performance overheads because they rely on \gls{middleware} or other forms of software facilitation on the remote system. In \glsxtrshort{pcie} networks, remote hardware can be accessed directly without any software in the critical path by setting up memory mappings over the \glsxtrshort{ntb}.}\label{fig:direct-access}
+    \caption[Remote hardware can be accessed directly without any software in the critical path by using \glsfmtshortpl{ntb}]{Many \gls{disaggregation} solutions have performance overheads because they rely on \gls{middleware} or other forms of software facilitation on the remote system. 
+    By setting up memory mappings through the \glsxtrshort{ntb}, remote hardware can be accessed directly without any software in the critical path.}\label{fig:direct-access}
 \end{figure}
 
 

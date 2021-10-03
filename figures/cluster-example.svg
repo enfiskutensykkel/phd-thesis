@@ -28,13 +28,13 @@
      inkscape:snap-object-midpoints="true"
      inkscape:snap-center="true"
      inkscape:snap-grids="true"
-     inkscape:zoom="5.6568545"
-     inkscape:cx="420.28657"
-     inkscape:cy="75.74881"
+     inkscape:zoom="2.0000001"
+     inkscape:cx="75.749997"
+     inkscape:cy="310.99999"
      inkscape:window-width="2558"
-     inkscape:window-height="1409"
-     inkscape:window-x="2560"
-     inkscape:window-y="0"
+     inkscape:window-height="1378"
+     inkscape:window-x="0"
+     inkscape:window-y="31"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      inkscape:snap-bbox="true"
@@ -93,8 +93,8 @@
     <rect
        style="fill:#ececec;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect2403"
-       width="30.398304"
-       height="48.154167"
+       width="30.3983"
+       height="46.831249"
        x="90.487503"
        y="4.7624998"
        rx="0.52916688"
@@ -407,7 +407,7 @@
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#4d4d4d;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.095, 1.095;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 77.1525,35.189583 13.335,17.727084"
+       d="M 77.1525,35.189583 90.4875,51.59375"
        id="path24491"
        sodipodi:nodetypes="cc" />
     <text
@@ -2509,23 +2509,23 @@
        sodipodi:nodetypes="cccc" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker4260)"
-       d="m 48.551043,57.679166 2.613505,-4.568888"
+       d="m 52.784376,57.679166 2.613505,-4.568888"
        id="path150611"
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="81.430779"
-       y="57.056381"
+       x="82.489105"
+       y="53.881378"
        id="text150617"><tspan
          sodipodi:role="line"
-         x="81.430779"
-         y="57.056381"
+         x="82.489105"
+         y="53.881378"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
          id="tspan150615">External</tspan><tspan
          sodipodi:role="line"
-         x="81.430779"
-         y="60.143181"
+         x="82.489105"
+         y="56.968178"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
          id="tspan152927">PCIe Cables</tspan></text>
     <path
@@ -4670,16 +4670,16 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="47.900692"
+       x="52.134026"
        y="60.23138"
        id="text165167"><tspan
          sodipodi:role="line"
-         x="47.900692"
+         x="52.134026"
          y="60.23138"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
          id="tspan165165">PCIe NTB</tspan><tspan
          sodipodi:role="line"
-         x="47.900692"
+         x="52.134026"
          y="63.31818"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
          id="tspan199624">Cluster Switch</tspan></text>
@@ -5010,7 +5010,7 @@
     </g>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker4260)"
-       d="m 78.713541,61.118751 -5.953125,2.645833"
+       d="m 79.771872,57.943749 -5.953125,2.645833"
        id="path200762"
        sodipodi:nodetypes="cc" />
     <path
