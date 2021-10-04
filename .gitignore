@@ -19,6 +19,7 @@ main.ptc
 *.cut
 main.pdf
 main.out
+main.nolist*
 
 .DS_Store
 *~

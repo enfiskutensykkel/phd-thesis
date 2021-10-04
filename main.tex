@@ -108,6 +108,7 @@
 
 
 % Glossary stuff
+\newglossary[nolistg]{nolist}{nolists}{nolisto}{not listed}
 \makeglossaries
 \setabbreviationstyle[acronym]{long-short}
 \def\myglossarytitle{Glossary}
@@ -137,8 +138,26 @@
         first={#5~(#4)\glsadd{gls-#3}},
         firstplural={#5s~(#4s)\glsadd{gls-#3}},#2
     }
+    \newglossaryentry{nolist-#3}{
+        name={#4},
+        long={#5},
+        type=nolist,
+        description={#5},
+        longplural={#5s},
+        short={#4},
+        shortplural={#4s},
+        first={#4},
+        firstplural={#5s},#2
+    }
     \makeglossaries
 }
+
+
+% Get the display text of an abbreviation without linking in the glossary
+\DeclareDocumentCommand{\shortgls}{ m }{\ifglsentryexists{nolist-#1}{\glsfmtshort{nolist-#1}}{\glsfmtshort{#1}}}
+\DeclareDocumentCommand{\shortglspl}{ m }{\ifglsentryexists{nolist-#1}{\glsfmtshortpl{nolist-#1}}{\glsfmtshortpl{#1}}}
+\DeclareDocumentCommand{\longgls}{ m }{\ifglsentryexists{nolist-#1}{\glsfmtlong{nolist-#1}}{\glsfmtlong{#1}}}
+\DeclareDocumentCommand{\longglspl}{ m }{\ifglsentryexists{nolist-#1}{\glsfmtlongpl{nolist-#1}}{\glsfmtlongpl{#1}}}
 
 
 % Some terms need to refer something else in the glossary

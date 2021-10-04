@@ -61,6 +61,12 @@ This thesis contributes to this goal by ...
 
 
 \section{Background and motivation}\label{sec:motivation}
+\begin{figure}
+	\centering
+	\includegraphics{pooling}
+	\caption{TODO}\label{fig:device-pool}
+\end{figure}
+
 \Gls{pcie} is the de~facto standard for connecting devices to a computer system~\cite{Fountain2005}.
 %
 Due to its very low latency overhead and memory addressing properties, using \gls{pcie} as a high-speed interconnection technology is a compelling alternative to traditional networking technologies~\cite{url:Meduri2011,Lim2019}.
@@ -70,13 +76,28 @@ However, because \gls{pcie} was originally designed for connecting devices to th
 Hence, extending the \gls{pcie} bus out of single computer and connecting independent systems to the same \gls{pcie} fabric requires translating memory transactions from one address domain to another.
 
 
-
 \begin{figure}
 	\centering
     \includegraphics[width=.97\linewidth]{cluster-example}
     \caption[Example of a heterogeneous \glsfmtshort{pcie}-networked cluster with \glsfmtshort{ntb} adapter cards and external cables]{Example of a heterogeneous \glsxtrshort{pcie} cluster with external \glsxtrshort{pcie} links using adapter cards capable of \glsxtrshort{ntb}. The \glsxtrshortpl{cpu} as well as internal devices of all cluster machines~(nodes) are all attached to the same \glsxtrshort{pcie} network fabric.}
   	\label{fig:cluster-example}
 \end{figure}
+
+
+%\cite{url:liqid,url:rackscale,url:gigaio}
+%PCIe-based solutions rely on additional virtualization functionality in the PCIe switch
+%chip hardware to partition the PCIe fabric and create virtual device trees for each individual host~\cite{chung2018,microsemi2019}. 
+%%
+%These solutions allow devices to be directly attached a switch rather than a server. 
+%%However, distributing devices is still only possible to hosts that
+%%are directly connected to the same switch.
+%%
+%%Moreover
+%However, these solutions are only able to disaggregate resources at the device level. Sharing the same
+%device with multiple hosts either requires virtualization
+%support in the device itself,~i.e., Single-Root I/O Virtualization~(SR-IOV), 
+%or additional distribution methods, such as RDMA.
+
 
 
 
@@ -124,10 +145,10 @@ This address space awareness greatly increases the programming complexity of dev
 
 
 
-While some \gls{disaggregation} approaches using \glspl{ntb} have been proposed in the past~\cite{Hou2013,Tu2014}, 
+%While some \gls{disaggregation} approaches using \glspl{ntb} have been proposed in the past~\cite{Hou2013,Tu2014}, 
 
 
-\cite{Chung2018,Microsemi2019}. 
+%\cite{Chung2018,Microsemi2019}. 
 %these implementations present solutions where devices are owned by a dedicated server. As distributing
 %resources is generally only possible to hosts that are directly connected to the same switch as this
 %server, these approaches forgo the flexibility of fully distributed cluster computing systems.

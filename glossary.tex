@@ -44,14 +44,14 @@
 {Using the network adapter to copy memory directly onto the network, without going through the network stack}
 
 \newdualentry{ntb}{NTB}{non-transparent bridge}
-{A special \glsfmtshort{pcie} device that translates memory transactions between different address domains}
+{A special \shortgls{pcie} device that translates memory transactions between different address domains}
 
 \newdualentry{bar}{BAR}{Base Address Register}
 {The start address of a memory region of a device, used synonymously for the device memory region itself}
 
 \newglossaryentry{p2p}{
     name={peer-to-peer},
-    description={A \glsfmtshort{pcie} feature allowing two devices to directly transfer data between each other without going through host \glsfmtshort{ram}}
+    description={A \shortgls{pcie} feature allowing two devices to directly transfer data between each other without going through host \shortgls{ram}}
 }
 
 \newglossaryentry{disaggregation}{
@@ -61,7 +61,7 @@
 
 \newglossaryentry{kernel space}{
     name={kernel space},
-    description={Virtual memory and execution privileges suitable for \glsfmtlong{os} kernel and device drivers}
+    description={Virtual memory and execution privileges suitable for \longgls{os} kernel and device drivers}
 }
 
 \newglossaryentry{userspace}{
@@ -71,7 +71,7 @@
 
 \newglossaryentry{passthrough}{
     name={pass-through},
-    description={Allowing a physical hardware device to be accessed directly by a \glsfmtlong{vm} guest by using a system's \glsfmtlong{iommu} to map memory for the device}
+    description={Allowing a physical hardware device to be accessed directly by a \longgls{vm} guest by using a system's \longgls{iommu} to map memory for the device}
 }
 
 \newglossaryentry{guest}{
@@ -82,14 +82,14 @@
 
 \newglossaryentry{host}{
     name={virtual machine host},
-    description={The physical machine running one or more \glsfmtlongpl{vm}},
+    description={The physical machine running one or more \longglspl{vm}},
     text={host}
 }
 
 
 \newglossaryentry{middleware}{
     name={middleware},
-    description={A software service that provides facilitation beyond functionality available from the \glsfmtlong{os}}
+    description={A software service that provides facilitation beyond functionality available from the \longgls{os}}
 }
 
 
@@ -100,12 +100,12 @@
 
 \newglossaryentry{hypervisor}{
 	name={hypervisor},
-	description={Kernel space software on a \glsfmtlong{vm} host, assisting and facilitating a virtual machine emulator (such as Qemu)}
+	description={Kernel space software on a \longgls{vm} host, assisting and facilitating a virtual machine emulator (such as Qemu)}
 }
 
 
 \newdualentry{iommu}{IOMMU}{I/O Memory Management Unit}
-{A unit embedded on the \glsfmtlong{cpu} that creates separate virtual address spaces for devices and prevents \glsfmtlong{dma} transactions outside these virtual address spaces}
+{A unit embedded on the \longgls{cpu} that creates separate virtual address spaces for devices and prevents \longgls{dma} transactions outside these virtual address spaces}
 
 
 \newlinkedacronym{hypervisor}{kvm}{KVM}{Linux kernel-based virtual machine hypervisor}
