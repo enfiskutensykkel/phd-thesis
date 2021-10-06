@@ -3,8 +3,8 @@
 
 <svg
    width="345pt"
-   height="154pt"
-   viewBox="0 0 121.70833 54.327787"
+   height="155pt"
+   viewBox="0 0 121.70833 54.680565"
    version="1.1"
    id="svg1742"
    inkscape:version="1.1 (ce6663b3b7, 2021-05-25)"
@@ -25,8 +25,8 @@
      showgrid="true"
      units="pt"
      inkscape:zoom="3.7946874"
-     inkscape:cx="79.980238"
-     inkscape:cy="167.60274"
+     inkscape:cx="259.17813"
+     inkscape:cy="184.2049"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -1585,11 +1585,10 @@
            sodipodi:role="line">Cluster Node</tspan></text>
     </g>
     <g
-       id="g73444"
-       transform="matrix(0.63360348,0,0,0.63360348,71.807652,36.338477)">
+       id="g15571">
       <g
          id="g232577"
-         transform="matrix(0.76082656,0,0,0.76082656,-121.81664,-51.383821)">
+         transform="matrix(0.48206236,0,0,0.48206236,-5.375795,3.7815092)">
         <path
            style="display:inline;fill:#668000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0674588px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            d="m 88.436921,74.773365 v 8.095059 l -0.09255,1.004494 h 2.38125 v -1.058333 h 3.33375 l 4e-6,1.322916 2.381246,-10e-7 v -1.322915 h 0.47625 l 4e-6,1.322916 h 9.525005 l 3e-5,-1.322916 h 5.36951 v -8.041219 z"
@@ -1763,22 +1762,21 @@
       </g>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2449px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="-44.494537"
-         y="8.5935678"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.155169px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="43.615757"
+         y="42.050846"
          id="text228746"><tspan
            sodipodi:role="line"
            id="tspan228744"
-           x="-44.494537"
-           y="8.5935678"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.2449px">GPU</tspan></text>
+           x="43.615757"
+           y="42.050846"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.155169px">GPU</tspan></text>
     </g>
     <g
-       id="g73316"
-       transform="matrix(0.63360348,0,0,0.63360348,71.976667,66.550653)">
+       id="g15629">
       <g
          id="g212990"
-         transform="matrix(0.76082656,0,0,0.76082656,-121.87355,-59.697743)">
+         transform="matrix(0.48206236,0,0,0.48206236,-5.2428384,28.725955)">
         <path
            inkscape:connector-curvature="0"
            id="path14960"
@@ -1928,22 +1926,21 @@
       </g>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:3.34068px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.19682px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="-45.390282"
-         y="-27.906189"
+         style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.124706px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="43.217228"
+         y="49.090786"
          id="text15014"><tspan
            sodipodi:role="line"
            id="tspan15012"
-           x="-45.390282"
-           y="-27.906189"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.19682px">NVMe</tspan></text>
+           x="43.217228"
+           y="49.090786"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.124706px">NVMe</tspan></text>
     </g>
     <g
-       id="g73520"
-       transform="matrix(0.63360348,0,0,0.63360348,55.360684,47.601566)">
+       id="g15667">
       <g
          id="g233726"
-         transform="matrix(0.76082656,0,0,0.76082656,-121.48755,-59.286641)">
+         transform="matrix(0.48206236,0,0,0.48206236,-21.61425,10.566508)">
         <path
            style="display:inline;fill:#668000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0674588px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            d="m 88.436921,68.423364 v 8.095059 l -0.09255,1.004494 h 2.38125 v -1.058333 h 3.33375 l 4e-6,1.322916 2.381246,-10e-7 v -1.322915 h 0.47625 l 4e-6,1.322916 h 9.525005 l 3e-5,-1.322916 h 5.36951 v -8.041219 z"
@@ -2053,22 +2050,21 @@
       </g>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2449px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="-44.107384"
-         y="-3.0698364"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.155169px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="27.414093"
+         y="46.415989"
          id="text233907"><tspan
            sodipodi:role="line"
            id="tspan233905"
-           x="-44.107384"
-           y="-3.0698364"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.2449px">NIC</tspan></text>
+           x="27.414093"
+           y="46.415989"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.155169px">NIC</tspan></text>
     </g>
     <g
-       id="g16510"
-       transform="matrix(0.63360348,0,0,0.63360348,35.851079,39.410319)">
+       id="g15721">
       <g
          id="g16504"
-         transform="matrix(0.76082656,0,0,0.76082656,-121.81664,-51.383821)">
+         transform="matrix(0.48206236,0,0,0.48206236,-41.332368,7.3825152)">
         <path
            style="display:inline;fill:#668000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0674588px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            d="m 88.436921,74.773365 v 8.095059 l -0.09255,1.004494 h 2.38125 v -1.058333 h 3.33375 l 4e-6,1.322916 2.381246,-10e-7 v -1.322915 h 0.47625 l 4e-6,1.322916 h 9.525005 l 3e-5,-1.322916 h 5.36951 v -8.041219 z"
@@ -2242,15 +2238,15 @@
       </g>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2449px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="-44.494537"
-         y="8.5935678"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.155169px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="7.654768"
+         y="45.651085"
          id="text16508"><tspan
            sodipodi:role="line"
            id="tspan16506"
-           x="-44.494537"
-           y="8.5935678"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.2449px">GPU</tspan></text>
+           x="7.654768"
+           y="45.651085"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.155169px">GPU</tspan></text>
     </g>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#4d4d4d;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -3805,11 +3801,10 @@
        d="m 95.621615,0.38547416 a 6.4052389,6.4052389 0 0 0 -1.270803,0.14371307 l -0.131591,0.02987 A 6.4052389,6.4052389 0 0 0 90.739655,2.7464741 7.2058937,8.0065485 0 0 0 86.175299,2.1666232 l -0.148015,0.03729 a 7.2058937,8.0065485 0 0 0 -5.349845,9.6020738 7.2058937,8.0065485 0 0 0 8.613609,5.994747 7.2058937,8.0065485 0 0 0 0.586338,-0.18351 5.604584,6.4052389 0 0 0 6.265125,3.425851 5.604584,6.4052389 0 0 0 3.189635,-2.332612 4.8039293,4.8039293 0 0 0 3.839074,0.771023 4.8039293,4.8039293 0 0 0 0.0468,-0.0122 4.8039293,4.8039293 0 0 0 4.75716,1.613507 4.8039293,4.8039293 0 0 0 3.71711,-5.104643 4.0032742,4.8039293 0 0 0 2.51087,0.300713 4.0032742,4.8039293 0 0 0 3.02255,-5.723354 4.0032742,4.8039293 0 0 0 -1.6028,-2.882593 5.604584,4.8039293 0 0 0 -0.0364,-1.9213367 5.604584,4.8039293 0 0 0 -6.65489,-3.6571301 l -0.11507,0.02237 a 5.604584,4.8039293 0 0 0 -3.01184,1.608499 4.8039293,4.8039293 0 0 0 -4.71057,-1.630862 l -0.0988,0.02237 a 4.8039293,4.8039293 0 0 0 -0.69072,0.22393 6.4052389,6.4052389 0 0 0 -4.682967,-1.95526994 z"
        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
     <g
-       id="g28207"
-       transform="matrix(0.5539526,0,0,0.5539526,115.56048,3.2418282)">
+       id="g15367">
       <g
          id="g28201"
-         transform="matrix(0.76082656,0,0,0.76082656,-121.81664,-51.383821)">
+         transform="matrix(0.42146185,0,0,0.42146185,48.079836,-25.222373)">
         <path
            style="display:inline;fill:#668000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0674588px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            d="m 88.436921,74.773365 v 8.095059 l -0.09255,1.004494 h 2.38125 v -1.058333 h 3.33375 l 4e-6,1.322916 2.381246,-10e-7 v -1.322915 h 0.47625 l 4e-6,1.322916 h 9.525005 l 3e-5,-1.322916 h 5.36951 v -8.041219 z"
@@ -3983,22 +3978,21 @@
       </g>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2449px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="-44.494537"
-         y="8.5935678"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11666px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.135663px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="90.912613"
+         y="8.2835245"
          id="text28205"><tspan
            sodipodi:role="line"
            id="tspan28203"
-           x="-44.494537"
-           y="8.5935678"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.2449px">GPU</tspan></text>
+           x="90.912613"
+           y="8.2835245"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11666px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.135663px">GPU</tspan></text>
     </g>
     <g
-       id="g28265"
-       transform="matrix(0.5539526,0,0,0.5539526,118.0279,29.936028)">
+       id="g15479">
       <g
          id="g28259"
-         transform="matrix(0.76082656,0,0,0.76082656,-121.87355,-59.697743)">
+         transform="matrix(0.42146185,0,0,0.42146185,50.51573,-3.1336919)">
         <path
            inkscape:connector-curvature="0"
            id="path28209"
@@ -4148,22 +4142,21 @@
       </g>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:3.34068px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.19682px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="-45.390282"
-         y="-27.906189"
+         style="font-style:normal;font-weight:normal;font-size:1.97556px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.109029px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="92.883835"
+         y="14.651231"
          id="text28263"><tspan
            sodipodi:role="line"
            id="tspan28261"
-           x="-45.390282"
-           y="-27.906189"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.19682px">NVMe</tspan></text>
+           x="92.883835"
+           y="14.651231"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.97556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.109029px">NVMe</tspan></text>
     </g>
     <g
-       id="g28303"
-       transform="matrix(0.5539526,0,0,0.5539526,129.7116,8.8053309)">
+       id="g15517">
       <g
          id="g28297"
-         transform="matrix(0.76082656,0,0,0.76082656,-121.48755,-59.286641)">
+         transform="matrix(0.42146185,0,0,0.42146185,62.413256,-24.036658)">
         <path
            style="display:inline;fill:#668000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0674588px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            d="m 88.436921,68.423364 v 8.095059 l -0.09255,1.004494 h 2.38125 v -1.058333 h 3.33375 l 4e-6,1.322916 2.381246,-10e-7 v -1.322915 h 0.47625 l 4e-6,1.322916 h 9.525005 l 3e-5,-1.322916 h 5.36951 v -8.041219 z"
@@ -4273,22 +4266,21 @@
       </g>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2449px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="-44.107384"
-         y="-3.0698364"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.97556px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.135663px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="105.2782"
+         y="7.3131919"
          id="text28301"><tspan
            sodipodi:role="line"
            id="tspan28299"
-           x="-44.107384"
-           y="-3.0698364"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.2449px">NIC</tspan></text>
+           x="105.2782"
+           y="7.3131919"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.97556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.135663px">NIC</tspan></text>
     </g>
     <g
-       id="g28357"
-       transform="matrix(0.5539526,0,0,0.5539526,131.56169,8.5298119)">
+       id="g15421">
       <g
          id="g28351"
-         transform="matrix(0.76082656,0,0,0.76082656,-121.81664,-51.383821)">
+         transform="matrix(0.42146185,0,0,0.42146185,64.081046,-19.934389)">
         <path
            style="display:inline;fill:#668000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0674588px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            d="m 88.436921,74.773365 v 8.095059 l -0.09255,1.004494 h 2.38125 v -1.058333 h 3.33375 l 4e-6,1.322916 2.381246,-10e-7 v -1.322915 h 0.47625 l 4e-6,1.322916 h 9.525005 l 3e-5,-1.322916 h 5.36951 v -8.041219 z"
@@ -4462,37 +4454,37 @@
       </g>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2449px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="-44.494537"
-         y="8.5935678"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.97556px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.135663px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="106.91383"
+         y="13.49098"
          id="text28355"><tspan
            sodipodi:role="line"
            id="tspan28353"
-           x="-44.494537"
-           y="8.5935678"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.34068px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.2449px">GPU</tspan></text>
+           x="106.91383"
+           y="13.49098"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.97556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.135663px">GPU</tspan></text>
     </g>
     <text
        xml:space="preserve"
        style="font-size:2.46944px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="26.729961"
-       y="54.040245"
+       y="54.569412"
        id="text30987"><tspan
          sodipodi:role="line"
          id="tspan30985"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:0.264583px"
          x="26.729961"
-         y="54.040245">Individual Devices</tspan></text>
+         y="54.569412">Individual Devices</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.46944px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="99.225792"
-       y="54.040245"
+       y="54.569412"
        id="text39055"><tspan
          sodipodi:role="line"
          id="tspan39053"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:0.264583px"
          x="99.225792"
-         y="54.040245">Shared Pool of Devices</tspan></text>
+         y="54.569412">Shared Pool of Devices</tspan></text>
   </g>
 </svg>

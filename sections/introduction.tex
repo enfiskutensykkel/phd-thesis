@@ -5,13 +5,13 @@ For example, many computing clusters rely on compute accelerators, such as \glsp
 %
 In recent years, we have also seen a convergence of the high-performance computing, big~data, and machine~learning research fields.
 %
-This has led to new demands to \gls{io} performance where fast access to high-volume storage devices is becoming a requirement for high-performance computing, while low latency networking and making use of compute accelerators have become cloud computing issues~\cite{Trivedi2011,Coates2013,Taherkordi2018}.
+This development has led to new demands to \gls{io} performance where fast access to high-volume storage devices is becoming a requirement for high-performance computing, while low latency networking and making use of compute accelerators have become cloud computing issues~\cite{Trivedi2011,Coates2013,Taherkordi2018}.
 %
-If devices are distributed scarcely in the cluster, cluster machines with \gls{io} resources may become bottlenecks, for example when a workload requires heavy computation on \glspl{gpu} or fast access to storage.
+If such devices are scarcely distributed in the cluster, cluster machines with \gls{io} resources may become bottlenecks, for example when a workload requires heavy computation on \glspl{gpu} or fast access to storage.
 %
-Contrarily, over-provisioning machines with resources may lead to devices becoming underutilized if the workload's \gls{io} demands are more sporadic.
+Contrarily, over-provisioning machines with resources may lead to devices becoming underutilized if a workload's \gls{io} demands are more sporadic.
 %
-Heterogeneous workloads may even require widely different compositions of devices and memory resources for individual machines in the cluster.
+Distributed processing workloads may even require a heterogeneous cluster design, with widely different compositions of devices and memory resources for individual machines in the cluster.
 %
 Being able to share and partition devices between machines in a cluster in run-time leads to more efficient utilization, as individual machines may dynamically scale up or down \gls{io} resources based on current workload requirements.
 
@@ -47,16 +47,25 @@ This is the case for \gls{nvmeof}, where \gls{rdma} is used to provide direct ac
 Similarly, the result of a \gls{gpu} computation may be copied out of \gls{gpu} memory and onto the network directly using \gls{rdma}, without being copied to system memory first and going through the network stack~\cite{Venkatesh2014}.
 %
 However, while \gls{rdma} allows data to be transferred efficiently over the network, translation between the network protocol and the local \gls{io} bus is unavoidable. 
+%
 Compared to accessing a local device, this protocol translation incurs latency overheads that are not insignificant.
 %
-Moreover, since \gls{rdma} requires the use of specific programming models like message-passing~\cite{Jiang2004}, \gls{disaggregation} solutions based on \gls{rdma} are usually implemented either as application-specific \gls{middleware}, or as part of the application itself.
-
-
-
-In order to meet the latency and throughput requirements of data-driven and compute-heavy workloads in cluster computing applications,
-there is a need for a solution that enables dynamic scaling and efficient sharing of resources between networked machines. 
+Moreover, as \gls{rdma} requires the use of specific programming models like message-passing~\cite{Jiang2004}, \gls{disaggregation} solutions based on \gls{rdma} are usually implemented either as application-specific \gls{middleware}, or as part of the application itself.
 %
-This thesis contributes to this goal by ...
+The sharing capabilities of an \gls{rdma} solution is, therefore, often limited to a single (type of) device. 
+Sharing different types of devices, for example both \glspl{gpu} and \glspl{nvme}, not only requires multiple, distinct \gls{disaggregation} implementations, but integrating these different implementations with each other may also be a challenge.
+
+
+
+To increase \gls{io} resource utilization in a computing cluster, there is a need for a general solution that enables dynamic scaling and cost-effective resource sharing between networked machines.
+%
+This dissertation contributes to this goal by presenting a system for sharing resources and distributing devices in a heterogeneous cluster interconnected with \gls{pcie}.
+%
+%We have
+
+%Our solution facilitates distributed \gls{io} without introducing needless performance overheads in order to meet the latency and throughput requirements of data-driven and compute-heavy workloads in cluster computing applications.
+
+%
 
 
 
