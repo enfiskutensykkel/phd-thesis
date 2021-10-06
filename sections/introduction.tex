@@ -1,4 +1,13 @@
 \chapter{Introduction}\label{chapter:intro}
+\begin{figure}
+	\centering
+	\includegraphics{pooling}
+    \caption
+    [If machines could pool their internal devices, cluster nodes could dynamically compose the \glsfmtshort{io} infrastructure by borrowing devices from other machines]
+    {If machines could pool their internal devices, it would be possible to avoid queuing work on dedicated machines with particular device configurations. Instead, cluster nodes (machines) could dynamically compose the \gls{io} infrastructure needed to meet a workload's \gls{io} requirements, by borrowing devices from other machines and releasing them when they are no longer needed.}
+    \label{fig:device-pool}
+\end{figure}
+
 Cluster computing applications often have high requirements to \gls{io} performance.
 %
 For example, many computing clusters rely on compute accelerators, such as \glspl{gpu} and \glspl{fpga}, to increase the processing speed.
@@ -13,7 +22,7 @@ Contrarily, over-provisioning machines with resources may lead to devices becomi
 %
 Distributed processing workloads may even require a heterogeneous cluster design, with widely different compositions of devices and memory resources for individual machines in the cluster.
 %
-Being able to share and partition devices between machines in a cluster in run-time leads to more efficient utilization, as individual machines may dynamically scale up or down \gls{io} resources based on current workload requirements.
+Being able to share and partition devices between machines in a cluster in run-time leads to more efficient utilization, as individual machines may dynamically scale up or down \gls{io} resources based on current workload requirements (\cref{fig:device-pool}).
 
 
 
@@ -52,38 +61,27 @@ Compared to accessing a local device, this protocol translation incurs latency o
 %
 Moreover, as \gls{rdma} requires the use of specific programming models like message-passing~\cite{Jiang2004}, \gls{disaggregation} solutions based on \gls{rdma} are usually implemented either as application-specific \gls{middleware}, or as part of the application itself.
 %
-The sharing capabilities of an \gls{rdma} solution is, therefore, often limited to a single (type of) device. 
-Sharing different types of devices, for example both \glspl{gpu} and \glspl{nvme}, not only requires multiple, distinct \gls{disaggregation} implementations, but integrating these different implementations with each other may also be a challenge.
+The sharing capabilities of \gls{rdma} solutions are, therefore, often limited to a single (type of) device.
+Sharing several kinds of devices, for example both \glspl{gpu} and \glspl{nvme}, not only requires different \gls{disaggregation} implementations, but integrating these distinct implementations with each other may also be a challenge.
 
 
 
-To increase \gls{io} resource utilization in a computing cluster, there is a need for a general solution that enables dynamic scaling and cost-effective resource sharing between networked machines.
-%
-This dissertation contributes to this goal by presenting a system for sharing resources and distributing devices in a heterogeneous cluster interconnected with \gls{pcie}.
-%
-%We have
 
-%Our solution facilitates distributed \gls{io} without introducing needless performance overheads in order to meet the latency and throughput requirements of data-driven and compute-heavy workloads in cluster computing applications.
+%There is a need for a flexible yet simple-to-use solution for sharing resources and enabling distributed \gls{io} among networked machines, 
+%that does not forgo the performance needed to meet latency and throughput requirements of data-driven and compute-heavy workloads.
 
 %
-
+%There is a need for a more fundamental approach to sharing resources between machines in a cluster 
+%solution that enables sharing on a more fundamental level than \gls{rdma} \gls{disaggregation} and virtualization is needed.
+%%
+%Distributed \gls{io} must be enabled
+%that enable sharing on multiple abstraction levels: distributing devices to physical machines in the cluster, distributing devices to \glspl{vm} running on host~machines in the cluster, and providing \gls{disaggregation} capabilities 
+%In order to meet the latency and throughput requirements
+%To increase \gls{io} resource utilization in a computing cluster, there is a need for a general solution that enables dynamic scaling and cost-effective resource sharing between networked machines.
+%%Our solution facilitates distributed \gls{io} without introducing needless performance overheads in order to meet the latency and throughput requirements of data-driven and compute-heavy workloads in cluster computing applications.
 
 
 \section{Background and motivation}\label{sec:motivation}
-\begin{figure}
-	\centering
-	\includegraphics{pooling}
-	\caption{TODO}\label{fig:device-pool}
-\end{figure}
-
-\Gls{pcie} is the de~facto standard for connecting devices to a computer system~\cite{Fountain2005}.
-%
-Due to its very low latency overhead and memory addressing properties, using \gls{pcie} as a high-speed interconnection technology is a compelling alternative to traditional networking technologies~\cite{url:Meduri2011,Lim2019}.
-%
-However, because \gls{pcie} was originally designed for connecting devices to the \gls{cpu} on a motherboard, individual computer systems operate with different \gls{pcie} address domains.
-%
-Hence, extending the \gls{pcie} bus out of single computer and connecting independent systems to the same \gls{pcie} fabric requires translating memory transactions from one address domain to another.
-
 
 \begin{figure}
 	\centering
@@ -91,7 +89,14 @@ Hence, extending the \gls{pcie} bus out of single computer and connecting indepe
     \caption[Example of a heterogeneous \glsfmtshort{pcie}-networked cluster with \glsfmtshort{ntb} adapter cards and external cables]{Example of a heterogeneous \glsxtrshort{pcie} cluster with external \glsxtrshort{pcie} links using adapter cards capable of \glsxtrshort{ntb}. The \glsxtrshortpl{cpu} as well as internal devices of all cluster machines~(nodes) are all attached to the same \glsxtrshort{pcie} network fabric.}
   	\label{fig:cluster-example}
 \end{figure}
-
+%
+\Gls{pcie} is the de~facto standard for connecting devices to a computer system~\cite{Fountain2005}.
+%
+Due to its very low latency overhead and memory addressing properties, using \gls{pcie} as a high-speed interconnection technology is a compelling alternative to traditional networking technologies~\cite{url:Meduri2011,Lim2019}.
+%
+However, because \gls{pcie} was originally designed for connecting devices to the \gls{cpu} on a motherboard, individual computer systems operate with different \gls{pcie} address domains.
+%
+Hence, extending the \gls{pcie} bus out of single computer and connecting independent systems to the same \gls{pcie} fabric requires translating memory transactions from one address domain to another.
 
 %\cite{url:liqid,url:rackscale,url:gigaio}
 %PCIe-based solutions rely on additional virtualization functionality in the PCIe switch
@@ -106,8 +111,6 @@ Hence, extending the \gls{pcie} bus out of single computer and connecting indepe
 %device with multiple hosts either requires virtualization
 %support in the device itself,~i.e., Single-Root I/O Virtualization~(SR-IOV), 
 %or additional distribution methods, such as RDMA.
-
-
 
 
 By far, the most common way of translating addresses between different \gls{pcie} address domains is by using a special type of device called \gls{ntb}~\cite{whitepaper:PLX,whitepaper:Regula2004,Tu2018}.
@@ -131,8 +134,10 @@ Using such \gls{ntb}-capable switch chips to implement peripheral devices, indep
         \includegraphics{direct-access-smartio}
         \caption{Accessing remote resources over native \glsxtrshort{pcie}.}
     \end{subfigure}
-    \caption[Remote hardware can be accessed directly without any software in the critical path by using \glsfmtshortpl{ntb}]{Many \gls{disaggregation} solutions have performance overheads because they rely on \gls{middleware} or other forms of software facilitation on the remote system. 
-    By setting up memory mappings through the \glsxtrshort{ntb}, remote hardware can be accessed directly without any software in the critical path.}\label{fig:direct-access}
+    \caption
+    [Remote hardware can be accessed directly without any software in the critical path by using \glsfmtshortpl{ntb}]
+    {Many \gls{disaggregation} solutions have performance overheads because they rely on \gls{middleware} or other forms of software facilitation on the remote system. By setting up memory mappings through the \glsxtrshort{ntb}, remote hardware can be accessed directly without any software in the critical path.}
+    \label{fig:direct-access}
 \end{figure}
 
 
@@ -149,7 +154,9 @@ As illustrated in Figure~\ref{fig:direct-access}, software overhead can be avoid
 This eliminates the need to use memory on the remote node as an intermediate step when transferring data.
 %
 However, setting up such \gls{ntb} mappings requires awareness of the address space on the remote system.
-For example, a device driver must use addresses that corresponds with the remote device's address space when initiating \gls{dma} transfers,.
+%
+For example, a device driver must use addresses that corresponds with the remote device's address space when initiating \gls{dma} transfers.
+%
 This address space awareness greatly increases the programming complexity of device drivers. 
 
 
