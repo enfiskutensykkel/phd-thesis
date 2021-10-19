@@ -65,41 +65,26 @@ The sharing capabilities of \gls{rdma} solutions are, therefore, often limited t
 Sharing several types of devices, for example both \glspl{gpu} and \glspl{nvme}, usually requires multiple \gls{disaggregation} implementations, and integrating them with each other may be a challenge.
 
 
-
-
-There is a need for a solution for sharing resources among networked machines in a cluster that not only makes it possible to share \emph{all} types of \gls{io} devices, but should also unify the 
-
-in a unified manner, 
-
-but also makes accessing remote resources indistinguishable from using local resources in order
-
-with minimal performance overhead.
-
-shared resources indistinguishable with local resources
-
-generic
-enables sharing at different abstraction levels: 
-(I)~distributing devices to physical machines in the cluster, (II)~distributing devices to \glspl{vm} running on different host~machines in the cluster, and (III)~facilitating \gls{disaggregation} of devices and memory resources in software.
+There is a need for a solution that both enables sharing on a more fundamental level than \gls{rdma} implementations, and provides greater flexibility than what is currently possible using virtualization.
 %
-This dissertation contributes to this goal by presenting a system for sharing and distributing \gls{io} devices among machines in a shared-memory cluster interconnected with \gls{pcie}.
-
-In order to increase the \gls{io} resource utilization in a computing cluster, 
+This dissertation contributes to this goal by presenting a system for sharing and distributing \gls{io} devices among cluster machines interconnected with \gls{pcie}.
 %
-Furthermore, to meet the latency and throughput requirements of data-driven cluster computing applications, the solution should support distributed \gls{io} with minimal performance overhead and without forgoing flexibility.
-
-
-
-%that does not forgo the performance needed to meet latency and throughput requirements of data-driven and compute-heavy workloads.
-
+By leveraging the shared-memory functionality supported by the \gls{pcie} interconnection hardware, using memory and devices in remote machines becomes indistinguishable from using resources attached to the local \gls{pcie} bus.
 %
-%There is a need for a more fundamental approach to sharing resources between machines in a cluster 
-%solution that enables sharing on a more fundamental level than \gls{rdma} \gls{disaggregation} and virtualization is needed.
-%%
-%Distributed \gls{io} must be enabled
-%that enable sharing on multiple abstraction levels: distributing devices to physical machines in the cluster, distributing devices to \glspl{vm} running on host~machines in the cluster, and providing \gls{disaggregation} capabilities 
-%In order to meet the latency and throughput requirements
-%To increase \gls{io} resource utilization in a computing cluster, there is a need for a general solution that enables dynamic scaling and cost-effective resource sharing between networked machines.
-%%Our solution facilitates distributed \gls{io} without introducing needless performance overheads in order to meet the latency and throughput requirements of data-driven and compute-heavy workloads in cluster computing applications.
+Application software no longer needs to be written with accessing remote resources in mind, but can be implemented as if all resources are local.
+%
+Furthermore, by relying on native \gls{pcie}, our system not only supports sharing of all types of \gls{pcie} devices, but also allows remote resources to be accessed with performance comparable to accessing a local device.
+%
+Finally, as our system enables resource sharing at multiple abstraction levels, devices may be distributed to remote host~machines and \glspl{vm} alike.
+%
+Devices or memory may even be \lgls{disaggregation}{disaggregated} and shared with several machines simultaneously, without requiring virtualization support in device hardware or a complex software infrastructure.
+
+
+
+Using our system, memory and \gls{pcie} devices are no longer locked to individual machines and resources can be shared freely with other machines in the cluster without requiring virtualization or \gls{rdma}. 
+%
+The overall resource utilization in the cluster is increased, making it easier to meet the latency and throughput requirements of data-driven and compute-heavy cluster applications.
+
 
 
 \section{Background and motivation}\label{sec:motivation}
