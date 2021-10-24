@@ -1,12 +1,11 @@
 \chapter{Introduction}\label{chapter:intro}
 
-\section{Background and motivation}\label{sec:motivation}
 \begin{figure}
 	\centering
 	\includegraphics{pooling}
     \caption
     [If machines could pool their internal devices, cluster nodes could dynamically compose the \glsfmtshort{io} infrastructure by borrowing devices from other machines]
-    {If machines could pool their internal devices, it would be possible to avoid queuing work on dedicated machines with particular device configurations. Instead, cluster nodes (machines) could dynamically compose the \gls{io} infrastructure needed to meet a workload's \gls{io} requirements, by borrowing devices from other machines and releasing them when they are no longer needed.}
+    {If machines could pool their internal devices, it would be possible to avoid queuing work on dedicated machines with particular device configurations. Instead, cluster nodes (machines) could dynamically compose the \gls{io} infrastructure needed to meet a workload's \gls{io} requirements, by borrowing devices from each other and releasing them when they are no longer needed.}
     \label{fig:device-pool}
 \end{figure}
 
@@ -18,20 +17,37 @@ In recent years, we have also seen a convergence of the high-performance computi
 %
 This development has led to new demands to \gls{io} performance where fast access to high-volume storage devices is becoming a requirement for high-performance computing, while low latency networking and making use of compute accelerators have become cloud computing issues~\cite{Trivedi2011,Coates2013,Taherkordi2018}.
 %
-If such devices are scarcely distributed in the cluster, cluster machines with \gls{io} resources may become bottlenecks, for example when a workload requires heavy computation on \glspl{gpu} or fast access to storage.
+If \gls{io} resources~(devices) are scarcely distributed in the cluster, cluster machines with \gls{io} resources may become bottlenecks, for example when a workload requires heavy computation on \glspl{gpu} or fast access to storage.
 %
 Contrarily, over-provisioning machines with resources may lead to devices becoming underutilized if a workload's \gls{io} demands are more sporadic.
 %
 Distributed processing workloads may even require a heterogeneous cluster design, with widely different compositions of devices and memory resources for individual machines in the cluster.
 %
-Being able to share and partition devices between machines in a cluster in run-time leads to more efficient utilization, as individual machines may dynamically scale up or down \gls{io} resources based on current workload requirements (\cref{fig:device-pool}).
+Being able to share and partition devices between cluster machines in run-time leads to more efficient utilization, as individual machines may dynamically scale up or down \gls{io} resources based on current workload requirements (\cref{fig:device-pool}).
+
+
+In order to meet the challenging latency and throughput requirements of data-driven and compute-heavy workloads, there is a need for flexible, yet efficient, sharing of \gls{io} resources in a networked computing cluster.
+%
+This dissertation contributes to this by presenting a solution that enables distributing devices and sharing memory resources between machines interconnected with \gls{pcie}.
+%
+By leveraging memory mapping functionality supported by the \gls{pcie} networking hardware, our solution makes it possible to use resources residing in remote machines in a manner that is indistinguishable from using resources attached to the local \gls{pcie} bus.
+%
+Whether resources are local or remote is made transparent to application software, \gls{os}, and even device drivers.
+%
+Not only does this make it possible to increase the overall resource utilization in the cluster, but it becomes easier to implement distributed applications.
+%
+Application software no longer needs to be written with accessing remote resources in mind, but can be implemented as if all resources are local.
+%
+Using our solution, \gls{io} resources are no longer locked to individual machines as memory and \gls{pcie} devices can be shared freely with other machines in the cluster.
 
 
 
-In cloud computing environments, such dynamic scaling and resource partitioning is often handled through virtualization. 
+\section{Background and motivation}\label{sec:motivation}
+In cloud computing environments, dynamically scaling and partitioning \gls{io} resources is often handled through virtualization. 
+%
 \Gls{vm} \glspl{hypervisor} may dynamically add virtual \gls{io} devices to \gls{vm} instances on demand.
 %
-It is even possible to temporarily suspend computation to migrate \glspl{vm} to \gls{host} machines with more hardware resources available, should the requirements of a \gls{vm} \gls{guest} exceed the available local resources.
+It is even possible to temporarily suspend computation to migrate \glspl{vm} to \gls{host} machines with more hardware resources available, should the requirements of a \gls{vm} \gls{guest} exceed the available local physical resources.
 %
 However, resource virtualization may not be viable when the raw, bare-metal \gls{io} performance is required, for example in the case of \gls{gpu}-intensive machine~learning workloads.
 %
@@ -39,14 +55,15 @@ In this regard, it is possible to \lgls{passthrough}{``pass through''} physical 
 %
 The \gls{iommu} facilitates direct access to hardware from the \gls{guest} without compromising the virtualized environment.
 %
-Although \gls{passthrough} allows physical hardware to be used with minimal software overhead, this technique suffers from a lack of flexibility as the physical devices are tightly coupled with the hosts they are installed in.
+However, although \gls{passthrough} allows physical hardware to be used with minimal software overhead, this technique suffers from a lack of flexibility as the physical devices are tightly coupled with the hosts they are installed in.
 %
 Distributing VMs across hosts in the network in a way that maximizes resource utilization and adapts dynamically to varying \gls{io} requirements, without sacrificing the bare-metal performance that pass-through provides, remains a challenge.
 
 
 
 Another challenge is the networking technology itself. 
-Despite having been a research topic for decades, moving data to remote units over a network remains a costly operation that introduces large performance overheads compared to using local resources.
+%
+Despite having been a research topic for decades, moving data to remote computing units over a network remains a costly operation that introduces large performance overheads compared to using local resources.
 %
 As such, many \glspl{nic} support zero-copy of application memory from one system to another through \gls{rdma}~\cite{Huang2012}.
 %
