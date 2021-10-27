@@ -46,7 +46,7 @@ This makes it possible to scale out and use more hardware resources than there a
 
 
 \section{Background and motivation}\label{sec:motivation}
-In cloud computing environments, dynamically scaling and partitioning of \gls{io} resources is often handled through virtualization. 
+In cloud computing environments, dynamically scaling \gls{io} resources is often accomplished through virtualization. 
 %
 \Gls{vm} \glspl{hypervisor} may dynamically add virtual \gls{io} devices to \gls{vm} instances on demand.
 %
@@ -58,7 +58,7 @@ In this regard, it is possible to \lgls{passthrough}{``pass through''} physical 
 %
 The \gls{iommu} facilitates direct access to hardware from the \gls{guest} without compromising the virtualized environment.
 %
-As such, \gls{passthrough} allows physical hardware to be used by a \gls{vm} \gls{guest} with minimal to no software overhead.
+As such, \gls{passthrough} allows physical hardware to be used by a \gls{vm} \gls{guest} with minimal software overhead.
 %
 However, as physical devices are tightly coupled with the hosts they are installed in, this \gls{passthrough} technique suffers from a lack of flexibility.
 %
@@ -153,7 +153,7 @@ Using such \gls{ntb}-capable switch chips to implement peripheral devices and cl
 %
 The inherent memory address translation capabilities of \glspl{ntb} make it possible for a machine to map (parts of) the address space of remote systems.
 %
-Since all memory address translations are done in the \gls{ntb} hardware, very low latency memory-to-memory communication is supported~\cite{Lim2019}.
+Since all memory address translations are done in the \gls{ntb} hardware, very low latency memory-to-memory communication is supported~\cite{Lim2019,Tu2014}.
 
 
 
@@ -169,35 +169,42 @@ However, setting up such \gls{ntb} mappings requires awareness of the address sp
 %
 For example, a device driver must use addresses that corresponds with the remote device's address space when initiating \gls{dma} transfers.
 %
-Hence, relying on \glspl{ntb} alone for distributed \gls{io} is not a viable solution;
+Hence, relying on \glspl{ntb} alone for enabling distributed \gls{io} and resource sharing is not a viable solution.
 %
-not only would this require extensive modifications to existing device driver software in order to manage multiple address space layouts, which in itself is infeasible due to the vast amount of devices and device drivers that exist, but the programming complexity would also greatly increase when the number of machines in a cluster increase beyond a few nodes.
-
-
-
-
-%Existing \gls{pcie}-based \gls{disaggregation} solutions rely on virtualization to mitigate the complexity of managing different \gls{pcie} address spaces.
-To mitigate the complexity of managing different \gls{pcie} address spaces, the Ladon system~\cite{Tu2013} relies on virtualization.
-
+In order to manage multiple address space layouts, extensive modifications to existing device driver software would be required.
 %
-In the Ladon system~\cite{Tu2013}, devices can be distributed to \gls{vm} \glspl{guest} running on host machines that are directly connected to the same \gls{ntb}-capable switch.
+This is infeasible due to the vast amount of devices and device driver implementations that exist.
 %
-Devices are owned by a dedicated ``management host'' that maps the memory of each 
+Additionally, the programming complexity would greatly increase when the number of independent systems in the cluster increase beyond a few nodes.
+
+
+
+
+To mitigate the complexity of managing different \gls{pcie} address spaces, it is possible to use virtualization.
 %
-By mapping the memory of each host machine, 
-the server assists the \gls{hypervisor} on each host machine in setting up device mappings.
+This is the case for the Ladon system~\cite{Tu2013}, where devices can be distributed to \gls{vm} \glspl{guest} running on host machines that are directly connected to the same \gls{ntb}-capable switch.
+%
+Devices are owned by a dedicated server, and this server assists the host~machines in setting up \gls{ntb} mappings for the \glspl{vm}.
 
-dedicated server, forgo 
-
-the Ladon system~\cite{Tu2013} relies on facilitation from \gls{vm} \gls{hypervisor} to assist \gls{vm} \glspl{guest}
-
-%Existing \gls{pcie}-based solutions solve this through virtualization, either by relying on facilitation from hypervisors~\cite{Tu2014} or 
-
-
-Implementing \gls{ntb}-based \gls{disaggregation} 
-
-
-\gls{ntb}-based \gls{disaggregation} 
+%%
+%In the Ladon system~\cite{Tu2013}, devices can be distributed to \gls{vm} \glspl{guest} running on host machines that are directly connected to the same \gls{ntb}-capable switch.
+%%
+%Devices are owned by a dedicated ``management host'' that maps the memory of each 
+%%
+%By mapping the memory of each host machine, 
+%the server assists the \gls{hypervisor} on each host machine in setting up device mappings.
+%
+%dedicated server, forgo 
+%
+%the Ladon system~\cite{Tu2013} relies on facilitation from \gls{vm} \gls{hypervisor} to assist \gls{vm} \glspl{guest}
+%
+%%Existing \gls{pcie}-based solutions solve this through virtualization, either by relying on facilitation from hypervisors~\cite{Tu2014} or 
+%
+%
+%Implementing \gls{ntb}-based \gls{disaggregation} 
+%
+%
+%\gls{ntb}-based \gls{disaggregation} 
 
 
 
