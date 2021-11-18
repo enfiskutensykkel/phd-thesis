@@ -31,22 +31,23 @@ In order to meet the latency and throughput requirements of data-driven and comp
 %
 This dissertation contributes to this by presenting a solution that enables distributing devices and sharing memory resources between machines interconnected with \gls{pcie}.
 %
-By leveraging memory mapping functionality supported by the \gls{pcie} networking hardware, our solution makes it possible to use resources residing in remote machines in a manner that is indistinguishable from using resources attached to the local \gls{pcie} bus.
+By leveraging memory mapping functionality supported by the \gls{pcie} networking hardware, we make it possible to use resources residing in remote machines as if they were installed in the same machine.
 %
-Whether resources are local or remote is made transparent to application software, \gls{os}, and even device drivers.
+Whether resources are local or remote is made transparent to application software, \gls{os}, and even device drivers, and remote resources can be used in a manner that is indistinguishable from using resources attached to the local \gls{pcie} bus.
 %
-Not only does this make it possible to increase the overall resource utilization in the cluster, but it also becomes easier to implement distributed applications.
+Existing device drivers and application software may use remote resources without requiring any adaptations.
 %
-Application software no longer needs to be written with accessing remote resources in mind, but can be implemented as if all resources are local.
+Not only does this make it easier to increase the overall resource utilization in the cluster, but it also becomes easier to design and implement distributed applications as software no longer needs to be written with accessing remote resources in mind,
+but can instead be implemented as if all resources are local.
 %
 Using our solution, \gls{io} resources are no longer locked to individual machines, and memory and devices can be shared freely with other machines in the cluster.
 %
-This makes it possible to scale out and use more hardware resources than there are available in a single machine, increasing the performance of the entire cluster.
+Scaling out and using more hardware resources than there are available in a single machine becomes easier, and our solution improves both the performance of individual machines and the entire cluster as a whole.
 
 
 
 \section{Background and motivation}\label{sec:motivation}
-In cloud computing environments, dynamically scaling \gls{io} resources is often accomplished through virtualization. 
+In cloud computing environments, dynamically scaling resources is often accomplished through virtualization. 
 %
 \Gls{vm} \glspl{hypervisor} may dynamically add virtual \gls{io} devices to \gls{vm} instances on demand.
 %
@@ -89,33 +90,72 @@ The sharing capabilities of \gls{rdma} solutions are, therefore, often limited t
 Sharing several types of devices, for example both \glspl{gpu} and \glspl{nvme}, usually requires multiple \gls{disaggregation} implementations, and integrating them with each other may be a challenge.
 
 
+\begin{figure}
+    \centering
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{fabric-partitioning}
+        \caption{Partitioning}
+    \end{subfigure}
+    \par\vspace{5mm}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics{fabric-partitioning-device-tree}
+        \caption{Logical device tree} % each machine is "isolated", traditional networking is required for communication
+    \end{subfigure}
+    \caption[Some switch chips support partitioning the \glsxtrshort{pcie} fabric]{Partitioning}
+  	\label{fig:partitioning}
+\end{figure}
 
-Extending the \gls{pcie} bus out of a single computer and using it as a high-speed interconnection technology is a compelling alternative to distributed \gls{io} over traditional networking technologies.
+
+Extending the \gls{pcie} bus out of a single computer system and using it as a high-speed interconnection technology is a compelling alternative to distributed \gls{io} over a traditional network.
 %
 As \gls{pcie} is the standard for connecting \gls{io} devices to a local computer system, using only native \gls{pcie} would have clear performance advantage, since conversion between network protocol and \gls{io} bus would not be necessary~\cite{Fountain2005,Ravindran2008,whitepaper:Regula2004}.
 %
 However, as \gls{pcie} was originally designed to connect devices to the local \gls{cpu} on a motherboard, individual computer systems operate with different \gls{pcie} address domains.
 %
-State of the art \gls{pcie}-based disaggregation solutions solve this by reling on virtualization support in \gls{pcie} switch chip hardware to dynamically partition a shared \gls{pcie} interconnection fabric~\cite{Chung2018,whitepaper:Microsemi,url:rackscale,url:liqid,url:gigaio}. 
+State of the art \gls{pcie}-based disaggregation solutions solve this by relying on virtualization support in \gls{pcie} switch chip hardware to dynamically partition a shared \gls{pcie} interconnection fabric~\cite{Chung2018,whitepaper:IDT,whitepaper:Microsemi,url:rackscale,url:liqid,url:gigaio}. 
 %
 Rather than being installed into individual machines, devices are instead attached directly to a so-called ``top-of-rack'' switch.
 %
-By creating a logical device tree for each individual machine that maps to the machines' respective address domains, devices may be logically assigned and reassigned to different machines on the fly.
+By creating a logical device tree for each individual machine that maps to the machines' respective address domains, switch-attached devices may be logically assigned and reassigned to different machines on the fly.
 %
-However, this partitioning of the \gls{pcie} fabric into separate, logical address domains means that it is not possible to support native host-to-host communication between machines over \gls{pcie}.
+However, this partitioning of the \gls{pcie} fabric into separate, logical address domains does not make it possible for machines to share their \emph{internal} resources, such as memory.
 %
-As such, \gls{pcie}-based \gls{disaggregation} solutions stop short of enabling true \gls{pcie} networking, and distributed applications running on these machines must instead use other networking technologies to communicate, such as Ethernet or InfiniBand.
+The lack of shared memory capabilities means that is not possible to support native host-to-host communication over native \gls{pcie}.
 %
-\lgls{disaggregation}{Disaggregating} a device and sharing it with multiple machines requires either virtualization support in the device itself,~i.e., \gls{sriov}, or additional distribution methods like \gls{rdma}.
+Instead, other networking technologies must be used for communication, such as Ethernet or InfiniBand.
+%
+\lgls{disaggregation}{Disaggregating} a device and sharing it with multiple machines at the same time requires either alternative methods like \gls{rdma}, or additional virtualization support in the device itself,~i.e., \gls{sriov}.
+%Distributed applications must instead use other networking technologies to communicate, such as Ethernet or InfiniBand, 
 
 
 
-\begin{figure}
+
+\begin{figure}[!h]
 	\centering
-    \includegraphics[width=.97\linewidth]{cluster-example}
+    \includegraphics[width=.95\linewidth]{cluster-example}
     \caption[Example of a heterogeneous \glsfmtshort{pcie}-networked cluster with \glsfmtshort{ntb} adapter cards and external cables]{Example of a heterogeneous \glsxtrshort{pcie} cluster with external \glsxtrshort{pcie} links using adapter cards capable of \glsxtrshort{ntb}. The \glsxtrshortpl{cpu} as well as internal devices of all cluster machines~(nodes) are all attached to the same \glsxtrshort{pcie} network fabric.}
   	\label{fig:cluster-example}
 \end{figure}
+
+
+
+While state of the art \gls{pcie}-based \gls{disaggregation} solutions can be said to enable a composable \gls{io} infrastructure, these solutions stop short of providing any \emph{networking} capabilities over \gls{pcie}.
+%
+Due to its intrinsic memory addressing abilities and low latency overhead, it is desirable to use \gls{pcie} as the enabling networking technology for distributed shared-memory applications~\cite{Shim2018,whitepaper:Regula2004,url:Meduri2011}.
+%
+This requires translating memory transactions from one machine's address domain to another.
+%
+By far, the most common way of translating addresses between different \gls{pcie} address domains is by using a special type of device called a \gls{ntb}~\cite{whitepaper:PLX,whitepaper:Regula2004,Hou2013,Tu2014}.
+%
+\Glspl{ntb} can be embedded as a \gls{cpu} feature~\cite{whitepaper:Sullivan2010,url:LinuxNTB-AMD}, but are more commonly implemented in \gls{pcie} switch chips~\cite{whitepaper:PLX,pex8733}.
+%
+Using such \gls{ntb}-capable switch chips to implement peripheral devices and cluster switches, it becomes possible to connect independent computer systems with plug-in host adapter cards and external cables, as illustrated in \cref{fig:cluster-example}.
+%
+The inherent memory address translation capabilities of \glspl{ntb} make it possible for a machine to map (parts of) the address space of remote systems.
+%
+Since all memory address translations are done in the \gls{ntb} hardware, very low latency memory-to-memory communication is supported~\cite{Lim2019,Tu2014}.
 
 
 
@@ -138,22 +178,6 @@ As such, \gls{pcie}-based \gls{disaggregation} solutions stop short of enabling 
     \label{fig:direct-access}
 \end{figure}
 
-
-
-
-Due to its intrinsic memory addressing abilities and low latency overhead, it is desirable to use \gls{pcie} as the enabling networking technology for distributed, shared-memory applications~\cite{Shim2018,whitepaper:Regula2004,url:Meduri2011}.
-%
-This requires translating memory transactions from one machine's address domain to another.
-%
-By far, the most common way of translating addresses between different \gls{pcie} address domains is by using a special type of device called a \gls{ntb}~\cite{whitepaper:PLX,whitepaper:Regula2004,Hou2013,Tu2014}.
-%
-\Glspl{ntb} can be embedded as a \gls{cpu} feature~\cite{whitepaper:Sullivan2010,url:LinuxNTB-AMD}, but are more commonly implemented in \gls{pcie} switch chips~\cite{whitepaper:PLX,pex8733}.
-%
-Using such \gls{ntb}-capable switch chips to implement peripheral devices and cluster switches, it becomes possible to connect independent computer systems with plug-in host adapter cards and external cables, as illustrated in \cref{fig:cluster-example}.
-%
-The inherent memory address translation capabilities of \glspl{ntb} make it possible for a machine to map (parts of) the address space of remote systems.
-%
-Since all memory address translations are done in the \gls{ntb} hardware, very low latency memory-to-memory communication is supported~\cite{Lim2019,Tu2014}.
 
 
 
