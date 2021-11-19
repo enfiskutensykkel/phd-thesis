@@ -104,7 +104,8 @@ Sharing several types of devices, for example both \glspl{gpu} and \glspl{nvme},
         \includegraphics[width=.85\linewidth]{fabric-partitioning-device-tree}
         \caption{Machines have separate (logical) \glsfmtshort{pcie} device trees.}
     \end{subfigure}
-    \caption{\Glsfmtshort{pcie} switch chips with partitioning support can be used to connect multiple \glsfmtshortpl{cpu} and freestanding devices to a common \glsfmtshort{pcie} fabric.}
+    \caption[\Glsxtrshort{pcie} switch chips with partitioning support can be used to connect multiple \glsxtrshortpl{cpu} and freestanding devices to a common \glsxtrshort{pcie} fabric.]
+    {\Glsfmtshort{pcie} switch chips with partitioning support can be used to connect multiple \glsfmtshortpl{cpu} and freestanding devices to a common \glsfmtshort{pcie} fabric. However, as systems are isolated, shared memory communication over \glsfmtshort{pcie} is not possible.}
   	\label{fig:partitioning}
 \end{figure}
 
@@ -138,7 +139,7 @@ Consequently, \lgls{disaggregation}{disaggregating} a device and sharing it with
 
 
 
-\begin{figure}[!h]
+\begin{figure}
 	\centering
     \includegraphics[width=.85\linewidth]{cluster-example}
     \caption[Example of a heterogeneous \glsfmtshort{pcie}-networked cluster with \glsfmtshort{ntb} adapter cards and external cables]{Example of a heterogeneous \glsxtrshort{pcie} cluster with external \glsxtrshort{pcie} links using adapter cards capable of \glsxtrshort{ntb}. The \glsxtrshortpl{cpu} as well as internal devices of all cluster machines~(nodes) are all attached to the same \glsxtrshort{pcie} network fabric.}
@@ -149,7 +150,7 @@ Consequently, \lgls{disaggregation}{disaggregating} a device and sharing it with
 
 While approaches using fabric partitioning can be said to enable a composable \gls{io} infrastructure, they stop short of providing \emph{networking} capabilities over \gls{pcie}.
 %
-Due to its intrinsic memory addressing abilities and low latency overhead, it is desirable to use \gls{pcie} as the enabling networking technology for distributed shared-memory applications~\cite{Shim2018,whitepaper:Regula2004,url:Meduri2011}.
+Due to its intrinsic memory addressing abilities and low latency overhead, it is desirable to use \gls{pcie} as the enabling networking technology for distributed, shared-memory communication~\cite{Shim2018,whitepaper:Regula2004,url:Meduri2011}.
 %
 This requires translating memory transactions from one machine's address domain to another.
 %
@@ -159,9 +160,9 @@ By far, the most common way of translating addresses between different \gls{pcie
 %
 Using such \gls{ntb}-capable switch chips to implement peripheral devices and cluster switches, it becomes possible to connect independent computer systems with plug-in host adapter cards and external cables, as depicted in \cref{fig:cluster-example}.
 %
-The inherent memory address translation capabilities of \glspl{ntb} make it possible for a machine to map (parts of) the address space of remote systems.
+The memory address translation capabilities of \glspl{ntb} make it possible for a machine to map (parts of) the address space of remote systems.
 %
-Since all memory address translations are done in the \gls{ntb} hardware, memory-to-memory communication is supported with very low latency~\cite{Lim2019,Tu2014}.
+Since all memory address translations are done in the \gls{ntb} hardware, memory-to-memory transfers are supported with very low latency~\cite{Lim2019,Tu2014}.
 
 
 
