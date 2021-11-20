@@ -215,18 +215,40 @@ The \gls{hypervisor} on the host~machines can be modified to assist setting up n
 %
 However, by relying on virtualization to hide complexity, this approach forgoes the possibility of using bare-metal machines for processing.
 %
-Even though \gls{passthrough} allows the device to be used directly by a \gls{guest} driver, requiring that application software can only run in \glspl{vm} inevitably adds additional \gls{cpu} load.
+Even though \gls{passthrough} allows the device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks can only run in \glspl{vm} inevitably adds additional \gls{cpu} load.
 %
-Another mechanism is needed.
+Another mechanism for using \glspl{ntb} while remaining agnostic about the address space in remote systems is needed. The physical location of a resource, as well as the address space layout in the machine it is installed in, must be abstracted away without requiring \glspl{vm}.
+
+
+Nevertheless, such an abstraction gives rise to another challenge; a device driver that is unaware that a device is remote may assume that the entire local address space can be reached by the device.
+%
+It is generally not possible to predict in advance which memory addresses a device driver may ues, yet \gls{ntb} mappings must be in place before the driver initiates \gls{dma} transfers.
+%
+Deferring mappings until the device driver initiates \gls{dma} would require synchronizing with the remote system in the critical path, thus increasing the overall latency.
+%
+While a naive workaround is mapping the entire system memory for the device, but this solution does not scale for more than a handful of machines.
+%
+%such static configuration
+Heterogeneous computing clusters, like the one illustrated in \cref{fig:cluster-example}, may have different topologies and compositions
 
 %også utover topology
 %Additionally, the programming complexity would greatly increase when the number of independent systems in the cluster increase beyond a few nodes.
-% også communication overhead
+% nevertheless, this abstraction gives rise to another
+% mapping the entire address space does not work
+% communication overhead
+
+%Nevertheless, this abstraction gives rise to another challenge; a device driver that is unaware
+%that a device is remote may assume that the entire local address space can be reached by the device.
+%It is generally not possible to predict in advance which memory addresses a device driver may use,
+%yet NTB mappings must be in place before the device driver initiates DMA transfers. Deferring
+%mappings until the device driver initiates DMA would require synchronizing with the remote
+%system in the critical path, thus increasing the overall latency. A naive workaround is mapping
+%the entire memory for the device, but this solution does not scale for multiple hosts. SmartIO
+%solves this, and is able to prepare necessary memory-mappings in advance, without introducing
+%any communication overhead in the critical path
 
 
-
-
-Additionally, by relying on virtualization, this approach forgo the 
+%Additionally, by relying on virtualization, this approach forgo the 
 %these approaches forgo the flexibility of fully distributed cluster computing systems.
 
 
@@ -282,6 +304,7 @@ Additionally, by relying on virtualization, this approach forgo the
 %device with multiple hosts either requires virtualization
 %support in the device itself,~i.e., Single-Root I/O Virtualization~(SR-IOV), 
 %or additional distribution methods, such as RDMA.
+
 
 
 
