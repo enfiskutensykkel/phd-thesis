@@ -11,6 +11,7 @@
 
 Cluster computing applications often have high requirements to \gls{io} performance.
 %
+%For example, compute accelerators, such as \glspl{gpu} and \glspl{fpga}, are often used to increase the processing speed of computing tasks.
 For example, many computing clusters rely on compute accelerators, such as \glspl{gpu} and \glspl{fpga}, to increase the processing speed.
 %
 In recent years, we have also seen a convergence of the high-performance computing, big~data, and machine~learning research fields.
@@ -29,7 +30,7 @@ Being able to share and partition devices between cluster machines in run-time l
 
 In order to meet the latency and throughput requirements of data-driven and compute-heavy workloads, there is a need for flexible, yet efficient, sharing of \gls{io} resources in a networked computing cluster.
 %
-This dissertation contributes to this by presenting a solution that enables distributing devices and sharing memory resources between machines interconnected with \gls{pcie}.
+This dissertation contributes to this goal by presenting a solution that enables distributing devices and sharing memory resources between machines interconnected with \gls{pcie}.
 %
 By leveraging memory mapping functionality supported by the \gls{pcie} networking hardware, we make it possible to use resources residing in remote machines as if they were installed in the same machine.
 %
@@ -121,19 +122,17 @@ Because of this, some \gls{pcie} switch chip hardware have virtualization suppor
 %
 Multiple \glspl{cpu} can be connected to the same \gls{pcie} fabric by mapping partitions to the individual address domains of each \gls{cpu}.
 %
-Additionally, devices can be attached directly to the partitionable switch chip, rather than being owned by individual machines, 
+Additionally, devices can be attached directly to the partitionable switch chip, rather than being owned by individual machines.
 %
 This allows switch-attached devices to be logically assigned to different machines on the fly, as illustrated in \cref{fig:partitioning}.
 %
 Nonetheless, because partitioning isolate \glspl{cpu} in separate address domains, this approach does not make it possible for machines to share their \emph{internal} resources.
 %
-Memory, or other devices that are attached to the local \gls{pcie} bus rather than the partitionable switch (chip), cannot be shared.
+Memory, or other devices that are attached to the local \gls{pcie} bus and not the partitionable switch (chip), cannot be shared.
 %
-Thus, partitioning lacks the memory sharing capabilities needed for supporting host-to-host communication over native \gls{pcie}.
+Thus, partitioning lacks the shared-memory capabilities needed to support host-to-host communication over native \gls{pcie}, and other networking technologies, such as Ethernet or InfiniBand, must be used instead.
 %
-Other networking technologies, such as Ethernet or InfiniBand, must be used instead.
-%
-Consequently, \lgls{disaggregation}{disaggregating} a device and sharing it with multiple machines at the same time requires either alternative methods, like \gls{rdma}, or additional virtualization support in the device itself,~i.e., \gls{sriov}.
+Consequently, \lgls{disaggregation}{disaggregating} devices and sharing them with multiple machines at the same time requires either alternative methods, like \gls{rdma}, or additional virtualization support in the device itself,~i.e., \gls{sriov}.
 %Distributed applications must instead use other networking technologies to communicate, such as Ethernet or InfiniBand, 
 
 
@@ -148,7 +147,7 @@ Consequently, \lgls{disaggregation}{disaggregating} a device and sharing it with
 
 
 
-While approaches using fabric partitioning can be said to enable a composable \gls{io} infrastructure, they stop short of providing \emph{networking} capabilities over \gls{pcie}.
+While approaches using fabric partitioning can be said to enable a composable \gls{io} infrastructure~\cite{Chung2018}, they stop short of providing \emph{networking} capabilities over \gls{pcie}.
 %
 Due to its intrinsic memory addressing abilities and low latency overhead, it is desirable to use \gls{pcie} as the enabling networking technology for distributed, shared-memory communication~\cite{Shim2018,whitepaper:Regula2004,url:Meduri2011}.
 %
@@ -190,9 +189,9 @@ Since all memory address translations are done in the \gls{ntb} hardware, memory
 
 More interestingly, however, is the fact that in such \gls{ntb}-based networks, all \glspl{cpu} and internal \gls{pcie} devices are same, shared \gls{pcie} fabric.
 %
-Remote resources, such as memory and \gls{io} devices, could be mapped into a local system and accessed through the \gls{ntb} with very little performance overhead.
+Remote resources, such as the internal memory and devices of other machines, could be mapped into a local system and accessed through the \gls{ntb} with very little performance overhead.
 %
-Similarly, a remote device capable of \gls{dma} could also use the \gls{ntb} to access local resources.
+Similarly, a (remote) device capable of \gls{dma} could also use the \gls{ntb} to access local resources.
 %
 As this approach eliminates the need to use memory on the remote system as an intermediate step when transferring data, any software in the data transfer path can be avoided entirely~(\cref{fig:direct-access}).
 %
@@ -205,17 +204,31 @@ Hence, relying on \glspl{ntb} alone for enabling distributed \gls{io} and resour
 In order to manage multiple address space layouts, extensive modifications to existing device driver software would be required.
 %
 This is infeasible due to the vast amount of devices and device driver implementations that exist.
-%
-Additionally, the programming complexity would greatly increase when the number of independent systems in the cluster increase beyond a few nodes.
 
 
 
 
 To mitigate the complexity of managing different \gls{pcie} address spaces, it is possible to use virtualization.
 %
-This is the case for the Ladon system~\cite{Tu2013}, where devices can be distributed to \gls{vm} \glspl{guest} running on host machines that are directly connected to the same \gls{ntb}-capable switch.
+The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical host~machines.
 %
-Devices are owned by a dedicated server, and this server assists the host~machines in setting up \gls{ntb} mappings for the \glspl{vm}.
+The \gls{hypervisor} on the host~machines can be modified to assist setting up necessary \gls{ntb} and \gls{iommu} mappings to device memory and \gls{vm} memory, enabling \gls{passthrough} of remote devices to \gls{vm} \glspl{guest}~\cite{Tu2013}.
+%
+However, 
+
+
+%address 
+%
+%same switch chip
+%forgo
+%%
+%This is the case for the Ladon system~\cite{Tu2013}, where devices can be distributed to \gls{vm} \glspl{guest} running on host machines that are directly connected to the same \gls{ntb}-capable switch.
+%%
+%Devices are owned by a dedicated server, and this server assists the host~machines in setting up \gls{ntb} mappings for the \glspl{vm}.
+%
+%Additionally, the programming complexity would greatly increase when the number of independent systems in the cluster increase beyond a few nodes.
+%også utover topology
+
 
 %%
 %In the Ladon system~\cite{Tu2013}, devices can be distributed to \gls{vm} \glspl{guest} running on host machines that are directly connected to the same \gls{ntb}-capable switch.
