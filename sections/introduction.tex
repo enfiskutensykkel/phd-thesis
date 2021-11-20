@@ -207,14 +207,27 @@ This is infeasible due to the vast amount of devices and device driver implement
 
 
 
-
 To mitigate the complexity of managing different \gls{pcie} address spaces, it is possible to use virtualization.
 %
 The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical host~machines.
 %
-The \gls{hypervisor} on the host~machines can be modified to assist setting up necessary \gls{ntb} and \gls{iommu} mappings to device memory and \gls{vm} memory, enabling \gls{passthrough} of remote devices to \gls{vm} \glspl{guest}~\cite{Tu2013}.
+The \gls{hypervisor} on the host~machines can be modified to assist setting up necessary \gls{ntb} and \gls{iommu} mappings to the respective device memory and \gls{vm} memory, enabling \gls{passthrough} of remote devices to \gls{vm} \glspl{guest}~\cite{Tu2013}.
 %
-However, 
+However, by relying on virtualization to hide complexity, this approach forgoes the possibility of using bare-metal machines for processing.
+%
+Even though \gls{passthrough} allows the device to be used directly by a \gls{guest} driver, requiring that application software can only run in \glspl{vm} inevitably adds additional \gls{cpu} load.
+%
+Another mechanism is needed.
+
+%også utover topology
+%Additionally, the programming complexity would greatly increase when the number of independent systems in the cluster increase beyond a few nodes.
+% også communication overhead
+
+
+
+
+Additionally, by relying on virtualization, this approach forgo the 
+%these approaches forgo the flexibility of fully distributed cluster computing systems.
 
 
 %address 
@@ -226,8 +239,6 @@ However,
 %%
 %Devices are owned by a dedicated server, and this server assists the host~machines in setting up \gls{ntb} mappings for the \glspl{vm}.
 %
-%Additionally, the programming complexity would greatly increase when the number of independent systems in the cluster increase beyond a few nodes.
-%også utover topology
 
 
 %%
