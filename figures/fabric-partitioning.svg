@@ -3,8 +3,8 @@
 
 <svg
    width="345pt"
-   height="118pt"
-   viewBox="0 0 121.70833 41.627784"
+   height="150pt"
+   viewBox="0 0 121.70833 52.916674"
    version="1.1"
    id="svg1742"
    inkscape:version="1.1.1 (eb90963e84, 2021-10-02)"
@@ -32,7 +32,7 @@
      inkscape:window-x="0"
      inkscape:window-y="31"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      inkscape:snap-object-midpoints="true"
      inkscape:snap-global="true">
     <inkscape:grid
@@ -354,7 +354,7 @@
      inkscape:label="Phys"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:none">
+     style="display:inline">
     <path
        sodipodi:open="true"
        sodipodi:end="4.4438177"
@@ -982,7 +982,7 @@
          x="7.6629844"
          y="2.5051186"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
-         id="tspan11457">Root Port</tspan></text>
+         id="tspan11457">PCIe Root Port</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2774,7 +2774,7 @@
          id="tspan113109">Isolated I/O (Host 1)</tspan></text>
     <path
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#800080;stroke-width:0.6;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker2288);marker-end:url(#marker2297)"
-       d="m 45.24375,17.197917 v 9.524998 h 58.34068 v 11.377083"
+       d="m 45.24375,17.197917 v 8.995831 h 58.34068 v 11.90625"
        id="path119071"
        sodipodi:nodetypes="cccc" />
     <path
@@ -3749,9 +3749,9 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Logical"
-     style="display:inline">
+     style="display:none">
     <rect
-       style="fill:#e5d5ff;fill-opacity:1;stroke:#800080;stroke-width:0.30000001;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#e5d5ff;fill-opacity:1;stroke:#800080;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect252692"
        width="34.528126"
        height="41.010418"
@@ -4340,7 +4340,7 @@
          y="-61.404331"
          id="tspan3604">RAM</tspan></text>
     <rect
-       style="fill:#fff6d5;fill-opacity:1;stroke:#debc33;stroke-width:0.30000001;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#fff6d5;fill-opacity:1;stroke:#debc33;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect21111"
        width="34.528126"
        height="41.010418"

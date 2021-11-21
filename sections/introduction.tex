@@ -5,7 +5,7 @@
 	\includegraphics{pooling}
     \caption
     [If machines could pool their internal devices, cluster nodes could dynamically compose the \glsfmtshort{io} infrastructure by borrowing devices from other machines]
-    {If machines could pool their internal devices, it would be possible to avoid queuing work on dedicated machines with particular device configurations. Instead, cluster nodes (machines) could dynamically compose the \gls{io} infrastructure needed to meet a workload's \gls{io} requirements, by borrowing devices from each other and releasing them when they are no longer needed.}
+    {If machines could pool their internal devices, it would be possible to avoid queuing work on dedicated machines with particular device configurations. Instead, each machine could dynamically compose the \gls{io} infrastructure needed to meet a workload's \gls{io} requirements, by borrowing devices from other machines and releasing them when they are no longer needed.}
     \label{fig:device-pool}
 \end{figure}
 
@@ -191,9 +191,9 @@ More interestingly, however, is the fact that in such \gls{ntb}-based networks, 
 %
 Remote resources, such as the internal memory and devices of other machines, could be mapped into a local system and accessed through the \gls{ntb} with very little performance overhead.
 %
-Similarly, a (remote) device capable of \gls{dma} could also use the \gls{ntb} to access local resources.
+Similarly, a device capable of \gls{dma} could also use the \gls{ntb} to access remote resources.
 %
-As this approach eliminates the need to use memory on the remote system as an intermediate step when transferring data, any software in the data transfer path can be avoided entirely~(\cref{fig:direct-access}).
+As this approach eliminates the need to use memory on the remote system as an intermediate step when transferring data, any software in the data transfer path can be avoided entirely, as shown in \cref{fig:direct-access}.
 %
 However, setting up such \gls{ntb} mappings requires awareness of the address space on the remote system.
 %
@@ -215,21 +215,21 @@ The \gls{hypervisor} on the host~machines can be modified to assist setting up n
 %
 However, by relying on virtualization to hide complexity, this approach forgoes the possibility of using bare-metal machines for processing.
 %
-Even though \gls{passthrough} allows the device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks run in \glspl{vm} inevitably adds additional system load, as \gls{cpu} cycles are spent on hosting the virtualized environment.
+Even though \gls{passthrough} allows the device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks run in \glspl{vm} is a constraint that adds additional system load, as \gls{cpu} cycles are spent on hosting the virtualized environment.
 %
-Another mechanism for using \glspl{ntb} while remaining agnostic about the address space in remote systems is needed. 
+Another mechanism for using \glspl{ntb} while remaining agnostic about the address space in remote systems is needed.
 %
-The physical location of a resource, as well as the address space layout in the machine it is installed in, must be abstracted away without requiring \glspl{vm}.
+The physical location of a resource, as well as the address space layout in the machine it is installed in, must be abstracted away without requiring \glspl{vm}. 
 
 
 
-Nevertheless, this kind of abstraction gives rise to another challenge; a device driver that is unaware that a device is remote may assume that the entire local address space can be reached by the device.
+Nevertheless, this kind of abstraction would give rise to another challenge; a device driver that is unaware that a device is remote may assume that the entire local address space can be reached by the device.
 %
 It is generally not possible to predict in advance which memory addresses a device driver may ues, yet \gls{ntb} mappings must be in place before the driver initiates \gls{dma} transfers.
 %
-Deferring mappings until the device driver initiates \gls{dma} would require synchronizing with the remote system, thus increasing the overall latency.
+Deferring mappings until the device driver initiates \gls{dma} is not a realistic solution, as it would require synchronizing with the remote system and introduce communication overhead in the critical path.
 %
-A mechanism for preparing the necessary memory-mappings in advance, without introducing any communication overhead in the critical path, is needed.
+A mechanism for preparing the necessary memory-mappings through the \gls{ntb} in advance is needed.
 
 
 
@@ -491,7 +491,9 @@ Standardized test suites should be used as far as possible, to prove that applic
 %
 Moreover, to demonstrate the completeness of the solution, the evaluation should also include workloads relying on different \gls{pcie} network topologies and include several types of devices, such as \glspl{nvme}, \glspl{gpu}, and \glspl{nic}.
 %
-Finally, a prototype device driver using the device driver \gls{api} (\cref{obj:disaggregation}) should be developed and evaluated. This driver should demonstrate that it is possible to \lgls{disaggregation}{disaggregate} a non-\gls{sriov} device in software, and shared with multiple machines simultaneously. The driver should also demonstrate how it can rely on memory \gls{disaggregation} and shared memory capabilities to implement data path optimizations.
+Finally, a prototype device driver using the device driver \gls{api} (\cref{obj:disaggregation}) should be developed and evaluated. This driver should demonstrate that it is possible to \lgls{disaggregation}{disaggregate} a non-\gls{sriov} device in software, and shared with multiple machines simultaneously. 
+%
+The driver should also demonstrate how it can rely on memory \gls{disaggregation} and shared memory capabilities to implement data path optimizations.
 
 
 
@@ -522,12 +524,12 @@ Finally, a prototype device driver using the device driver \gls{api} (\cref{obj:
 
 
 \section{Contributions}
-The work of this thesis contributes to the topic of \gls{io} facilitation and resource sharing in distributed computing systems, and has been presented in five peer-reviewed venues: two conference workshop publications, one short-length demonstration paper, and two journal articles.
+This dissertation contributes to the topic of \gls{io} facilitation and resource sharing in distributed computing systems, and has been presented in five peer-reviewed venues: two conference workshop publications, one short-length demonstration paper, and two journal articles.
 These publications are included as \crefrange{paper:nossdav}{paper:tocs} and contain the bulk of the implementation details, particularly \cref{paper:tocs} which presents the entire solution as a whole.
 
 We have developed a system called \emph{SmartIO} for sharing resources and distributing devices in a heterogeneous, \gls{pcie}-networked cluster.
 %
-In particular, the main contributions of this thesis are listed as follows:
+In particular, the main contributions of this dissertation are listed as follows:
 \begin{itemize}
     \item Testing and evaluation of the \emph{Device~Lending} mechanism for \textbf{distributing \gls{pcie} devices to remote systems} (see \cref{paper:nossdav} and \cref{paper:mmsys}). Using Device~Lending, any standard \gls{pcie} device, such as \glspl{nvme}, \glspl{gpu}, \glspl{nic}, and \glspl{fpga}, may be assigned to a remote system. The device appear to the remote system as if it has been dynamically hot-added to the system, allowing existing device drivers to use the device without requiring any modifications to software.
 
@@ -555,7 +557,7 @@ In particular, the main contributions of this thesis are listed as follows:
 	
 \end{itemize}
 %
-Finally, it should be noted that the research of this thesis has had impact on real systems, as several components of SmartIO have already been incorporated into the product line of Dolphin Interconnect Solutions, and others are currently being adapted for real-world deployment.\footnote{{\url{https://www.dolphinics.com/solutions/pcie_smart_io.html}}}
+Finally, it should be noted that the research of this dissertation has had impact on real systems, as several components of SmartIO have already been incorporated into the product line of Dolphin Interconnect Solutions, and others are currently being adapted for real-world deployment.\footnote{{\url{https://www.dolphinics.com/solutions/pcie_smart_io.html}}}
 
 
 \section{Outline}
