@@ -147,24 +147,6 @@ Consequently, \lgls{disaggregation}{disaggregating} devices and sharing them wit
 
 
 
-While approaches using fabric partitioning can be said to enable a composable \gls{io} infrastructure~\cite{Chung2018}, they stop short of providing \emph{networking} capabilities over \gls{pcie}.
-%
-Due to its intrinsic memory addressing abilities and low latency overhead, it is desirable to use \gls{pcie} as the enabling networking technology for distributed, shared-memory communication~\cite{Shim2018,whitepaper:Regula2004,url:Meduri2011}.
-%
-This requires translating memory transactions from one machine's address domain to another.
-%
-By far, the most common way of translating addresses between different \gls{pcie} address domains is by using a special type of device called a \gls{ntb}~\cite{whitepaper:PLX,whitepaper:Regula2004,Hou2013,Tu2014}.
-%
-\Glspl{ntb} can be embedded as a \gls{cpu} feature~\cite{whitepaper:Sullivan2010,url:LinuxNTB-AMD}, but are more commonly implemented in \gls{pcie} switch chips~\cite{whitepaper:PLX,pex8733}.
-%
-Using such \gls{ntb}-capable switch chips to implement peripheral devices and cluster switches, it becomes possible to connect independent computer systems with plug-in host adapter cards and external cables, as depicted in \cref{fig:cluster-example}.
-%
-The memory address translation capabilities of \glspl{ntb} make it possible for a machine to map (parts of) the address space of remote systems.
-%
-Since all memory address translations are done in the \gls{ntb} hardware, memory-to-memory transfers are supported with very low latency~\cite{Lim2019,Tu2014}.
-
-
-
 \begin{figure}
     \centering
     \begin{subfigure}{\linewidth}
@@ -187,14 +169,41 @@ Since all memory address translations are done in the \gls{ntb} hardware, memory
 
 
 
-More interestingly, however, is the fact that in such \gls{ntb}-based networks, all \glspl{cpu} and internal \gls{pcie} devices are same, shared \gls{pcie} fabric.
+While approaches using fabric partitioning can be said to enable a composable \gls{io} infrastructure~\cite{Chung2018}, they stop short of providing \emph{networking} capabilities over \gls{pcie}.
+%
+Due to its intrinsic memory addressing abilities and low latency overhead, it is desirable to use \gls{pcie} as the enabling networking technology for distributed, shared-memory communication~\cite{Shim2018,whitepaper:Regula2004,url:Meduri2011}.
+%
+This requires translating memory transactions from one machine's address domain to another.
+%
+By far, the most common way of translating addresses between different \gls{pcie} address domains is by using a special type of device called a \gls{ntb}~\cite{whitepaper:PLX,whitepaper:Regula2004,Hou2013,Tu2014}.
+%
+\Glspl{ntb} can be embedded as a \gls{cpu} feature~\cite{whitepaper:Sullivan2010,url:LinuxNTB-AMD}, but are more commonly implemented in \gls{pcie} switch chips~\cite{whitepaper:PLX,pex8733}.
+%
+Using such \gls{ntb}-capable switch chips to implement peripheral devices and cluster switches, it becomes possible to connect independent computer systems with plug-in host adapter cards and external cables, as depicted in \cref{fig:cluster-example}.
+%
+The memory address translation capabilities of \glspl{ntb} make it possible for a machine to map (parts of) the address space of remote systems.
+%
+Since all memory address translations are done in the \gls{ntb} hardware, memory-to-memory transfers are supported with very low latency~\cite{Lim2019,Tu2014}.
+
+
+
+More interestingly, however, is the fact that in such \gls{ntb}-based networks, all \glspl{cpu} and internal \gls{pcie} devices are attached to the same, shared \gls{pcie} fabric.
 %
 Remote resources, such as the internal memory and devices of other machines, could be mapped into a local system and accessed through the \gls{ntb} with very little performance overhead.
 %
 Similarly, a device capable of \gls{dma} could also use the \gls{ntb} to access remote resources.
 %
-As this approach eliminates the need to use memory on the remote system as an intermediate step when transferring data, any software in the data transfer path can be avoided entirely, as shown in \cref{fig:direct-access}.
+This approach eliminates the need to use memory on the remote system as an intermediate step when transferring data, and any software in the data transfer path can be avoided entirely, as shown in \cref{fig:direct-access}.
 %
+Moreover, by using \glspl{ntb} rather than dedicated servers or requiring that devices are attached to switches, we could enable a distributed, peer-to-peer sharing system.
+%
+This would allow \emph{all} machines in the cluster to share \emph{all} of their own internal resources. 
+%
+By avoiding centralized servers, the risk of individual machines becoming potential bottlenecks is reduced.
+%
+
+
+
 However, setting up such \gls{ntb} mappings requires awareness of the address space on the remote system.
 %
 For example, a device driver must use addresses that corresponds with the remote device's address space when initiating \gls{dma} transfers.
@@ -215,11 +224,11 @@ The \gls{hypervisor} on the host~machines can be modified to assist setting up n
 %
 However, by relying on virtualization to hide complexity, this approach forgoes the possibility of using bare-metal machines for processing.
 %
-Even though \gls{passthrough} allows the device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks run in \glspl{vm} is a constraint that adds additional system load, as \gls{cpu} cycles are spent on hosting the virtualized environment.
+Even though \gls{passthrough} allows the device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks run in \glspl{vm} is a constraint that may add additional system load, as \gls{cpu} cycles are spent on hosting the virtualized environment.
 %
 Another mechanism for using \glspl{ntb} while remaining agnostic about the address space in remote systems is needed.
 %
-The physical location of a resource, as well as the address space layout in the machine it is installed in, must be abstracted away without requiring \glspl{vm}. 
+The physical location of a resource, as well as the address space layout in the machine it is installed in, must be abstracted away without requiring \glspl{vm} (but \glspl{vm} should, ideally, \emph{also} be supported).
 
 
 
@@ -229,21 +238,9 @@ It is generally not possible to predict in advance which memory addresses a devi
 %
 Deferring setting up these mappings until the device driver initiates \gls{dma} is not realistic, as this would introduce communication overhead in the critical path when synchronizing with the remote system. 
 %
-A mechanism for preparing the necessary memory-mappings through the \gls{ntb} advance of use is needed.
-
-
-
-Without relying on preconfiguration or requiring that systems are otherwise aware of the underlying \gls{pcie} topology, the naive solution is to map the entire system memory of any machine using a device for the device.
+The naive solution is to map the entire system memory of all other machines, however, this workaround does not scale very well as the memory requirements increase for each machine added to the cluster.
 %
-However, this workaround does not scale very well as the memory requirements increase for each machine added to the cluster.
-%
-While using dedicated servers able to support these memory requirements to host devices would be possible, this would impose restrictions on the cluster network design.
-%
-Additionally, centralized servers should be avoided in order to limit the risk of individual machines becoming potential bottlenecks.
-%
-By allowing all machines in the cluster to share their own internal resources, and making it possible for all machines to use these shared (remote) resources, we would instead enable a distributed, peer-to-peer sharing model without limiting the possible cluster topologies.
-%
-This requires a mechanism for mapping remote resources, such as memory and device registers, both sparingly and dynamically.
+A mechanism for preparing the necessary memory-mappings through the \gls{ntb} without adding latency in the performance critical path, is needed.
 
 
 
