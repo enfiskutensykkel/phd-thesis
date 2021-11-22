@@ -125,7 +125,8 @@ Multiple \glspl{cpu} can be connected to the same \gls{pcie} fabric by mapping p
 Additionally, devices can be attached directly to the partitionable switch chip, rather than being owned by individual machines.
 %
 This allows switch-attached devices to be logically assigned to different machines on the fly, as illustrated in \cref{fig:partitioning}.
-%
+
+
 Nonetheless, because partitioning isolate \glspl{cpu} in separate address domains, this approach does not make it possible for machines to share their \emph{internal} resources.
 %
 Memory, or other devices that are attached to the local \gls{pcie} bus and not the partitionable switch (chip), cannot be shared.
@@ -169,7 +170,7 @@ Consequently, \lgls{disaggregation}{disaggregating} devices and sharing them wit
 
 
 
-While approaches using fabric partitioning can be said to enable a composable \gls{io} infrastructure~\cite{Chung2018}, they stop short of providing \emph{networking} capabilities over \gls{pcie}.
+While approaches using \gls{pcie} fabric partitioning can be said to enable a composable \gls{io} infrastructure~\cite{Chung2018}, they stop short of providing \emph{networking} capabilities over \gls{pcie}.
 %
 Due to its intrinsic memory addressing abilities and low latency overhead, it is desirable to use \gls{pcie} as the enabling networking technology for distributed, shared-memory communication~\cite{Shim2018,whitepaper:Regula2004,url:Meduri2011}.
 %
@@ -197,9 +198,9 @@ This approach eliminates the need to use memory on the remote system as an inter
 %
 Moreover, by using \glspl{ntb} rather than dedicated servers or requiring that devices are attached to switches, we could enable a distributed, peer-to-peer sharing system.
 %
-This would allow \emph{all} machines in the cluster to share \emph{all} of their resources, including internal \gls{pcie} devices and system memory. 
+In theory, this would allow \emph{all} machines in the cluster to share \emph{all} of their resources, including internal \gls{pcie} devices and system memory. 
 %
-By avoiding centralized servers, the risk of individual machines becoming potential bottlenecks is reduced.
+By avoiding centralized servers, the risk of individual machines becoming potential performance bottlenecks is reduced.
 
 
 
@@ -212,22 +213,20 @@ Hence, relying on \glspl{ntb} alone for enabling distributed \gls{io} and resour
 In order to manage multiple address space layouts, extensive modifications to existing device driver software would be required.
 %
 This is infeasible due to the vast amount of devices and device driver implementations that exist.
-
-
-
+%
 To mitigate the complexity of managing different \gls{pcie} address spaces, it is possible to use virtualization.
 %
-The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical host~machines.
+The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical \lgls{host}{host~machines}.
 %
 The \gls{hypervisor} on the host~machines can be modified to assist setting up necessary \gls{ntb} and \gls{iommu} mappings to the respective device memory and \gls{vm} memory, enabling \gls{passthrough} of remote devices to \gls{vm} \glspl{guest}~\cite{Tu2013}.
 %
 However, by relying on virtualization to hide complexity, this approach forgoes the possibility of using bare-metal machines for processing.
 %
-Even though \gls{passthrough} allows the device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks run in \glspl{vm} is a constraint that may add additional system load, as \gls{cpu} cycles are spent on hosting the virtualized environment.
+Even though \gls{passthrough} allows the device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks run in \glspl{vm} is a constraint that may add additional system load, as \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment.
 %
-Another mechanism for using \glspl{ntb} while remaining agnostic about the address space in remote systems is needed.
+Therefore, another mechanism for using \glspl{ntb} while remaining agnostic about the address space in remote systems is needed.
 %
-The physical location of a resource, as well as the address space layout in the machine it is installed in, must be abstracted away without requiring \glspl{vm} (but \glspl{vm} should \emph{also} be supported).
+The physical location of a resource, as well as the address space layout in the machine it is installed in, must be abstracted away without requiring \glspl{vm} (but sharing resources to \glspl{vm} should \emph{also} be supported).
 
 
 
@@ -235,11 +234,12 @@ Nevertheless, this kind of abstraction would give rise to another challenge; a d
 %
 It is generally not possible to predict in advance which memory addresses a device driver may use, yet \gls{ntb} mappings must be in place before the driver for example initiates \gls{dma} transfers.
 %
-Deferring setting up these mappings until the device driver initiates \gls{dma} is not realistic, as this would introduce communication overhead in the critical path when synchronizing with the remote system. 
+Deferring setting up these mappings until the device driver initiates \gls{dma} is not realistic, as synchronizing with the remote system would introduce communication overhead in the performance critical path.
 %
-The naive solution is to map the entire system memory of all other machines, however, this workaround does not scale very well as the memory requirements increase for each machine added to the cluster.
+The naive solution is to map the entire system memory of all other machines in the cluster, but this workaround does not scale very well, however, as the memory requirements increases for every machine added to the cluster.
 %
-A mechanism for preparing the necessary memory-mappings through the \gls{ntb} without adding latency in the performance critical path, is needed.
+%In addition to an address space abstraction mechanism, 
+A solution for preparing the necessary memory-mappings through the \gls{ntb}, without adding additional latency caused by communication, is also needed.
 
 
 
@@ -247,9 +247,15 @@ A mechanism for preparing the necessary memory-mappings through the \gls{ntb} wi
 \section{Problem statement}\label{sec:objectives}
 %Using \gls{pcie} networking, built with \gls{pcie} networking can allow resources to be accessed with very little performance overhead as no protocol translation between the network and the local \gls{io} bus is required.
 %
-Utilizing \gls{pcie} \glspl{ntb} to share resources among machines in a \gls{pcie}-networked cluster requires a solution for abstracting away the physical location of a resource, including the address space of the computer system it is installed in. Moreover, as it is desirable to avoid modifications to existing device drivers and application software, such a solution must also be able to present the resource to the system as if it was locally installed.
+Utilizing \gls{pcie} \glspl{ntb} to share resources among machines in a \gls{pcie}-networked cluster requires a solution for abstracting away the physical location of a resource, including the address space of the computer system it is installed in. 
 %
-Hence, the goal of this thesis is to develop an infrastructure for sharing and distributing \gls{io} resources,~i.e., devices and memory, in a way that eliminates the distinction between local and remote access of a resource. The challenges of this goal are addressed under the following research question: 
+More specifically, as it is desirable to avoid modifications to existing device drivers and application software, such a solution must also be able to present resources to the system as if they were locally installed.
+%
+The solution must also allow remote resources to be used with the same performance expected for native \gls{pcie},~i.e., with the same performance as if they were attached to the local \gls{pcie} bus.
+%
+Hence, the goal of this dissertation is to develop an infrastructure for sharing and distributing \gls{io}~resources (devices and memory) in a way that eliminates the distinction between local and remote access of a resource. 
+%
+The challenges of this goal are addressed under the following research question: 
 \begin{restatable}{question}{researchquestion}
     % TODO: Consider making this more general for PCIe networks instead, and remove reference to NTBs
     %       From the objectives, it should be clear that NTBs are necessary anyway
