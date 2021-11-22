@@ -225,25 +225,26 @@ The physical location of a resource, as well as the address space layout in the 
 
 Nevertheless, this kind of abstraction would give rise to another challenge; a device driver that is unaware that a device is remote may assume that the entire local address space can be reached by the device.
 %
-It is generally not possible to predict in advance which memory addresses a device driver may ues, yet \gls{ntb} mappings must be in place before the driver for example initiates \gls{dma} transfers.
+It is generally not possible to predict in advance which memory addresses a device driver may use, yet \gls{ntb} mappings must be in place before the driver for example initiates \gls{dma} transfers.
 %
 Deferring setting up these mappings until the device driver initiates \gls{dma} is not realistic, as this would introduce communication overhead in the critical path when synchronizing with the remote system. 
 %
-A mechanism for preparing the necessary memory-mappings through the \gls{ntb} in advance is needed.
+A mechanism for preparing the necessary memory-mappings through the \gls{ntb} advance of use is needed.
 
 
 
-The naive solution is to map the entire system memory of any machine using a device for the device.
+Without relying on preconfiguration or requiring that systems are otherwise aware of the underlying \gls{pcie} topology, the naive solution is to map the entire system memory of any machine using a device for the device.
 %
 However, this workaround does not scale very well as the memory requirements increase for each machine added to the cluster.
 %
-Using dedicated servers able to support these memory requirements to host devices would put a limitation on the cluster network topology.
+While using dedicated servers able to support these memory requirements to host devices would be possible, this would impose restrictions on the cluster network design.
 %
-To avoid that machines become potential bottlenecks, centralized servers must be avoided, and distributed, peer-to-peer sharing must be supported instead. 
+Additionally, centralized servers must be avoided in order to limit the risk of individual machines becoming potential bottlenecks.
 %
-It must be possible for \emph{all} machines in the cluster to share their own internal resources, and all machines must be able to access these shared (remote) resources, regardless of the cluster network topology.
+By allowing all machines in the cluster to share their own internal resources, and making it possible for all machines to use these shared (remote) resources, we would instead enable a distributed, peer-to-peer sharing model without limiting the possible cluster topologies.
 %
-This requires a mechanism for sparingly mapping remote resources, such as memory or device registers, on demand, without requiring that systems are aware of the underlying \gls{pcie} topology.
+This requires a mechanism for mapping remote resources, such as memory and device registers, both sparingly and dynamically.
+
 
 
 
