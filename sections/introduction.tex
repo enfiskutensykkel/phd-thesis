@@ -225,187 +225,25 @@ The physical location of a resource, as well as the address space layout in the 
 
 Nevertheless, this kind of abstraction would give rise to another challenge; a device driver that is unaware that a device is remote may assume that the entire local address space can be reached by the device.
 %
-It is generally not possible to predict in advance which memory addresses a device driver may ues, yet \gls{ntb} mappings must be in place before the driver initiates \gls{dma} transfers.
+It is generally not possible to predict in advance which memory addresses a device driver may ues, yet \gls{ntb} mappings must be in place before the driver for example initiates \gls{dma} transfers.
 %
-Deferring mappings until the device driver initiates \gls{dma} is not a realistic solution, as it would require synchronizing with the remote system and introduce communication overhead in the critical path.
+Deferring setting up these mappings until the device driver initiates \gls{dma} is not realistic, as this would introduce communication overhead in the critical path when synchronizing with the remote system. 
 %
 A mechanism for preparing the necessary memory-mappings through the \gls{ntb} in advance is needed.
 
 
 
-A naive workaround is mapping the entire system memory for the device.
+The naive solution is to map the entire system memory of any machine using a device for the device.
 %
-It would be possible to use dedicated servers 
-dedicated servers
-
-but this kind of static configuration does not scale for more than a handful of machines.
+However, this workaround does not scale very well as the memory requirements increase for each machine added to the cluster.
 %
-
+Using dedicated servers able to support these memory requirements to host devices would put a limitation on the cluster network topology.
 %
-To make the most of distributed computing clusters, like the example illustrated in \cref{fig:cluster-example}, \emph{all} machines in the cluster should be able to contribute their own local resources, and access shared remote resources.
+To avoid that machines become potential bottlenecks, centralized servers must be avoided, and distributed, peer-to-peer sharing must be supported instead. 
 %
-Therefore
-dynamic
-%without requiring dedicated servers require that devices were owned by dedicated servers
-
-
-
-
-%også utover topology
-%Additionally, the programming complexity would greatly increase when the number of independent systems in the cluster increase beyond a few nodes.
-% nevertheless, this abstraction gives rise to another
-% mapping the entire address space does not work
-% communication overhead
-
-%Nevertheless, this abstraction gives rise to another challenge; a device driver that is unaware
-%that a device is remote may assume that the entire local address space can be reached by the device.
-%It is generally not possible to predict in advance which memory addresses a device driver may use,
-%yet NTB mappings must be in place before the device driver initiates DMA transfers. Deferring
-%mappings until the device driver initiates DMA would require synchronizing with the remote
-%system in the critical path, thus increasing the overall latency. A naive workaround is mapping
-%the entire memory for the device, but this solution does not scale for multiple hosts. SmartIO
-
-
-%Additionally, by relying on virtualization, this approach forgo the 
-%these approaches forgo the flexibility of fully distributed cluster computing systems.
-
-
-%address 
+It must be possible for \emph{all} machines in the cluster to share their own internal resources, and all machines must be able to access these shared (remote) resources, regardless of the cluster network topology.
 %
-%same switch chip
-%forgo
-%%
-%This is the case for the Ladon system~\cite{Tu2013}, where devices can be distributed to \gls{vm} \glspl{guest} running on host machines that are directly connected to the same \gls{ntb}-capable switch.
-%%
-%Devices are owned by a dedicated server, and this server assists the host~machines in setting up \gls{ntb} mappings for the \glspl{vm}.
-%
-
-
-%%
-%In the Ladon system~\cite{Tu2013}, devices can be distributed to \gls{vm} \glspl{guest} running on host machines that are directly connected to the same \gls{ntb}-capable switch.
-%%
-%Devices are owned by a dedicated ``management host'' that maps the memory of each 
-%%
-%By mapping the memory of each host machine, 
-%the server assists the \gls{hypervisor} on each host machine in setting up device mappings.
-%
-%dedicated server, forgo 
-%
-%the Ladon system~\cite{Tu2013} relies on facilitation from \gls{vm} \gls{hypervisor} to assist \gls{vm} \glspl{guest}
-%
-%%Existing \gls{pcie}-based solutions solve this through virtualization, either by relying on facilitation from hypervisors~\cite{Tu2014} or 
-%
-%
-%Implementing \gls{ntb}-based \gls{disaggregation} 
-%
-%
-%\gls{ntb}-based \gls{disaggregation} 
-
-
-
-%olutions for \gls{pcie} not based on \glspl{ntb}
-
-%By relying on virtualization functionality in \gls{pcie} switch chip hardware to dynamically partition the \gls{pcie} fabric, 
-%
-%Alternative PCIe-based solutions rely on additional virtualization functionality in the PCIe switch
-%chip hardware to partition the PCIe fabric and create virtual device trees for each individual host~\cite{chung2018,microsemi2019}. 
-%\cite{url:liqid,url:rackscale,url:gigaio}
-%PCIe-based solutions rely on additional virtualization functionality in the PCIe switch
-%chip hardware to partition the PCIe fabric and create virtual device trees for each individual host~\cite{chung2018,microsemi2019}. 
-%%
-%These solutions allow devices to be directly attached a switch rather than a server. 
-%%However, distributing devices is still only possible to hosts that
-%%are directly connected to the same switch.
-%%
-%%Moreover
-%However, these solutions are only able to disaggregate resources at the device level. Sharing the same
-%device with multiple hosts either requires virtualization
-%support in the device itself,~i.e., Single-Root I/O Virtualization~(SR-IOV), 
-%or additional distribution methods, such as RDMA.
-
-
-
-
-
-%Some \gls{pcie}-based \gls{disaggregation} approaches using NTBs have been proposed in the past~\cite{Hou2013,tu-2014}, 
-%these implementations present solutions where devices are owned by a dedicated server. As distributing
-%resources is generally only possible to hosts that are directly connected to the same switch as this
-%server, these approaches forgo the flexibility of fully distributed cluster computing systems.
-%
-%While some \gls{disaggregation} approaches using \glspl{ntb} have been proposed in the past~\cite{Hou2013,Tu2014}, 
-
-
-%\cite{Chung2018,Microsemi2019}. 
-%these implementations present solutions where devices are owned by a dedicated server. As distributing
-%resources is generally only possible to hosts that are directly connected to the same switch as this
-%server, these approaches forgo the flexibility of fully distributed cluster computing systems.
-%Alternative PCIe-based solutions rely on additional virtualization functionality in the PCIe switch
-%chip hardware to partition the PCIe fabric and create virtual device trees for each individual host~
-%%
-%These solutions allow devices to be directly attached a switch rather than a server. 
-%%However, distributing devices is still only possible to hosts that
-%%are directly connected to the same switch.
-%%
-%%Moreover
-%However, these solutions are only able to disaggregate resources at the device level. Sharing the same
-%device with multiple hosts either requires virtualization
-%support in the device itself,~i.e., Single-Root I/O Virtualization~(SR-IOV), 
-%or additional distribution methods, such as RDMA.
-
-
-
-
-
-%Traditional approaches to distributed \gls{io} over network may incur additional latency overheads
-%
-
-%However, while moving data efficiently between networked nodes in a cluster has been a research challenge for decades, moving workloads and data to remote units over the network remains a costly operation that introduces large performance overheads compared to accessing local resources. 
-
-
-%Consequently, \glspl{ntb} could be exploited to create a network where the inner components of all computers in the cluster,~i.e., \glspl{cpu} and \gls{pcie} devices, are connected to the same, shared \gls{pcie} fabric.
-%
-    %that makes it easier for nodes to scale out in order to increase overall performance in the cluster and 
-    
-    %seamlessly combines distributed shared-memory functionality with traditional \gls{io}, has native \gls{pcie} performance, and simultaneously makes it easier to scale out and increase overall performance in the cluster system?
-
-%\gls{ntb}
-%\gls{pcie}
-%\gls{cpu}
-%\gls{fpga}
-%\gls{gpu}
-%\gls{dma}
-%\gls{os}
-%\glspl{os}
-%\gls{userspace}
-%\gls{sriov}
-
-%Due to its very low latency overhead and memory addressing properties, using \gls{pcie} as a high-speed interconnection technology is a compelling alternative to traditional networking technologies. 
-%
-%Because \gls{pcie} was originally designed as a local \gls{io} bus, connecting devices to the \gls{cpu} on a motherboard, 
-%individual computer systems operate with different \gls{pcie} address domains.
-%
-%Interconnecting systems using \gls{pcie} require translating memory transactions from one \gls{pcie} address domain to another. 
-%
-%Such address translation is made possible by using \glspl{ntb}. 
-%
-%By using \glspl{ntb}, a computer system can map (parts of) the address space of other, remote computer systems. 
-
-%The \gls{ntb} translate addresses between the different address domains of the independent systems.
-%
-
-%By using \glspl{ntb}, the \gls{pcie} bus of independent computers can be interconnected, creating a network fabric where the \glspl{cpu} and internal \gls{pcie} devices of all systems are directly attached.
-%%
-%Through such \gls{pcie} networking, scaling out and using more hardware resources than there are available in a single computer becomes possible, increasing the overall resource utilization and system performance. 
-%%
-%Remote resources, such as memory and devices, could be mapped into a local system and accessed through the \gls{ntb}. 
-%%
-%Similarly, a remote device capable of \gls{dma} could also use the \gls{ntb} to access local resources. 
-%%
-%However, setting up such \gls{ntb} mappings requires awareness of the address space on the remote system.
-%%
-%Device drivers interacting with a remote device must use addresses that corresponds with the remote device's address space.
-%%
-%As this greatly increases the programming complexity and require extensive modifications to existing device driver software, it is not a viable approach for enabling resource sharing among computers  as is.
+This requires a mechanism for sparingly mapping remote resources, such as memory or device registers, on demand, without requiring that systems are aware of the underlying \gls{pcie} topology.
 
 
 
@@ -428,7 +266,8 @@ In particular, this research question can be broken down into the following obje
 \end{objective}
 Perhaps the main motivation for our goal of building a system for \gls{io} resource sharing is to make it easier to scale out and use more resources than there are available in a single computer. 
 If any standard \gls{pcie} device inside any machine could be shared with other machines, the \gls{io} resource utilization in the cluster can be greatly increased.
-Additionally, by avoiding dedicated servers and allowing all computers in the cluster to participate in the sharing, contributing their own resources and using resources shared by others, we would effectively enable a distributed, peer-to-peer sharing model. This objective sets our goal apart from existing \gls{pcie}-based solutions, as these require a central server or that devices are directly attached to a \gls{pcie} switch.
+Additionally, by avoiding dedicated servers and allowing all computers in the cluster to participate in the sharing, contributing their own resources and using resources shared by others, we would effectively enable a distributed, peer-to-peer sharing model. 
+This objective sets our goal apart from existing \gls{pcie}-based solutions, as these require a central server or that devices are directly attached to a \gls{pcie} switch.
 
 
 
@@ -457,7 +296,7 @@ Remote resources should be accessed directly over \emph{native} \gls{pcie}, whic
     Shared resources should be distributed \emph{dynamically}, and direct access to device memory and system memory should be configured in run-time, also between multiple devices residing in different hosts.
 \end{objective}
 As stated in \cref{obj:transparent}, the solution should work for physical hosts, and not only \glspl{vm}. Therefore, it must be possible to assign and reassign resources while all machines in the cluster are running, without requiring rebooting hosts or changing settings in the \gls{bios}.
-For devices, this introduces the requirement that the \gls{os} supports hot-adding devices to the system --- something most modern \gls{os} implementations do.
+For devices, this introduces the requirement that the \gls{os} supports hot-adding devices to the system -- something most modern \gls{os} implementations do.
 Not only would this would allow systems to dynamically scale up or down their \gls{io} resources based on immediate workload requirements, but devices could be more efficiently partitioned between machines in the cluster, increasing the overall resource utilization. 
 Furthermore, the solution should also be able to automatically discover resource location, without requiring that the user knows anything about the underlying \gls{pcie} network topology, and dynamically set up memory-mappings between devices, \glspl{cpu}, and memory resources. An example would be enabling \gls{pcie} \gls{p2p} between two or more \gls{dma}-capable devices that are physically installed in different machines.
 
