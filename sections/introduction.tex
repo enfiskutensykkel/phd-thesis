@@ -112,33 +112,6 @@ Sharing several types of devices, for example both \glspl{gpu} and \glspl{nvme},
 
 
 
-Extending the \gls{pcie} bus out of a single computer system and using it as a high-speed interconnection technology is a compelling alternative to distributed \gls{io} over a traditional network.
-%
-As \gls{pcie} is the standard for connecting \gls{io} devices to a local computer system, using only native \gls{pcie} would have clear performance advantage, since conversion between network protocol and \gls{io} bus would not be necessary~\cite{Fountain2005,Ravindran2008,whitepaper:Regula2004}.
-%
-However, since \gls{pcie} was originally designed to connect devices to the local \gls{cpu} on a motherboard, individual computer systems operate with different \gls{pcie} address domains.
-%
-Because of this, some \gls{pcie} switch chip hardware have virtualization support for dynamic partitioning~\cite{Chung2018,whitepaper:IDT,whitepaper:Microsemi,url:rackscale,url:liqid,url:gigaio}. 
-%
-Multiple \glspl{cpu} can be connected to the same \gls{pcie} fabric by mapping partitions to the individual address domains of each \gls{cpu}.
-%
-Additionally, devices can be attached directly to the partitionable switch chip, rather than being owned by individual machines.
-%
-This allows switch-attached devices to be logically assigned to different machines on the fly, as illustrated in \cref{fig:partitioning}.
-
-
-Nonetheless, because partitioning isolate \glspl{cpu} in separate address domains, this approach does not make it possible for machines to share their \emph{internal} resources.
-%
-Memory, or other devices that are attached to the local \gls{pcie} bus and not the partitionable switch (chip), cannot be shared.
-%
-Thus, partitioning lacks the shared-memory capabilities needed to support host-to-host communication over native \gls{pcie}, and other networking technologies, such as Ethernet or InfiniBand, must be used instead.
-%
-Consequently, \lgls{disaggregation}{disaggregating} devices and sharing them with multiple machines at the same time require either alternative methods, like \gls{rdma}, or additional virtualization support in the device itself,~i.e., \gls{sriov}.
-%Distributed applications must instead use other networking technologies to communicate, such as Ethernet or InfiniBand, 
-
-
-
-
 \begin{figure}
 	\centering
     \includegraphics[width=.85\linewidth]{cluster-example}
@@ -169,9 +142,34 @@ Consequently, \lgls{disaggregation}{disaggregating} devices and sharing them wit
 
 
 
-
-While approaches using \gls{pcie} fabric partitioning can be said to enable a composable \gls{io} infrastructure~\cite{Chung2018}, they stop short of providing \emph{networking} capabilities over \gls{pcie}.
+Extending the \gls{pcie} bus out of a single computer system and using it as a high-speed interconnection technology is a compelling alternative to distributed \gls{io} over a traditional network.
 %
+As \gls{pcie} is the standard for connecting \gls{io} devices to a local computer system, using only native \gls{pcie} would have clear performance advantage, since conversion between network protocol and \gls{io} bus would not be necessary~\cite{Fountain2005,Ravindran2008,whitepaper:Regula2004}.
+%
+However, since \gls{pcie} was originally designed to connect devices to the local \gls{cpu} on a motherboard, individual computer systems operate with different \gls{pcie} address domains.
+%
+Because of this, some \gls{pcie} switch chip hardware have virtualization support for dynamic partitioning~\cite{Chung2018,whitepaper:IDT,whitepaper:Microsemi,url:rackscale,url:liqid,url:gigaio}. 
+%
+Multiple \glspl{cpu} can be connected to the same \gls{pcie} fabric by mapping partitions to the individual address domains of each \gls{cpu}.
+%
+Additionally, devices can be attached directly to the partitionable switch chip, rather than being owned by individual machines.
+%
+This allows switch-attached devices to be logically assigned to different machines on the fly, as illustrated in \cref{fig:partitioning}.
+
+
+Nonetheless, because partitioning isolate \glspl{cpu} in separate address domains, this approach does not make it possible for machines to share their \emph{internal} resources.
+%
+Memory, or other devices that are attached to the local \gls{pcie} bus and not the partitionable switch (chip), cannot be shared.
+%
+Thus, partitioning lacks the shared-memory capabilities needed to support host-to-host communication over native \gls{pcie}, and other networking technologies, such as Ethernet or InfiniBand, must be used instead.
+%
+Consequently, \lgls{disaggregation}{disaggregating} devices and sharing them with multiple machines at the same time require either alternative methods, like \gls{rdma}, or additional virtualization support in the device itself,~i.e., \gls{sriov}.
+%Distributed applications must instead use other networking technologies to communicate, such as Ethernet or InfiniBand, 
+%
+While approaches using \gls{pcie} fabric partitioning can be said to enable a composable \gls{io} infrastructure~\cite{Chung2018}, they stop short of providing \emph{networking} capabilities over \gls{pcie}.
+
+
+
 Due to its intrinsic memory addressing abilities and low latency overhead, it is desirable to use \gls{pcie} as the enabling networking technology for distributed, shared-memory communication~\cite{Shim2018,whitepaper:Regula2004,url:Meduri2011}.
 %
 This requires translating memory transactions from one machine's address domain to another.
@@ -196,11 +194,11 @@ Similarly, a device capable of \gls{dma} could also use the \gls{ntb} to access 
 %
 This approach eliminates the need to use memory on the remote system as an intermediate step when transferring data, and any software in the data transfer path can be avoided entirely, as shown in \cref{fig:direct-access}.
 %
-In theory, by using \glspl{ntb} rather than dedicated servers, or requiring that devices are attached to special switches, we could create distributed, peer-to-peer sharing system;
+Rather than relying on dedicated servers or requiring that devices are attached to special switches, we could create distributed, peer-to-peer sharing system using \glspl{ntb};
 %
 \emph{all} machines in the cluster can share \emph{all} of their resources, including internal \gls{pcie} devices and system memory. 
 %
-Moreover, by avoiding centralized servers, the risk of individual machines becoming potential performance bottlenecks is reduced.
+Moreover, as centralized servers can be avoided, the risks of individual machines becoming potential performance bottlenecks or single points of failure are reduced.
 
 
 
@@ -214,7 +212,7 @@ In order to manage multiple address space layouts, extensive modifications to ex
 %
 This is infeasible due to the vast amount of devices and device driver implementations that exist.
 %
-To mitigate the complexity of managing different \gls{pcie} address spaces, it is possible to use virtualization.
+In this context, it is possible to use virtualization to mitigate the complexity of managing different \gls{pcie} address spaces.
 %
 The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical \lgls{host}{host~machines}.
 %
@@ -265,7 +263,7 @@ The challenges of this goal are addressed under the following research question:
     Can \glspl{ntb} be leveraged to allow the internal memory and devices of individual computers in a \gls{pcie}-networked cluster to be shared with and used by remote machines in the cluster, as if these resources were local to the remote machines?
 \end{restatable}
 %
-In particular, this research question can be broken down into the following objectives:
+In particular, this research question can be broken down into the following requirements:
 %
 \begin{objective}\label{obj:distributed}
     Ubiquitous sharing in the cluster should be supported, allowing any machine to contribute any of its internal \gls{pcie} devices, and allowing any machine to be able to use shared devices, even contributing and using devices at the same time.
@@ -365,6 +363,24 @@ The driver should also demonstrate how it can rely on memory \gls{disaggregation
 \gls{dma}
 
 \section{Research methodology}
+Among computer scientists, there is a long-standing philosophical debate regarding whether the field of computer~science should be considered a branch of mathematics, an engineering discipline, or a natural science.
+%
+According to Eden~\cite{Eden2007}, computer~science as discipline can be divided into three paradigms:
+\begin{itemize}
+    \item Rationalist: defines computer~science as a branch of mathematics. 
+        The paradigm seeks a~priori knowledge of systems through means of deductive reasoning.
+    \item Technocratic: defines computer~science as an engineering discipline.
+        The paradigm seeks probable, a~posteriori knowledge about systems through implementation and testing.
+    \item Scientific: defines computer~science as a natural (empirical) science.
+        The paradigm seeks both a~priori and a~posteriori knowledge about systems by combining formal deduction and scientific experimentation.
+        Note that the technocratic process of ``testing'' differs from scientific experiments, in that the purpose of the former is to establish to which extent a set of requirements are met, whereas the latter is designed to corroborate (or refute) a hypothesis.
+\end{itemize}
+A similar classification of paradigms is supported by the ACM Task Force on the Core of Computer Science~\cite{Comer1989}. 
+%
+They additionally note that because computer~science, with its own theory, experimental method, and engineering of systems, is so deeply rooted into both mathematics and engineering, not any one of the paradigms can be said to be fundamental to the discipline.
+
+% different subareas fall into one of these paradigms
+
 
 
 
