@@ -340,7 +340,7 @@ The driver should also demonstrate how it can rely on memory \gls{disaggregation
 
 
 
-\section{Scope and limitations}
+\section{Scope and limitations}\label{sec:scope}
 % limitation: systems must support pcie p2p (or use switches that do)
 %limitation: systems must support hot-plugging
 %not disaggregated os, not general networks, not 50,000 nodes etc
@@ -360,9 +360,9 @@ The driver should also demonstrate how it can rely on memory \gls{disaggregation
 % for linux only?
 
 \gls{sisci}
-\gls{dma}
+TODO
 
-\section{Research methodology}
+\section{Research methodology}\label{sec:methodology}
 Whether computer~science should be considered applied mathematics, engineering, or a science, is an age-old philosophical debate.
 %
 According to Eden~\cite{Eden2007}, computer~science as discipline can be divided into three paradigms:
@@ -374,18 +374,19 @@ According to Eden~\cite{Eden2007}, computer~science as discipline can be divided
     \item The scientific paradigm, which defines computer~science as a natural (empirical) science.
         The paradigm seeks both a~priori and a~posteriori knowledge about systems or processes by combining formal deduction and scientific experimentation.
         Note that the technocratic concept of validation through testing differs from scientific experiments, in that the purpose of the former is to establish to which extent a set of requirements are met, whereas the latter is designed to corroborate (or refute) a hypothesis.
-        If a test fails, the implementation must be revised. If an experiment ``fails'', the theory instead must be revised.
+        If a test fails, the implementation must be revised. 
+        On the other hand, if an experiment ``fails'', the theory instead must be revised.
 \end{itemize}
 %
-A similar classification of paradigms is supported by the ACM Task Force on the Core of Computer Science~\cite{Comer1989}. 
+A similar classification of paradigms is given by the ACM Task Force on the Core of Computer Science~\cite{Comer1989}.\footnote{ACM use the names ``theory'', ``design'', and ``abstraction'' for these paradigms instead.}
 %
-They additionally note that computer~science---with its own theory, mathematical analysis, experimental method, and engineering practices---is so deeply rooted into both mathematics and engineering, that not any one of the paradigms can be said to be fundamental to the discipline.
+They additionally note that computer~science---with its own theory, mathematical analysis, experimental method, and engineering practices---is so deeply rooted in both mathematics and engineering, that not any one of the three paradigms can be said to be fundamental to the discipline.
 
 
 
-The subject of this dissertation touches on several subareas of computer~science, including computer and hardware architecture, distributed computing, \gls{os} fundamentals, and communication networks.
+The subject of this dissertation touches on several sub-areas of computer~science, including computer and hardware architecture, distributed computing, \gls{os} fundamentals, and communication networks.
 %
-While all three paradigms can be applied to these subareas, the central research~question of this dissertation~(\cref{sec:objectives}) concern computer systems and \gls{io} resources that exist in the real world.
+While all three paradigms can be applied to these sub-areas, the central research~question of this dissertation~(\cref{sec:objectives}) concern computer systems and \gls{pcie} implementations that exist in the real world.
 %
 In this context, neither the rationalist or scientific paradigms are particularly well-suited, and it is the technocratic paradigm which lends itself best to answering our research~question.
 %
@@ -395,24 +396,52 @@ Neither are we attempting to model these existing systems in order to understand
 
 
 
-%The technocratic paradigm can be outlined as 
-%As stated in \cref{sec:objectives}, the goal of this dissertation is to build a system for sharing and distributing \gls{io} resources in a \gls{pcie}-networked cluster, which we can then test and evaluate according to a set of requirements (\crefrange{obj:distributed}{obj:experiments}).
+Following the technocratic paradigm, we have designed and implemented a solution for making it easier to share \gls{io} resources efficiently among machines in a \gls{pcie} cluster, according to the requirements and specifications given in \cref{sec:objectives}.
+%
+This implementation is outlined in \cref{chapter:smartio} and explained further in detail in \cref{paper:tocs}.
+%
+Our solution makes it possible to use remote resources as if they were locally installed, both functionally and with regards to performance.
+%
+In order to verify this, we have performed both 
+
+TODO TODO TODO
+
+
+this prototype has since seen real world deployments, thus further validating ...
+%probabilistic
+
+%statistical reliability
+
+%micro bencmarks and larg-scale tests w/ realistic workloads
+in terms of latency and throughput.
+
+we have developed tools and performance benchmarking programs, and performed both functional tests on different versions of the Linux kernel 
+%
+The different iterations this implementation has gone through are seen in \crefrange{paper:nossdav}{paper:tocs}.
+%empirical validation
+
+%iterate these steps if tests reveal that latest version of system does not satisfactory meet the requirements
+%
+%These steps should be iterated, for example if testing reveals that the latest version of the prototype does not meet the requirements in a satisfactory manner.
+%
+
+%and performance tests.
+%
+
+
+% tools and benchmarks
+
+
+%As stated in \cref{sec:objectives}, the goal of this dissertation is to build a system for sharing and distributing \gls{io} resources in a \gls{pcie}-networked cluster, which we can then test and evaluate according to a set of requirements 
 %%
 %If our implementation does not meet these 
 
 
 
 
-%empirical validation
-
-%iterate these steps if tests reveal that latest version of system does not satisfactory meet the requirements
 
 %
 
-
-%probabilistic
-
-%statistical reliability
 
 
 
