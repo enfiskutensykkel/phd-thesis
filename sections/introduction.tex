@@ -263,7 +263,7 @@ The challenges of this goal are addressed under the following research question:
     Can \glspl{ntb} be leveraged to allow the internal memory and devices of individual computers in a \gls{pcie}-networked cluster to be shared with and used by remote machines in the cluster, as if these resources were local to the remote machines?
 \end{restatable}
 %
-In particular, this research question can be broken down into the following requirements:
+In particular, this research question can be broken down into the following objectives:
 %
 \begin{objective}\label{obj:distributed}
     Ubiquitous sharing in the cluster should be supported, allowing any machine to contribute any of its internal \gls{pcie} devices, and allowing any machine to be able to use shared devices, even contributing and using devices at the same time.
@@ -300,7 +300,7 @@ Remote resources should be accessed directly over \emph{native} \gls{pcie}, whic
     Shared resources should be distributed \emph{dynamically}, and direct access to device memory and system memory should be configured in run-time, also between multiple devices residing in different hosts.
 \end{objective}
 As stated in \cref{obj:transparent}, the solution should work for physical hosts, and not only \glspl{vm}. Therefore, it must be possible to assign and reassign resources while all machines in the cluster are running, without requiring rebooting hosts or changing settings in the \gls{bios}.
-For devices, this introduces the requirement that the \gls{os} supports hot-adding devices to the system -- something most modern \gls{os} implementations do.
+For devices, this introduces the requirement that the \gls{os} supports hot-adding devices to the system (which most modern \gls{os} implementations do).
 Not only would this would allow systems to dynamically scale up or down their \gls{io} resources based on immediate workload requirements, but devices could be more efficiently partitioned between machines in the cluster, increasing the overall resource utilization. 
 Furthermore, the solution should also be able to automatically discover resource location, without requiring that the user knows anything about the underlying \gls{pcie} network topology, and dynamically set up memory-mappings between devices, \glspl{cpu}, and memory resources. An example would be enabling \gls{pcie} \gls{p2p} between two or more \gls{dma}-capable devices that are physically installed in different machines.
 
@@ -363,24 +363,56 @@ The driver should also demonstrate how it can rely on memory \gls{disaggregation
 \gls{dma}
 
 \section{Research methodology}
-Among computer scientists, there is a long-standing philosophical debate regarding whether the field of computer~science should be considered a branch of mathematics, an engineering discipline, or a natural science.
+Whether computer~science should be considered applied mathematics, engineering, or a science, is an age-old philosophical debate.
 %
 According to Eden~\cite{Eden2007}, computer~science as discipline can be divided into three paradigms:
 \begin{itemize}
-    \item Rationalist: defines computer~science as a branch of mathematics. 
-        The paradigm seeks a~priori knowledge of systems through means of deductive reasoning.
-    \item Technocratic: defines computer~science as an engineering discipline.
-        The paradigm seeks probable, a~posteriori knowledge about systems through implementation and testing.
-    \item Scientific: defines computer~science as a natural (empirical) science.
-        The paradigm seeks both a~priori and a~posteriori knowledge about systems by combining formal deduction and scientific experimentation.
-        Note that the technocratic process of ``testing'' differs from scientific experiments, in that the purpose of the former is to establish to which extent a set of requirements are met, whereas the latter is designed to corroborate (or refute) a hypothesis.
+    \item The rationalist paradigm, which defines computer~science as a branch of mathematics. 
+        The paradigm seeks certain, a~priori knowledge of systems or processes through means of deductive reasoning.
+    \item The technocratic paradigm, which defines computer~science as an engineering discipline.
+        The paradigm seeks probable, a~posteriori knowledge about systems or processes through implementation (or prototyping) and empirical validation in the form of testing.
+    \item The scientific paradigm, which defines computer~science as a natural (empirical) science.
+        The paradigm seeks both a~priori and a~posteriori knowledge about systems or processes by combining formal deduction and scientific experimentation.
+        Note that the technocratic concept of validation through testing differs from scientific experiments, in that the purpose of the former is to establish to which extent a set of requirements are met, whereas the latter is designed to corroborate (or refute) a hypothesis.
+        If a test fails, the implementation must be revised. If an experiment ``fails'', the theory instead must be revised.
 \end{itemize}
+%
 A similar classification of paradigms is supported by the ACM Task Force on the Core of Computer Science~\cite{Comer1989}. 
 %
-They additionally note that because computer~science, with its own theory, experimental method, and engineering of systems, is so deeply rooted into both mathematics and engineering, not any one of the paradigms can be said to be fundamental to the discipline.
+They additionally note that computer~science---with its own theory, mathematical analysis, experimental method, and engineering practices---is so deeply rooted into both mathematics and engineering, that not any one of the paradigms can be said to be fundamental to the discipline.
 
-% different subareas fall into one of these paradigms
 
+
+The subject of this dissertation touches on several subareas of computer~science, including computer and hardware architecture, distributed computing, \gls{os} fundamentals, and communication networks.
+%
+While all three paradigms can be applied to these subareas, the central research~question of this dissertation~(\cref{sec:objectives}) concern computer systems and \gls{io} resources that exist in the real world.
+%
+In this context, neither the rationalist or scientific paradigms are particularly well-suited, and it is the technocratic paradigm which lends itself best to answering our research~question.
+%
+A~priori knowledge about the possibilities for device sharing in a shared-memory cluster is unrealistic due to the complexity of real-world systems running on physical hardware.
+%
+Neither are we attempting to model these existing systems in order to understand some process and make predictions.
+
+
+
+%The technocratic paradigm can be outlined as 
+%As stated in \cref{sec:objectives}, the goal of this dissertation is to build a system for sharing and distributing \gls{io} resources in a \gls{pcie}-networked cluster, which we can then test and evaluate according to a set of requirements (\crefrange{obj:distributed}{obj:experiments}).
+%%
+%If our implementation does not meet these 
+
+
+
+
+%empirical validation
+
+%iterate these steps if tests reveal that latest version of system does not satisfactory meet the requirements
+
+%
+
+
+%probabilistic
+
+%statistical reliability
 
 
 
