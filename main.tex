@@ -64,7 +64,7 @@
 \NewDocumentCommand{\paperref}{ m m }{\hyperref[sec:#1-#2]{\cref*{paper:#1}, \cref*{sec:#1-#2}}}
 
 
-% Thesis, research question and proposition/objectives
+% Research question and proposition/objectives/requirements
 
 \makeatletter
 \newenvironment{question}
@@ -90,7 +90,7 @@
 %]{question}
 
 \declaretheoremstyle[
-    name={Objective},
+    name={Requirement},
     headfont=\bfseries\sffamily,
     notefont=\normalfont,
     bodyfont=\normalfont,
@@ -104,8 +104,8 @@
     style=objective,
     numbered=yes
 ]{objective}
-\crefname{objective}{Objective}{Objectives}
-\Crefname{objective}{Objective}{Objectives}
+\crefname{objective}{Requirement}{Requirements}
+\Crefname{objective}{Requirement}{Requirements}
 
 
 % Glossary stuff

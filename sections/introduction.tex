@@ -245,26 +245,23 @@ A way to prepare the necessary memory-mappings through the \gls{ntb}, without ad
 
 
 
-\section{Problem statement}\label{sec:objectives}
-%Using \gls{pcie} networking, built with \gls{pcie} networking can allow resources to be accessed with very little performance overhead as no protocol translation between the network and the local \gls{io} bus is required.
+\section{Problem statement}\label{sec:problem}
+Utilizing \gls{pcie} \glspl{ntb} to share resources among machines in a \gls{pcie}-networked cluster requires a mechanism for abstracting away the physical location of a resource, including the address space of the computer system it is installed in. 
 %
-Utilizing \gls{pcie} \glspl{ntb} to share resources among machines in a \gls{pcie}-networked cluster requires a solution for abstracting away the physical location of a resource, including the address space of the computer system it is installed in. 
+More specifically, as it is desirable to avoid modifications to existing device drivers and application software, such a mechanism must also be able to present resources to the system as if they were locally installed.
 %
-More specifically, as it is desirable to avoid modifications to existing device drivers and application software, such a solution must also be able to present resources to the system as if they were locally installed.
+This mechanism must also allow remote resources to be used with the same performance expected for native \gls{pcie},~i.e., with the same performance as if they were attached to the local \gls{pcie} bus.
 %
-The solution must also allow remote resources to be used with the same performance expected for native \gls{pcie},~i.e., with the same performance as if they were attached to the local \gls{pcie} bus.
-%
-Hence, the goal of this dissertation is to develop an infrastructure for sharing and distributing \gls{io}~resources (devices and memory) in a way that eliminates the distinction between local and remote access of a resource. 
+Hence, the goal of this dissertation is to develop a solution for sharing and distributing \gls{io}~resources (devices and memory) in a way that eliminates the distinction between local and remote access of a resource. 
 %
 The challenges of this goal are addressed under the following research question: 
 \begin{restatable}{question}{researchquestion}\label{question}
-    % TODO: Consider making this more general for PCIe networks instead, and remove reference to NTBs
-    %       From the objectives, it should be clear that NTBs are necessary anyway
     Can \glspl{ntb} be leveraged to allow the internal memory and devices of individual computers in a \gls{pcie}-networked cluster to be shared with and used by remote machines in the cluster, as if these resources were local to the remote machines?
 \end{restatable}
 %
-In particular, this research question can be broken down into the following objectives:
-%
+In particular, this research~question can be broken down into the following list of requirements that a solution must satisfy:
+
+
 \begin{objective}\label{obj:distributed}
     Ubiquitous sharing in the cluster should be supported, allowing any machine to contribute any of its internal \gls{pcie} devices, and allowing any machine to be able to use shared devices, even contributing and using devices at the same time.
 \end{objective}
@@ -363,9 +360,12 @@ The driver should also demonstrate how it can rely on memory \gls{disaggregation
 TODO
 
 \section{Research methodology}\label{sec:methodology}
-Whether computer~science should be considered applied mathematics, engineering, or a science, is an age-old philosophical debate.
+Choosing an appropriate research methodology is challenging, as different methodologies come with different considerations and potential pitfalls~\cite{McGrath1981}.
 %
-According to Eden~\cite{Eden2007}, computer~science as discipline can be divided into three paradigms:
+It does not help that even computer~scientists themselves seem to not agree on the age-old philosophical question of whether computer~science should be considered applied mathematics, engineering, or a science~\cite{Denning2005}.
+
+
+According to Eden~\cite{Eden2007}, computer~science as a discipline can broadly be divided into three different research paradigms:
 \begin{itemize}
     \item The rationalist paradigm, which defines computer~science as a branch of mathematics. 
         The paradigm seeks certain, a~priori knowledge of systems or processes through means of deductive reasoning.
@@ -380,71 +380,78 @@ According to Eden~\cite{Eden2007}, computer~science as discipline can be divided
 %
 A similar classification of paradigms is given by the ACM Task Force on the Core of Computer Science~\cite{Comer1989}.\footnote{ACM use the names ``theory'', ``design'', and ``abstraction'' for these paradigms instead.}
 %
-They additionally note that computer~science---with its own theory, mathematical analysis, experimental method, and engineering practices---is so deeply rooted in both mathematics and engineering, that none of the three paradigms can be said to be fundamental to the discipline on its own.
+They additionally note that the three paradigms are intrinsically intertwined, as computer~science is both deeply rooted in mathematics and has its own theory, experimental method, and engineering---in contrast to most physical sciences, where the engineering disciplines that apply their findings are considered separate.
+%
+No single one of the paradigms can therefore be said to be fundamental to computer~science on its own, and the distinction between them is inherently fuzzy.
 
 
 
 The subject of this dissertation touches on several sub-areas of computer~science, including computer and hardware architecture, distributed computing, \gls{os} fundamentals, and communication networks.
 %
-While all three paradigms can be applied to these sub-areas, it is the technocratic paradigm which lends itself best to answering our research~question~(\cref{question}).
+While all three paradigms can be applied to these sub-areas~\cite{Comer1989}, it is the technocratic paradigm which lends itself best to answering the overall problem~statement of this dissertation~(\cref{sec:problem}).
 %
-Neither the rationalist or scientific paradigms are particularly well-suited in this context.
+Neither the rationalist nor the scientific paradigm are particularly well-suited in this context.
 %
 A~priori knowledge about the possibilities for device sharing in a shared-memory cluster is unrealistic due to the complexity of real-world computer systems running on physical hardware.
 %
-Neither are we attempting to model these existing systems in order to understand some process and make predictions about it.
+We are also not gathering observational data about some process or effect in an indeterministic system, in order to create a statistical model that can be used to make predictions.
 
 
 
-%something about how engineering in comp sci differs from traditional engineering
-Following the technocratic paradigm, we have designed and implemented a solution for making it easier to share \gls{io} resources efficiently among machines in a \gls{pcie} cluster as our prototype.
-%according to the requirements and specifications given in \cref{sec:objectives}.
+Following the technocratic paradigm, we have iteratively designed, implemented, and tested our solution according to the requirements and specifications given in \cref{sec:problem}.
 %
-This implementation is outlined in \cref{chapter:smartio} and explained further in detail in \cref{paper:tocs}.
+This solution is outlined in \cref{chapter:smartio}, with a more detailed description given in \cref{paper:tocs}.
 %
-TODO TODO TODO
-
-
-Our solution makes it possible to use remote resources as if they were locally installed, both functionally and with regards to performance.
+The different iterations our solution has gone through in order to better satisfy the requirements are seen in \crefrange{paper:nossdav}{paper:tocs}.
 %
-In order to verify this, we have performed both 
+To validate our solution, we have performed both functional tests and performance experiments.
 
 
 
-this prototype has since seen real world deployments, thus further validating ...
-%probabilistic
+Functional tests include scenarios with multiple versions of the Linux kernel, different types of \gls{pcie} devices driver implementations, several types of \gls{pcie} devices, and multiple \gls{io}
 
-%statistical reliability
+also topology
 
-%micro bencmarks and larg-scale tests w/ realistic workloads
-in terms of latency and throughput.
-
-we have developed tools and performance benchmarking programs, and performed both functional tests on different versions of the Linux kernel 
+%for making it easier to share \gls{io} resources efficiently among machines in a \gls{pcie} cluster as our prototype.
 %
-The different iterations this implementation has gone through are seen in \crefrange{paper:nossdav}{paper:tocs}.
-%empirical validation
-
-%iterate these steps if tests reveal that latest version of system does not satisfactory meet the requirements
+%Our solution is built 
 %
-%These steps should be iterated, for example if testing reveals that the latest version of the prototype does not meet the requirements in a satisfactory manner.
 %
-
-%and performance tests.
 %
-
-
-% tools and benchmarks
-
-
-%As stated in \cref{sec:objectives}, the goal of this dissertation is to build a system for sharing and distributing \gls{io} resources in a \gls{pcie}-networked cluster, which we can then test and evaluate according to a set of requirements 
+%
+%Our solution makes it possible to use remote resources as if they were locally installed, both functionally and with regards to performance.
 %%
-%If our implementation does not meet these 
-
-
-
-
-
+%In order to verify this, we have performed both 
 %
+%
+%
+%this prototype has since seen real world deployments, thus further validating ...
+%%probabilistic
+%
+%%statistical reliability
+%
+%%micro bencmarks and larg-scale tests w/ realistic workloads
+%in terms of latency and throughput.
+%
+%we have developed tools and performance benchmarking programs, and performed both functional tests on different versions of the Linux kernel 
+%%
+%%empirical validation
+%
+%%iterate these steps if tests reveal that latest version of system does not satisfactory meet the requirements
+%%
+%%These steps should be iterated, for example if testing reveals that the latest version of the prototype does not meet the requirements in a satisfactory manner.
+%%
+%
+%%and performance tests.
+%%
+%
+%
+%% tools and benchmarks
+%
+%
+%%As stated in \cref{sec:objectives}, the goal of this dissertation is to build a system for sharing and distributing \gls{io} resources in a \gls{pcie}-networked cluster, which we can then test and evaluate according to a set of requirements 
+%%%
+%%If our implementation does not meet these 
 
 
 
