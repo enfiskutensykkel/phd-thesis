@@ -257,7 +257,7 @@ The solution must also allow remote resources to be used with the same performan
 Hence, the goal of this dissertation is to develop an infrastructure for sharing and distributing \gls{io}~resources (devices and memory) in a way that eliminates the distinction between local and remote access of a resource. 
 %
 The challenges of this goal are addressed under the following research question: 
-\begin{restatable}{question}{researchquestion}
+\begin{restatable}{question}{researchquestion}\label{question}
     % TODO: Consider making this more general for PCIe networks instead, and remove reference to NTBs
     %       From the objectives, it should be clear that NTBs are necessary anyway
     Can \glspl{ntb} be leveraged to allow the internal memory and devices of individual computers in a \gls{pcie}-networked cluster to be shared with and used by remote machines in the cluster, as if these resources were local to the remote machines?
@@ -386,18 +386,19 @@ They additionally note that computer~science---with its own theory, mathematical
 
 The subject of this dissertation touches on several sub-areas of computer~science, including computer and hardware architecture, distributed computing, \gls{os} fundamentals, and communication networks.
 %
-While all three paradigms can be applied to these sub-areas, the central research~question of this dissertation~(\cref{sec:objectives}) concern computer systems and \gls{pcie} implementations that exist in the real world.
+While all three paradigms can be applied to these sub-areas, it is the technocratic paradigm which lends itself best to answering our research~question~(\cref{question}).
 %
-In this context, neither the rationalist or scientific paradigms are particularly well-suited, and it is the technocratic paradigm which lends itself best to answering our research~question.
+Neither the rationalist or scientific paradigms are particularly well-suited in this context.
 %
-A~priori knowledge about the possibilities for device sharing in a shared-memory cluster is unrealistic due to the complexity of real-world systems running on physical hardware.
+A~priori knowledge about the possibilities for device sharing in a shared-memory cluster is unrealistic due to the complexity of real-world computer systems running on physical hardware.
 %
-Neither are we attempting to model these existing systems in order to understand some process and make predictions.
+Neither are we attempting to model these existing systems in order to understand some process and make predictions about it.
 
 
 
 %something about how engineering in comp sci differs from traditional engineering
-Following the technocratic paradigm, we have designed and implemented a solution for making it easier to share \gls{io} resources efficiently among machines in a \gls{pcie} cluster, according to the requirements and specifications given in \cref{sec:objectives}.
+Following the technocratic paradigm, we have designed and implemented a solution for making it easier to share \gls{io} resources efficiently among machines in a \gls{pcie} cluster as our prototype.
+%according to the requirements and specifications given in \cref{sec:objectives}.
 %
 This implementation is outlined in \cref{chapter:smartio} and explained further in detail in \cref{paper:tocs}.
 %
