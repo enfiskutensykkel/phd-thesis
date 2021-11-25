@@ -396,7 +396,7 @@ The subject of this dissertation touches on several sub-areas of computer~scienc
 %
 While all three paradigms can be applied to these sub-areas~\cite{Comer1989}, it is the technocratic paradigm which lends itself best to answering the overall problem~statement of this dissertation~(\cref{sec:problem}).
 %
-As many solutions for distributed \gls{io} already exist, the motivation for this dissertation is not simply to make it easier for machines to share \gls{io} resources efficiently, but to attempt to do so using an altogether new way that makes it possible to unify traditional device \gls{io} with distributed, shared-memory computing.
+As many solutions for distributed \gls{io} already exist, the motivation for this dissertation is not simply to make it easier for machines to share resources efficiently, but to attempt to do so using an altogether new way that makes it possible to unify traditional device \gls{io} with distributed, shared-memory computing.
 %
 As such, it is desirable to realize this solution by building a working prototype, in order to be able to explore potential opportunities and weaknesses along the way.
 %
@@ -406,15 +406,48 @@ It is unrealistic to make a model through a~priori knowledge alone, due to the c
 %
 Similarly, the process of gathering data with the goal of understanding the behavior of an indeterministic system, in order to create a statistical model and make predictions about it, seems equally unfit in this context.
 %
-Instead, we have followed the technocratic paradigm by iteratively designing, implementing, and testing a solution according to the requirements and specifications given in \cref{sec:problem}.
+Instead, we follow the technocratic paradigm by iteratively designing, implementing, and testing a solution according to the requirements and specifications given in \cref{sec:problem}.
 
 
 
-To validate our solution, we have performed both functional tests and performance tests.
+In order to validate the solution, it should be thoroughly tested.
 %
-Both types of tests serve the same purpose, namely to confirm that our solution makes it possible for machines to access internal devices and memory in other (remote) machines, as if these resources were local to the machines using them.
+For the most part, this is relatively straight forward: 
 %
-Functional tests are aimed at demonstrating that these resources \emph{behave} as if they are locally installed, while performance tests are intended to evaluate the \emph{performance} of using remote resources (compared to local resources).
+the fundamental requirement for the solution, namely that machines should be able to use the internal devices and memory in other (remote) machines as if these resources were locally installed.
+%
+A test can first be performed using local resources and then repeated for remote resources using our solution. 
+%
+If the results are the same, then the test has passed.
+%
+However, while simple comparison tests are sufficient for establishing whether the implementation is able to satisfactory meet the requirements, it is in some cases d
+
+
+
+
+A wide range of test scenarios are possible.
+from microbenchmarking the latency and throughput of specific \gls{io} operations (such as reading or writing to an \gls{nvme}, measuring packets  or copying memory onto a \gls{gpu})
+
+possible to use a wide range of applications and test scenarios
+
+
+
+
+wide range of tests to showcase 
+
+
+
+, it should be tested with both functionality tests and performance tests.
+%
+
+with both functionality tests and performance tests.
+Functional tests are aimed at demonstrating that these resources \emph{behave} as if they are locally installed, 
+
+
+while performance tests are intended to evaluate the \emph{performance} of using remote resources.
+%
+%
+(compared to local resources).
 %
 %
 This includes tests using several kinds of \gls{pcie} devices and device driver implementations, multiple versions of the Linux kernel, and a wide variety of application software that rely on device \gls{io}.
