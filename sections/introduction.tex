@@ -360,9 +360,11 @@ The driver should also demonstrate how it can rely on memory \gls{disaggregation
 TODO
 
 \section{Research methodology}\label{sec:methodology}
-Choosing an appropriate research methodology is challenging, as different methodologies come with different considerations and potential pitfalls~\cite{McGrath1981}.
+Choosing an appropriate research methodology for problems in computer~science is challenging.
 %
-It does not help that even computer~scientists themselves seem to not agree on the age-old philosophical question of whether computer~science should be considered applied mathematics, engineering, or a science~\cite{Denning2005}.
+Many methodologies come with their own set of considerations and potential pitfalls~\cite{McGrath1981}.
+%
+Finding a methodology is not made easier by the fact that computer~scientists themselves do not seem to agree on the age-old philosophical question of whether computer~science should be considered applied mathematics, engineering, or a science~\cite{Denning2005}.
 
 
 According to Eden~\cite{Eden2007}, computer~science as a discipline can broadly be divided into three different research paradigms:
@@ -373,11 +375,15 @@ According to Eden~\cite{Eden2007}, computer~science as a discipline can broadly 
         The paradigm seeks probable, a~posteriori knowledge about systems or processes through implementation (or prototyping) and empirical validation in the form of testing.
     \item The scientific paradigm, which defines computer~science as a natural (empirical) science.
         The paradigm seeks both a~priori and a~posteriori knowledge about systems or processes by combining formal deduction and scientific experimentation.
-        Note that the technocratic concept of validation through testing differs from scientific experiments, in that the purpose of the former is to establish to which extent a set of requirements are met, whereas the latter is designed to corroborate (or refute) a hypothesis.
-        If a test fails, the implementation must be revised. 
-        On the other hand, if an experiment ``fails'', the theory instead must be revised.
 \end{itemize}
+%of validation through testing
+Note that the technocratic concept of a ``test'' differs from scientific experiments, in that the purpose of the former is to establish to which extent a set of requirements are met, whereas the latter is designed to corroborate or refute a hypothesis.
+%%
+If a test fails (to meet a requirement), the implementation must be revised. 
 %
+If an scientific experiment ``fails'', it is the theory (or understanding) that must be revised instead.
+
+
 A similar classification of paradigms is given by the ACM Task Force on the Core of Computer Science~\cite{Comer1989}.\footnote{ACM use the names ``theory'', ``design'', and ``abstraction'' for these paradigms instead.}
 %
 They additionally note that the three paradigms are intrinsically intertwined, as computer~science is both deeply rooted in mathematics and has its own theory, experimental method, and engineering---in contrast to most physical sciences, where the engineering disciplines that apply their findings are considered separate.
@@ -392,46 +398,43 @@ While all three paradigms can be applied to these sub-areas~\cite{Comer1989}, it
 %
 As many solutions for distributed \gls{io} already exist, the motivation for this dissertation is not simply to make it easier for machines to share \gls{io} resources efficiently, but to attempt to do so using an altogether new way that makes it possible to unify traditional device \gls{io} with distributed, shared-memory computing.
 %
-As such, there is a desire to build a working prototype in order to realize this solution and be able to explore potential opportunities and weaknesses along the way.
+As such, it is desirable to realize this solution by building a working prototype, in order to be able to explore potential opportunities and weaknesses along the way.
 %
-Neither the rationalist nor the scientific paradigm are particularly well-suited in this context.
+On this basis, neither the rationalist nor the scientific paradigm are particularly well-suited.
 %
-A~priori knowledge about the many different hardware and software components of real-world computer systems is unrealistic due to their complexity.
+It is unrealistic to make a model through a~priori knowledge alone, due to the complexity of the many different hardware and software components of real-world computer systems.
 %
-Similarly, the process of gathering data from observations in an indeterministic system, with the goal of creating a statistical model that can be used to make predictions, seems equally unfit.
+Similarly, the process of gathering data with the goal of understanding the behavior of an indeterministic system, in order to create a statistical model and make predictions about it, seems equally unfit in this context.
 %
 Instead, we have followed the technocratic paradigm by iteratively designing, implementing, and testing a solution according to the requirements and specifications given in \cref{sec:problem}.
 
 
+
+To validate our solution, we have performed both functional tests and performance tests.
 %
-%Our solution is to use the inherent memory-mapping capabilities of \glspl{ntb} to develop a mechanism for making resources appear and behave exactly as if they were part of the local device tree, thus eliminating any distinction between remote and local 
-%solution for sharing devices and memory in a way that seamlessly unifies traditional distributed \gls{io} and distributed, shared-memory computing.
-%transparent to even device drivers
+Both types of tests serve the same purpose, namely to confirm that our solution makes it possible for machines to access internal devices and memory in other (remote) machines, as if these resources were local to the machines using them.
+%
+Functional tests are aimed at demonstrating that these resources \emph{behave} as if they are locally installed, while performance tests are intended to evaluate the \emph{performance} of using remote resources (compared to local resources).
+%
+%
+This includes tests using several kinds of \gls{pcie} devices and device driver implementations, multiple versions of the Linux kernel, and a wide variety of application software that rely on device \gls{io}.
+%
+Performance tests 
+
+include scenarios with multiple versions of the Linux kernel, different types of \gls{pcie} devices driver implementations, several types of \gls{pcie} devices, and multiple \gls{io}
 
 
-the aim is to build a 
-%
+
+microbenchmarks, were we focus on the latency and throughput of \gls{io} operations (such as reading from a storage device or copying memory onto a GPU)
+
+performance
+how the network topology affects performance
 
 
 in a performance-optimal 
 
-combine
 
-with distributed \gls{io} and resource sharing, in an entirely new 
-
-combine traditional \gls{io} concepts with
-the goal of this dissertation has been to develop a 
-
-%
-%
-%
-To validate our solution, we have performed both functional tests and performance experiments.
-
-
-
-Functional tests include scenarios with multiple versions of the Linux kernel, different types of \gls{pcie} devices driver implementations, several types of \gls{pcie} devices, and multiple \gls{io}
-
-also topology
+compare local and remote
 
 %for making it easier to share \gls{io} resources efficiently among machines in a \gls{pcie} cluster as our prototype.
 %
@@ -475,6 +478,9 @@ also topology
 %%If our implementation does not meet these 
 
 
+%Our solution is to use the inherent memory-mapping capabilities of \glspl{ntb} to develop a mechanism for making resources appear and behave exactly as if they were part of the local device tree, thus eliminating any distinction between remote and local 
+%solution for sharing devices and memory in a way that seamlessly unifies traditional distributed \gls{io} and distributed, shared-memory computing.
+%transparent to even device drivers
 
 
 \section{Contributions}
