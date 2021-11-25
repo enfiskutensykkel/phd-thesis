@@ -390,19 +390,40 @@ The subject of this dissertation touches on several sub-areas of computer~scienc
 %
 While all three paradigms can be applied to these sub-areas~\cite{Comer1989}, it is the technocratic paradigm which lends itself best to answering the overall problem~statement of this dissertation~(\cref{sec:problem}).
 %
+As many solutions for distributed \gls{io} already exist, the motivation for this dissertation is not simply to make it easier for machines to share \gls{io} resources efficiently, but to attempt to do so using an altogether new way that makes it possible to unify traditional device \gls{io} with distributed, shared-memory computing.
+%
+As such, there is a desire to build a working prototype in order to realize this solution and be able to explore potential opportunities and weaknesses along the way.
+%
 Neither the rationalist nor the scientific paradigm are particularly well-suited in this context.
 %
-A~priori knowledge about the possibilities for device sharing in a shared-memory cluster is unrealistic due to the complexity of real-world computer systems running on physical hardware.
+A~priori knowledge about the many different hardware and software components of real-world computer systems is unrealistic due to their complexity.
 %
-We are also not gathering observational data about some process or effect in an indeterministic system, in order to create a statistical model that can be used to make predictions.
+Similarly, the process of gathering data from observations in an indeterministic system, with the goal of creating a statistical model that can be used to make predictions, seems equally unfit.
+%
+Instead, we have followed the technocratic paradigm by iteratively designing, implementing, and testing a solution according to the requirements and specifications given in \cref{sec:problem}.
 
 
+%
+%Our solution is to use the inherent memory-mapping capabilities of \glspl{ntb} to develop a mechanism for making resources appear and behave exactly as if they were part of the local device tree, thus eliminating any distinction between remote and local 
+%solution for sharing devices and memory in a way that seamlessly unifies traditional distributed \gls{io} and distributed, shared-memory computing.
+%transparent to even device drivers
 
-Following the technocratic paradigm, we have iteratively designed, implemented, and tested our solution according to the requirements and specifications given in \cref{sec:problem}.
+
+the aim is to build a 
 %
-This solution is outlined in \cref{chapter:smartio}, with a more detailed description given in \cref{paper:tocs}.
+
+
+in a performance-optimal 
+
+combine
+
+with distributed \gls{io} and resource sharing, in an entirely new 
+
+combine traditional \gls{io} concepts with
+the goal of this dissertation has been to develop a 
+
 %
-The different iterations our solution has gone through in order to better satisfy the requirements are seen in \crefrange{paper:nossdav}{paper:tocs}.
+%
 %
 To validate our solution, we have performed both functional tests and performance experiments.
 
@@ -494,8 +515,11 @@ Finally, it should be noted that the research of this dissertation has had impac
 
 
 \section{Outline}
-This thesis describes the SmartIO system for efficient sharing of resources between \gls{pcie}-networked computers.
+This dissertation describes the SmartIO system for efficient sharing of resources between \gls{pcie}-networked computers.
 %
+%something something iterations
+%The different iterations and gradual improvements of our solution in order to better satisfy the requirements are seen in \crefrange{paper:nossdav}{paper:tocs}.
+%The final solution is outlined in \cref{chapter:smartio}, with a more detailed description given in \cref{paper:tocs}.
 The rest of this thesis is organized as follows:
 \begin{description}
     \item[\cref{chapter:smartio}]
