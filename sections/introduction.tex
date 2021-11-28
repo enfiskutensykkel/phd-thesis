@@ -376,7 +376,6 @@ According to Eden~\cite{Eden2007}, computer~science as a discipline can broadly 
     \item The scientific paradigm, which defines computer~science as a natural (empirical) science.
         The paradigm seeks both a~priori and a~posteriori knowledge about systems or processes by combining formal deduction and scientific experimentation.
 \end{itemize}
-%of validation through testing
 Note that the technocratic concept of a ``test'' differs from scientific experiments, in that the purpose of the former is to establish to which extent a set of requirements are met, whereas the latter is designed to corroborate or refute a hypothesis.
 %%
 If a test fails (to meet a requirement), the implementation must be revised. 
@@ -398,7 +397,7 @@ While all three paradigms can be applied to these sub-areas~\cite{Comer1989}, it
 %
 As many solutions for distributed \gls{io} already exist, the motivation for this dissertation is not simply to make it easier for machines to share resources efficiently, but to attempt to do so using an altogether new way that makes it possible to unify traditional device \gls{io} with distributed, shared-memory computing.
 %
-As such, it is desirable to realize this solution by building a working prototype, in order to be able to explore potential opportunities and weaknesses along the way.
+As such, it was desirable to realize this solution by building a working prototype, in order to be able to explore potential opportunities and weaknesses along the way.
 %
 On this basis, neither the rationalist nor the scientific paradigm are particularly well-suited.
 %
@@ -406,110 +405,56 @@ It is unrealistic to make a model through a~priori knowledge alone, due to the c
 %
 Similarly, the process of gathering data with the goal of understanding the behavior of an indeterministic system, in order to create a statistical model and make predictions about it, seems equally unfit in this context.
 %
-Instead, we follow the technocratic paradigm by iteratively designing, implementing, and testing a solution according to the requirements and specifications given in \cref{sec:problem}.
-
-
-
-In order to validate the solution, it should be thoroughly tested.
-%
-For the most part, this is relatively straight forward: 
-%
-the fundamental requirement for the solution, namely that machines should be able to use the internal devices and memory in other (remote) machines as if these resources were locally installed.
-%
-A test can first be performed using local resources and then repeated for remote resources using our solution. 
-%
-If the results are the same, then the test has passed.
-%
-However, while simple comparison tests are sufficient for establishing whether the implementation is able to satisfactory meet the requirements, it is in some cases d
+Instead, we follow the technocratic paradigm by iteratively designing, implementing, and testing a solution according to the requirements and specifications given in \cref{sec:problem}. 
 
 
 
 
-A wide range of test scenarios are possible.
-from microbenchmarking the latency and throughput of specific \gls{io} operations (such as reading or writing to an \gls{nvme}, measuring packets  or copying memory onto a \gls{gpu})
-
-possible to use a wide range of applications and test scenarios
-
-
-
-
-wide range of tests to showcase 
-
-
-
-, it should be tested with both functionality tests and performance tests.
-%
-
-with both functionality tests and performance tests.
-Functional tests are aimed at demonstrating that these resources \emph{behave} as if they are locally installed, 
-
-
-while performance tests are intended to evaluate the \emph{performance} of using remote resources.
+To validate the solution, it must be thoroughly tested.
 %
 %
-(compared to local resources).
+A wide range of functionality tests and performance experiments should be included in order to provide a complete evaluation:
 %
-%
-This includes tests using several kinds of \gls{pcie} devices and device driver implementations, multiple versions of the Linux kernel, and a wide variety of application software that rely on device \gls{io}.
-%
-Performance tests 
+\begin{itemize}
+    \item In order to prove that any kind of \gls{pcie} device can be shared, different types of devices, like \glspl{nvme}, \glspl{nic}, and \glspl{gpu}, should be tested.
+        %
+        This also proves that the solution works for different device driver implementations.
+        %
+        The evaluation should also contain a variety of different cluster network topologies and machine configurations, including \glspl{vm}.
 
-include scenarios with multiple versions of the Linux kernel, different types of \gls{pcie} devices driver implementations, several types of \gls{pcie} devices, and multiple \gls{io}
+    \item The performance of the critical \gls{io} data path should be examined thoroughly through a wide range of latency and throughput benchmarks.
+        %
+        Since the solution allow machines to use the internal devices and memory in other (remote) machines as if these resources were locally installed, we can use comparison testing to establish a performance baseline for our solution.
+        %
+        A test can first be performed using local resources and then repeated for remote resources using our solution. 
+        %
+        If the results matches the expectations, then the test has passed.
+        %
+        By looking at individual \gls{io} operations, such as reading/writing to an \gls{nvme} or copying memory out of \gls{gpu} memory, any performance overheads in the different components of the implementation can be identified (and subsequently improved).
+        %
+        We can also use this kind of testing to investigate how different cluster network topologies affect the data path, particularly when resources from different physical machines across the cluster are involved.
 
+    \item Realistic \gls{io}-intensive computing tasks, like a machine~learning job, should be used to stress test the solution.
+        %
+        By putting the solution under heavy load, we can observe the accumulated effects of any small performance overheads caused by the implementation that are not visible on their own.
+        %
+        It can also reveal any side-effects the solution has on the systems themselves.
+        %
+        Showing that the solution works for a realistic workload not only proves that it is stable and gives reliable performance, but it also demonstrates that scaling real-life applications is possible.
 
+    \item The evaluation should also explore possible optimizations that are enabled by our solution, such as exploiting memory locality to reduce latency or using \gls{pcie} multicasting to replicate data across several machines.
+        %
+        This has the added benefit of showcasing several sharing scenarios that are made possible by the solution.
+        %
+        Furthermore, we can also use this to highlight sharing capabilities that other solutions lack, for example showing that CUDA unified memory~\cite{url:unified-memory} can be supported, even when \glspl{gpu} reside in different machines.
 
-microbenchmarks, were we focus on the latency and throughput of \gls{io} operations (such as reading from a storage device or copying memory onto a GPU)
-
-performance
-how the network topology affects performance
-
-
-in a performance-optimal 
-
-
-compare local and remote
-
-%for making it easier to share \gls{io} resources efficiently among machines in a \gls{pcie} cluster as our prototype.
+\end{itemize}
 %
-%Our solution is built 
+To prove that the solution is general, the evaluation should rely on standard (and unmodified) hardware and software for tests.
 %
+We make a point of using widely available benchmarking tools and application software, as well as standard device drivers.
 %
-%
-%
-%Our solution makes it possible to use remote resources as if they were locally installed, both functionally and with regards to performance.
-%%
-%In order to verify this, we have performed both 
-%
-%
-%
-%this prototype has since seen real world deployments, thus further validating ...
-%%probabilistic
-%
-%%statistical reliability
-%
-%%micro bencmarks and larg-scale tests w/ realistic workloads
-%in terms of latency and throughput.
-%
-%we have developed tools and performance benchmarking programs, and performed both functional tests on different versions of the Linux kernel 
-%%
-%%empirical validation
-%
-%%iterate these steps if tests reveal that latest version of system does not satisfactory meet the requirements
-%%
-%%These steps should be iterated, for example if testing reveals that the latest version of the prototype does not meet the requirements in a satisfactory manner.
-%%
-%
-%%and performance tests.
-%%
-%
-%
-%% tools and benchmarks
-%
-%
-%%As stated in \cref{sec:objectives}, the goal of this dissertation is to build a system for sharing and distributing \gls{io} resources in a \gls{pcie}-networked cluster, which we can then test and evaluate according to a set of requirements 
-%%%
-%%If our implementation does not meet these 
-
+Additionally, different Linux distributions, kernel versions, and application software versions should be used, to demonstrate that the solution is not limited to a specific Linux version.
 
 %Our solution is to use the inherent memory-mapping capabilities of \glspl{ntb} to develop a mechanism for making resources appear and behave exactly as if they were part of the local device tree, thus eliminating any distinction between remote and local 
 %solution for sharing devices and memory in a way that seamlessly unifies traditional distributed \gls{io} and distributed, shared-memory computing.
