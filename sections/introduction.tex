@@ -398,7 +398,7 @@ While all three paradigms can be applied to these sub-areas~\cite{Comer1989}, it
 %
 As many solutions for distributed \gls{io} already exist, the motivation for this dissertation is not simply to make it easier for machines to share resources efficiently, but to attempt to do so using an altogether new way that makes it possible to unify traditional device \gls{io} with distributed, shared-memory computing.
 %
-As such, it was desirable to realize this solution by building a working prototype, in order to be able to explore potential opportunities and weaknesses along the way.
+As such, it was desirable to realize this solution by \textbf{building a working prototype}, in order to be able to explore potential opportunities and weaknesses along the way.
 %
 On this basis, neither the rationalist nor the scientific paradigm are particularly well-suited.
 %
@@ -407,12 +407,14 @@ It is unrealistic to make a model through a~priori knowledge alone, due to the c
 Similarly, the process of gathering data with the goal of understanding the behavior of an indeterministic system, in order to create a statistical model and make predictions about it, seems equally unfit in this context.
 %
 Instead, we follow the technocratic paradigm by iteratively designing, implementing, and testing a solution according to the requirements and specifications given in \cref{sec:problem}. 
+%
+The different iterations and gradual improvements of our solution can be seen in \crefrange{paper:nossdav}{paper:tocs}.
 
 
-To provide a complete evaluation, the solution must be thoroughly tested:
+To provide a complete evaluation, the solution must be \textbf{thoroughly tested}:
 %
 \begin{itemize}
-    \item \textbf{Functionality testing}: 
+    \item %\textbf{Functionality testing}: 
         A wide range of functionality tests for should be included to prove that the solution is general and does not require any special adaptions.
         %
         As we make a point of using unmodified hardware and software, commodity devices and widely available software, such as standard benchmarking tools and well-known applications, should be used in tests.
@@ -423,7 +425,7 @@ To provide a complete evaluation, the solution must be thoroughly tested:
         %
         Ideally, the evaluation should showcase several sharing scenarios that are made possible by our solution.
 
-    \item \textbf{Comparison testing}: 
+    \item %\textbf{Comparison testing}: 
         The performance of the critical \gls{io} data path should be examined thoroughly through a wide range of latency and throughput benchmarks.
         %
         Since the solution allow machines to use the internal devices and memory in other (remote) machines as if these resources were locally installed, we can use comparison testing.
@@ -436,7 +438,7 @@ To provide a complete evaluation, the solution must be thoroughly tested:
         %
         We can also use this kind of testing to investigate how different cluster network topologies affect the data path, particularly when resources from different physical machines across the cluster are involved.
 
-    \item \textbf{Stress testing}: 
+    \item %\textbf{Stress testing}: 
         A realistic and \gls{io}-intensive computing task, for example involving machine~learning, should be used to put the solution under heavy load.
         %
         By running a real-world application using several \gls{io} resources, we can observe the accumulated effects of any performance overheads caused by the implementation that are not visible on their own.
@@ -445,8 +447,8 @@ To provide a complete evaluation, the solution must be thoroughly tested:
         %
         Finally, showing that the solution works for a realistic workload has the additional purpose of proving that scaling real-world applications is possible.
 
-    \item \textbf{Exploratory testing \& experimentation}: 
-        Par of the evaluation should be to identify and explore new possibilities that are enabled by the solution.
+    \item %\textbf{Exploratory testing \& experimentation}: 
+        Part of the evaluation should be to identify and explore new possibilities that are enabled by the solution.
         %
         For example, as CUDA unified memory~\cite{url:unified-memory} can be supported even for \glspl{gpu} that reside in different machines, we should perform experiments with direct memory-to-memory transfers.
         %
