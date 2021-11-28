@@ -355,6 +355,7 @@ The driver should also demonstrate how it can rely on memory \gls{disaggregation
 % must use ntbs (dolphin ntbs), only sisci
 % not a finished product (no orchistration sw [yet])
 % for linux only?
+%Additionally, different Linux distributions, kernel versions, and application software versions should be used, to demonstrate that the solution is not limited to a specific Linux version.
 
 \gls{sisci}
 TODO
@@ -408,53 +409,60 @@ Similarly, the process of gathering data with the goal of understanding the beha
 Instead, we follow the technocratic paradigm by iteratively designing, implementing, and testing a solution according to the requirements and specifications given in \cref{sec:problem}. 
 
 
-
-
-To validate the solution, it must be thoroughly tested.
-%
-%
-A wide range of functionality tests and performance experiments should be included in order to provide a complete evaluation:
+To provide a complete evaluation, the solution must be thoroughly tested:
 %
 \begin{itemize}
-    \item In order to prove that any kind of \gls{pcie} device can be shared, different types of devices, like \glspl{nvme}, \glspl{nic}, and \glspl{gpu}, should be tested.
+    \item \textbf{Functionality testing}: 
+        A wide range of functionality tests for should be included to prove that the solution is general and does not require any special adaptions.
         %
-        This also proves that the solution works for different device driver implementations.
+        As we make a point of using unmodified hardware and software, commodity devices and widely available software, such as standard benchmarking tools and well-known applications, should be used in tests.
+        %
+        Furthermore, tests should be performed using several different types devices and device driver implementations.
         %
         The evaluation should also contain a variety of different cluster network topologies and machine configurations, including \glspl{vm}.
+        %
+        Ideally, the evaluation should showcase several sharing scenarios that are made possible by our solution.
 
-    \item The performance of the critical \gls{io} data path should be examined thoroughly through a wide range of latency and throughput benchmarks.
+    \item \textbf{Comparison testing}: 
+        The performance of the critical \gls{io} data path should be examined thoroughly through a wide range of latency and throughput benchmarks.
         %
-        Since the solution allow machines to use the internal devices and memory in other (remote) machines as if these resources were locally installed, we can use comparison testing to establish a performance baseline for our solution.
+        Since the solution allow machines to use the internal devices and memory in other (remote) machines as if these resources were locally installed, we can use comparison testing.
         %
-        A test can first be performed using local resources and then repeated for remote resources using our solution. 
+        Tests looking at individual \gls{io} operations, such as reading/writing to an \gls{nvme} or copying memory out of \gls{gpu} memory, can first be performed using local resources (without our solution) to establish a performance baseline.
         %
-        If the results matches the expectations, then the test has passed.
+        Then, the tests can repeated for remote resources using our solution, allowing us to compare the results and pinpoint any performance differences.
         %
-        By looking at individual \gls{io} operations, such as reading/writing to an \gls{nvme} or copying memory out of \gls{gpu} memory, any performance overheads in the different components of the implementation can be identified (and subsequently improved).
+        If there are any differences, these tests help us identify which component of the implementation needs to be improved.
         %
         We can also use this kind of testing to investigate how different cluster network topologies affect the data path, particularly when resources from different physical machines across the cluster are involved.
 
-    \item Realistic \gls{io}-intensive computing tasks, like a machine~learning job, should be used to stress test the solution.
+    \item \textbf{Stress testing}: 
+        A realistic and \gls{io}-intensive computing task, for example involving machine~learning, should be used to put the solution under heavy load.
         %
-        By putting the solution under heavy load, we can observe the accumulated effects of any small performance overheads caused by the implementation that are not visible on their own.
+        By running a real-world application using several \gls{io} resources, we can observe the accumulated effects of any performance overheads caused by the implementation that are not visible on their own.
         %
-        It can also reveal any side-effects the solution has on the systems themselves.
+        Moreover, this kind of stress testing also proves that the solution is stable and gives reliable performance for repeated runs, and that it does not have any unintentional side-effects that affect systems over time.
         %
-        Showing that the solution works for a realistic workload not only proves that it is stable and gives reliable performance, but it also demonstrates that scaling real-life applications is possible.
+        Finally, showing that the solution works for a realistic workload has the additional purpose of proving that scaling real-world applications is possible.
 
-    \item The evaluation should also explore possible optimizations that are enabled by our solution, such as exploiting memory locality to reduce latency or using \gls{pcie} \gls{multicasting} to replicate data across several machines.
+    \item \textbf{Exploratory testing \& experimentation}: 
+        Par of the evaluation should be to identify and explore new possibilities that are enabled by the solution.
         %
-        This has the added benefit of showcasing several sharing scenarios that are made possible by the solution.
+        For example, as CUDA unified memory~\cite{url:unified-memory} can be supported even for \glspl{gpu} that reside in different machines, we should perform experiments with direct memory-to-memory transfers.
         %
-        Furthermore, we can also use this to highlight sharing capabilities that other solutions lack, for example showing that CUDA unified memory~\cite{url:unified-memory} can be supported, even when \glspl{gpu} reside in different machines.
+        We should also explore other opportunities that are enabled by the solution, such as using memory \gls{disaggregation} to exploit memory locality optimizations or using \gls{pcie} \gls{multicasting} to replicate data across several machines in a single operation.
+        %
+        Performing these tests have the added benefit of showcasing capabilities enabled by our solution that other resource sharing solutions lack.
 
 \end{itemize}
 %
-To prove that the solution is general, the evaluation should rely on standard (and unmodified) hardware and software for tests.
+For the sake of convenience, functionality testing is implicit in the experiment results presented in this dissertation.
 %
-We make a point of using widely available benchmarking tools and application software, as well as standard device drivers.
+Also, in an attempt to reduce the test matrix, the presented experiments use primarily Intel~Xeon \glspl{cpu} and \glspl{nvme}, \glspl{nic}, and Nvidia \glspl{gpu}.
 %
-Additionally, different Linux distributions, kernel versions, and application software versions should be used, to demonstrate that the solution is not limited to a specific Linux version.
+However, it should be noted that during the development of the solution, many additional devices were used in testing, such as \glspl{fpga}, sound cards, several \glspl{gpu} from both AMD and Intel, and \gls{pcie}-attached cameras. 
+%
+Several \gls{cpu} architectures were also used during development, such as \glspl{cpu} from AMD and other Intel \glspl{cpu}.
 
 %Our solution is to use the inherent memory-mapping capabilities of \glspl{ntb} to develop a mechanism for making resources appear and behave exactly as if they were part of the local device tree, thus eliminating any distinction between remote and local 
 %solution for sharing devices and memory in a way that seamlessly unifies traditional distributed \gls{io} and distributed, shared-memory computing.
