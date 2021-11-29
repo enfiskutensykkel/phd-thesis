@@ -392,25 +392,34 @@ The paradigms are therefore equally fundamental to computer~science.
 
 
 
-The subject of this dissertation touches on several sub-areas of computer~science, including computer and hardware architecture, distributed computing, \gls{os} fundamentals, and communication networks.
+The subject matter of this dissertation touches on several sub-areas of computer~science, including computer and hardware architecture, distributed computing, \gls{os} fundamentals, and communication networks.
 %
 While all three paradigms can be applied to these sub-areas~\cite{Comer1989}, it is the technocratic paradigm which lends itself best to answering the overall problem~statement of this dissertation~(\cref{sec:problem}).
 %
-As many solutions for distributed \gls{io} already exist, the motivation for this dissertation is not simply to make it easier for machines to share resources efficiently, but to attempt to do so using an altogether new way that makes it possible to unify traditional device \gls{io} with distributed, shared-memory computing.
-%
-As such, it was desirable to realize this solution by \textbf{building a working prototype}, in order to be able to explore potential opportunities and weaknesses along the way.
-%
-On this basis, neither the rationalist nor the scientific paradigm are particularly well-suited.
+Neither the rationalist nor the scientific paradigm are particularly well-suited.
 %
 It is unrealistic to make a model through a~priori knowledge alone, due to the complexity of the many different hardware and software components of real-world computer systems.
 %
 Similarly, the process of gathering data with the goal of understanding the behavior of an indeterministic system, in order to create a statistical model and make predictions about it, seems equally unfit in this context.
+
+
+
+As many solutions for distributed \gls{io} already exist, the motivation for this dissertation is not simply to make it easier for machines to share resources efficiently, but to do so by using a new approach altogether:
+%
+our solution of utilizing inherent memory-mapping capabilities of \glspl{ntb} to develop a mechanism for making resources appear and behave exactly as if they were part of the local device tree, we a
+
 %
 Instead, we follow the technocratic paradigm by iteratively designing, implementing, and testing a solution according to the requirements and specifications given in \cref{sec:problem}. 
+
+thus eliminating any distinction between remote and local 
+
+that attempts to unify traditional device \gls{io} with distributed, shared-memory computing.
 %
-The different iterations and gradual improvements of our solution can be seen in \crefrange{paper:nossdav}{paper:tocs}.
-
-
+%solution for sharing devices and memory in a way that seamlessly unifies traditional distributed \gls{io} and distributed, shared-memory computing.
+%transparent to even device drivers
+As such, it is desirable to realize this solution by \textbf{building a working prototype}, in order to be able to explore potential opportunities and weaknesses along the way.
+%
+Part of
 To provide a complete evaluation, the solution must be \textbf{thoroughly tested}:
 %
 \begin{itemize}
@@ -423,7 +432,6 @@ To provide a complete evaluation, the solution must be \textbf{thoroughly tested
         %
         The evaluation should also contain a variety of different cluster network topologies and machine configurations, including \glspl{vm}.
         %
-        Ideally, the evaluation should showcase several sharing scenarios that are made possible by our solution.
 
     \item %\textbf{Comparison testing}: 
         The performance of the critical \gls{io} data path should be examined thoroughly through a wide range of latency and throughput benchmarks.
@@ -436,7 +444,6 @@ To provide a complete evaluation, the solution must be \textbf{thoroughly tested
         %
         If there are any differences, these tests help us identify which component of the implementation needs to be improved.
         %
-        We can also use this kind of testing to investigate how different cluster network topologies affect the data path, particularly when resources from different physical machines across the cluster are involved.
 
     \item %\textbf{Stress testing}: 
         A realistic and \gls{io}-intensive computing task, for example involving machine~learning, should be used to put the solution under heavy load.
@@ -452,11 +459,16 @@ To provide a complete evaluation, the solution must be \textbf{thoroughly tested
         %
         For example, as CUDA unified memory~\cite{url:unified-memory} can be supported even for \glspl{gpu} that reside in different machines, we should perform experiments with direct memory-to-memory transfers.
         %
+        We can also use this kind of testing to investigate how different cluster network topologies affect the data path, particularly when resources from different physical machines across the cluster are involved.
+        %
         We should also explore other opportunities that are enabled by the solution, such as using memory \gls{disaggregation} to exploit memory locality optimizations or using \gls{pcie} \gls{multicasting} to replicate data across several machines in a single operation.
         %
+        %exploring possibilities
         Performing these tests has the added benefit of showcasing capabilities enabled by our solution that other resource sharing solutions lack.
 
+
 \end{itemize}
+        Ideally, the evaluation should showcase several sharing scenarios that are made possible by our solution.
 %
 For the sake of convenience, functionality testing is implicit in the experiment results presented in this dissertation.
 %
@@ -466,9 +478,7 @@ However, it should be noted that during the development of the solution, many ad
 %
 Several \gls{cpu} architectures were also used during development, such as \glspl{cpu} from AMD and other Intel \glspl{cpu}.
 
-%Our solution is to use the inherent memory-mapping capabilities of \glspl{ntb} to develop a mechanism for making resources appear and behave exactly as if they were part of the local device tree, thus eliminating any distinction between remote and local 
-%solution for sharing devices and memory in a way that seamlessly unifies traditional distributed \gls{io} and distributed, shared-memory computing.
-%transparent to even device drivers
+The different iterations and gradual improvements of our solution can be seen in \crefrange{paper:nossdav}{paper:tocs}.
 
 
 \section{Contributions}
