@@ -410,7 +410,7 @@ we attempt to unify traditional device \gls{io} with distributed, shared-memory 
 %
 As such, it is desirable to realize this approach by \textbf{building a working prototype}, in order to be able to explore potential opportunities and weaknesses along the way.
 %
-Therefore, we follow the technocratic paradigm by iteratively designing, implementing, and testing a solution according to the requirements and specifications given in \cref{sec:problem}:
+Therefore, we follow the technocratic paradigm by iteratively designing, implementing, and testing a solution according to the requirements and objectives given in \cref{sec:problem}:
 %
 \begin{itemize}
     \item 
@@ -457,9 +457,11 @@ Therefore, we follow the technocratic paradigm by iteratively designing, impleme
 
 \end{itemize}
 %
-For the sake of convenience, functionality testing and validation process is implicit in the performance experiment results presented in this dissertation.
+For the sake of convenience, functionality testing and the overall validation process is implicit in the performance experiments presented in this dissertation.
 %
-It should also be noted that while the presented experiments primarily use Intel~Xeon \glspl{cpu} and \glspl{nvme}, \glspl{nic}, and Nvidia \glspl{gpu}, additional \gls{cpu} architectures and devices, like \glspl{fpga} and sound cards, were used under development of the solution.
+It should also be noted that while the presented experiments primarily use Intel~Xeon as the \gls{cpu} architecture and \glspl{nvme}, Ethernet~\glspl{nic}, and Nvidia \glspl{gpu} were used for shared resources, we also used additional \gls{cpu} architectures and devices during the development and validation phases.
+%
+This includes \gls{cpu} architectures like AMD and ARM, and other devices like \glspl{fpga}, sound cards, and \gls{pcie}-attached cameras.
 
 
 \section{Contributions}
