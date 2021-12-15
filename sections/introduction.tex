@@ -338,27 +338,36 @@ The driver should also demonstrate how it can rely on memory \gls{disaggregation
 
 
 \section{Scope and limitations}\label{sec:scope}
-% limitation: systems must support pcie p2p (or use switches that do)
+done in context of pcie project number so and so, natural to use dolphin ntbs %ikke prøvd på noe annet enn
+\begin{itemize}
+    \item use standard PCIe, no change to standards
+    \item outside scope: orchestration, algorithms for sharing, fairness, etc... not a finished product
+    \item also outside scope: safety, security, encryption
+    \item dolphin ntbs
+    \item commodity servers, multi platform amd, intel, arm, no supercomputing (not 50,000 nodes)
+    \item for linux only?
+\end{itemize}
+ %limitation: systems must support pcie p2p (or use switches that do)
 %limitation: systems must support hot-plugging
 %not disaggregated os, not general networks, not 50,000 nodes etc
-% outside scope: orchestration, algorithms for sharing, fairness, etc
-% scope
-% both physical hosts and virtual hosts
-% also shared memory applications
-% distributed, unlike existing solutions, true peer-to-peer sharing
-% commodity servers, multi platform amd, intel, arm, no supercomputing
+ %outside scope: orchestration, algorithms for sharing, fairness, etc
+ %scope
+ %both physical hosts and virtual hosts
+ %also shared memory applications
+ % distributed, unlike existing solutions, true peer-to-peer sharing
+ %commodity servers, multi platform amd, intel, arm, no supercomputing
 
-% performance, how much performance overhead in using remote devices?
+performance, how much performance overhead in using remote devices?
 
 % limitations
-% safety, security (iommu, encryption)
-% must use ntbs (dolphin ntbs), only sisci
-% not a finished product (no orchistration sw [yet])
-% for linux only?
+ safety, security (iommu, encryption)
+ must use ntbs (dolphin ntbs), only sisci
+ not a finished product (no orchistration sw [yet])
+ for linux only?
 %Additionally, different Linux distributions, kernel versions, and application software versions should be used, to demonstrate that the solution is not limited to a specific Linux version.
 
-\gls{sisci}
-TODO
+%\gls{sisci}
+%TODO
 
 \section{Research methodology}\label{sec:methodology}
 Choosing an appropriate research methodology for problems in computer~science is challenging.
