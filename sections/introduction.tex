@@ -351,7 +351,7 @@ The security implications of allowing remote machines to use and control interna
 %
 A ``finished product'' should take all of this into consideration, and ideally include tools and services for managing resources and orchestrating workloads.
 %
-However, we consider this to be outside the scope of this dissertation.
+However, we consider this to be outside the scope of this dissertation, and we only focus on the fundamental mechanisms.
 
 
 Exploring resource sharing possibilities using alternative networking technologies, such as InfiniBand, is also outside the scope of our dissertation.
@@ -362,16 +362,33 @@ Dolphin's \gls{ntb} adapter cards and cluster switches make it possible to build
 %
 Memory mappings between machines can be set up and torn down using Dolphin's existing \gls{ntb} driver, and application software may use the \gls{sisci} programming \gls{api} to interact with this low-level driver in order to implement shared-memory communication.
 %
-In order to fit into this existing cluster networking foundation, we will implement our sharing framework as part of their driver stack.
+In order to fit our work into this existing cluster networking foundation, we will implement our sharing framework as part of their driver stack.
 %
-This makes it possible to extend the existing \gls{sisci}~\gls{api} with device-oriented semantics and device driver support functions, rather than requiring the development of an entirely new \gls{api} for the purpose of supporting our sharing and \gls{disaggregation} concepts.
+This makes it possible to extend the existing \gls{sisci}~\gls{api} with device-oriented semantics and device driver support functions, rather than requiring the development of an entirely new \gls{ntb} driver and \gls{api} for the purpose of supporting our sharing and \gls{disaggregation} concepts.
 %
 Even so, it should be pointed out that the ideas and fundamental concepts of our framework are general, and can in fact be implemented for \emph{any} \gls{ntb} hardware that has similar capabilities.
 
 
 
-One of the main objectives of this dissertation is to support sharing of standard \gls{pcie} devices without requiring any modifications to existing device driver implementations or application software~(\cref{obj:transparent}).
+One of the central motivations of our framework is that both \gls{host}~machines and \glspl{vm} should be able to use shared devices.
 %
+In order to accomplish this, resources must to be presented to the system at the \gls{os}-level so that interactions with a device can be intercepted. 
+%
+While many different \glspl{os} exist, this intercepting mechanism involves intricate manipulation of \gls{os} and device driver interfaces.
+%
+Because of this, we have chosen to implement our solution for the Linux kernel, as it is open source and its internals can be studied from easily available source code.
+%
+Additionally, although several \gls{vm} \gls{hypervisor} implementations exist for Linux, we have decided to extend the \gls{kvm} in order to support sharing resources with \gls{vm} \glspl{guest}, for the same reason.
+%
+Regardless, we make a point of making our work as general as possible, so that it is possible to support several \emph{versions} of the Linux kernel and use our implementation on different Linux distributions.
+
+
+
+The framework should support sharing of \gls{pcie}-attached resources, such as devices and memory resources, without requiring any modifications to existing device driver implementations or application software~(\cref{obj:transparent}).
+%
+Th
+
+
 Standard pcie devices
 As the main focus of this dissertation is 
 %a limitation because device drivers are written in this way
@@ -389,17 +406,6 @@ As the main focus of this dissertation is
 
 
 
-As outlined in \cref{sec:motivation}, one of the central motivations of our framework is that both \gls{host}~machines and \glspl{vm} should be able to use shared devices.
-%
-In order to accomplish this, resources must to be presented to the system at the \gls{os}-level so that interactions with a device can be intercepted. 
-%
-While many different \glspl{os} exist, this intercepting mechanism involves intricate manipulation of \gls{os} and device driver interfaces.
-%
-Because of this, we have chosen to implement our solution for the Linux kernel, as it is open source and its internals can be studied from easily available source code.
-%
-Additionally, although several \gls{vm} \gls{hypervisor} implementations exist for Linux, we have decided to extend the \gls{kvm} in order to support sharing resources with \gls{vm} \glspl{guest}, for the same reason.
-%
-Regardless, we make a point of making our work as general as possible, so that it is possible to support several \emph{versions} of the Linux kernel and use our implementation on different Linux distributions.
 
 
 
