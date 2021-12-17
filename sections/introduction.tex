@@ -366,15 +366,17 @@ Dolphin's \gls{ntb} adapter cards and cluster switches make it possible to build
 %
 Memory mappings between machines can be set up and torn down using Dolphin's existing \gls{ntb} driver, and application software may use the \gls{sisci} programming \gls{api} to interact with this \gls{ntb} driver in order to implement shared-memory communication.
 %
-In order to fit our work into this existing cluster networking foundation, we will implement our sharing framework as part of their driver stack.
+In order to fit our work into this existing cluster networking foundation, we will rely on Dolphin's \gls{ntb} hardware and implement our sharing framework as part of their driver stack.
 %
-This makes it possible to extend the existing \gls{sisci}~\gls{api} with device-oriented semantics and device driver support functions, rather than requiring the development of an entirely new \gls{ntb} driver and \gls{api} for the purpose of supporting our sharing and \gls{disaggregation} concepts.
+Although this means that our own implementation will be subjugated to the same hardware and software limitations as the underlying network, the benefit is that it becomes possible to extend existing functionality rather than developing an entirely new \gls{ntb} driver from scratch.
+%
+For facilitating resource \gls{disaggregation}, this design choice also means that we can add device-oriented semantics and device driver support functions to the already existing shared-memory functionality provided by \gls{sisci}, instead of requiring that application software must convert and translate and between different \glspl{api}.
 %
 Even so, it should be pointed out that the ideas and fundamental concepts of our framework are general, and can in fact be implemented for \emph{any} \gls{ntb} hardware that has similar capabilities.
 
 
 
-A central motivation for our framework is that both \gls{host}~machines and \glspl{vm} should be able to use shared devices.
+Using our framework, both \gls{host}~machines and \glspl{vm} should be able to use shared devices.
 %
 In order to accomplish this, resources must to be presented to the system at the \gls{os}-level so that interactions with a device can be intercepted. 
 %
@@ -382,37 +384,25 @@ This intercepting mechanism involves manipulation of device driver interfaces an
 %
 For this reason, our framework will be implemented for Linux, as its source code is available as open source and may be studied.
 %
-For the same reason, we will also extend the \gls{kvm} in order to support sharing resources with \gls{vm} \glspl{guest}.
+For the same reason, we will also extend the \gls{kvm} in order to support sharing devices with \gls{vm} \glspl{guest}.
 %
 Regardless, we do not limit our work to a specific Linux distribution, as it is possible to support several different versions of the Linux kernel.
 
 
 
-As stated in \cref{sec:problem}, the framework should support sharing of \gls{pcie}-attached resources, such as devices and memory resources, without requiring any modifications to existing device driver implementations or application software.
+Sharing of any \gls{pcie} device is to be supported, from \gls{pcie}~1.0 devices up to \gls{pcie}~4.0 devices, as per \cref{obj:distributed}.
 %
-While it would be possible to implement virtualization support in device hardware that would facilitate sharing
-
-Standard \gls{pcie}\cite{spec:PCIe}
-
-
-Standard pcie devices
-As the main focus of this dissertation is 
-%a limitation because device drivers are written in this way
-%performance requirement = local access
-%therefore comparison tests
-%therefore loads of small clusters in evaluation
-%also cluster sizes, and because the nature of the mechanisms focused on small clusters 
-
-% point about standard pcie devices (from 1.0 to 4.0) and not foreseeing special devices?
-
-% commodity hardware
-%It should also be noted that while the presented experiments primarily use Intel~Xeon as the \gls{cpu} architecture and \glspl{nvme}, Ethernet~\glspl{nic}, and Nvidia \glspl{gpu} were used for shared resources, we also used additional \gls{cpu} architectures and devices during the development and validation phases.
+Consequently, validating that the sharing framework is able to support a wide range of common devices, such as \glspl{nvme}, Ethernet~\glspl{nic}, and \glspl{gpu}, will be covered by this dissertation.
 %
-%This includes \gls{cpu} architectures like AMD and ARM, and other devices like \glspl{fpga}, sound cards, and \gls{pcie}-attached cameras.
-
-
-
-
+However, the framework should also not require any modifications to existing device driver implementations or device hardware~(\cref{obj:transparent}).
+%
+Most device drivers assume exclusive control over the device.
+%
+While some devices support \gls{sriov}, and may be shared with several machines simultaneously, most commodity devices do not.
+%
+Because of this, a limitation of the evaluation of our implementation is that it will include scenarios with cluster networks of only a few machines, since devices can only be used by one machine at the time.
+%
+However, for evaluating resource \gls{disaggregation} in software, where a single device may be used by more than one machine simultaneously, more advanced network topologies and larger clusters (of up to 60~machines) will be used.
 
 
 \section{Research methodology}\label{sec:methodology}
@@ -513,7 +503,10 @@ As such, we follow the technocratic paradigm of iteratively designing, implement
 \end{itemize}
 %
 For the sake of convenience, functionality testing and the overall validation process is implicit in the performance experiments presented in this dissertation.
-
+%
+It should also be noted that while the presented experiments primarily use Intel~Xeon as the \gls{cpu} architecture and \glspl{nvme}, Ethernet~\glspl{nic}, and Nvidia \glspl{gpu} were used for shared resources, we also used additional \gls{cpu} architectures and devices during the development and validation phases.
+%
+This includes \gls{cpu} architectures like AMD and ARM, and other devices like \glspl{fpga}, sound cards, and \gls{pcie}-attached cameras.
 
 
 \section{Contributions}
