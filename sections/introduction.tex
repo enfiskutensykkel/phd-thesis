@@ -252,7 +252,7 @@ More specifically, as it is desirable to avoid modifications to existing device 
 %
 This mechanism must also allow remote resources to be used with the same performance expected for native \gls{pcie},~i.e., with the same performance as if they were attached to the local \gls{pcie} bus.
 %
-Hence, the goal of this dissertation is to develop a solution for sharing and distributing \gls{io}~resources (devices and memory) in a way that eliminates the distinction between local and remote access of a resource. 
+Hence, the goal of this dissertation is to develop a framework for sharing and distributing \gls{io}~resources (devices and memory) in a way that eliminates the distinction between local and remote access of a resource. 
 %
 The challenges of this goal are addressed under the following research question: 
 \begin{restatable}{question}{researchquestion}\label{question}
@@ -342,16 +342,20 @@ This dissertation is part of a collaborative project between academia and indust
 %
 The goal of this project is to develop a new framework for sharing devices and memory resources among computer systems connected with \gls{pcie}.
 %
-The scope of this dissertation is the implementation and performance evaluation of the rudimentary mechanisms that make this framework possible: \textbf{the discovery, addressing, access, and use of remote \gls{pcie}-attached resources}.
+The scope of this dissertation is the implementation and performance evaluation of the fundamental mechanisms that make this framework possible: \textbf{the discovery, addressing, access, and use of remote \gls{pcie}-attached resources}.
 
 
-Additional research topics emerge from enabling this kind of sharing functionality;~e.g., how should resources be provisioned in order to achieve the best trade-off between fairness and performance, or how should workloads be scheduled on cluster machines in order to optimize resource utilization.
+
+Several related research topics emerge from enabling this kind of sharing functionality.
 %
-The security implications of allowing remote machines to use and control internal system resources also become relevant in the context of enabling direct access.
+Examples include finding algorithms for scheduling workloads on different machines in the cluster in order to to optimize resource utilization, or choosing the appropriate trade-off between fairness and workload performance requirements when provisioning resources to machines.
 %
-A ``finished product'' should take all of this into consideration, and ideally include tools and services for managing resources and orchestrating workloads.
+The security implications of allowing remote machines to use and control internal system resources is also something that becomes relevant in the context of this sharing framework.
 %
-However, we consider this to be outside the scope of this dissertation, and we only focus on the fundamental mechanisms.
+A ``finished product'' should at least attempt to address most of these topics, and ideally include tools and services for managing resources and orchestrating workloads on the cluster level.
+%
+However, we consider this to be outside the scope of this dissertation, and we only focus on the fundamental mechanisms that enable the low-level sharing functionality.
+
 
 
 Exploring resource sharing possibilities using alternative networking technologies, such as InfiniBand, is also outside the scope of our dissertation.
@@ -360,7 +364,7 @@ The desired objectives for the sharing framework, as stated in \cref{sec:problem
 %
 Dolphin's \gls{ntb} adapter cards and cluster switches make it possible to build heterogeneous computing clusters of anywhere from 2 up to 60~machines, in various network topologies.
 %
-Memory mappings between machines can be set up and torn down using Dolphin's existing \gls{ntb} driver, and application software may use the \gls{sisci} programming \gls{api} to interact with this low-level driver in order to implement shared-memory communication.
+Memory mappings between machines can be set up and torn down using Dolphin's existing \gls{ntb} driver, and application software may use the \gls{sisci} programming \gls{api} to interact with this \gls{ntb} driver in order to implement shared-memory communication.
 %
 In order to fit our work into this existing cluster networking foundation, we will implement our sharing framework as part of their driver stack.
 %
@@ -370,23 +374,25 @@ Even so, it should be pointed out that the ideas and fundamental concepts of our
 
 
 
-One of the central motivations of our framework is that both \gls{host}~machines and \glspl{vm} should be able to use shared devices.
+A central motivation for our framework is that both \gls{host}~machines and \glspl{vm} should be able to use shared devices.
 %
 In order to accomplish this, resources must to be presented to the system at the \gls{os}-level so that interactions with a device can be intercepted. 
 %
-While many different \glspl{os} exist, this intercepting mechanism involves intricate manipulation of \gls{os} and device driver interfaces.
+This intercepting mechanism involves manipulation of device driver interfaces and requires a detailed understanding of \gls{os} internals.
 %
-Because of this, we have chosen to implement our solution for the Linux kernel, as it is open source and its internals can be studied from easily available source code.
+For this reason, our framework will be implemented for Linux, as its source code is available as open source and may be studied.
 %
-Additionally, although several \gls{vm} \gls{hypervisor} implementations exist for Linux, we have decided to extend the \gls{kvm} in order to support sharing resources with \gls{vm} \glspl{guest}, for the same reason.
+For the same reason, we will also extend the \gls{kvm} in order to support sharing resources with \gls{vm} \glspl{guest}.
 %
-Regardless, we make a point of making our work as general as possible, so that it is possible to support several \emph{versions} of the Linux kernel and use our implementation on different Linux distributions.
+Regardless, we do not limit our work to a specific Linux distribution, as it is possible to support several different versions of the Linux kernel.
 
 
 
-The framework should support sharing of \gls{pcie}-attached resources, such as devices and memory resources, without requiring any modifications to existing device driver implementations or application software~(\cref{obj:transparent}).
+As stated in \cref{sec:problem}, the framework should support sharing of \gls{pcie}-attached resources, such as devices and memory resources, without requiring any modifications to existing device driver implementations or application software.
 %
-Th
+While it would be possible to implement virtualization support in device hardware that would facilitate sharing
+
+Standard \gls{pcie}\cite{spec:PCIe}
 
 
 Standard pcie devices
@@ -489,7 +495,7 @@ As such, we follow the technocratic paradigm of iteratively designing, implement
         %
         The strength of our shared-memory approach is best highlighted by demonstrating capabilities that other resource sharing solutions lack.
         %
-        For example, as CUDA unified memory~\cite{url:unified-memory} can be supported by our solution, even for \glspl{gpu} that reside in \emph{different machines}, we should perform experiments with direct memory-to-memory transfers across the cluster network.
+        For instance, as CUDA unified memory~\cite{url:unified-memory} can be supported by our solution, even for \glspl{gpu} that reside in \emph{different machines}, we should perform experiments with direct memory-to-memory transfers across the cluster network.
         %
         Other possibilities, such as exploiting memory \gls{disaggregation} to implement memory locality optimizations or using \gls{pcie} \gls{multicasting} to replicate data across several machines in a single operation, should also be explored.
         %
