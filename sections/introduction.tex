@@ -294,7 +294,7 @@ Remote resources should be accessed directly over \emph{native} \gls{pcie}, whic
 
 
 \begin{objective}\label{obj:dynamic}
-    Shared resources should be distributed \emph{dynamically}, and direct access to device memory and system memory should be configured in run-time, also between multiple devices residing in different hosts.
+    Shared resources should be distributed \emph{dynamically}, and direct access to device memory and system memory should be configured at run-time, also between multiple devices residing in different hosts.
 \end{objective}
 As stated in \cref{obj:transparent}, the solution should work for physical hosts, and not only \glspl{vm}. Therefore, it must be possible to assign and reassign resources while all machines in the cluster are running, without requiring rebooting hosts or changing settings in the \gls{bios}.
 For devices, this introduces the requirement that the \gls{os} supports hot-adding devices to the system (which most modern \gls{os} implementations do).
@@ -338,46 +338,58 @@ The driver should also demonstrate how it can rely on memory \gls{disaggregation
 
 
 \section{Scope and limitations}\label{sec:scope}
-The scope of this dissertation is to develop a solution for sharing standard \gls{pcie}-attached resources using \glspl{ntb}.
-
-The work of this dissertation is part of a research project that has been performed in collaboration with Dolphin Interconnect Solutions~(Dolphin).\footnote{RCN/NFR \#235530: \emph{Unified PCI Express for Distributed Component Virtualization}}
+This dissertation is part of a collaborative project between academia and industry, with Dolphin Interconnect Solutions~(Dolphin) as the industry partner.\footnote{Funded by the Research Council of Norway under the ``Unified PCI Express for Distributed Component Virtualization'' project (RCN/NFR \#235530), with additional contributions from the ``LADIO: Live Action Data Input/Output'' project (EU H2020 \#731970).}
 %
-As such 
+Heterogeneous \gls{pcie} clusters of anywhere from 2 up to 60~nodes are supported by using \gls{ntb} adapter cards and cluster switches from Dolphin.
+%
+Memory mappings between machines can be set up and torn down on demand using Dolphin's \gls{ntb} driver, and application software may use the \gls{sisci} programming \gls{api} to interact with this low-level driver in order to implement shared-memory communication.
 
 
-%This dissertation is performed mainly in the context of the \emph{Unified PCI Express for Distributed Component Virtualization} project (Norwegian research council 
+The goal of this project is to develop a new framework for sharing devices and memory resources among computer systems connected with Dolphin's \gls{pcie} networking technology.
+%
+The scope of this dissertation is the implementation and performance evaluation of the fundamental mechanisms that make this framework possible: \textbf{the discovery, addressing, access, and use of remote \gls{pcie}-attached resources}.
+%
+As outlined in \cref{sec:problem}, the objectives as well as the shared-memory nature of this framework necessitate the use of \glspl{ntb}.
+%
+Therefore, we have not explored any possibilities for resource sharing using alternative networking technologies in our work, and instead rely on Dolphin’s \gls{ntb} hardware as the enabling networking technology.
+%
+Moreover, we have also integrated our software implementation into Dolphin's driver, in order to fit the existing shared-memory semantics provided by their software stack.
+%
+However, it should be pointed out that the concepts and ideas presented in this dissertation are general, and can be implemented \emph{any} \gls{ntb} hardware that supports similar capabilities.
 
-done in context of pcie project number so and so, natural to use dolphin ntbs %ikke prøvd på noe annet enn
-\begin{itemize}
-    \item use standard PCIe, no change to standards
-    \item outside scope: orchestration, algorithms for sharing, fairness, etc... not a finished product
-    \item also outside scope: safety, security, encryption
-    \item dolphin ntbs
-    \item commodity servers, multi platform amd, intel, arm, no supercomputing (not 50,000 nodes)
-    \item for linux only?A
-    \item while we have implemented for dolphin, the ideas are general
-\end{itemize}
- %limitation: systems must support pcie p2p (or use switches that do)
-%limitation: systems must support hot-plugging
-%not disaggregated os, not general networks, not 50,000 nodes etc
- %outside scope: orchestration, algorithms for sharing, fairness, etc
- %scope
- %both physical hosts and virtual hosts
- %also shared memory applications
- % distributed, unlike existing solutions, true peer-to-peer sharing
- %commodity servers, multi platform amd, intel, arm, no supercomputing
 
-performance, how much performance overhead in using remote devices?
 
-% limitations
- safety, security (iommu, encryption)
- must use ntbs (dolphin ntbs), only sisci
- not a finished product (no orchistration sw [yet])
- for linux only?
-%Additionally, different Linux distributions, kernel versions, and application software versions should be used, to demonstrate that the solution is not limited to a specific Linux version.
+The sharing framework should not require any modifications to existing application software or device drivers.
+%
+Additionally, sharing should be possible for both \gls{host}~machines and \glspl{vm}.
+%
+In order to accomplish this, resources must to be presented to the system at the \gls{os}-level so that interactions with a device can be intercepted. 
+%
+While many \glspl{os} exist, this intercepting mechanism involves intricate manipulation of \gls{os} and device driver interfaces.
+%
+Because of this, we have chosen to implement our solution for the Linux kernel, as it is open source and its internals can be studied.
+%
+Additionally, while several \gls{vm} \gls{hypervisor} implementations exist for Linux, we have decided to extend the \gls{kvm} in order to support sharing resources with \gls{vm} \glspl{guest}, for the same reason.
+%
+Regardless, the ideas and concepts for the sharing framework are general enough to be supported for several \emph{versions} of the Linux kernel, making it possible to use on different Linux distributions.
 
-%\gls{sisci}
-%TODO
+
+
+%performance requirement = local access
+%therefore comparison tests
+%therefore loads of small clusters in evaluation
+%also cluster sizes, and because the nature of the mechanisms focused on small clusters 
+
+% point about standard pcie devices (from 1.0 to 4.0) and not foreseeing special devices?
+
+
+Finally, several additional research questions emerge from enabling the kind of sharing capabilities this dissertation aims for. Examples of these include how resources should be provisioned in order to achieve the best trade-off between fairness and performance, or how workloads should be scheduled on cluster machines in order to optimize resource utilization.
+%
+The security implications of allowing remote machines to directly use and control internal system resources is also an important topic.
+%
+While a ``finished product'' should take these topics into consideration, and also (ideally) include tools and services for managing resources and orchestrating workloads, we consider this to be outside the scope of this dissertation.
+
+
 
 \section{Research methodology}\label{sec:methodology}
 Choosing an appropriate research methodology for problems in computer~science is challenging.
