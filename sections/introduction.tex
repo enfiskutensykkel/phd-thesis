@@ -340,41 +340,41 @@ The driver should also demonstrate how it can rely on memory \gls{disaggregation
 \section{Scope and limitations}\label{sec:scope}
 This dissertation is part of a collaborative project between academia and industry, with Dolphin Interconnect Solutions~(Dolphin) as the industry partner.\footnote{Funded by the Research Council of Norway under the ``Unified PCI Express for Distributed Component Virtualization'' project (RCN/NFR \#235530), with additional contributions from the ``LADIO: Live Action Data Input/Output'' project (EU H2020 \#731970).}
 %
-Heterogeneous \gls{pcie} clusters of anywhere from 2 up to 60~nodes are supported by using \gls{ntb} adapter cards and cluster switches from Dolphin.
+The goal of this project is to develop a new framework for sharing devices and memory resources among computer systems connected with \gls{pcie}.
 %
-Memory mappings between machines can be set up and torn down on demand using Dolphin's \gls{ntb} driver, and application software may use the \gls{sisci} programming \gls{api} to interact with this low-level driver in order to implement shared-memory communication.
+The scope of this dissertation is the implementation and performance evaluation of the rudimentary mechanisms that make this framework possible: \textbf{the discovery, addressing, access, and use of remote \gls{pcie}-attached resources}.
 
 
-The goal of this project is to develop a new framework for sharing devices and memory resources among computer systems connected with Dolphin's \gls{pcie} networking technology.
+Additional research topics emerge from enabling this kind of sharing functionality;~e.g., how should resources be provisioned in order to achieve the best trade-off between fairness and performance, or how should workloads be scheduled on cluster machines in order to optimize resource utilization.
 %
-The scope of this dissertation is the implementation and performance evaluation of the fundamental mechanisms that make this framework possible: \textbf{the discovery, addressing, access, and use of remote \gls{pcie}-attached resources}.
+The security implications of allowing remote machines to use and control internal system resources also become relevant in the context of enabling direct access.
 %
-As outlined in \cref{sec:problem}, the objectives as well as the shared-memory nature of this framework necessitate the use of \glspl{ntb}.
+A ``finished product'' should take all of this into consideration, and ideally include tools and services for managing resources and orchestrating workloads.
 %
-Therefore, we have not explored any possibilities for resource sharing using alternative networking technologies in our work, and instead rely on Dolphin’s \gls{ntb} hardware as the enabling networking technology.
-%
-Moreover, we have also integrated our software implementation into Dolphin's driver, in order to fit the existing shared-memory semantics provided by their software stack.
-%
-However, it should be pointed out that the concepts and ideas presented in this dissertation are general, and can be implemented \emph{any} \gls{ntb} hardware that supports similar capabilities.
+However, we consider this to be outside the scope of this dissertation.
 
 
-
-The sharing framework should not require any modifications to existing application software or device drivers.
+Exploring resource sharing possibilities using alternative networking technologies, such as InfiniBand, is also outside the scope of our dissertation.
 %
-Additionally, sharing should be possible for both \gls{host}~machines and \glspl{vm}.
+The desired objectives for the sharing framework, as stated in \cref{sec:problem}, necessitate the use of \gls{pcie} \glspl{ntb} due to their shared-memory nature and performance requirements.
 %
-In order to accomplish this, resources must to be presented to the system at the \gls{os}-level so that interactions with a device can be intercepted. 
+Dolphin's \gls{ntb} adapter cards and cluster switches make it possible to build heterogeneous computing clusters of anywhere from 2 up to 60~machines, in various network topologies.
 %
-While many \glspl{os} exist, this intercepting mechanism involves intricate manipulation of \gls{os} and device driver interfaces.
+Memory mappings between machines can be set up and torn down using Dolphin's existing \gls{ntb} driver, and application software may use the \gls{sisci} programming \gls{api} to interact with this low-level driver in order to implement shared-memory communication.
 %
-Because of this, we have chosen to implement our solution for the Linux kernel, as it is open source and its internals can be studied.
+In order to fit into this existing cluster networking foundation, we will implement our sharing framework as part of their driver stack.
 %
-Additionally, while several \gls{vm} \gls{hypervisor} implementations exist for Linux, we have decided to extend the \gls{kvm} in order to support sharing resources with \gls{vm} \glspl{guest}, for the same reason.
+This makes it possible to extend the existing \gls{sisci}~\gls{api} with device-oriented semantics and device driver support functions, rather than requiring the development of an entirely new \gls{api} for the purpose of supporting our sharing and \gls{disaggregation} concepts.
 %
-Regardless, the ideas and concepts for the sharing framework are general enough to be supported for several \emph{versions} of the Linux kernel, making it possible to use on different Linux distributions.
+Even so, it should be pointed out that the ideas and fundamental concepts of our framework are general, and can in fact be implemented for \emph{any} \gls{ntb} hardware that has similar capabilities.
 
 
 
+One of the main objectives of this dissertation is to support sharing of standard \gls{pcie} devices without requiring any modifications to existing device driver implementations or application software~(\cref{obj:transparent}).
+%
+Standard pcie devices
+As the main focus of this dissertation is 
+%a limitation because device drivers are written in this way
 %performance requirement = local access
 %therefore comparison tests
 %therefore loads of small clusters in evaluation
@@ -382,12 +382,24 @@ Regardless, the ideas and concepts for the sharing framework are general enough 
 
 % point about standard pcie devices (from 1.0 to 4.0) and not foreseeing special devices?
 
+% commodity hardware
+%It should also be noted that while the presented experiments primarily use Intel~Xeon as the \gls{cpu} architecture and \glspl{nvme}, Ethernet~\glspl{nic}, and Nvidia \glspl{gpu} were used for shared resources, we also used additional \gls{cpu} architectures and devices during the development and validation phases.
+%
+%This includes \gls{cpu} architectures like AMD and ARM, and other devices like \glspl{fpga}, sound cards, and \gls{pcie}-attached cameras.
 
-Finally, several additional research questions emerge from enabling the kind of sharing capabilities this dissertation aims for. Examples of these include how resources should be provisioned in order to achieve the best trade-off between fairness and performance, or how workloads should be scheduled on cluster machines in order to optimize resource utilization.
+
+
+As outlined in \cref{sec:motivation}, one of the central motivations of our framework is that both \gls{host}~machines and \glspl{vm} should be able to use shared devices.
 %
-The security implications of allowing remote machines to directly use and control internal system resources is also an important topic.
+In order to accomplish this, resources must to be presented to the system at the \gls{os}-level so that interactions with a device can be intercepted. 
 %
-While a ``finished product'' should take these topics into consideration, and also (ideally) include tools and services for managing resources and orchestrating workloads, we consider this to be outside the scope of this dissertation.
+While many different \glspl{os} exist, this intercepting mechanism involves intricate manipulation of \gls{os} and device driver interfaces.
+%
+Because of this, we have chosen to implement our solution for the Linux kernel, as it is open source and its internals can be studied from easily available source code.
+%
+Additionally, although several \gls{vm} \gls{hypervisor} implementations exist for Linux, we have decided to extend the \gls{kvm} in order to support sharing resources with \gls{vm} \glspl{guest}, for the same reason.
+%
+Regardless, we make a point of making our work as general as possible, so that it is possible to support several \emph{versions} of the Linux kernel and use our implementation on different Linux distributions.
 
 
 
@@ -415,7 +427,7 @@ If a test fails (to meet a requirement), the implementation must be revised.
 If an scientific experiment ``fails'', it is the theory (or understanding) that must be revised instead.
 
 
-An almost identical classification of paradigms is given by the ACM Task Force on the Core of Computer Science~\cite{Comer1989}.\footnote{ACM uses the names ``theory'', ``design'', and ``abstraction'' for these paradigms instead.}
+An almost identical classification of paradigms is given by the ACM Task Force on the Core of Computer Science~\cite{Comer1989}.\footnote{ACM use the names ``theory'', ``design'', and ``abstraction'' for these paradigms instead.}
 %
 They additionally note that the three paradigms are intrinsically intertwined, as computer~science is both deeply rooted in mathematics and has its own theory, experimental method, and engineering---in contrast to most physical sciences, where the engineering disciplines that apply their findings are considered separate disciplines.
 %
@@ -489,10 +501,7 @@ As such, we follow the technocratic paradigm of iteratively designing, implement
 \end{itemize}
 %
 For the sake of convenience, functionality testing and the overall validation process is implicit in the performance experiments presented in this dissertation.
-%
-It should also be noted that while the presented experiments primarily use Intel~Xeon as the \gls{cpu} architecture and \glspl{nvme}, Ethernet~\glspl{nic}, and Nvidia \glspl{gpu} were used for shared resources, we also used additional \gls{cpu} architectures and devices during the development and validation phases.
-%
-This includes \gls{cpu} architectures like AMD and ARM, and other devices like \glspl{fpga}, sound cards, and \gls{pcie}-attached cameras.
+
 
 
 \section{Contributions}
@@ -521,7 +530,7 @@ In particular, the main contributions of this dissertation are listed as follows
         %
         This enables direct data transfers between multiple devices without violating the principle of making devices appear local to the system(s) using them.
 
-    \item Extension of the \gls{sisci} shared-memory \gls{api} with new, \textbf{device-oriented programming semantics} for writing device drivers as shared-memory applications (see \cref{paper:tocs}):
+    \item Extension of the \gls{sisci} shared-memory \gls{api} with new, \textbf{device-oriented programming functions and support functions} for writing device drivers as shared-memory applications (see \cref{paper:tocs}):
     %
 	this \gls{api} extension makes it possible to \lgls{disaggregation}{disaggregate} devices and device memory in software, similarly to \gls{rdma} \gls{disaggregation} solutions.
     %
