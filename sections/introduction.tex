@@ -114,7 +114,7 @@ Sharing several types of devices, for example both \glspl{gpu} and \glspl{nvme},
 
 \begin{figure}
 	\centering
-    \includegraphics[width=.85\linewidth]{cluster-example}
+    \includegraphics[width=.83\linewidth]{cluster-example}
     \caption[Example of a heterogeneous \glsfmtshort{pcie}-networked cluster with \glsfmtshort{ntb} adapter cards and external cables]{Example of a heterogeneous \glsxtrshort{pcie} cluster with external \glsxtrshort{pcie} links using adapter cards capable of \glsxtrshort{ntb}. The \glsxtrshortpl{cpu} as well as internal devices of all cluster machines~(nodes) are all attached to the same \glsxtrshort{pcie} network fabric.}
   	\label{fig:cluster-example}
 \end{figure}
@@ -125,13 +125,13 @@ Sharing several types of devices, for example both \glspl{gpu} and \glspl{nvme},
     \centering
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics{direct-access-rdma}
+        \includegraphics[width=.78\linewidth]{direct-access-rdma}
         \caption{Accessing remote resources over traditional network using \glsxtrshort{rdma}.}
     \end{subfigure}
     \par\vspace{5mm}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics{direct-access-smartio}
+        \includegraphics[width=.78\linewidth]{direct-access-smartio}
         \caption{Accessing remote resources over native \glsxtrshort{pcie} using \glsxtrshort{ntb}.}
     \end{subfigure}
     \caption
