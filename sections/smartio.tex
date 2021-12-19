@@ -3,10 +3,10 @@ need an idea for an intro here
 
 \section{General idea}\label{sec:idea}
 \begin{itemize}
-    \item a combined (and shortened) version of PCIe overview + NTB + mapping bars and DMA windows from previous papers
+    \item a combined (and \textbf{shortened}!!) version of PCIe overview + NTB + mapping bars and DMA windows from previous papers
     \item simple ntb figure for mapping memory on remote node
-    \item the famous device lending figure
-    \item the general idea: can stuff (memory + bars) be mapped through the NTB in a way that is transparent for OS?
+    \item the famous device lending figure (but in a ``is this possible?'' kind of way)
+    \item the general idea: can stuff (memory + bars + interrupts) be mapped through the NTB in a way that is transparent for OS?
 \end{itemize}
 
 
@@ -25,6 +25,7 @@ need an idea for an intro here
 %\section{General idea}\label{sec:idea}
 \section{Implementation}\label{sec:impl}
 High level explanation of borrowers and lenders here.
+Software architecture figure (showing the different components here)
 
 \subsection{Device Lending}
 \begin{itemize}
@@ -36,7 +37,8 @@ High level explanation of borrowers and lenders here.
 
 \subsection{MDEV}
 \begin{itemize}
-    \item MDEV explanation
+    \item \textbf{very} brief: what is passthrough/VFIO
+    \item what MDEV gives us
     \item how to map VM memory for device
     \item relaying interrupts
 \end{itemize}

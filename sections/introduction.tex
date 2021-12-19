@@ -364,7 +364,9 @@ The desired objectives for the sharing framework, as stated in \cref{sec:problem
 %
 Dolphin's \gls{ntb} adapter cards and cluster switches make it possible to build heterogeneous computing clusters of anywhere from 2 up to 60~machines, in various network topologies.
 %
-Memory mappings between machines can be set up and torn down using Dolphin's existing \gls{ntb} driver, and application software may use the \gls{sisci} programming \gls{api} to interact with this \gls{ntb} driver in order to implement shared-memory communication.
+\Cref{fig:cluster-example} is an example of such a cluster.
+%
+Memory mappings between machines are configured using Dolphin's existing \gls{ntb} driver, and application software may use the \gls{sisci} programming \gls{api} to interact with this \gls{ntb} driver in order to dynamically set up and tear down these memory mappings and implement shared-memory communication.
 %
 In order to fit our work into this existing cluster networking foundation, we will rely on Dolphin's \gls{ntb} hardware and implement our sharing framework as part of their driver stack.
 %
