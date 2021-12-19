@@ -1,5 +1,17 @@
 \chapter{SmartIO}\label{chapter:smartio}
-need an idea for an intro here
+SmartIO is a solution for allowing the local resources of a machine,~i.e., memory and devices, to be shared with and used by remote machines, over standard \gls{pcie}.
+%
+SmartIO works for \emph{all} standard \gls{pcie} devices and their Linux device drivers, no special adaptation is needed in either hardware or software to make this sharing possible.
+%
+Whether devices are actually local or remote becomes irrelevant to the user, as SmartIO eliminates this distinction, with regard to both functionality and performance.
+%
+Furthermore, individual device functions of multi-function devices may be distributed to different machines in the network, or to the same machine should it require multiple resources.
+%
+It is even possible to \lgls{disaggregation}{disaggregate} a single device~(function) in software, and distribute it to multiple machines, should this be required by application software.
+%
+In other words, SmartIO is a solution for scaling out and using more hardware resources than there are available in a single machine.
+
+
 
 \section{General idea}\label{sec:idea}
 \begin{itemize}
