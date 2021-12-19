@@ -1,10 +1,20 @@
 \chapter{SmartIO}\label{chapter:smartio}
+need an idea for an intro here
 
-Unlike existing solutions for distributed \gls{io}, SmartIO seamlessly combines traditional \gls{io} with distributed shared-memory functionality, and is, therefore, able to provide sharing capabilities at multiple abstraction levels.
-Devices may be distributed to physical hosts and to \glspl{vm} alike, and SmartIO also provides facilities for \glslink{disaggregation}{disaggregating} devices and memory resources in software.
+\section{General idea}\label{sec:idea}
+\begin{itemize}
+    \item a combined (and shortened) version of PCIe overview + NTB + mapping bars and DMA windows from previous papers
+    \item simple ntb figure for mapping memory on remote node
+    \item the famous device lending figure
+    \item the general idea: can stuff (memory + bars) be mapped through the NTB in a way that is transparent for OS?
+\end{itemize}
 
 
-However, as resources are accessed over native \gls{pcie}, they can be shared and used by remote machines without introducing a performance penalty.
+%Unlike existing solutions for distributed \gls{io}, SmartIO seamlessly combines traditional \gls{io} with distributed shared-memory functionality, and is, therefore, able to provide sharing capabilities at multiple abstraction levels.
+%Devices may be distributed to physical hosts and to \glspl{vm} alike, and SmartIO also provides facilities for \glslink{disaggregation}{disaggregating} devices and memory resources in software.
+
+
+%However, as resources are accessed over native \gls{pcie}, they can be shared and used by remote machines without introducing a performance penalty.
 %%
 %Also unlike existing \gls{pcie}-based solutions, SmartIO is fully distributed and avoids dedicated servers.
 %All machines in the cluster can contribute their own local resources and access remote resources, even at the same time.
@@ -13,22 +23,60 @@ However, as resources are accessed over native \gls{pcie}, they can be shared an
 %Memory addresses are translated between different address domains by SmartIO in a manner that is transparent to application software, device drivers, and even the \gls{os}.
 %This makes it possible to provide optimizations based on resource locality and minimizing data movement, without requiring the user to be aware of the underlying PCIe topology.
 %\section{General idea}\label{sec:idea}
-\section{Architecture}\label{sec:overview}
+\section{Implementation}\label{sec:impl}
+High level explanation of borrowers and lenders here.
 
-\section{Implementation overview}\label{sec:impl}
 \subsection{Device Lending}
+\begin{itemize}
+    \item explain shadow device
+    \item intercept configuration cycles
+    \item hooking DMA api for setting up DMA windows
+    \item IOMMU discussion
+\end{itemize}
+
 \subsection{MDEV}
+\begin{itemize}
+    \item MDEV explanation
+    \item how to map VM memory for device
+    \item relaying interrupts
+\end{itemize}
+
 \subsection{API extension}
+\begin{itemize}
+    \item why do we need API? (disaggregation in software + shared memory networking)
+    \item short explanation of SISCI
+    \item what functions did we add to SISCI?
+\end{itemize}
+
+\subsection{Support for multiple lenders}
+\begin{itemize}
+    \item peer-to-peer device lending
+    \item peer-to-peer vms
+\end{itemize}
+
 
 \subsection{NVMe driver}\label{sec:nvme}
+\begin{itemize}
+    \item why a prototype driver? demonstrate disaggregation in software
+    \item why nvme? easy to parallelize because of queues
+    \item driver implementation and queue sharing
+    \item gpudirect + co-operation with device lending
+\end{itemize}
 
 %\section{Workload}\label{sec:eval}
 
 \section{Performance measurements}\label{sec:eval}
 
 \section{Related work}\label{sec:rw}
+should rw go in discussion and conclusion instead?
+\begin{itemize}
+    \item rdma stuff
+    \item fabric partitioning: mr-iov, broadcom/microsemi chips with partitioning
+    \item ladon (and other ntb stuff)
+\end{itemize}
+
 % RW first??
 %An example of this is rCUDA, where multiple clients may run jobs on the same \gls{gpu} by relying ~\cite{Duato2010}
-\Gls{rdma}-based \gls{disaggregation} can even allow a single resource to be shared by several machines in the cluster at the same time. 
+%\Gls{rdma}-based \gls{disaggregation} can even allow a single resource to be shared by several machines in the cluster at the same time. 
 %
-However, since 
+%However, since 
