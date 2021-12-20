@@ -345,10 +345,9 @@ The goal of this project is to develop a new framework for sharing devices and m
 The scope of this dissertation is the implementation and performance evaluation of the fundamental mechanisms that make this framework possible: \textbf{the discovery, addressing, access, and use of remote \gls{pcie}-attached resources}.
 
 
-
-Several related research topics emerge from enabling this kind of sharing functionality.
+Several related research topics emerge from enabling this envisioned sharing framework.
 %
-Examples include finding algorithms for scheduling workloads on different machines in the cluster in order to to optimize resource utilization, or choosing the appropriate trade-off between fairness and workload performance requirements when provisioning resources to machines.
+Examples include finding algorithms for scheduling workloads on different machines in the cluster in order to optimize resource utilization, or choosing the appropriate trade-off between fairness and workload performance requirements when provisioning resources to machines.
 %
 The security implications of allowing remote machines to use and control internal system resources is also something that becomes relevant in the context of this sharing framework.
 %
@@ -360,7 +359,7 @@ However, we consider this to be outside the scope of this dissertation, and we o
 
 Exploring resource sharing possibilities using alternative networking technologies, such as InfiniBand, is also outside the scope of our dissertation.
 %
-The desired objectives for the sharing framework, as stated in \cref{sec:problem}, necessitate the use of \gls{pcie} \glspl{ntb} due to their shared-memory nature and performance requirements.
+The desired objectives for the sharing framework, as stated in \cref{sec:problem}, necessitate the use of \gls{pcie} \glspl{ntb}. %due to their shared-memory nature and performance requirements.
 %
 Dolphin's \gls{ntb} adapter cards and cluster switches make it possible to build heterogeneous computing clusters of anywhere from 2 up to 60~machines, in various network topologies.
 %
@@ -368,13 +367,13 @@ Dolphin's \gls{ntb} adapter cards and cluster switches make it possible to build
 %
 Memory mappings between machines are configured using Dolphin's existing \gls{ntb} driver, and application software may use the \gls{sisci} programming \gls{api} to interact with this \gls{ntb} driver in order to dynamically set up and tear down these memory mappings and implement shared-memory communication.
 %
-In order to fit our work into this existing cluster networking foundation, we will rely on Dolphin's \gls{ntb} hardware and implement our sharing framework as part of their driver stack.
+In order to fit our work into this existing cluster networking foundation, we rely on Dolphin's \gls{ntb} hardware for our implementation, and have integrated our sharing framework into their driver stack.
 %
-Although this means that our own implementation will be subjugated to the same hardware and software limitations as the underlying network, the benefit is that it becomes possible to extend existing functionality rather than developing an entirely new \gls{ntb} driver from scratch.
+This makes it possible to extend existing functionality, rather than developing an entirely new \gls{ntb} driver from scratch.
 %
-For facilitating resource \gls{disaggregation}, this design choice also means that we can add device-oriented semantics and device driver support functions to the already existing shared-memory functionality provided by \gls{sisci}, instead of requiring that application software must convert and translate and between different \glspl{api}.
+To facilitate software \gls{disaggregation}, for example, we can add device-oriented semantics and device driver support functions to the already existing shared-memory functionality provided by \gls{sisci}, instead of requiring that application software must convert and translate and between different \glspl{api}.
 %
-Even so, it should be pointed out that the ideas and concepts of our work are general, and can in fact be implemented for \emph{any} \gls{ntb} hardware that has similar capabilities.
+Even so, it should be pointed out that while our specific implementation is using Dolphin \glspl{ntb}, the ideas and concepts of our work are general, and can in fact be implemented for \emph{any} \gls{ntb} hardware that has similar capabilities.
 
 
 
@@ -384,9 +383,9 @@ In order to accomplish this, resources must to be presented to the system at the
 %
 This intercepting mechanism involves manipulation of device driver interfaces and requires a detailed understanding of \gls{os} internals.
 %
-For this reason, our framework will be implemented for Linux, as its source code is available as open source and may be studied.
+For this reason, our framework is implemented for Linux, as its source code is available as open source and may be studied.
 %
-For the same reason, we will also extend the \gls{kvm} in order to support sharing devices with \gls{vm} \glspl{guest}.
+For the same reason, we have also extended the \gls{kvm} in order to support sharing devices with \gls{vm} \glspl{guest}.
 %
 Regardless, we do not limit our work to a specific Linux distribution, as it is possible to support several different versions of the Linux kernel.
 %
@@ -394,19 +393,17 @@ It should also be mentioned that for \glspl{vm}, there are no limitations for wh
 
 
 
-Sharing of any \gls{pcie} device is to be supported, from \gls{pcie}~1.0 devices up to \gls{pcie}~4.0 devices, as per \cref{obj:distributed}.
+As per \cref{obj:distributed}, sharing of any \gls{pcie} device is supported, from \gls{pcie}~1.0 devices up to \gls{pcie}~4.0 devices.
 %
-Consequently, validating that the sharing framework is able to support a wide range of common devices, such as \glspl{nvme}, Ethernet~\glspl{nic}, and \glspl{gpu}, will be covered by this dissertation.
+Consequently, validating that the sharing framework is able to support a wide range of common (and commodity) devices, such as \glspl{nvme}, Ethernet~\glspl{nic}, and \glspl{gpu}, are covered by this dissertation.
 %
 However, the framework should also not require any modifications to existing device driver implementations or device hardware~(\cref{obj:transparent}).
 %
 Most device drivers assume exclusive control over the device.
 %
-While some devices support \gls{sriov}, and may be shared with several machines simultaneously, most commodity devices do not.
+Since devices can therefore only be used by one machine at the time, a limitation of the evaluation of our implementation is that it includes scenarios with cluster networks of only a few machines,
 %
-Because of this, a limitation of the evaluation of our implementation is that it will include scenarios with cluster networks of only a few machines, since devices can only be used by one machine at the time.
-%
-However, for evaluating resource \gls{disaggregation} in software, where a single device may be used by more than one machine simultaneously, more advanced network topologies and larger clusters (of up to 60~machines) will be used.
+However, for evaluating resource \gls{disaggregation} in software, where a single device may be used by more than one machine simultaneously, more advanced network topologies and larger clusters (of up to 60~machines) are used.
 
 
 \section{Research methodology}\label{sec:methodology}
