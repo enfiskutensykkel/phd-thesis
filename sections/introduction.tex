@@ -344,6 +344,13 @@ This dissertation is part of a collaborative project between academia and indust
 The goal of this project is to develop a new framework for sharing devices and memory resources among computer systems connected with \gls{pcie}.
 %
 The scope of this dissertation is the implementation and performance evaluation of the fundamental mechanisms that make this framework possible: \textbf{the discovery, addressing, access, and use of remote \gls{pcie}-attached resources}.
+%
+We aim to support this for three different abstraction levels:
+\begin{enumerate}
+    \item Dynamically distributing devices to remote machines.
+    \item Dynamically distributing (physical) devices to \glspl{vm} running on remote machines.
+    \item Enabling \gls{disaggregation} of devices and memory resources in software, allowing them to be shared \emph{simultaneously} by software processes running on several machines simultaneously.
+\end{enumerate}
 
 
 
@@ -361,7 +368,8 @@ In order to fit our work into this existing cluster networking foundation, we re
 %
 This makes it possible to extend existing functionality, rather than developing an entirely new \gls{ntb} driver from scratch.
 %
-To facilitate software \gls{disaggregation}, for example, we can add device-oriented semantics and device driver support functions to the already existing shared-memory functionality provided by \gls{sisci}, instead of requiring that application software must convert and translate and between different \glspl{api}.
+For enabling software \gls{disaggregation}, for example, we can add device-oriented semantics and device driver support functions to the already existing \gls{sisci}~\gls{api}. 
+%, instead of requiring that cluster application software must convert and translate and between different \glspl{api}.
 %
 Even so, it should be pointed out that while our specific implementation is building on Dolphin \glspl{ntb}, the ideas and concepts of our work are general, and can in fact be implemented for \emph{any} \gls{ntb} hardware that has similar capabilities.
 
@@ -393,7 +401,7 @@ While \gls{ntb} clusters can be anywhere from 2 up to 60~machines, in many diffe
 %
 Nevertheless, more advanced network topologies and larger clusters (of up to 60~machines) are used in instances where a single device may be used by more than one machine simultaneously. 
 %
-Such instances are evaluation scenarios involving devices with multiple device functions,~i.e., \gls{sriov}, and experiments \lgls{disaggregation}{disaggregating} device and memory resources in software.
+Such instances are evaluation scenarios involving devices with multiple device functions,~i.e., \gls{sriov}, and experiments with software \gls{disaggregation} of devices and memory resources.
 
 
 

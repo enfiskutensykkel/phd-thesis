@@ -7,7 +7,7 @@
    viewBox="0 0 121.70833 54.680565"
    version="1.1"
    id="svg1742"
-   inkscape:version="1.1 (ce6663b3b7, 2021-05-25)"
+   inkscape:version="1.1.1 (eb90963e84, 2021-10-02)"
    sodipodi:docname="pooling.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -24,9 +24,9 @@
      inkscape:document-units="mm"
      showgrid="true"
      units="pt"
-     inkscape:zoom="3.7946874"
-     inkscape:cx="259.17813"
-     inkscape:cy="184.2049"
+     inkscape:zoom="2.6832492"
+     inkscape:cx="194.7266"
+     inkscape:cy="158.01738"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -3790,8 +3790,8 @@
            sodipodi:role="line">Cluster Node</tspan></text>
     </g>
     <path
-       style="display:inline;fill:#fff6d5;fill-opacity:1;stroke:#28220b;stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 55.337558,31.067735 v 4.9156 h 11.469733 v 2.4578 l 5.734867,-4.9156 -5.734867,-4.9156 v 2.4578 z"
+       style="display:inline;fill:#fff6d5;fill-opacity:1;stroke:#28220b;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 55.337558,30.009401 v 4.9156 h 11.469733 v 2.4578 l 5.734867,-4.9156 -5.734867,-4.9156 v 2.4578 z"
        id="path5161"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccc" />
