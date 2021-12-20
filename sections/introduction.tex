@@ -393,7 +393,7 @@ Note that for \glspl{vm}, there are no limitations for which \gls{os} may run in
 
 As per \cref{obj:distributed}, sharing of any \gls{pcie} device should be supported, from \gls{pcie}~1.0 devices up to \gls{pcie}~4.0 devices.
 %
-Our evaluation includes a wide range of common (and commodity) devices, such as \glspl{nvme}, Ethernet~\glspl{nic}, and \glspl{gpu}.
+Our evaluation includes a wide range of common (and commodity) devices, like \glspl{nvme}, Ethernet~\glspl{nic}, and \glspl{gpu}.
 %
 However, the framework should also not require any modifications to existing device driver implementations or device hardware~(\cref{obj:transparent}).
 %
@@ -401,7 +401,7 @@ While \gls{ntb} clusters can be anywhere from 2 up to 60~machines, in many diffe
 %
 Nevertheless, more advanced network topologies and larger clusters (of up to 60~machines) are used in instances where a single device may be used by more than one machine simultaneously. 
 %
-Such instances are evaluation scenarios involving devices with multiple device functions,~i.e., \gls{sriov}, and experiments with software \gls{disaggregation} of devices and memory resources.
+These instances are evaluation scenarios involving devices with multiple device functions (for example \gls{sriov} devices), and experiments with software \lgls{disaggregation}{disaggregated} devices.
 
 
 
