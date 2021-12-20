@@ -326,6 +326,7 @@ Moreover, the \gls{api} should be designed so that a driver implementation does 
     To prove real-world deployment capabilities, the solution should be tested on realistic and relevant workloads and benchmarks.
 \end{objective}
 To confirm that \gls{io} resources can be distributed to, and shared with, remote machines, a comprehensive performance evaluation covering all components of the implementation is needed.
+%
 As the solution should provide \emph{native} \gls{pcie} performance (\cref{obj:performance}), all parts should be thoroughly tested with latency and throughput in mind, in order to reveal any potential performance bottlenecks.
 Standardized test suites should be used as far as possible, to prove that application software really can be unmodified (\cref{obj:transparent}).
 %
@@ -345,35 +346,24 @@ The goal of this project is to develop a new framework for sharing devices and m
 The scope of this dissertation is the implementation and performance evaluation of the fundamental mechanisms that make this framework possible: \textbf{the discovery, addressing, access, and use of remote \gls{pcie}-attached resources}.
 
 
-Several related research topics emerge from enabling this envisioned sharing framework.
-%
-Examples include finding algorithms for scheduling workloads on different machines in the cluster in order to optimize resource utilization, or choosing the appropriate trade-off between fairness and workload performance requirements when provisioning resources to machines.
-%
-The security implications of allowing remote machines to use and control internal system resources is also something that becomes relevant in the context of this sharing framework.
-%
-A ``finished product'' should at least attempt to address most of these topics, and ideally include tools and services for managing resources and orchestrating workloads on the cluster level.
-%
-However, we consider this to be outside the scope of this dissertation, and we only focus on the fundamental mechanisms that enable the low-level sharing functionality.
 
-
-
-Exploring resource sharing possibilities using alternative networking technologies, such as InfiniBand, is also outside the scope of our dissertation.
+Exploring resource sharing possibilities using alternative networking technologies, such as InfiniBand, is outside the scope of our dissertation.
 %
 The desired objectives for the sharing framework, as stated in \cref{sec:problem}, necessitate the use of \gls{pcie} \glspl{ntb}. %due to their shared-memory nature and performance requirements.
 %
-Dolphin's \gls{ntb} adapter cards and cluster switches make it possible to build heterogeneous computing clusters of anywhere from 2 up to 60~machines, in various network topologies.
+Dolphin's \gls{ntb} adapter cards and cluster switches make it possible to build heterogeneous computing clusters in various network topologies.
 %
 \Cref{fig:cluster-example} is an example of such a cluster.
 %
 Memory mappings between machines are configured using Dolphin's existing \gls{ntb} driver, and application software may use the \gls{sisci} programming \gls{api} to interact with this \gls{ntb} driver in order to dynamically set up and tear down these memory mappings and implement shared-memory communication.
 %
-In order to fit our work into this existing cluster networking foundation, we rely on Dolphin's \gls{ntb} hardware for our implementation, and have integrated our sharing framework into their driver stack.
+In order to fit our work into this existing cluster networking foundation, we rely on Dolphin's \gls{ntb} hardware and have implemented our sharing framework as part of their driver stack.
 %
 This makes it possible to extend existing functionality, rather than developing an entirely new \gls{ntb} driver from scratch.
 %
 To facilitate software \gls{disaggregation}, for example, we can add device-oriented semantics and device driver support functions to the already existing shared-memory functionality provided by \gls{sisci}, instead of requiring that application software must convert and translate and between different \glspl{api}.
 %
-Even so, it should be pointed out that while our specific implementation is using Dolphin \glspl{ntb}, the ideas and concepts of our work are general, and can in fact be implemented for \emph{any} \gls{ntb} hardware that has similar capabilities.
+Even so, it should be pointed out that while our specific implementation is building on Dolphin \glspl{ntb}, the ideas and concepts of our work are general, and can in fact be implemented for \emph{any} \gls{ntb} hardware that has similar capabilities.
 
 
 
@@ -389,21 +379,34 @@ For the same reason, we have also extended the \gls{kvm} in order to support sha
 %
 Regardless, we do not limit our work to a specific Linux distribution, as it is possible to support several different versions of the Linux kernel.
 %
-It should also be mentioned that for \glspl{vm}, there are no limitations for which \gls{os} may run in the \gls{guest}.
+Note that for \glspl{vm}, there are no limitations for which \gls{os} may run in the \gls{guest}.
 
 
 
-As per \cref{obj:distributed}, sharing of any \gls{pcie} device is supported, from \gls{pcie}~1.0 devices up to \gls{pcie}~4.0 devices.
+As per \cref{obj:distributed}, sharing of any \gls{pcie} device should be supported, from \gls{pcie}~1.0 devices up to \gls{pcie}~4.0 devices.
 %
-Consequently, validating that the sharing framework is able to support a wide range of common (and commodity) devices, such as \glspl{nvme}, Ethernet~\glspl{nic}, and \glspl{gpu}, are covered by this dissertation.
+Our evaluation includes a wide range of common (and commodity) devices, such as \glspl{nvme}, Ethernet~\glspl{nic}, and \glspl{gpu}.
 %
 However, the framework should also not require any modifications to existing device driver implementations or device hardware~(\cref{obj:transparent}).
 %
-Most device drivers assume exclusive control over the device.
+While \gls{ntb} clusters can be anywhere from 2 up to 60~machines, in many different network topologies, a limitation of the evaluation of our implementation is that it for the most part includes scenarios with cluster networks of only a few machines, since devices can only be used by one machine at the time.
 %
-Since devices can therefore only be used by one machine at the time, a limitation of the evaluation of our implementation is that it includes scenarios with cluster networks of only a few machines,
+Nevertheless, more advanced network topologies and larger clusters (of up to 60~machines) are used in instances where a single device may be used by more than one machine simultaneously. 
 %
-However, for evaluating resource \gls{disaggregation} in software, where a single device may be used by more than one machine simultaneously, more advanced network topologies and larger clusters (of up to 60~machines) are used.
+Such instances are evaluation scenarios involving devices with multiple device functions,~i.e., \gls{sriov}, and experiments with devices are \lgls{disaggregation}{disaggregated} in software.
+
+
+
+Finally, it should be mentioned that several related research topics emerge from enabling the envisioned sharing framework this dissertation aims for.
+%
+Examples include finding algorithms for scheduling workloads on different machines in the cluster in order to optimize resource utilization, or choosing the appropriate trade-off between fairness and workload performance requirements when provisioning resources to machines.
+%
+The security implications of allowing remote machines to use and control internal system resources is also something that becomes relevant in the context of this sharing framework.
+%
+A ``finished product'' should attempt to address most of these topics, and ideally include tools and services for managing resources and orchestrating workloads on the cluster level.
+%
+However, we consider this to be outside the scope of this dissertation, and we only focus on the fundamental mechanisms that enable the low-level sharing functionality.
+
 
 
 \section{Research methodology}\label{sec:methodology}
