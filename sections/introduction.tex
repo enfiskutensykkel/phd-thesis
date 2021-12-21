@@ -339,9 +339,9 @@ The driver should also demonstrate how it can rely on memory \gls{disaggregation
 
 
 \section{Scope and limitations}\label{sec:scope}
-This dissertation is part of a collaborative project between academia and industry, with Dolphin Interconnect Solutions~(Dolphin) as the industry partner.\footnote{Funded by the Research Council of Norway under the ``Unified PCI Express for Distributed Component Virtualization'' project (RCN/NFR \#235530), with additional contributions from the ``LADIO: Live Action Data Input/Output'' project (EU H2020 \#731970).}
+The research presented in this dissertation contributed to a collaborative project between academia and industry, with Dolphin Interconnect Solutions~(Dolphin) as the industry partner.\footnote{Funded by the Research Council of Norway under the ``Unified PCI Express for Distributed Component Virtualization'' project (RCN/NFR \#235530), with additional contributions from the ``LADIO: Live Action Data Input/Output'' project (EU H2020 \#731970).}
 %
-The goal of this project is to develop a new framework for sharing devices and memory resources among computer systems connected with \gls{pcie}.
+The goal of this project was to develop a new framework for sharing devices and memory resources among computer systems connected with \gls{pcie}.
 %
 The scope of this dissertation is the implementation and performance evaluation of the fundamental mechanisms that make this framework possible: \textbf{the discovery, addressing, access, and use of remote \gls{pcie}-attached resources}.
 %
@@ -368,7 +368,7 @@ In order to fit our work into this existing cluster networking foundation, we re
 %
 This makes it possible to extend existing functionality, rather than developing an entirely new \gls{ntb} driver from scratch.
 %
-For enabling software \gls{disaggregation}, for example, we can add device-oriented semantics and device driver support functions to the already existing \gls{sisci}~\gls{api}. 
+To enable software \gls{disaggregation}, for example, we can add device-oriented semantics and device driver support functions to the already existing \gls{sisci}~\gls{api}. 
 %, instead of requiring that cluster application software must convert and translate and between different \glspl{api}.
 %
 Even so, it should be pointed out that while our specific implementation is building on Dolphin \glspl{ntb}, the ideas and concepts of our work are general, and can in fact be implemented for \emph{any} \gls{ntb} hardware that has similar capabilities.
@@ -399,9 +399,7 @@ However, the framework should also not require any modifications to existing dev
 %
 While \gls{ntb} clusters can be anywhere from 2 up to 60~machines, in many different network topologies, a limitation of the evaluation of our implementation is that it for the most part includes scenarios with cluster networks of only a few machines, since devices can only be used by one machine at the time.
 %
-Nevertheless, more advanced network topologies and larger clusters (of up to 60~machines) are used in instances where a single device may be used by more than one machine simultaneously. 
-%
-These instances are evaluation scenarios involving devices with multiple device functions (for example \gls{sriov} devices), and experiments with software \lgls{disaggregation}{disaggregated} devices.
+Nevertheless, more advanced network topologies and larger clusters (of up to 60~machines) are used in a few experiments, as our framework supports \lgls{disaggregation}{disaggregating} devices in software, allowing devices to be used simultaneously by many machines.
 
 
 
