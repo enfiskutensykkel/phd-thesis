@@ -45,7 +45,7 @@
 	\counterwithout{section}{chapter}
 	\setcounter{section}{0}
 
-	%\includearticle[#1]{#3}{#4}
+	\includearticle[#1]{#3}{#4}
 
 	% Restore section titles prefix the chapter number
 	\counterwithin{section}{chapter}
@@ -61,7 +61,7 @@
 
 
 % Refer to a section in a paper from the main body
-\NewDocumentCommand{\paperref}{ m m }{\hyperref[sec:#1-#2]{\cref*{paper:#1}, \cref*{sec:#1-#2}}}
+\NewDocumentCommand{\paperref}{ m m }{\hyperref[sec:#1-#2]{\cref*{sec:#1-#2} in \cref*{paper:#1}}}
 
 
 % Research question and proposition/objectives/requirements
