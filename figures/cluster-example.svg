@@ -7,7 +7,7 @@
    viewBox="0 0 121.70833 118.88619"
    version="1.1"
    id="svg5"
-   inkscape:version="1.1 (ce6663b3b7, 2021-05-25)"
+   inkscape:version="1.1.1 (eb90963e84, 2021-10-02)"
    sodipodi:docname="cluster-example.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -28,9 +28,9 @@
      inkscape:snap-object-midpoints="false"
      inkscape:snap-center="true"
      inkscape:snap-grids="true"
-     inkscape:zoom="4.0000002"
-     inkscape:cx="123.62499"
-     inkscape:cy="312.99998"
+     inkscape:zoom="2.0000001"
+     inkscape:cx="73.749996"
+     inkscape:cy="341.49998"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -92,7 +92,7 @@
        id="path168625"
        sodipodi:nodetypes="cc" />
     <rect
-       style="fill:#ececec;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#f2f2f2;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect2403"
        width="30.3983"
        height="46.831249"
@@ -472,7 +472,7 @@
          y="118.26407"
          id="tspan62419">Cluster Node</tspan></text>
     <rect
-       style="fill:#ececec;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#f2f2f2;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect67149"
        width="32.543751"
        height="61.647915"
