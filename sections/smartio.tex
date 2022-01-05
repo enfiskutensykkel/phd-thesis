@@ -20,7 +20,15 @@ The complete system is described in detail in \cref{paper:tocs}.
 
 
 \section{Underlying idea}\label{sec:idea}
-The defining feature of \gls{pcie} is that devices are mapped into the same address space as the \gls{cpu} and \gls{ram}.
+\begin{figure}
+    \centering
+    \includegraphics{bus-enumeration}
+    \caption[Devices are part of the same address space as the \glsfmtshort{cpu} and system memory]
+    {Device memory regions (``\acrshortpl{bar}''), are part of the same address space as \acrshort{cpu} and system memory, allowing
+    the \gls{cpu} to read from and write to device memory the same way it would access \acrshort{ram}.}
+    \label{fig:bus-enumeration}
+\end{figure}
+The defining feature of \gls{pcie} is that devices are mapped into the same address space as the \gls{cpu} and \gls{ram}, as seen in \cref{fig:bus-enumeration}.
 %
 This allows a \gls{cpu} to read from and write to device memory in the same manner it would access \gls{ram}.
 %
@@ -31,37 +39,35 @@ Likewise, devices capable of \gls{dma} may read from and write to \gls{ram} dire
 
 This mapping occurs when a system enumerates the \gls{pcie} bus and accesses the configuration space of each device.
 %
-The configuration space contains a description of the capabilities of the device, such as its memory regions.
+The configuration space contains a description of the capabilities of a device, such as its memory regions.
 %
 The system will reserve a memory address range for each of these device memory regions.
 %
-By writing the start address of these regions to the device's \glspl{bar}, the device is made aware of the address space mapping.
+By writing the start address of these regions to the device's \glspl{bar}, a device is made aware of the address space mapping.
 %
-Therefore, the term ``\gls{bar}'' is used synonymously for device memory regions.
-
+As such, the term ``\gls{bar}'' is used synonymously for a device memory region.
 %
-Devices are made aware of 
-The system reserves a memory address range for each of these memory regions
+Moreover, devices are also made aware of addresses reserved by the system for interrupts through their configuration space registers.
 
-%introduce later: A device may even access other devices, as they too are mapped into the same address space.
-However, as this mapping occurs when a \gls{cpu} enumerates the \gls{pcie} bus
 
-By using an \gls{ntb} implementation, it is possible to connect computer systems with independent address domains together over \gls{pcie}.
-%
-Although not formally standardized
 \begin{figure}
     \centering
     \includegraphics{ntb-example}
-    \caption{test}
+    \caption[Two computer systems connected using \glsfmtshortpl{ntb}, and the \glsfmtshortpl{ntb} translates between the two different address domains]
+    {Two computer systems connected together using \glspl{ntb} and external cables. Host~1 has mapped segments of Host~2's memory through its local \gls{ntb}, providing Host~1 with ``windows'' into the remote system's address space. The \glspl{ntb} translates addresses between the two domains.}
     \label{fig:ntb-example}
 \end{figure}
 
+Since this enumeration and address reservation process is typically done when a system starts up, different systems the address space layouts will vary from system to system.
+%
+However, it is possible to connect computer systems with independent address domains together over \gls{pcie} by using \glspl{ntb}.
+%
+\Glspl{ntb} can be embedded as a \gls{cpu} feature~\cite{whitepaper:Sullivan2010,url:LinuxNTB-AMD}, but are more commonly implemented in \gls{pcie} switch chips~\cite{whitepaper:PLX,pex8733}.
+%
+Using such \gls{ntb}-capable switch chips to implement peripheral devices and cluster switches, it becomes possible to connect independent computer systems with plug-in host adapter cards and external cables as depicted in \cref{fig:ntb-example}.
 
-\Glspl{ntb} are the most common way 
 
-\gls{pcie}
-
-\Glspl{ntb} are a special type ofA
+%
 
 \paperref{tocs}{pcie-addr}
 \begin{itemize}
