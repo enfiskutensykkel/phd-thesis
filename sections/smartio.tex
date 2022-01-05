@@ -25,7 +25,7 @@ The complete system is described in detail in \cref{paper:tocs}.
     \includegraphics{bus-enumeration}
     \caption[Devices are part of the same address space as the \glsfmtshort{cpu} and system memory]
     {Device memory regions (``\acrshortpl{bar}''), are part of the same address space as \acrshort{cpu} and system memory, allowing
-    the \gls{cpu} to read from and write to device memory the same way it would access \acrshort{ram}.}
+    the \gls{cpu} to read from and write to device memory the same way it would access \acrshort{ram}. Devices may use \gls{dma} to read from and write to \acrshort{ram}.}
     \label{fig:bus-enumeration}
 \end{figure}
 The defining feature of \gls{pcie} is that devices are mapped into the same address space as the \gls{cpu} and \gls{ram}, as seen in \cref{fig:bus-enumeration}.
@@ -37,6 +37,7 @@ Likewise, devices capable of \gls{dma} may read from and write to \gls{ram} dire
 \Gls{pcie} also uses \gls{msi}, allowing devices to raise interrupts by writing to an address reserved by the \gls{cpu} instead of requiring dedicated interrupt lines.
 
 
+
 This mapping occurs when a system enumerates the \gls{pcie} bus and accesses the configuration space of each device.
 %
 The configuration space contains a description of the capabilities of a device, such as its memory regions.
@@ -45,31 +46,55 @@ The system will reserve a memory address range for each of these device memory r
 %
 By writing the start address of these regions to the device's \glspl{bar}, a device is made aware of the address space mapping.
 %
-As such, the term ``\gls{bar}'' is used synonymously for a device memory region.
+As such, the term ``\gls{bar}'' is used interchangeably for a region of device memory.
 %
-Moreover, devices are also made aware of addresses reserved by the system for interrupts through their configuration space registers.
+In addition, addresses reserved by the system for interrupts are also written to the device's configuration space.
+
 
 
 \begin{figure}
     \centering
     \includegraphics{ntb-example}
-    \caption[Two computer systems connected using \glsfmtshortpl{ntb}, and the \glsfmtshortpl{ntb} translates between the two different address domains]
-    {Two computer systems connected together using \glspl{ntb} and external cables. Host~1 has mapped segments of Host~2's memory through its local \gls{ntb}, providing Host~1 with ``windows'' into the remote system's address space. The \glspl{ntb} translates addresses between the two domains.}
+    \caption[Two computer systems connected using \glsfmtshortpl{ntb}, and the \glsfmtshortpl{ntb} translate between the two different address domains]
+    {Two computer systems connected together using \glspl{ntb} and external cables. Host~1 has mapped segments of Host~2's memory through its local \gls{ntb}, providing Host~1 with ``windows'' into the remote system's address space. The \glspl{ntb} translate addresses between the two independent address domains.}
     \label{fig:ntb-example}
 \end{figure}
 
-Since this enumeration and address reservation process is typically done when a system starts up, different systems the address space layouts will vary from system to system.
-%
-However, it is possible to connect computer systems with independent address domains together over \gls{pcie} by using \glspl{ntb}.
+
+As depicted in \cref{fig:ntb-example}, it is possible to connect computer systems with different address domains together over \gls{pcie} by using \glspl{ntb}.
 %
 \Glspl{ntb} can be embedded as a \gls{cpu} feature~\cite{whitepaper:Sullivan2010,url:LinuxNTB-AMD}, but are more commonly implemented in \gls{pcie} switch chips~\cite{whitepaper:PLX,pex8733}.
 %
-Using such \gls{ntb}-capable switch chips to implement peripheral devices and cluster switches, it becomes possible to connect independent computer systems with plug-in host adapter cards and external cables as depicted in \cref{fig:ntb-example}.
-
-
+Using such \gls{ntb}-capable switch chips to implement peripheral devices, independent computer systems can connect with plug-in host adapter cards and external cables.
 %
+To the system, the \gls{ntb} appears as a normal \gls{pcie} device with one or more memory regions, or \glspl{bar}, which are reserved and mapped during the enumeration process.
+%
+However, rather than being backed by device registers or memory on the device, the \gls{ntb} instead forwards reads and writes to these \glspl{bar} from one side of the \gls{ntb} to the other, translating memory addresses in the process.
+%
+The \gls{ntb} uses a look-up table for address translation, which can be configured dynamically during run-time.
+%
+By using different base offsets, it is possible to configure several memory-mappings (or ``windows'') into remote memory.
+%
+\Cref{fig:ntb-example} illustrates how arbitrary memory addresses on the remote system can be mapped, allowing the local \gls{cpu} to access memory on a remote system as if it was local device memory.
+%
+Even memory on a remote \emph{device} may be mapped this way, as devices on the remote system are part of the same address space as memory~(\gls{ram}).
+%
+It should be noted that because the \gls{ntb} look-up table is implemented in \gls{ntb} hardware, address translation between the different domains is very fast, but the number of \gls{ntb} windows is limited by the maximum number of table entries.
 
-\paperref{tocs}{pcie-addr}
+
+
+
+
+
+
+
+%\paperref{tocs}{pcie-addr}
+
+
+
+\section{Implementation}\label{sec:impl}
+
+%\paperref{tocs}{pcie-addr}
 \begin{itemize}
     \item a combined (and \textbf{shortened}!!) version of PCIe overview + NTB + mapping bars and DMA windows from previous papers
     \item simple ntb figure for mapping memory on remote node
@@ -91,7 +116,6 @@ Using such \gls{ntb}-capable switch chips to implement peripheral devices and cl
 %Memory addresses are translated between different address domains by SmartIO in a manner that is transparent to application software, device drivers, and even the \gls{os}.
 %This makes it possible to provide optimizations based on resource locality and minimizing data movement, without requiring the user to be aware of the underlying PCIe topology.
 %\section{General idea}\label{sec:idea}
-\section{Implementation}\label{sec:impl}
 High level explanation of borrowers and lenders here.
 Software architecture figure (showing the different components here)
 
