@@ -12,30 +12,58 @@ It is even possible to \lgls{disaggregation}{disaggregate} a single device~(func
 In other words, SmartIO is a solution for scaling out and using more hardware resources than there are available in a single machine.
 
 
-In this chapter, we provide an overview of the SmartIO system.
+In this chapter, we provide an overview of the SmartIO solution.
 %
-The whole solution is described in detail in \cref{paper:tocs}.
+The complete system is described in detail in \cref{paper:tocs}.
 %
-Individual components and parts implemented towards the final system
-\Cref{paper:nossdav}, \cref{paper:srmpds}, and \cref{paper:cc}.
-
-%TODO: paragraph about this only being an overview, the whole solution is described in \cref{paper:tocs} (in its entirety). The other papers describe individual components and parts towards the final system
-%The different iterations and gradual improvements of our solution in order to better satisfy the requirements are seen in \crefrange{paper:nossdav}{paper:tocs}.
-%The final solution is outlined in \cref{chapter:smartio}, with a more detailed description given in \cref{paper:tocs}.
-%evolution of SmartIO seen in papers
-%something something iterations senn in papers
-%The different iterations and gradual improvements of our solution in order to better satisfy the requirements are seen in \crefrange{paper:nossdav}{paper:tocs}.
-%The final solution is outlined in \cref{chapter:smartio}, with a more detailed description given in \cref{paper:tocs}.
-
+\Crefrange{paper:nossdav}{paper:cc} show the evolution towards this complete system, including different iterations of individual components and parts as well as gradual performance improvements.
 
 
 \section{Underlying idea}\label{sec:idea}
-\paperref{tocs}{pcie-addr}
+The defining feature of \gls{pcie} is that devices are mapped into the same address space as the \gls{cpu} and \gls{ram}.
+%
+This allows a \gls{cpu} to read from and write to device memory in the same manner it would access \gls{ram}.
+%
+Likewise, devices capable of \gls{dma} may read from and write to \gls{ram} directly.
+%
+\Gls{pcie} also uses \gls{msi}, allowing devices to raise interrupts by writing to an address reserved by the \gls{cpu} instead of requiring dedicated interrupt lines.
+
+
+This mapping occurs when a system enumerates the \gls{pcie} bus and accesses the configuration space of each device.
+%
+The configuration space contains a description of the capabilities of the device, such as its memory regions.
+%
+The system will reserve a memory address range for each of these device memory regions.
+%
+By writing the start address of these regions to the device's \glspl{bar}, the device is made aware of the address space mapping.
+%
+Therefore, the term ``\gls{bar}'' is used synonymously for device memory regions.
+
+%
+Devices are made aware of 
+The system reserves a memory address range for each of these memory regions
+
+%introduce later: A device may even access other devices, as they too are mapped into the same address space.
+However, as this mapping occurs when a \gls{cpu} enumerates the \gls{pcie} bus
+
+By using an \gls{ntb} implementation, it is possible to connect computer systems with independent address domains together over \gls{pcie}.
+%
+Although not formally standardized
 \begin{figure}
     \centering
     \includegraphics{ntb-example}
     \caption{test}
+    \label{fig:ntb-example}
 \end{figure}
+
+
+\Glspl{ntb} are the most common way 
+
+\gls{pcie}
+
+\Glspl{ntb} are a special type ofA
+
+\paperref{tocs}{pcie-addr}
 \begin{itemize}
     \item a combined (and \textbf{shortened}!!) version of PCIe overview + NTB + mapping bars and DMA windows from previous papers
     \item simple ntb figure for mapping memory on remote node
