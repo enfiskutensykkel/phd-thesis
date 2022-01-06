@@ -9,17 +9,10 @@ Furthermore, individual device functions of multi-function devices may be distri
 %
 It is even possible to \lgls{disaggregation}{disaggregate} a single device~(function) in software, and distribute it to multiple machines, should this be required by application software.
 %
-In other words, SmartIO is a solution for scaling out and using more hardware resources than there are available in a single machine.
+In other words, SmartIO is a flexible solution for scaling out and using more hardware resources than there are available in a single machine.
 
 
-In this chapter, we provide an overview of the SmartIO solution.
-%
-The complete system is described in detail in \cref{paper:tocs}.
-%
-\Crefrange{paper:nossdav}{paper:cc} show the evolution towards this complete system, including different iterations of individual components and parts as well as gradual performance improvements.
-
-
-\section{Underlying idea}\label{sec:idea}
+\section{Principal idea and challenges}\label{sec:idea}
 \begin{figure}
     \centering
     \includegraphics{bus-enumeration}
@@ -28,9 +21,9 @@ The complete system is described in detail in \cref{paper:tocs}.
     the \gls{cpu} to read from and write to device memory the same way it would access \acrshort{ram}. Devices can similarly use \gls{dma} to read from and write to \acrshort{ram}.}
     \label{fig:bus-enumeration}
 \end{figure}
-The defining feature of \gls{pcie} is that devices are mapped into the same address space as the \gls{cpu} and \gls{ram}, as seen in \cref{fig:bus-enumeration}.
+The defining feature of \gls{pcie}~\cite{spec:PCIe} is that devices are mapped into the same address space as the \gls{cpu} and \gls{ram}, as seen in \cref{fig:bus-enumeration}.
 %
-This allows a \gls{cpu} to read from and write to device memory in the same manner it would access \gls{ram}.
+This allows a \gls{cpu} to read from and write to device memory in the same manner it would access \gls{ram}, also known as \gls{mmio}.
 %
 Likewise, devices capable of \gls{dma} may read from and write to \gls{ram} directly.
 %
@@ -38,13 +31,11 @@ Likewise, devices capable of \gls{dma} may read from and write to \gls{ram} dire
 
 
 
-This mapping occurs when a system enumerates the \gls{pcie} bus and accesses the \gls{cfgspace} of each device.
+This mapping to address space occurs when a system enumerates the \gls{pcie} bus and accesses the \gls{cfgspace} of each device.
 %
-The \gls{cfgspace} contains a description of the capabilities of a device, such as its memory regions.
+A \gls{cfgspace} contains a description of the capabilities of a device, such as its memory regions.
 %
-The system will reserve a memory address range for each of these device memory regions.
-%
-By writing the start address of these regions to the device's \glspl{bar}, a device is made aware of the address space mapping.
+The system will reserve a memory address range for each of these device memory regions, and by writing the start address of these regions to the device's \glspl{bar}, a device is made aware of the address space mapping.
 %
 Therefore, the term ``\gls{bar}'' is used interchangeably for a region of device memory.
 %
@@ -53,15 +44,15 @@ Addresses reserved by the system for interrupts are also written to the device's
 
 
 
-As depicted in \cref{fig:ntb-example}, it is possible to connect computer systems with different address domains together over \gls{pcie} by using \glspl{ntb}.
+As depicted in \cref{fig:ntb-example}, it is possible to connect computer systems with different address spaces together over \gls{pcie} by using \glspl{ntb}.
 %
 \Glspl{ntb} can be embedded as a \gls{cpu} feature~\cite{whitepaper:Sullivan2010,url:LinuxNTB-AMD}, but are more commonly implemented in \gls{pcie} switch chips~\cite{whitepaper:PLX,pex8733}.
 %
 Using such \gls{ntb}-capable switch chips to implement peripheral devices, independent computer systems can connect with plug-in host adapter cards and external cables.
 %
-To the system, the \gls{ntb} appears as a normal \gls{pcie} device\footnote{Individual device functions are known as ``\glspl{ep}'' in \gls{pcie} terminology. We use the terms ``device'' and ``function'' as synonyms for a \gls{pcie} \gls{ep}.} with one or more \glspl{bar} that are reserved and mapped during the enumeration process.
+To the system, the \gls{ntb} appears as a normal \gls{pcie} device\footnote{The \gls{pcie} terminology for individual device functions is ``\glspl{ep}''. We use the terms ``device'' and ``function'' as synonyms for a \gls{pcie} \gls{ep} throughout this dissertation.} with one or more \glspl{bar} that are reserved and mapped during the enumeration process.
 %
-However, rather than being backed by device registers or device memory, the \gls{ntb} instead forwards reads and writes to these \glspl{bar} from one side of the \gls{ntb} to the other, translating memory addresses in the process.
+However, rather than being backed by device registers or device memory, the \gls{ntb} instead forwards reads and writes to its \glspl{bar} from one side of the \gls{ntb} to the other, translating memory addresses in the process.
 %
 The \gls{ntb} uses a \gls{lut} for address translation, which can be configured dynamically during run-time.
 %
@@ -69,7 +60,7 @@ By using different base offsets in this \gls{lut}, it is possible to configure s
 %
 \Cref{fig:ntb-example} illustrates how arbitrary memory addresses on the remote system can be mapped, allowing the local \gls{cpu} to access remote memory as if it was local device memory.
 %
-Moreover, as the \gls{lut} is implemented in \gls{ntb} hardware, address translation between the different domains is very fast, but the number of \gls{ntb} windows is limited by the maximum number of table entries.
+Although address translation between the different address spaces is very fast since the \gls{lut} is implemented in \gls{ntb} hardware, the number of \gls{ntb} windows is limited by the maximum number of table entries.
 
 
 
@@ -77,30 +68,45 @@ Moreover, as the \gls{lut} is implemented in \gls{ntb} hardware, address transla
     \centering
     \includegraphics{ntb-example}
     \caption[Two computer systems connected using \glsfmtshortpl{ntb}, and the \glsfmtshortpl{ntb} translate between the two different address domains]
-    {Two computer systems connected together using \glspl{ntb} and external cables. Host~1 has mapped segments of Host~2's memory through its local \gls{ntb}, providing Host~1 with ``windows'' into the remote system's address space. The \glspl{ntb} translate addresses between the two independent address domains.}
+    {Two computer systems connected together using \glspl{ntb} and external cables. Host~1 has mapped segments of Host~2's memory through its local \gls{ntb}, providing Host~1 with ``windows'' into the remote system's address space. The \glspl{ntb} translate addresses between the two independent address spaces.}
     \label{fig:ntb-example}
 \end{figure}
 
 
-Even memory on a remote \emph{device} may be mapped this way, as devices on the remote system are part of the same address space as memory~(\gls{ram}).
+
+As device memory on a remote system is part of the same address space as system memory, we can use an \gls{ntb} to map memory of a remote device.
+%
+We show this in \cref{fig:ntb-example}, where Segment~3 is allocated in \gls{gpu} memory rather than system~\gls{ram}, but still mapped for the \gls{cpu} of Host~1's similarly to the other segments.
+%
+By mapping all \glspl{bar} of a remote device for a local \gls{cpu}, it would be possible to perform memory operations on the remote device, such as reading from or writing to device registers.
+%
+Moreover, device~\gls{dma} is not limited to reading and writing to system \gls{ram}, but can also be used to access memory on other devices in the same address space.
+%
+This is known as ``\gls{p2p}'' in \gls{pcie}, and provides us with an opportunity as it becomes possible for a device to read and write directly across an \gls{ntb}.
+%
+We can use this to map memory resources for a device, be it \gls{ram} or device memory (of other devices). 
+%
+Furthermore, since \gls{pcie} uses \gls{msi}, it is even possible to map interrupt addresses through an \gls{ntb}.
 
 
 
+As touched on in \cref{sec:motivation} and \cref{sec:problem}, the main challenge for our SmartIO system is to use the memory mapping capabilities of \glspl{ntb} to facilitate the use of remote devices in a manner that is \emph{transparent} to the \gls{os} and existing device drivers.
 
-%\paperref{tocs}{pcie-addr}
-%\begin{itemize}
-%    \item a combined (and \textbf{shortened}!!) version of PCIe overview + NTB + mapping bars and DMA windows from previous papers
-%    \item simple ntb figure for mapping memory on remote node
-%    \item the famous device lending figure (but in a ``is this possible?'' kind of way)
-%    \item the general idea: can stuff (memory + bars + interrupts) be mapped through the NTB in a way that is transparent for OS?
-%\end{itemize}
+TODO: list up challenges
+\begin{itemize}
+    \item while dolphin's ntb solution is nice, we must still device a mechanism to blabla
+    \item while memory mappings can be dynamic, addresses/cfgspace is at system boot
+    \item while memory mappings can be dynamic, no communication overhead
+\end{itemize}
+
+
+TODO: see here and here and here for more details on PCIe and NTBs
 
 
 
 
 
 \section{Implementation}\label{sec:impl}
-\gls{msix}
 
 %\paperref{tocs}{pcie-addr}
 %Unlike existing solutions for distributed \gls{io}, SmartIO seamlessly combines traditional \gls{io} with distributed shared-memory functionality, and is, therefore, able to provide sharing capabilities at multiple abstraction levels.

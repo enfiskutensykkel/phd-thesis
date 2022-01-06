@@ -30,7 +30,7 @@ Being able to share and partition devices between cluster machines at run-time l
 
 In order to meet the latency and throughput requirements of data-driven and compute-heavy workloads, there is a need for flexible, yet efficient, sharing of \gls{io} resources in a networked computing cluster.
 %
-This dissertation contributes to this goal by presenting a solution that enables distributing devices and sharing memory resources between machines interconnected with \gls{pcie}.
+This dissertation contributes to this goal by presenting a solution that enables distributing devices and sharing memory resources between machines interconnected with \gls{pcie}~\cite{spec:PCIe}.
 %
 By leveraging memory mapping functionality supported by the \gls{pcie} networking hardware, we make it possible to use resources residing in remote machines as if they were installed in the same machine.
 %
@@ -577,15 +577,17 @@ Finally, it should be noted that the research of this dissertation has had impac
 
 
 \section{Outline}
-This dissertation describes the design, implementation, and evaluation of the SmartIO system for efficient sharing of resources between \gls{pcie}-networked computers.
+This dissertation describes the design, implementation, and evaluation of the SmartIO framework for efficient sharing of resources between \gls{pcie}-networked computers.
 %
-The entire SmartIO system is described in \cref{paper:tocs}, with the individual components explained in \crefrange{paper:nossdav}{paper:cc}.
+The complete framework is described in detail in \cref{paper:tocs}, with the individual components and parts explained in \crefrange{paper:nossdav}{paper:cc}.
+%
+Additionally, these papers show the evolution towards the complete framework, including different iterations of the framework components and gradual performance improvements.
 %
 The rest of this dissertation is organized as follows:
 %
 \begin{description}
     \item[\cref{chapter:smartio}]
-        gives a brief summary of the SmartIO system.
+        gives a brief summary of SmartIO.
         %
         We describe the initial idea and challenges for the system, and provide a high-level overview of the implementation.
         %
@@ -616,7 +618,7 @@ The rest of this dissertation is organized as follows:
         Additionally, we also describe how we improved the original \gls{mdev} component with a mechanism for detecting \gls{guest}-physical memory layout.
 
     \item[\cref{paper:tocs}]
-        presents the entire SmartIO system as a whole, including the final iterations of the Device~Lending and \gls{mdev} components.
+        presents the entire SmartIO solution as a whole, including the final iterations of the Device~Lending and \gls{mdev} components.
         %
         We also introduce the \gls{sisci}~\gls{api} extension that makes it possible to \lgls{disaggregation}{disaggregate} devices and memory resources in software.
         %
