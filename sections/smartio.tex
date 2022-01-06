@@ -24,7 +24,7 @@ The complete system is described in detail in \cref{paper:tocs}.
     \centering
     \includegraphics{bus-enumeration}
     \caption[Devices are part of the same address space as the \glsfmtshort{cpu} and system memory]
-    {Device memory regions (``\acrshortpl{bar}'') are part of the same address space as \acrshort{cpu} and system memory, allowing
+    {Device memory regions (\acrshortpl{bar}) are part of the same address space as \acrshort{cpu} and system memory, allowing
     the \gls{cpu} to read from and write to device memory the same way it would access \acrshort{ram}. Devices can similarly use \gls{dma} to read from and write to \acrshort{ram}.}
     \label{fig:bus-enumeration}
 \end{figure}
@@ -46,9 +46,9 @@ The system will reserve a memory address range for each of these device memory r
 %
 By writing the start address of these regions to the device's \glspl{bar}, a device is made aware of the address space mapping.
 %
-As such, the term ``\gls{bar}'' is used interchangeably for a region of device memory.
+Therefore, the term ``\gls{bar}'' is used interchangeably for a region of device memory.
 %
-In addition, addresses reserved by the system for interrupts are also written to the device's \gls{cfgspace}.
+Addresses reserved by the system for interrupts are also written to the device's \gls{cfgspace}.
 
 
 
@@ -59,17 +59,17 @@ As depicted in \cref{fig:ntb-example}, it is possible to connect computer system
 %
 Using such \gls{ntb}-capable switch chips to implement peripheral devices, independent computer systems can connect with plug-in host adapter cards and external cables.
 %
-To the system, the \gls{ntb} appears as a normal \gls{pcie} device\footnote{Individual device functions are known as ``\glspl{ep}'' in \gls{pcie} terminology. In this dissertation we use the terms ``device'' and ``function'' as synonyms for a \gls{pcie} \gls{ep}.} with one or more \glspl{bar} that are reserved and mapped during the enumeration process.
+To the system, the \gls{ntb} appears as a normal \gls{pcie} device\footnote{Individual device functions are known as ``\glspl{ep}'' in \gls{pcie} terminology. We use the terms ``device'' and ``function'' as synonyms for a \gls{pcie} \gls{ep}.} with one or more \glspl{bar} that are reserved and mapped during the enumeration process.
 %
-However, rather than being backed by device registers or memory on the device, the \gls{ntb} instead forwards reads and writes to these \glspl{bar} from one side of the \gls{ntb} to the other, translating memory addresses in the process.
+However, rather than being backed by device registers or device memory, the \gls{ntb} instead forwards reads and writes to these \glspl{bar} from one side of the \gls{ntb} to the other, translating memory addresses in the process.
 %
-The \gls{ntb} uses a look-up table for address translation, which can be configured dynamically during run-time.
+The \gls{ntb} uses a \gls{lut} for address translation, which can be configured dynamically during run-time.
 %
-By using different base offsets in this look-up table, it is possible to configure several memory-mappings (or ``windows'') into the address space of a remote system.
+By using different base offsets in this \gls{lut}, it is possible to configure several memory-mappings (or ``windows'') into the address space of a remote system.
 %
 \Cref{fig:ntb-example} illustrates how arbitrary memory addresses on the remote system can be mapped, allowing the local \gls{cpu} to access remote memory as if it was local device memory.
 %
-Moreover, as the \gls{ntb} look-up table is implemented in \gls{ntb} hardware, address translation between the different domains is very fast, but the number of \gls{ntb} windows is limited by the maximum number of table entries.
+Moreover, as the \gls{lut} is implemented in \gls{ntb} hardware, address translation between the different domains is very fast, but the number of \gls{ntb} windows is limited by the maximum number of table entries.
 
 
 
@@ -100,6 +100,7 @@ Even memory on a remote \emph{device} may be mapped this way, as devices on the 
 
 
 \section{Implementation}\label{sec:impl}
+\gls{msix}
 
 %\paperref{tocs}{pcie-addr}
 %Unlike existing solutions for distributed \gls{io}, SmartIO seamlessly combines traditional \gls{io} with distributed shared-memory functionality, and is, therefore, able to provide sharing capabilities at multiple abstraction levels.

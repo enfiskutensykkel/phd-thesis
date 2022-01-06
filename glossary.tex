@@ -26,17 +26,19 @@
 \newacronym{pf}{PF}{physical device function}
 \newacronym{mriov}{MR-IOV}{Multi-Root I/O Virtualization}
 \newacronym{api}{API}{application programming interface}
-\newacronym{msi}{MSI}{message-signalled interrupts}
-\newacronym{msix}{MSI-X}{extended message-signalled interrupts}
 \newacronym{vm}{VM}{virtual machine}
 \newacronym{mdev}{MDEV}{Mediated Device Driver}
 \newacronym{sisci}{SISCI}{Software Infrastructure Shared-Memory Cluster Interconnect}
 \newacronym{fio}{FIO}{Flexible I/O tester}
 
+\newglossaryentry{lut}{
+    name={look-up table},
+    description={Address translation table in an \shortgls{pcie} \shortgls{ntb}}
+}
 
 \newglossaryentry{ep}{
     name={endpoint},
-    description={A device function}
+    description={A \shortgls{pcie} device function}
 }
 
 \newglossaryentry{cfgspace}{
@@ -127,3 +129,8 @@
 
 \newlinkedacronym{gls-sriov}{vf}{VF}{virtual device function}
 
+
+\newdualentry{msi}{MSI}{message-signaled interrupts}
+{Interrupts in \shortgls{pcie} are implemented as writes to a special memory address that is interpreted by the \shortgls{cpu} to invoke the correct interrupt vector routine}
+
+\newlinkedacronym{gls-msi}{msix}{MSI-X}{extended message-signaled interrupts}
