@@ -154,7 +154,7 @@ Multiple \glspl{cpu} can be connected to the same \gls{pcie} fabric by mapping p
 %
 Additionally, devices can be attached directly to the partitionable switch chip, rather than being owned by individual machines.
 %
-This allows switch-attached devices to be logically assigned to different machines on the fly, as illustrated in \cref{fig:partitioning}.
+This allows switch-attached devices to be logically assigned to different machines, as illustrated in \cref{fig:partitioning}.
 
 
 Nonetheless, because partitioning isolates \glspl{cpu} in separate address domains, this approach does not make it possible for machines to share their \emph{internal} resources.
@@ -521,10 +521,10 @@ This includes \gls{cpu} architectures like AMD and ARM, and other devices like \
 
 
 \section{Contributions}
-This dissertation contributes to the topic of \gls{io} facilitation and resource sharing in distributed computing systems, and has been presented in five peer-reviewed venues: two conference workshop publications, one short-length demonstration paper, and two journal articles.
+This dissertation contributes to the topic of resource sharing and distributed \gls{io} facilitation in cluster computing systems, and has been presented in five peer-reviewed venues: two conference workshop publications, one short-length demonstration paper, and two journal articles.
 These publications are included as \crefrange{paper:nossdav}{paper:tocs} and contain the bulk of the implementation details, particularly \cref{paper:tocs}, which presents the entire solution as a whole.
 
-We have developed a system called \emph{SmartIO} for sharing resources and distributing devices in a heterogeneous, \gls{pcie}-networked cluster.
+We have developed a framework called \emph{SmartIO} for sharing resources and distributing devices in a heterogeneous, \gls{pcie}-networked cluster.
 %
 In particular, the main contributions of this dissertation are listed as follows:
 \begin{itemize}
@@ -589,7 +589,7 @@ The rest of this dissertation is organized as follows:
     \item[\cref{chapter:smartio}]
         gives a brief summary of SmartIO.
         %
-        We describe the initial idea and challenges for the system, and provide a high-level overview of the implementation.
+        We describe the initial idea and challenges for SmartIO, and provide a high-level overview of the implementation.
         %
         We also present related work focused on \gls{io} resource sharing in cluster networks.
 

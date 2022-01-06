@@ -43,6 +43,15 @@ Addresses reserved by the system for interrupts are also written to the device's
 
 
 
+\begin{figure}
+    \centering
+    \includegraphics{ntb-example}
+    \caption[Two computer systems connected using \glsfmtshortpl{ntb}, and the \glsfmtshortpl{ntb} translate between the two different address domains]
+    {Two computer systems connected together using \glspl{ntb} and external cables. Host~1 has mapped segments of Host~2's memory through its local \gls{ntb}, providing Host~1 with ``windows'' into the remote system's address space. The \glspl{ntb} translate addresses between the two independent address spaces.}
+    \label{fig:ntb-example}
+\end{figure}
+
+
 
 As depicted in \cref{fig:ntb-example}, it is possible to connect computer systems with different address spaces together over \gls{pcie} by using \glspl{ntb}.
 %
@@ -62,15 +71,6 @@ By using different base offsets in this \gls{lut}, it is possible to configure s
 %
 Although address translation between the different address spaces is very fast since the \gls{lut} is implemented in \gls{ntb} hardware, the number of \gls{ntb} windows is limited by the maximum number of table entries.
 
-
-
-\begin{figure}
-    \centering
-    \includegraphics{ntb-example}
-    \caption[Two computer systems connected using \glsfmtshortpl{ntb}, and the \glsfmtshortpl{ntb} translate between the two different address domains]
-    {Two computer systems connected together using \glspl{ntb} and external cables. Host~1 has mapped segments of Host~2's memory through its local \gls{ntb}, providing Host~1 with ``windows'' into the remote system's address space. The \glspl{ntb} translate addresses between the two independent address spaces.}
-    \label{fig:ntb-example}
-\end{figure}
 
 
 
