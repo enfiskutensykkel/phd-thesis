@@ -17,8 +17,8 @@ In other words, SmartIO is a flexible solution for scaling out and using more ha
     \centering
     \includegraphics{bus-enumeration}
     \caption[Devices are part of the same address space as the \glsfmtshort{cpu} and system memory]
-    {Device memory regions (\acrshortpl{bar}) are part of the same address space as \acrshort{cpu} and system memory, allowing
-    the \gls{cpu} to read from and write to device memory the same way it would access \acrshort{ram}. Devices can similarly use \gls{dma} to read from and write to \acrshort{ram}.}
+    {Device memory regions (\glsxtrshortpl{bar}) are part of the same address space as \glsxtrshort{cpu} and system memory, allowing
+    the \gls{cpu} to read from and write to device memory the same way it would access \glsxtrshort{ram}. Devices can similarly use \gls{dma} to read from and write to \glsxtrshort{ram}.}
     \label{fig:bus-enumeration}
 \end{figure}
 The defining feature of \gls{pcie}~\cite{spec:PCIe} is that devices are mapped into the same address space as the \gls{cpu} and \gls{ram}, as seen in \cref{fig:bus-enumeration}.
@@ -45,7 +45,7 @@ Addresses reserved by the system for interrupts are also written to the device's
 
 \begin{figure}
     \centering
-    \includegraphics{ntb-example}
+    \includegraphics[width=.99\textwidth]{ntb-example}
     \caption[Two computer systems connected using \glsfmtshortpl{ntb}, and the \glsfmtshortpl{ntb} translate between the two different address domains]
     {Two computer systems connected together using \glspl{ntb} and external cables. Host~1 has mapped segments of Host~2's memory through its local \gls{ntb}, providing Host~1 with ``windows'' into the remote system's address space. The \glspl{ntb} translate addresses between the two independent address spaces.}
     \label{fig:ntb-example}
