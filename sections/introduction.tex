@@ -203,45 +203,72 @@ Moreover, as centralized servers can be avoided, the risks of individual machine
 
 
 
+
 However, setting up such \gls{ntb} mappings requires awareness of the address space on the remote system.
 %
 For example, a device driver must use addresses that correspond to the remote device's address space when initiating \gls{dma} transfers.
 %
-Hence, relying on \glspl{ntb} alone for enabling distributed \gls{io} and resource sharing is not a viable solution.
+Extensive modifications to device driver software would be required in order to manage multiple address space layouts.
 %
-In order to manage multiple address space layouts, extensive modifications to existing device driver software would be required.
+This is infeasible due to the vast amount of devices and device driver implementations that exist. 
 %
-This is infeasible due to the vast amount of devices and device driver implementations that exist.
+Although we could use virtualization to hide the fact that devices are on the other side of an \gls{ntb} for device drivers, relying on \glspl{vm} to mitigate complexity forgoes the possibility of using bare-metal machines for processing.
 %
-In this context, it is possible to use virtualization to mitigate the complexity of managing different \gls{pcie} address spaces.
-%
-The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical \lgls{host}{host~machines}.
-%
-The \gls{hypervisor} on the host~machines can be modified to assist setting up necessary \gls{ntb} and \gls{iommu} mappings to the respective device memory and \gls{vm} memory, enabling \gls{passthrough} of remote devices to \gls{vm} \glspl{guest}~\cite{Tu2013}.
-%
-However, by relying on virtualization to hide complexity, this approach forgoes the possibility of using bare-metal machines for processing.
-%
-Even though \gls{passthrough} allows the device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks run in \glspl{vm} is a constraint that may add additional system load, as \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment.
-%
-Another mechanism for using \glspl{ntb} while remaining agnostic about the address space in remote systems is therefore needed.
-%
-The physical location of a resource, as well as the address space layout in the machine it is installed in, must be abstracted away without requiring \glspl{vm} (but sharing resources to \glspl{vm} should \emph{also} be supported).
+Hence, a realistic solution based on \glspl{ntb} requires a mechanism for abstracting away the physical location of a resource, as well as the address space of the machine it is installed in, without requiring virtualization (although sharing to \glspl{vm} should \emph{also} be supported).
 
 
 
-Nevertheless, this kind of abstraction gives rise to another challenge. 
+Nevertheless, this kind of abstraction gives rise to yet another challenge.
 %
 A device driver that is unaware that a device is remote may assume that the entire local address space can be reached by the device.
 %
-It is generally not possible to predict in advance which memory addresses a device driver may use, yet \gls{ntb} mappings must be in place before the driver initiates operations, such as \gls{dma} transfers.
+\Gls{ntb} mappings must be in place \emph{before} the driver interacts with the device, but predicting in advance which memory addresses a device driver may use is generally not possible.
 %
-Deferring the action of setting up these mappings until the device driver initiates \gls{dma}, or some other time when the specific addresses of \gls{dma} buffers may be known, is not realistic;
+Deferring the action of setting up mappings through the \gls{ntb} until a time when addresses may be known is not realistic, as this would require synchronizing with the remote system and introduce communication overhead in the performance-critical path.
 %
-synchronizing with the remote system at this time will introduce communication overhead in the performance-critical path.
+A way to prepare the necessary memory-mappings through the \gls{ntb}, without adding communication latency, is needed.
+
+
+
+%However, setting up such \gls{ntb} mappings requires awareness of the address space on the remote system.
+%%
+%For example, a device driver must use addresses that correspond to the remote device's address space when initiating \gls{dma} transfers.
+%%
+%Hence, relying on \glspl{ntb} alone for enabling distributed \gls{io} and resource sharing is not a viable solution.
+%%
+%In order to manage multiple address space layouts, extensive modifications to existing device driver software would be required.
+%%
+%This is infeasible due to the vast amount of devices and device driver implementations that exist.
+%%
+%In this context, it is possible to use virtualization to mitigate the complexity of managing different \gls{pcie} address spaces.
+%%
+%The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical \lgls{host}{host~machines}.
+%%
+%The \gls{hypervisor} on the host~machines can be modified to assist setting up necessary \gls{ntb} and \gls{iommu} mappings to the respective device memory and \gls{vm} memory, enabling \gls{passthrough} of remote devices to \gls{vm} \glspl{guest}~\cite{Tu2013}.
+%%
+%However, by relying on virtualization to hide complexity, this approach forgoes the possibility of using bare-metal machines for processing.
+%%
+%Even though \gls{passthrough} allows the device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks run in \glspl{vm} is a constraint that may add additional system load, as \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment.
+%%
+%Another mechanism for using \glspl{ntb} while remaining agnostic about the address space in remote systems is therefore needed.
+%%
+%The physical location of a resource, as well as the address space layout in the machine it is installed in, must be abstracted away without requiring \glspl{vm} (but sharing resources to \glspl{vm} should \emph{also} be supported).
 %
-The naive solution is to map the entire system memory of all other machines in the cluster, but this workaround does not scale very well as the memory requirements will then increase for every machine added to the cluster.
 %
-A way to prepare the necessary memory-mappings through the \gls{ntb}, without adding additional communication latency, is required.
+%
+%Nevertheless, this kind of abstraction gives rise to another challenge. 
+%%
+%A device driver that is unaware that a device is remote may assume that the entire local address space can be reached by the device.
+%%
+%It is generally not possible to predict in advance which memory addresses a device driver may use, yet \gls{ntb} mappings must be in place before the driver initiates operations, such as \gls{dma} transfers.
+%%
+%Deferring the action of setting up these mappings until the device driver initiates \gls{dma}, or some other time when the specific addresses of \gls{dma} buffers may be known, is not realistic;
+%%
+%synchronizing with the remote system at this time will introduce communication overhead in the performance-critical path.
+%%
+%The naive solution is to map the entire system memory of all other machines in the cluster, but this workaround does not scale very well as the memory requirements will then increase for every machine added to the cluster.
+%%
+%A way to prepare the necessary memory-mappings through the \gls{ntb}, without adding additional communication latency, is required.
 
 
 
