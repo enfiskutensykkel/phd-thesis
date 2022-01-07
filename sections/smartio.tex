@@ -73,8 +73,7 @@ Although address translation between the different address spaces is very fast s
 
 
 
-
-As device memory on a remote system is part of the same address space as system memory, we can use an \gls{ntb} to map memory of a remote device.
+Since device memory on a remote system is part of the same address space as system memory, we can use an \gls{ntb} to map memory of a remote device.
 %
 We show this in \cref{fig:ntb-example}, where Segment~3 is allocated in \gls{gpu} memory rather than system~\gls{ram}, but still mapped for the \gls{cpu} of Host~1's similarly to the other segments.
 %
@@ -84,70 +83,53 @@ Moreover, device~\gls{dma} is not limited to reading and writing to system \gls{
 %
 This is known as ``\gls{p2p}'' in \gls{pcie}, and provides us with an opportunity as it becomes possible for a device to read and write directly across an \gls{ntb}.
 %
-We can use this to map memory resources for a device, be it \gls{ram} or device memory (of other devices). 
+We can use this to map memory resources for a device, be it \gls{ram} or memory of other devices. 
 %
-Furthermore, since \gls{pcie} uses \gls{msi}, it is even possible to map interrupt addresses through an \gls{ntb}.
+Furthermore, because \gls{pcie} uses \gls{msi}, it is even possible to map interrupt addresses through an \gls{ntb}, as they too are mappable.
 
 
 
-As touched on in \cref{sec:motivation} and \cref{sec:problem}, the main challenge for our SmartIO system is to use the memory mapping capabilities of \glspl{ntb} to facilitate the use of remote devices in a manner that is \emph{transparent} to the \gls{os} and existing device drivers.
+However, although \glspl{ntb} provide the fundamental memory mapping capabilities that can facilitate the use of remote devices, the challenge is to avoid requiring device drivers to be aware of remote-side address spaces.
+%
+As touched upon in \cref{sec:motivation}, this is desirable in order to use existing device driver implementations.
+%
+In order for a device driver running on a local~machine to use a remote~device, we must make sure that the driver uses addresses that is mapped through both the local and remote \glspl{ntb}.
+%
+For instance, when the device driver attempts to memory map device~\glspl{bar}, we must make sure that the driver uses memory addresses that map over the local, or \gls{cpu}-side, \gls{ntb}.
+%
+Conversely, when the device driver attempts to initiate \gls{dma} transfers or requests an interrupt vector address from the \gls{os}, we must find a way to transparently inject memory addresses that map over the remote, or device-side, \gls{ntb}.
 
 
-
-TODO below:
-
-However, setting up such \gls{ntb} mappings requires awareness of the address space on the remote system.
+\Gls{dma} is particularly challenging.
 %
-For example, a device driver must use addresses that correspond to the remote device's address space when initiating \gls{dma} transfers.
+Device drivers may assume that any local memory address can be reached by the device, but the \gls{ntb} only provide \emph{windows} into a remote address space.
 %
-Hence, relying on \glspl{ntb} alone for enabling distributed \gls{io} and resource sharing is not a viable solution.
+In addition, it is generally not possible to predict in advance which memory addresses a device driver may use, yet memory must be mapped through \gls{ntb} before the driver initiates \gls{dma} transfers.
 %
-In order to manage multiple address space layouts, extensive modifications to existing device driver software would be required.
-%
-This is infeasible due to the vast amount of devices and device driver implementations that exist.
-%
-In this context, it is possible to use virtualization to mitigate the complexity of managing different \gls{pcie} address spaces.
-%
-The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical \lgls{host}{host~machines}.
-%
-The \gls{hypervisor} on the host~machines can be modified to assist setting up necessary \gls{ntb} and \gls{iommu} mappings to the respective device memory and \gls{vm} memory, enabling \gls{passthrough} of remote devices to \gls{vm} \glspl{guest}~\cite{Tu2013}.
-%
-However, by relying on virtualization to hide complexity, this approach forgoes the possibility of using bare-metal machines for processing.
-%
-Even though \gls{passthrough} allows the device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks run in \glspl{vm} is a constraint that may add additional system load, as \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment.
-%
-Another mechanism for using \glspl{ntb} while remaining agnostic about the address space in remote systems is therefore needed.
-%
-The physical location of a resource, as well as the address space layout in the machine it is installed in, must be abstracted away without requiring \glspl{vm} (but sharing resources to \glspl{vm} should \emph{also} be supported).
-
-
-
-Nevertheless, this kind of abstraction gives rise to another challenge. 
-%
-A device driver that is unaware that a device is remote may assume that the entire local address space can be reached by the device.
-%
-It is generally not possible to predict in advance which memory addresses a device driver may use, yet \gls{ntb} mappings must be in place before the driver initiates operations, such as \gls{dma} transfers.
-%
-Deferring the action of setting up these mappings until the device driver initiates \gls{dma}, or some other time when the specific addresses of \gls{dma} buffers may be known, is not realistic;
+Deferring the action of setting up these maps until the device driver initiates \gls{dma}, or some other time when the specific addresses of \gls{dma} buffers may be known, is not realistic;
 %
 synchronizing with the remote system at this time will introduce communication overhead in the performance-critical path.
 %
-The naive solution is to map the entire system memory of all other machines in the cluster, but this workaround does not scale very well as the memory requirements will then increase for every machine added to the cluster.
+The naive solution for both of these issues is to map the entire system memory, but this workaround does not scale very well.
 %
-A way to prepare the necessary memory-mappings through the \gls{ntb}, without adding additional communication latency, is required.
+Not only will the memory requirements increase for every machine added to the cluster, but the number of maps supported by the \gls{ntb} is limited by the size of its \gls{lut}.
 
 
-TODO: list up challenges
-\begin{itemize}
-    \item while dolphin's ntb solution is nice, we must still device a mechanism to blabla
-    \item while memory mappings can be dynamic, addresses/cfgspace is at system boot
-    \item while memory mappings can be dynamic, no communication overhead
-\end{itemize}
 
 
-TODO: see here and here and here for more details on PCIe and NTBs
-
-
+One possibility is to use virtualization to mitigate the complexity of managing different \gls{pcie} address spaces.
+%
+The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical \lgls{host}{host~machines}.
+%
+The \gls{hypervisor} on a \lgls{host}{host~machine} can be modified to assist setting up necessary \gls{ntb} and \gls{iommu} mappings to the respective device memory and \gls{vm} memory.
+%
+This would make it possible to \gls{passthrough} a remote device to a \gls{vm} \gls{guest}.
+%
+However, even though this would allow a device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks run in \glspl{vm} is a constraint on the applicability of a solution.
+%
+Virtualization is not necessarily an appropriate solution in all circumstances, as it may add additional system load because \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment.
+%
+A more general mechanism is needed for abstracting away the complexity of dealing with a remote-side address space and allowing device drivers to remain agnostic about different address spaces.
 
 
 
