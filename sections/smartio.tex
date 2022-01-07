@@ -31,7 +31,7 @@ Likewise, devices capable of \gls{dma} may read from and write to \gls{ram} dire
 
 
 
-This mapping to address space occurs when a system enumerates the \gls{pcie} bus and accesses the \gls{cfgspace} of each device.
+This mapping to the same address space occurs when a system enumerates the \gls{pcie} bus and accesses the \gls{cfgspace} of each device.
 %
 A \gls{cfgspace} contains a description of the capabilities of a device, such as its memory regions.
 %
@@ -43,7 +43,7 @@ Addresses reserved by the system for interrupts are also written to the device's
 
 
 
-\begin{figure}
+\begin{figure}[!b]
     \centering
     \includegraphics[width=.99\textwidth]{ntb-example}
     \caption[Two computer systems connected using \glsfmtshortpl{ntb}, and the \glsfmtshortpl{ntb} translate between the two different address domains]
@@ -57,7 +57,7 @@ As depicted in \cref{fig:ntb-example}, it is possible to connect computer system
 %
 \Glspl{ntb} can be embedded as a \gls{cpu} feature~\cite{whitepaper:Sullivan2010,url:LinuxNTB-AMD}, but are more commonly implemented in \gls{pcie} switch chips~\cite{whitepaper:PLX,pex8733}.
 %
-Using such \gls{ntb}-capable switch chips to implement peripheral devices, independent computer systems can connect with plug-in host adapter cards and external cables.
+By using such \gls{ntb}-capable switch chips to implement peripheral devices, independent computer systems can connect with plug-in host adapter cards and external cables.
 %
 To the system, the \gls{ntb} appears as a normal \gls{pcie} device\footnote{The \gls{pcie} terminology for individual device functions is ``\glspl{ep}''. We use the terms ``device'' and ``function'' as synonyms for a \gls{pcie} \gls{ep} throughout this dissertation.} with one or more \glspl{bar} that are reserved and mapped during the enumeration process.
 %
