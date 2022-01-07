@@ -335,7 +335,7 @@ The solution should be able to \lgls{disaggregation}{disaggregate} such \gls{sri
 %
 However, since not all devices implement \gls{sriov}, the solution should also provide a device driver \gls{api} that will make it possible to \lgls{disaggregation}{disaggregate} memory and device resources in software.
 %
-In addition to the native sharing capabilities described in \crefrange{obj:distributed}{obj:dynamic}, this \gls{api} 
+In addition to the native sharing capabilities described in \cref{obj:distributed,obj:transparent,obj:performance,obj:dynamic}, this \gls{api} 
 would provide facilities for memory-mapping device registers as well as mapping shared memory segments for a \gls{dma}-capable device.
 %
 Effectively, this would bring shared-memory concepts to device driver implementations, allowing device operation and device resources to become part of the same global address space as distributed cluster applications.
@@ -551,19 +551,19 @@ We have developed a framework called \emph{SmartIO} for sharing resources and di
 %
 In particular, the main contributions of this dissertation are listed as follows:
 \begin{itemize}
-    \item Testing and evaluation of the \emph{Device~Lending} mechanism for \textbf{distributing \gls{pcie} devices to remote systems} (see \cref{paper:nossdav} and \cref{paper:mmsys}): 
+    \item Testing and evaluation of the \emph{Device~Lending} mechanism for \textbf{distributing \gls{pcie} devices to remote systems} (see \cref{paper:nossdav,paper:mmsys}): 
         %
         using Device~Lending, any standard \gls{pcie} device, such as \glspl{nvme}, \glspl{gpu}, \glspl{nic}, and \glspl{fpga}, may be assigned to a remote system. 
         %
         The device appears to the remote system as if it has been dynamically hot-added to the system, allowing existing device drivers to use the device without requiring any modifications to software.
 
-    \item Implementation of a \textbf{new mechanism for distributing devices to \glspl{vm}} running on any host machine in the cluster (see \cref{paper:srmpds} and \cref{paper:cc}): 
+    \item Implementation of a \textbf{new mechanism for distributing devices to \glspl{vm}} running on any host machine in the cluster (see \cref{paper:srmpds,paper:cc}): 
         %
         we have developed an extension to the \gls{kvm} based on the \emph{\gls{mdev}} interface, enabling direct access to remote physical hardware devices for \gls{vm} guests and setting up memory mappings for the devices. 
         %
         This \gls{mdev} implementation includes a method for dynamically discovering guest-physical memory layout. Using this \gls{mdev} extension, local and remote devices can be \lgls{passthrough}{``passed through''} to \glspl{vm} and used with bare-metal performance.
 	
-    \item Improvement of the Device~Lending and \gls{kvm}/\gls{mdev} mechanisms by implementing \textbf{support for multiple devices} and \textbf{supporting devices in different physical machines} (see \cref{paper:srmpds} and \cref{paper:cc}):
+    \item Improvement of the Device~Lending and \gls{kvm}/\gls{mdev} mechanisms by implementing \textbf{support for multiple devices} and \textbf{supporting devices in different physical machines} (see \cref{paper:srmpds,paper:cc}):
         %
         a method for resolving device memory addresses and setting up memory mappings, in a way that is transparent to both the devices and the device drivers, is implemented. 
         %
@@ -588,7 +588,7 @@ In particular, the main contributions of this dissertation are listed as follows
 	This driver also demonstrates how multiple sharing aspects of SmartIO may be combined, 
 	by \lgls{disaggregation}{disaggregating} remote GPU memory and enabling memory access optimizations.
 
-    \item A \textbf{comprehensive performance evaluation} covering all parts of SmartIO and the implementation of performance optimizations (see \cref{paper:mmsys}, \cref{paper:cc}, and \cref{paper:tocs}):
+    \item A \textbf{comprehensive performance evaluation} covering all parts of SmartIO and the implementation of performance optimizations (see \cref{paper:mmsys,paper:cc,paper:tocs}):
         %
         with the goal of not incurring any performance overhead beyond that of native \gls{pcie}, the performance of using remote resources with SmartIO is comparable to that of local access (in terms of latency and throughput).
         %

@@ -8,7 +8,6 @@
 \usepackage{xparse}
 \usepackage{subcaption}
 \usepackage[all]{hypcap}
-\usepackage{ifthen}
 %\usepackage{layout}
 %\usepackage{showframe}
 
@@ -73,9 +72,16 @@
 
 
 % Refer to a section in a paper from the main body
-%\NewDocumentCommand{\paperref}{ m m }{\hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(\cpageref{#1:#2})}
-%\NewDocumentCommand{\paperref}{ m m }{\hyperref[#1:#2]{``\textit{\nameref*{#1:#2}}''}~(\hyperref[#1:#2]{\cref*{#1},~\cref*{#1:#2}}, \cpageref{#1:#2})}
-\NewDocumentCommand{\paperref}{ m m }{\hyperref[#2]{\cref*{#2} of \cref*{#1}}~(\cpageref{#2})}
+\NewDocumentCommand{\papersectref}{ m m }{%
+    %``\textit{\hyperref[#1:#2]{\nameref*{#1:#2}}}''~(\cref*{#1},~\cref*{#1:#2}, \cpageref{#1:#2})%
+    %\hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(``\textit{\hyperref[#1:#2]{\nameref*{#1:#2}}}'',~\cpageref{#1:#2})%
+    \hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(\cpageref{#1:#2})%
+    %\hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(\cpageref{#1:#2})%
+}
+
+\NewDocumentCommand{\paperref}
+{ > {\SplitArgument{1}{:}}m }{\papersectref #1}
+
 
 % Research question and proposition/objectives/requirements
 
