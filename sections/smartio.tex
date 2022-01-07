@@ -95,43 +95,46 @@ As touched upon in \cref{sec:motivation}, this is desirable in order to use exis
 %
 In order for a device driver running on a local~machine to use a remote~device, we must make sure that the driver uses addresses that is mapped through both the local and remote \glspl{ntb}.
 %
-For instance, when the device driver attempts to memory map device~\glspl{bar}, we must make sure that the driver uses memory addresses that map over the local, or \gls{cpu}-side, \gls{ntb}.
+For instance, when the device driver attempts to access device~\glspl{bar}, we must make sure that the driver uses memory addresses that are mapped through the local, or \gls{cpu}-side, \gls{ntb}.
 %
-Conversely, when the device driver attempts to initiate \gls{dma} transfers or requests an interrupt vector address from the \gls{os}, we must find a way to transparently inject memory addresses that map over the remote, or device-side, \gls{ntb}.
+Conversely, when the device driver attempts to initiate \gls{dma} transfers or requests an interrupt vector address from the \gls{os}, we must find a way to transparently inject memory addresses that are mapped through the remote, or device-side, \gls{ntb}.
 
 
-\Gls{dma} is particularly challenging.
+
+\Gls{dma} is particularly challenging in this context.
 %
 Device drivers may assume that any local memory address can be reached by the device, but the \gls{ntb} only provide \emph{windows} into a remote address space.
 %
-In addition, it is generally not possible to predict in advance which memory addresses a device driver may use, yet memory must be mapped through \gls{ntb} before the driver initiates \gls{dma} transfers.
+It is generally not possible to predict in advance which memory addresses a device driver may use, yet memory must be mapped through the \gls{ntb} before the driver initiates \gls{dma} transfers.
 %
-Deferring the action of setting up these maps until the device driver initiates \gls{dma}, or some other time when the specific addresses of \gls{dma} buffers may be known, is not realistic;
+Deferring the action of setting up these maps until the device driver initiates \gls{dma}, or some other time when the specific addresses of \gls{dma} buffers may be known, is not viable;
 %
 synchronizing with the remote system at this time will introduce communication overhead in the performance-critical path.
 %
-The naive solution for both of these issues is to map the entire system memory, but this workaround does not scale very well.
+A naive solution is to map the entire system memory, but this workaround does not scale very well.
 %
 Not only will the memory requirements increase for every machine added to the cluster, but the number of maps supported by the \gls{ntb} is limited by the size of its \gls{lut}.
 
 
 
 
-One possibility is to use virtualization to mitigate the complexity of managing different \gls{pcie} address spaces.
+One possibility is to use virtualization to mitigate the complexity of managing different address spaces.
 %
 The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical \lgls{host}{host~machines}.
 %
-The \gls{hypervisor} on a \lgls{host}{host~machine} can be modified to assist setting up necessary \gls{ntb} and \gls{iommu} mappings to the respective device memory and \gls{vm} memory.
+The \gls{hypervisor} on a \lgls{host}{host~machine} can be modified to assist setting up necessary \gls{ntb} (and \gls{iommu}) mappings to the respective device memory and \gls{vm} memory.
 %
-This would make it possible to \gls{passthrough} a remote device to a \gls{vm} \gls{guest}.
+This would make it possible to \gls{passthrough} a remote device to a \gls{vm} \gls{guest} running on a local \lgls{host}{host~machine}.
 %
-However, even though this would allow a device to be used directly by a device driver running in a \gls{guest}, requiring that compute tasks run in \glspl{vm} is a constraint on the applicability of a solution.
+However, requiring that compute tasks run in \glspl{vm} limits the generality of a solution.
 %
-Virtualization is not necessarily an appropriate solution in all circumstances, as it may add additional system load because \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment.
+Virtualization is not necessarily appropriate in all circumstances, as it may add additional system load because \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment.
 %
 A more general mechanism is needed for abstracting away the complexity of dealing with a remote-side address space and allowing device drivers to remain agnostic about different address spaces.
 
 
+
+For more details on \gls{pcie} and \glspl{ntb}, see \paperref{tocs}{tocs:pcie,tocs:impl}.
 
 \section{Implementation}\label{sec:impl}
 
