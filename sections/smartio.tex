@@ -43,7 +43,7 @@ Addresses reserved by the system for interrupts are also written to the device's
 
 
 
-\begin{figure}[!b]
+\begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{ntb-example}
     \caption[Two computer systems connected using \glsfmtshortpl{ntb}, and the \glsfmtshortpl{ntb} translate between the two different address domains]
@@ -95,9 +95,9 @@ As touched upon in \cref{sec:motivation}, this is desirable in order to use exis
 %
 In order for a device driver running on a local~machine to use a remote~device, we must make sure that the driver uses addresses that is mapped through both the local and remote \glspl{ntb}.
 %
-For instance, when the device driver attempts to access device~\glspl{bar}, we must make sure that the driver uses memory addresses that are mapped through the local, or \gls{cpu}-side, \gls{ntb}.
+For instance, when the device driver attempts to access device~\glspl{bar}, we must make sure that the driver uses memory addresses that are mapped through the local, or \gls{cpu}-side, \gls{ntb} without the driver or device being aware of this.
 %
-Conversely, when the device driver attempts to initiate \gls{dma} transfers or requests an interrupt vector address from the \gls{os}, we must find a way to transparently inject memory addresses that are mapped through the remote, or device-side, \gls{ntb}.
+Conversely, when the device driver attempts to initiate \gls{dma} transfers or configures an interrupt vector address, we must find a way to transparently inject memory addresses that are mapped through the remote, or device-side, \gls{ntb}.
 
 
 
@@ -111,7 +111,7 @@ Deferring the action of setting up these maps until the device driver initiates 
 %
 synchronizing with the remote system at this time will introduce communication overhead in the performance-critical path.
 %
-A naive solution is to map the entire system memory, but this workaround does not scale very well.
+A naive solution is to map the entire system memory, but this workaround does not scale very well since it would require the \gls{ntb}~\glspl{bar} to be \emph{as large} as the size of \gls{ram}.
 %
 Not only will the memory requirements increase for every machine added to the cluster, but the number of maps supported by the \gls{ntb} is limited by the size of its \gls{lut}.
 
