@@ -3,7 +3,7 @@
 \documentclass[final,USenglish,colophon]{phduio}
 \usepackage{pdfpages}
 \usepackage{phdstyle}
-\usepackage[toc,acronym,seeautonumberlist,nohypertypes={nolist}]{glossaries}
+\usepackage[toc,acronym,seeautonumberlist,nohypertypes={nolist},nopostdot]{glossaries}
 \usepackage{glossaries-extra}
 \usepackage{xparse}
 \usepackage{subcaption}
@@ -175,10 +175,22 @@
 
 
 % Get the display text of an abbreviation without linking in the glossary
-\DeclareDocumentCommand{\shortgls}{ m }{\ifglsentryexists{nolist-#1}{\glsfmtshort{nolist-#1}}{\glsfmtshort{#1}}}
-\DeclareDocumentCommand{\shortglspl}{ m }{\ifglsentryexists{nolist-#1}{\glsfmtshortpl{nolist-#1}}{\glsfmtshortpl{#1}}}
-\DeclareDocumentCommand{\longgls}{ m }{\ifglsentryexists{nolist-#1}{\glsfmtlong{nolist-#1}}{\glsfmtlong{#1}}}
-\DeclareDocumentCommand{\longglspl}{ m }{\ifglsentryexists{nolist-#1}{\glsfmtlongpl{nolist-#1}}{\glsfmtlongpl{#1}}}
+% Use this to link to glossary entries from a glossary entry description, 
+% without adding to the numbers list.
+\DeclareDocumentCommand{\glsabbrlink}{ m }{%
+    \ifglsentryexists{nolist-#1}{%
+        \glshyperlink[\glsfmtshort{nolist-#1}]{gls-#1}%
+    }{%
+        \glshyperlink[\glsfmtshort{#1}]{#1}%
+    }%
+}
+\DeclareDocumentCommand{\glsabbrlinkpl}{ m }{%
+    \ifglsentryexists{nolist-#1}{%
+        \glshyperlink[\glsfmtshortpl{nolist-#1}]{gls-#1}%
+    }{%
+        \glshyperlink[\glsfmtshortpl{#1}]{#1}%
+    }%
+}
 
 
 % Some terms need to refer something else in the glossary
@@ -200,7 +212,7 @@
 
 % Define a custom text and link it to a glossary entry
 \DeclareDocumentCommand{\linkedgls}{ m m m }{%
-    \newglossaryentry{nolist-#2}{
+    \newglossaryentry{linked-#2}{
         name={#2},
         description={#2},
         text={#3},
@@ -214,7 +226,7 @@
 \let\origgls\gls
 \renewcommand{\gls}[1]{%
     \pgfkeysifdefined{/glskey/#1}{%
-        \lgls{\pgfkeysvalueof{/glskey/#1}}{\glsentrytext{nolist-#1}}%
+        \lgls{\pgfkeysvalueof{/glskey/#1}}{\glsentrytext{linked-#1}}%
     }{%
         \origgls{#1}%
     }%
@@ -222,7 +234,7 @@
 \let\origGls\Gls
 \renewcommand{\Gls}[1]{%
     \pgfkeysifdefined{/glskey/#1}{%
-        \lgls{\pgfkeysvalueof{/glskey/#1}}{\Glsentrytext{nolist-#1}}%
+        \lgls{\pgfkeysvalueof{/glskey/#1}}{\Glsentrytext{linked-#1}}%
     }{%
         \origGls{#1}%
     }%
@@ -230,7 +242,7 @@
 \let\origglspl\glspl
 \renewcommand{\glspl}[1]{%
     \pgfkeysifdefined{/glskey/#1}{%
-        \lgls{\pgfkeysvalueof{/glskey/#1}}{\glsentryplural{nolist-#1}}%
+        \lgls{\pgfkeysvalueof{/glskey/#1}}{\glsentryplural{linked-#1}}%
     }{%
         \origglspl{#1}%
     }%
@@ -238,7 +250,7 @@
 \let\origGlspl\Glspl
 \renewcommand{\Glspl}[1]{%
     \pgfkeysifdefined{/glskey/#1}{%
-        \lgls{\pgfkeysvalueof{/glskey/#1}}{\Glsentryplural{nolist-#1}}%
+        \lgls{\pgfkeysvalueof{/glskey/#1}}{\Glsentryplural{linked-#1}}%
     }{%
         \origGlspl{#1}%
     }%
@@ -319,6 +331,18 @@
 
 	% Specify size of thumb indices
 	\numberofpapers{5} 
+    
+    % Turn off listing of terms in glossaries
+    \renewcommand{\lgls}[2]{%
+        \glshyperlink[#2]{#1}%
+    }
+    \renewcommand{\gls}[1]{%
+        \glshyperlink{#1}%
+    }
+    \renewcommand{\glspl}[1]{%
+        \glshyperlink[\glsentryplural{#1}]{#1}%
+    }
+    \renewcommand{\glsadd}[1]{}
 
 	\include{stubs/nossdav}
 	\include{stubs/mmsys}

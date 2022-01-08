@@ -34,14 +34,14 @@
 
 \newglossaryentry{lut}{
     name={look-up table},
-    description={Address translation table in an \shortgls{pcie} \shortgls{ntb}},
+    description={Address translation table in an \glsabbrlink{pcie} \glsabbrlink{ntb}.},
     type=nolist
 }
 
 \newglossaryentry{function}{
     name={device function},
     text={function},
-    description={\shortgls{pcie} devices may have one or more functions, each appearing to the system as individual devices with their own set of resources. Also known as a \shortgls{pcie} endpoint},
+    description={\glsabbrlink{pcie} devices may have one or more functions, each appearing to the system as individual devices with their own set of resources. Also known as a \glsabbrlink{pcie} endpoint.},
     seealso={gls-sriov},
 }
 \linkedgls{function}{ep}{endpoint}
@@ -49,32 +49,33 @@
 
 \newglossaryentry{cfgspace}{
     name={configuration space},
-    description={A set of standard registers that is used to configure a \shortgls{pcie} device, such as reserving memory regions and interrupt addresses}
+    description={A set of standard registers that is used to configure a \glsabbrlink{pcie} device, such as reserving \glsabbrlinkpl{bar} and interrupt addresses.}
 }
 
 \newdualentry{sriov}{SR-IOV}{Single-Root I/O Virtualization}
-{Allows a single device to virtualize multiple device functions in hardware, each virtual function appearing to the system as a real device (function) with its own set of resources}
+{Allows a single device to virtualize multiple device functions in hardware, each virtual function appearing to the system as a real device (function) with its own set of resources.}
 
 \newdualentry{dma}{DMA}{direct memory access}
-{Devices capable of direct memory access can access system memory and even memory regions of other devices}
+{Devices capable of direct memory access can access system memory and even \glsabbrlinkpl{bar} of other devices (\glshyperlink{p2p}).}
 
 \newdualentry[seealso={gls-dma}]{rdma}{RDMA}{remote direct memory access}
-{Using the network adapter to copy memory directly onto the network, without going through the \longgls{os} network stack, often used to implement middleware~services}
+{Using the network adapter to copy memory directly onto the network, without going through the \glsabbrlink{os} network stack, often used to implement middleware~services.}
 
 \newdualentry{ntb}{NTB}{non-transparent bridge}
-{A special \shortgls{pcie} device that translates memory transactions between different address domains}
+{A special \glsabbrlink{pcie} device that translates memory transactions between separate address spaces.}
 
-\newdualentry{bar}{BAR}{Base Address Register}
-{Six registers in a device's configuration space containing the start addresses of the memory regions of a device. The term is often used synonymously for a device memory region}
+\newdualentry[seealso={cfgspace}]{bar}{BAR}{Base Address Register}
+{Six registers in a device's configuration space containing the start addresses of the memory regions of a device. The term is often used synonymously for a device memory region.}
 
 \newglossaryentry{p2p}{
     name={peer-to-peer},
-    description={A \shortgls{pcie} feature allowing two devices to directly transfer data between each other without going through host \shortgls{ram}}
+    description={A \glsabbrlink{pcie} feature allowing two devices to directly transfer data between each other without going through system \glsabbrlink{ram}.},
+    seealso={gls-dma}
 }
 
 \newglossaryentry{disaggregation}{
 	name={disaggregation},
-	description={Dividing up a resource, such as memory or a device, into smaller components, and making them available to remote units (most commonly with \shortgls{rdma})}
+	description={Dividing up a resource, such as memory or a device, into smaller components, and making them available to remote units.}
 }
 \linkedgls{disaggregation}{disaggregated}{disaggregated}
 \linkedgls{disaggregation}{disaggregate}{disaggregate}
@@ -82,27 +83,28 @@
 
 \newglossaryentry{kernel space}{
     name={kernel space},
-    description={Virtual memory and execution privileges suitable for \longgls{os} kernel and device drivers}
+    description={Virtual memory and execution privileges suitable for \glsabbrlink{os} kernel and device drivers.}
 }
 
 \newglossaryentry{multicasting}{
     name={multicast},
-    description={A feature supported by some \shortgls{pcie} switch chips that allow data coming in on one switch port to be replicated on all other switch ports}
+    description={A feature supported by some \glsabbrlink{pcie} switch chips that allow data coming in on one switch port to be replicated on all other switch ports.}
 }
 
 \newglossaryentry{userspace}{
     name={user space},
-    description={Virtual memory and execution privileges suitable for application software, in contrast to kernel space}
+    description={Virtual memory and execution privileges suitable for application software, in contrast to kernel space.}
 }
 
 \newglossaryentry{passthrough}{
     name={pass-through},
-    description={Allowing a physical hardware device to be accessed directly by a \longgls{vm} guest by using a system's \longgls{iommu} to map memory for the device}
+    description={Allowing a physical hardware device to be accessed directly by a \glsabbrlink{vm} guest by using a system's \glsabbrlink{iommu} to map memory for the device.},
+    seealso={hypervisor}
 }
 
 \newglossaryentry{guest}{
     name={virtual machine guest},
-    description={A computer system emulated in software},
+    description={A computer system emulated in software.},
     text={guest\glsadd{vm}}
 }
 \linkedgls{guest}{vmguest}{\acrshort{vm}~guest}
@@ -110,34 +112,37 @@
 
 \newglossaryentry{host}{
     name={virtual machine host},
-    description={The physical machine running one or more \longglspl{vm}},
-    text={host}
+    description={The physical machine running one or more \glsabbrlinkpl{vm}.},
+    text={host},
+    seealso={hypervisor}
 }
 \linkedgls{host}{hostmachine}{host~machine}
 \linkedgls{host}{hosting}{hosting}
 
 \newdualentry{mmio}{MMIO}{memory-mapped I/O}
-{In \shortgls{pcie}, device memory, such as registers, are mapped to the same address space as \shortgls{ram}, allowing the \shortgls{cpu} to read and write to this memory the same way it would access system~memory}
+{In \glsabbrlink{pcie}, device memory, such as registers, are mapped to the same address space as \glsabbrlink{ram}, allowing the \glsabbrlink{cpu} to read and write to this memory the same way it would access system~memory.}
 
 \newglossaryentry{middleware}{
     name={middleware},
-    description={A software service that provides facilitation beyond functionality available from the \longgls{os}, often implemented using \shortgls{rdma}}
+    description={A software service that provides facilitation beyond functionality available from the \glsabbrlink{os}, often implemented using \glsabbrlink{rdma}.}
 }
 
 
 \newglossaryentry{paravirtualization}{
 	name={paravirtualization},
-	description={A paravirtualized device relies on facilitation by the hypervisor in order to use host resources}
+	description={A paravirtualized device relies on facilitation by the \glshyperlink{hypervisor} in order to use host resources.},
+    seealso={hypervisor}
 }
 
 \newglossaryentry{hypervisor}{
 	name={hypervisor},
-	description={Kernel space software on a \longgls{vm} host, assisting and facilitating a virtual machine emulator (such as Qemu)}
+	description={Kernel space software on a \glshyperlink[host~machine]{host}, assisting and facilitating a virtual machine emulator (such as Qemu) with \glsabbrlink{iommu} mappings.},
+    seealso={gls-iommu}
 }
 
 
 \newdualentry{iommu}{IOMMU}{I/O Memory Management Unit}
-{A unit embedded on the \longgls{cpu} that creates separate virtual address spaces for devices and prevents \longgls{dma} transactions outside these virtual address spaces}
+{A unit embedded on the \glsabbrlink{cpu} that creates separate virtual address spaces for devices and prevents \glsabbrlink{dma} transactions outside these virtual address spaces.}
 
 
 \newlinkedacronym{hypervisor}{kvm}{KVM}{Linux kernel-based virtual machine hypervisor}
@@ -145,7 +150,7 @@
 \newlinkedacronym{gls-sriov}{vf}{VF}{virtual device function}
 
 \newdualentry{msi}{MSI}{message-signaled interrupts}
-{Interrupts in \shortgls{pcie} are implemented as writes to a special memory address that is interpreted by the \shortgls{cpu} to invoke the correct interrupt vector routine}
+{Interrupts in \glsabbrlink{pcie} are implemented as writes to a special memory address that is interpreted by the \glsabbrlink{cpu} to invoke the correct interrupt vector routine.}
 
 %\newlinkedacronym{gls-msi}{msix}{MSI-X}{extended message-signaled interrupts}
 
