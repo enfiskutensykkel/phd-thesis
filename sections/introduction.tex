@@ -105,8 +105,8 @@ Sharing several types of devices, for example both \glspl{gpu} and \glspl{nvme},
         \includegraphics[width=.85\linewidth]{fabric-partitioning-device-tree}
         \caption{Machines have separate (logical) \glsfmtshort{pcie} device trees.}
     \end{subfigure}
-    \caption[\Glsxtrshort{pcie} switch chips with partitioning support can be used to connect multiple \glsxtrshortpl{cpu} and freestanding devices to a common \glsxtrshort{pcie} fabric.]
-    {\Glsfmtshort{pcie} switch chips with partitioning support can be used to connect multiple \glsfmtshortpl{cpu} and freestanding devices to a common \glsfmtshort{pcie} fabric. However, as systems are isolated, shared memory communication over \glsfmtshort{pcie} is not possible.}
+    \caption[\Glsfmtshort{pcie} switch chips with partitioning support can be used to connect multiple \glsfmtshortpl{cpu} and freestanding devices to a common \glsfmtshort{pcie} fabric.]
+    {\Glsxtrshort{pcie} switch chips with partitioning support can be used to connect multiple \glsxtrshortpl{cpu} and freestanding devices to a common \glsxtrshort{pcie} fabric. However, as systems are isolated, shared memory communication over \glsxtrshort{pcie} is not possible.}
   	\label{fig:partitioning}
 \end{figure}
 
@@ -392,7 +392,7 @@ In order to fit our work into this existing cluster networking foundation, we re
 %
 This makes it possible to extend existing functionality, rather than developing an entirely new \gls{ntb} driver from scratch.
 %
-To enable software \gls{disaggregation}, for example, we can add device-oriented semantics and device driver support functions to the already existing \gls{sisci}~\gls{api}. 
+To enable software \gls{disaggregation}, for example, we can add device-oriented semantics and device driver support functions to the already existing \gls{sisciapi}. 
 %, instead of requiring that cluster application software must convert and translate and between different \glspl{api}.
 %
 Even so, it should be pointed out that while our specific implementation is building on Dolphin \glspl{ntb}, the ideas and concepts of our work are general, and can in fact be implemented for \emph{any} \gls{ntb} hardware that has similar capabilities.
@@ -643,7 +643,7 @@ The rest of this dissertation is organized as follows:
     \item[\cref{paper:tocs}]
         presents the entire SmartIO solution as a whole, including the final iterations of the Device~Lending and \gls{mdev} components.
         %
-        We also introduce the \gls{sisci}~\gls{api} extension that makes it possible to \gls{disaggregate} devices and memory resources in software.
+        We also introduce the \gls{sisciapi} extension that makes it possible to \gls{disaggregate} devices and memory resources in software.
         %
         A thorough and complete performance evaluation of all parts and components of SmartIO is provided, in order to prove that the final implementation does not cause \emph{any} performance overhead compared to native \gls{pcie}.
 \end{description}
