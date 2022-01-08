@@ -3,7 +3,7 @@
 \documentclass[final,USenglish,colophon]{phduio}
 \usepackage{pdfpages}
 \usepackage{phdstyle}
-\usepackage[toc,acronym,seeautonumberlist]{glossaries}
+\usepackage[toc,acronym,seeautonumberlist,nohypertypes={nolist}]{glossaries}
 \usepackage{glossaries-extra}
 \usepackage{xparse}
 \usepackage{subcaption}
@@ -142,6 +142,7 @@
 \DeclareDocumentCommand{\newdualentry}{ O{} O{} m m m m }{
 	\newglossaryentry{gls-#3}{
         name={#5 (#4)},
+        sort={#5},
 		description={#6},#1
 	}
     \makeglossaries
@@ -196,6 +197,53 @@
 
 % Link to a glossary entry while using a custom text
 \DeclareDocumentCommand{\lgls}{ m m }{\glsdisp{#1}{#2}\glsadd{#1}\ifglsentryexists{gls-#1}{\glsadd{gls-#1}}{}}
+
+% Define a custom text and link it to a glossary entry
+\DeclareDocumentCommand{\linkedgls}{ m m m }{%
+    \newglossaryentry{nolist-#2}{
+        name={#2},
+        description={#2},
+        text={#3},
+        type=nolist
+    }
+    \makeglossaries
+    \pgfkeyssetvalue{/glskey/#2}{#1}%
+}
+
+% Glossaries hack
+\let\origgls\gls
+\renewcommand{\gls}[1]{%
+    \pgfkeysifdefined{/glskey/#1}{%
+        \lgls{\pgfkeysvalueof{/glskey/#1}}{\glsentrytext{nolist-#1}}%
+    }{%
+        \origgls{#1}%
+    }%
+}
+\let\origGls\Gls
+\renewcommand{\Gls}[1]{%
+    \pgfkeysifdefined{/glskey/#1}{%
+        \lgls{\pgfkeysvalueof{/glskey/#1}}{\Glsentrytext{nolist-#1}}%
+    }{%
+        \origGls{#1}%
+    }%
+}
+\let\origglspl\glspl
+\renewcommand{\glspl}[1]{%
+    \pgfkeysifdefined{/glskey/#1}{%
+        \lgls{\pgfkeysvalueof{/glskey/#1}}{\glsentryplural{nolist-#1}}%
+    }{%
+        \origglspl{#1}%
+    }%
+}
+\let\origGlspl\Glspl
+\renewcommand{\Glspl}[1]{%
+    \pgfkeysifdefined{/glskey/#1}{%
+        \lgls{\pgfkeysvalueof{/glskey/#1}}{\Glsentryplural{nolist-#1}}%
+    }{%
+        \origGlspl{#1}%
+    }%
+}
+
 
 % Include glossary definitions
 \makeglossaries

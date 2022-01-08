@@ -5,9 +5,9 @@ SmartIO works for \emph{all} standard \gls{pcie} devices and their Linux device 
 %
 Whether devices are actually local or remote becomes irrelevant to the user, as SmartIO eliminates this distinction, with regard to both functionality and performance.
 %
-Furthermore, individual device functions of multi-function devices may be distributed to different machines in the network, or to the same machine should it require multiple resources.
+Furthermore, individual \lgls{function}{device functions} of \lgls{function}{multi-function} devices may be distributed to different machines in the network, or to the same machine should it require multiple resources.
 %
-It is even possible to \lgls{disaggregation}{disaggregate} a single device~(function) in software, and distribute it to multiple machines, should this be required by application software.
+It is even possible to \lgls{disaggregation}{disaggregate} a single \lgls{function}{device~(function)} in software, and distribute it to multiple machines, should this be required by application software.
 %
 In other words, SmartIO is a flexible solution for scaling out and using more hardware resources than there are available in a single machine.
 
@@ -59,7 +59,7 @@ As depicted in \cref{fig:ntb-example}, it is possible to connect computer system
 %
 By using such \gls{ntb}-capable switch chips to implement peripheral devices, independent computer systems can connect with plug-in host adapter cards and external cables.
 %
-To the system, the \gls{ntb} appears as a normal \gls{pcie} device\footnote{The \gls{pcie} terminology for individual device functions is ``\glspl{ep}''. We use the terms ``device'' and ``function'' as synonyms for a \gls{pcie} \gls{ep} throughout this dissertation.} with one or more \glspl{bar} that are reserved and mapped during the enumeration process.
+To the system, the \gls{ntb} appears as a normal \gls{pcie} device\footnote{The \gls{pcie} terminology for individual \glspl{devicefunction} is ``\glspl{ep}''. We use the terms ``device'' and ``\gls{function}'' as synonyms for a \gls{pcie} \gls{ep} throughout this dissertation.} with one or more \glspl{bar} that are reserved and mapped during the enumeration process.
 %
 However, rather than being backed by device registers or device memory, the \gls{ntb} instead forwards reads and writes to its \glspl{bar} from one side of the \gls{ntb} to the other, translating memory addresses in the process.
 %
@@ -209,6 +209,8 @@ should rw go in discussion and conclusion instead?
     \item ladon (and other ntb stuff)
     \item disaggregation
 \end{itemize}
+
+\glspl{guest}
 
 % RW first??
 %An example of this is rCUDA, where multiple clients may run jobs on the same \gls{gpu} by relying ~\cite{Duato2010}

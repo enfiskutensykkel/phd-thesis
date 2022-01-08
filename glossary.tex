@@ -36,10 +36,14 @@
     description={Address translation table in an \shortgls{pcie} \shortgls{ntb}}
 }
 
-\newglossaryentry{ep}{
-    name={endpoint},
-    description={A \shortgls{pcie} device function}
+\newglossaryentry{function}{
+    name={device function},
+    text={function},
+    description={\shortgls{pcie} devices may have one or more functions, each appearing to the system as individual devices with their own set of resources. Also known as a \shortgls{pcie} endpoint},
+    seealso={gls-sriov},
 }
+\linkedgls{function}{ep}{endpoint}
+\linkedgls{function}{devicefunction}{device~function}
 
 \newglossaryentry{cfgspace}{
     name={configuration space},
@@ -47,19 +51,19 @@
 }
 
 \newdualentry{sriov}{SR-IOV}{Single-Root I/O Virtualization}
-{Allows a single device to virtualize multiple device functions in hardware}
+{Allows a single device to virtualize multiple device functions in hardware, each virtual function appearing to the system as a real device (function) with its own set of resources}
 
 \newdualentry{dma}{DMA}{direct memory access}
 {Devices capable of direct memory access can access system memory and even memory regions of other devices}
 
 \newdualentry{rdma}{RDMA}{remote direct memory access}
-{Using the network adapter to copy memory directly onto the network, without going through the \longgls{os} network stack}
+{Using the network adapter to copy memory directly onto the network, without going through the \longgls{os} network stack, often used to implement middleware~services}
 
 \newdualentry{ntb}{NTB}{non-transparent bridge}
 {A special \shortgls{pcie} device that translates memory transactions between different address domains}
 
 \newdualentry{bar}{BAR}{Base Address Register}
-{The start address of a memory region of a device, used synonymously for the device memory region itself}
+{Six registers in a device's configuration space containing the start addresses of the memory regions of a device. The term is often used synonymously for a device memory region}
 
 \newglossaryentry{p2p}{
     name={peer-to-peer},
@@ -70,6 +74,9 @@
 	name={disaggregation},
 	description={Dividing up a resource, such as memory or a device, into smaller components, and making them available to remote units (most commonly with \shortgls{rdma})}
 }
+\linkedgls{disaggregation}{disaggregated}{disaggregated}
+\linkedgls{disaggregation}{disaggregate}{disaggregate}
+\linkedgls{disaggregation}{disaggregating}{disaggregating}
 
 \newglossaryentry{kernel space}{
     name={kernel space},
@@ -94,21 +101,25 @@
 \newglossaryentry{guest}{
     name={virtual machine guest},
     description={A computer system emulated in software},
-    text={guest}
+    text={guest\glsadd{vm}}
 }
+\linkedgls{guest}{vmguest}{\acrshort{vm}~guest}
+\linkedgls{vm}{vminstance}{\acrshort{vm}~instance}
 
 \newglossaryentry{host}{
     name={virtual machine host},
     description={The physical machine running one or more \longglspl{vm}},
     text={host}
 }
+\linkedgls{host}{hostmachine}{host~machine}
+\linkedgls{host}{hosting}{hosting}
 
 \newdualentry{mmio}{MMIO}{memory-mapped I/O}
-{Device memory, such as registers, are mapped to the same address space as system~\shortgls{ram} in \shortgls{pcie}}
+{In \shortgls{pcie}, device memory, such as registers, are mapped to the same address space as \shortgls{ram}, allowing the \shortgls{cpu} to read and write to this memory the same way it would access system~memory}
 
 \newglossaryentry{middleware}{
     name={middleware},
-    description={A software service that provides facilitation beyond functionality available from the \longgls{os}}
+    description={A software service that provides facilitation beyond functionality available from the \longgls{os}, often implemented using \shortgls{rdma}}
 }
 
 
@@ -136,3 +147,4 @@
 {Interrupts in \shortgls{pcie} are implemented as writes to a special memory address that is interpreted by the \shortgls{cpu} to invoke the correct interrupt vector routine}
 
 \newlinkedacronym{gls-msi}{msix}{MSI-X}{extended message-signaled interrupts}
+
