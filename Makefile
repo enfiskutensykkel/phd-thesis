@@ -1,27 +1,36 @@
-TEXFILE := main
+# The main tex file must be first in list
+# The generated PDF will have the same name
+TEXFILES := main.tex $(wildcard sections/*.tex) $(wildcard stubs/*.tex)
 
-.PHONY: all $(TEXFILE).pdf clean distclean
+# Name of the PDF to create
+MAIN = $(firstword $(TEXFILES:%.tex=%))
 
-all: $(TEXFILE).pdf
-
-
-$(TEXFILE).pdf:
-	pdflatex -synctex=1 $(TEXFILE)
-	biber $(TEXFILE)
-	makeglossaries $(TEXFILE)
-	pdflatex -synctex=1 $(TEXFILE)
-	makeglossaries $(TEXFILE)
-	pdflatex -synctex=1 $(TEXFILE)
+.PHONY: default clean distclean
 
 
-distclean: clean
-	-$(RM) $(TEXFILE).pdf
+default: $(MAIN).pdf
+
+
+$(MAIN).pdf: $(TEXFILES)
+	pdflatex -synctex=1 $(MAIN)
+	pdflatex -synctex=1 $(MAIN)
+	biber $(MAIN)
+	makeglossaries $(MAIN)
+	pdflatex -synctex=1 $(MAIN)
+	makeglossaries $(MAIN)
+	pdflatex -synctex=1 $(MAIN)
 
 
 clean:
-	-$(RM) *.idx *.ind *.glo *.brf *.ilg *.ist *.nlo *.nls *.acn *.gls *.glg *.glg
-	-$(RM) *.log *.aux sections/*.aux stubs/*.aux *.bbl *.blg *.dvi *.bak *.toc *.ps *.synctex.gz *.pdfsync *.out *.lof *.lot
-	-$(RM) *.alg *.acr *.loa *.lol *.cut *.bcf *.run.xml *.nlg *.ptc *.nolist*
-	-$(RM) $(TEXFILE)-blx.bib
+	-$(RM) $(TEXFILES:%.tex=%.aux)
+	-$(RM) $(MAIN).idx $(MAIN).ind $(MAIN).glo $(MAIN).brf $(MAIN).ilg $(MAIN).ist $(MAIN).nlo $(MAIN).nls $(MAIN).acn $(MAIN).gls $(MAIN).glg
+	-$(RM) $(MAIN).log $(MAIN).bbl $(MAIN).blg $(MAIN).dvi $(MAIN).bak $(MAIN).toc $(MAIN).ps $(MAIN).out $(MAIN).lof $(MAIN).lot
+	-$(RM) $(MAIN).alg $(MAIN).acr $(MAIN).loa $(MAIN).lol $(MAIN).cut $(MAIN).bcf $(MAIN).nlg $(MAIN).ptc $(MAIN).nolist*
+	-$(RM) $(MAIN).run.xml $(MAIN).synctex.gz $(MAIN).pdfsync
+	-$(RM) $(MAIN)-blx.bib
+
+
+distclean: clean
+	-$(RM) $(MAIN).pdf
 	-$(RM) *~
-	
+
