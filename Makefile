@@ -1,6 +1,6 @@
 # The main tex file must be first in list
 # The generated PDF will have the same name
-TEXFILES := main.tex $(wildcard sections/*.tex) $(wildcard stubs/*.tex)
+TEXFILES := main.tex glossary.tex $(wildcard sections/*.tex) $(wildcard stubs/*.tex)
 
 # Name of the PDF to create
 MAIN = $(firstword $(TEXFILES:%.tex=%))
@@ -11,7 +11,7 @@ MAIN = $(firstword $(TEXFILES:%.tex=%))
 default: $(MAIN).pdf
 
 
-$(MAIN).pdf: $(TEXFILES)
+$(MAIN).pdf: $(TEXFILES) bibliography.bib
 	pdflatex -synctex=1 $(MAIN)
 	pdflatex -synctex=1 $(MAIN)
 	biber $(MAIN)
