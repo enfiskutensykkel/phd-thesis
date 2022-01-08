@@ -58,7 +58,7 @@
 \newdualentry{dma}{DMA}{direct memory access}
 {Devices capable of direct memory access can access system memory and even memory regions of other devices}
 
-\newdualentry{rdma}{RDMA}{remote direct memory access}
+\newdualentry[seealso={gls-dma}]{rdma}{RDMA}{remote direct memory access}
 {Using the network adapter to copy memory directly onto the network, without going through the \longgls{os} network stack, often used to implement middleware~services}
 
 \newdualentry{ntb}{NTB}{non-transparent bridge}
@@ -143,7 +143,6 @@
 \newlinkedacronym{hypervisor}{kvm}{KVM}{Linux kernel-based virtual machine hypervisor}
 
 \newlinkedacronym{gls-sriov}{vf}{VF}{virtual device function}
-
 
 \newdualentry{msi}{MSI}{message-signaled interrupts}
 {Interrupts in \shortgls{pcie} are implemented as writes to a special memory address that is interpreted by the \shortgls{cpu} to invoke the correct interrupt vector routine}
