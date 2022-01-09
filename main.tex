@@ -73,9 +73,9 @@
 
 % Refer to a section in a paper from the main body
 \NewDocumentCommand{\papersectref}{ m m }{%
+    \hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(on~\cpageref{#1:#2})%
     %``\textit{\hyperref[#1:#2]{\nameref*{#1:#2}}}''~(\cref*{#1},~\cref*{#1:#2}, \cpageref{#1:#2})%
     %\hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(``\textit{\hyperref[#1:#2]{\nameref*{#1:#2}}}'',~\cpageref{#1:#2})%
-    \hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(\cpageref{#1:#2})%
     %\hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(\cpageref{#1:#2})%
 }
 
