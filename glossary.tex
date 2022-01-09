@@ -81,7 +81,7 @@
 \linkedgls{disaggregation}{disaggregate}{disaggregate}
 \linkedgls{disaggregation}{disaggregating}{disaggregating}
 
-\newglossaryentry{kernel space}{
+\newglossaryentry{kernelspace}{
     name={kernel space},
     description={Virtual memory and execution privileges suitable for \glsabbrlink{os} kernel and device drivers.}
 }
@@ -93,7 +93,7 @@
 
 \newglossaryentry{userspace}{
     name={user space},
-    description={Virtual memory and execution privileges suitable for application software, in contrast to kernel space.}
+    description={Virtual memory and execution privileges suitable for application software, in contrast to \glshyperlink[kernel space]{kernelspace}.}
 }
 
 \newglossaryentry{passthrough}{
@@ -154,3 +154,14 @@
 
 %\newlinkedacronym{gls-msi}{msix}{MSI-X}{extended message-signaled interrupts}
 
+\newglossaryentry{borrower}{
+    name={borrower},
+    seealso={lender},
+    description={A computer system using a remote device with SmartIO.}
+}
+
+\newglossaryentry{lender}{
+    name={lender},
+    seealso={borrower},
+    description={A computer system that has registered one or more of its internal devices with SmartIO and allowing it to be used by other machines.}
+}

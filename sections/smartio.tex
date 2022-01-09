@@ -137,15 +137,15 @@ A more general mechanism is needed for abstracting away the complexity of dealin
 
 
 \section{Implementation}\label{sec:impl}
-In our framework, computer systems act as \emph{``borrowers''} and \emph{``lenders''}.
+In our framework, computer systems act as \emph{``\glspl{borrower}''} and \emph{``\glspl{lender}''}.
 %
-A lender is a computer system that registers one or more of its internal \gls{pcie} devices with SmartIO, allowing the devices to be distributed to and used by remote machines.
+A \gls{lender} is a computer system that registers one or more of its internal \gls{pcie} devices with SmartIO, allowing the devices to be distributed to and used by remote machines.
 %
-A borrower is a system that is currently using such a device. 
+A \gls{borrower} is a system that is currently using such a device. 
 %
-While a device only has one lender, namely the computer system where it is physically installed, there can be several borrowers using it simultaneously.
+While a device only has one \gls{lender}, namely the computer system where it is physically installed, there can be several \glspl{borrower} using it simultaneously.
 %
-SmartIO also makes it possible for a system to act as both lender and borrower at the same time, lending out its own local devices and simultaneously borrowing remote devices from other machines.
+SmartIO also makes it possible for a system to act as both \gls{lender} and \gls{borrower} at the same time, lending out its own local devices and simultaneously borrowing remote devices from other machines.
 %
 All machines in the cluster~network may contribute their own local resources and access remote resources.
 
