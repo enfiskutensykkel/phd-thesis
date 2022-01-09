@@ -150,16 +150,6 @@ SmartIO also makes it possible for a system to act as both lender and borrower a
 All machines in the cluster~network may contribute their own local resources and access remote resources.
 
 
-Unlike other solutions for distributed \gls{io}, SmartIO combines traditional \gls{io} with distributed shared-memory functionality in a seamless manner.
-%
-Thus, sharing is supported at multiple abstraction levels:
-%
-devices may be distributed to physical hosts and to \glspl{vm} alike, and SmartIO also provides facilities for \gls{disaggregating} devices and memory resources in software.
-%
-There may be several separate software processes on the same machine using a device, or running on different hosts altogether.
-
-
-
 Since remote devices and memory resources are accessed over native \gls{pcie}, they can be shared and used by remote machines with very low latency and extremely low computing overheads.
 %
 The hard separation between local and remote is blurred, with regard to both functionality and performance.
@@ -168,7 +158,47 @@ Furthermore, as we rely on standard \gls{pcie}, the implementation complexity of
 %
 SmartIO can be implemented for existing computer systems that are connected with \glspl{ntb} in any network topology, using either on-board \gls{pcie} switch chips with \gls{ntb} capabilities or \glspl{ntb} implemented as plug-in adapter cards.
 %
-For more details on \gls{pcie} and \glspl{ntb}, see \cref{sec:idea} as well as \paperref{cc:pcie}, and \paperref{tocs:pcie}.
+For more details on \glspl{ntb} and \gls{pcie} in general, please refer to the published papers, particularly \paperref{cc:pcie}, and \paperref{tocs:pcie}.
+
+
+\begin{figure}
+    \centering
+    \includegraphics{software-architecture}
+    \caption[SmartIO facilitates access to a remote resource via different interfaces]
+    {SmartIO facilitates access to remote resources via different interfaces.
+    %
+    These interfaces present an abstraction layer to application software and device drivers, providing a logical decoupling of devices and which physical machines they are installed in.}
+    \label{fig:architecture}
+\end{figure}
+
+
+Unlike other solutions for distributed \gls{io}, SmartIO combines traditional \gls{io} with distributed shared-memory functionality in a seamless manner.
+%
+Thus, sharing is supported at multiple abstraction levels:
+%
+devices may be distributed to physical \glspl{hostmachine} and to \glspl{vm} alike.
+%
+Additionally, SmartIO provides software facilities for \gls{disaggregating} devices and memory resources, allowing device drivers to be implemented as part of distributed cluster applications in \gls{userspace}.
+%
+There may be several separate software processes on the same machine using a device, or running on different hosts altogether.
+%
+\Cref{fig:architecture} illustrates the different components of the SmartIO framework, and how they fit together:
+\begin{enumerate}
+    \item \textbf{Low-level \gls{ntb} driver}:
+        %
+        our SmartIO framework is built on top of the \gls{ntb} cluster interconnection solution from Dolphin.
+        %
+        The low-level \gls{ntb} driver provides \gls{pcie} networking functionality as well as basic shared-memory functionality which  SmartIO builds on.
+
+    \item \textbf{Resource abstraction mechanism}: As addressed in \cref{sec:idea} ...
+
+    \item \textbf{Device Lending}:
+
+    \item \textbf{\gls{mdev}}:
+
+    \item \textbf{\gls{sisciapi} extension}:
+\end{enumerate}
+
 
 
 
