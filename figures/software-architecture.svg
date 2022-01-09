@@ -25,8 +25,8 @@
      showgrid="true"
      units="pt"
      inkscape:zoom="3.623347"
-     inkscape:cx="178.70218"
-     inkscape:cy="168.62862"
+     inkscape:cx="107.49729"
+     inkscape:cy="229.34596"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -34,7 +34,8 @@
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      inkscape:snap-object-midpoints="true"
-     inkscape:snap-bbox="true">
+     inkscape:snap-bbox="true"
+     inkscape:snap-global="false">
     <inkscape:grid
        type="xygrid"
        id="grid1136" />
@@ -174,7 +175,7 @@
          sodipodi:role="line"
          id="tspan1244"><tspan
    id="tspan1152"
-   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.04914">(2)</tspan> Resource Abstraction Mechanism</tspan></text>
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.04914">(2)</tspan> Address Resolution Mechanism</tspan></text>
     <rect
        ry="1.4741975"
        rx="1.4741975"
@@ -190,24 +191,24 @@
        width="16.707577"
        height="4.2119942"
        x="66.578949"
-       y="20.833712"
+       y="20.304544"
        rx="3.0177398e-07"
        ry="3.0177398e-07" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.09664px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        x="74.857521"
-       y="23.739986"
+       y="23.210819"
        id="text1539"><tspan
          id="tspan1543"
          sodipodi:role="line"
          x="74.857521"
-         y="23.739986"
+         y="23.210819"
          style="font-size:2.35871px;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914">Device Driver</tspan></text>
     <rect
        ry="3.0177398e-07"
        rx="3.0177398e-07"
-       y="16.902521"
+       y="16.373354"
        x="66.578949"
        height="4.2119927"
        width="16.707584"
@@ -215,12 +216,12 @@
        style="display:inline;fill:#f2f2f2;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text1551"
-       y="20.005354"
+       y="19.476187"
        x="75.34893"
        style="font-style:normal;font-weight:normal;font-size:2.09664px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:2.35871px;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914"
-         y="20.005354"
+         y="19.476187"
          x="75.34893"
          sodipodi:role="line"
          id="tspan1549">Guest OS</tspan></text>
@@ -230,19 +231,19 @@
        width="16.70759"
        height="4.2119927"
        x="66.578949"
-       y="12.971329"
+       y="12.442163"
        rx="3.0177398e-07"
        ry="3.0177398e-07" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.09664px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        x="74.759247"
-       y="15.779326"
+       y="15.25016"
        id="text1557"><tspan
          id="tspan1555"
          sodipodi:role="line"
          x="74.759247"
-         y="15.779326"
+         y="15.25016"
          style="font-size:2.35871px;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914">Application</tspan></text>
     <text
        xml:space="preserve"
@@ -426,14 +427,14 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
-       x="-50.940571"
-       y="29.477146"
+       x="-50.928436"
+       y="29.586565"
        id="text1507"
        transform="rotate(-90)"><tspan
          sodipodi:role="line"
          id="tspan1505"
-         x="-50.940571"
-         y="29.477146"
+         x="-50.928436"
+         y="29.586565"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914">API Extension</tspan></text>
     <text
        transform="rotate(-90)"

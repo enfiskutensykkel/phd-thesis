@@ -40,8 +40,6 @@ The system will reserve a memory address range for each of these device memory r
 Therefore, the term ``\gls{bar}'' is used interchangeably for a region of device memory.
 %
 Addresses reserved by the system for interrupts are also written to the device's \gls{cfgspace}.
-%
-For more details on \gls{pcie}, please refer to \paperref{tocs:pcie}, as well as \paperref{cc:pcie}.
 
 
 
@@ -138,6 +136,8 @@ A more general mechanism is needed for abstracting away the complexity of dealin
 
 
 
+For more details on \glspl{ntb} and \gls{pcie}, particularly how memory transactions are routed, please refer to \paperref{tocs:pcie}. See also \paperref{cc:pcie}.
+
 \section{Implementation}\label{sec:impl}
 In our framework, computer systems act as \emph{``\glspl{borrower}''} and \emph{``\glspl{lender}''}.
 %
@@ -160,7 +160,7 @@ Furthermore, as we rely on standard \gls{pcie}, the implementation complexity of
 %
 SmartIO can be implemented for existing computer systems that are connected with \glspl{ntb} in any network topology, using either on-board \gls{pcie} switch chips with \gls{ntb} capabilities or \glspl{ntb} implemented as plug-in adapter cards.
 %
-For more details on \glspl{ntb} and \gls{pcie} in general, please refer to the published papers, particularly \paperref{tocs:pcie}.
+For more details on \glspl{ntb} and \gls{pcie} in general, please refer to \paperref{tocs:pcie}.
 
 
 \begin{figure}
@@ -191,8 +191,26 @@ There may be several separate software processes on the same machine using a dev
         our SmartIO framework is built on top of the \gls{ntb} cluster interconnection solution from Dolphin.
         %
         The low-level \gls{ntb} driver provides \gls{pcie} networking functionality as well as basic shared-memory functionality which  SmartIO builds on.
+        %
+        Moreover, application software may use the \gls{sisciapi} to implement shared-memory communication.
 
-    \item \textbf{Resource abstraction mechanism}: As addressed in \cref{sec:idea} ...
+    \item \textbf{Address resolution mechanism}: 
+        SmartIO provides functionality for 
+        
+
+        %
+        this makes it possible to abstracting away the physical location of devices and memory segments,~i.e., which machines they are installed in.
+
+        %
+        functionality for transparently translating \gls{io} addresses between th different address spaces
+
+        and is able to abstract away the location of devices and memory segments,~i.e., which machines they are installed in.
+
+        (or device-side) addresses.
+        %
+        With this abstraction, SmartIO facilitates the use of remote resources (both memory and devices) without requiring the user to be aware of the underlying, physical \gls{pcie} topology or the internal \gls{io} address space layout of remote machines.
+        %
+        Furthermore, this mechanism is also able to support mapping 
 
     \item \textbf{Device Lending}:
 
