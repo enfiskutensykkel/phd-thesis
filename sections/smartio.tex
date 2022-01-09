@@ -3,7 +3,7 @@ SmartIO is a solution for allowing the local resources of a machine,~i.e., memor
 %
 SmartIO works for \emph{all} standard \gls{pcie} devices and their Linux device drivers, no special adaptation is needed in either hardware or software to make this sharing possible.
 %
-Whether devices are actually local or remote becomes irrelevant to the user, as SmartIO eliminates this distinction, with regard to both functionality and performance.
+Whether devices are actually local or remote becomes irrelevant to the user, as SmartIO eliminates this distinction, both functionally and performance wise.
 %
 Furthermore, individual \lgls{function}{device functions} of \lgls{function}{multi-function} devices may be distributed to different machines in the network, or to the same machine should it require multiple resources.
 %
@@ -134,19 +134,48 @@ A more general mechanism is needed for abstracting away the complexity of dealin
 
 
 
-For more details on \gls{pcie} and \glspl{ntb}, see \paperref{cc:pcie}, and \paperref{tocs:pcie}.
-
-
-
-
 \section{Implementation}\label{sec:impl}
+In our framework, computer systems act as \emph{``borrowers''} and \emph{``lenders''}.
+%
+A lender is a computer system that registers one or more of its internal \gls{pcie} devices with SmartIO, allowing the devices to be distributed to and used by remote machines.
+%
+A borrower is a system that is currently using such a device. 
+%
+While a device only has one lender, namely the computer system where it is physically installed, there can be several borrowers using it simultaneously.
+%
+SmartIO also makes it possible for a system to act as both lender and borrower at the same time, lending out its own local devices and simultaneously borrowing remote devices from other machines.
+%
+All machines in the cluster~network may contribute their own local resources and access remote resources.
+
+
+Unlike other solutions for distributed \gls{io}, SmartIO combines traditional \gls{io} with distributed shared-memory functionality in a seamless manner.
+%
+Thus, sharing is supported at multiple abstraction levels:
+%
+devices may be distributed to physical hosts and to \glspl{vm} alike, and SmartIO also provides facilities for \gls{disaggregating} devices and memory resources in software.
+%
+There may be several separate software processes on the same machine using a device, or running on different hosts altogether.
+
+
+
+Since remote devices and memory resources are accessed over native \gls{pcie}, they can be shared and used by remote machines with very low latency and extremely low computing overheads.
+%
+The hard separation between local and remote is blurred, with regard to both functionality and performance.
+%
+Furthermore, as we rely on standard \gls{pcie}, the implementation complexity of SmartIO lies in software.
+%
+SmartIO can be implemented for existing computer systems that are connected with \glspl{ntb} in any network topology, using either on-board \gls{pcie} switch chips with \gls{ntb} capabilities or \glspl{ntb} implemented as plug-in adapter cards.
+%
+For more details on \gls{pcie} and \glspl{ntb}, see \cref{sec:idea} as well as \paperref{cc:pcie}, and \paperref{tocs:pcie}.
+
+
+
+
 
 %\paperref{tocs}{pcie-addr}
-%Unlike existing solutions for distributed \gls{io}, SmartIO seamlessly combines traditional \gls{io} with distributed shared-memory functionality, and is, therefore, able to provide sharing capabilities at multiple abstraction levels.
-%Devices may be distributed to physical hosts and to \glspl{vm} alike, and SmartIO also provides facilities for \glslink{disaggregation}{disaggregating} devices and memory resources in software.
 
 
-%However, as resources are accessed over native \gls{pcie}, they can be shared and used by remote machines without introducing a performance penalty.
+
 %%
 %Also unlike existing \gls{pcie}-based solutions, SmartIO is fully distributed and avoids dedicated servers.
 %All machines in the cluster can contribute their own local resources and access remote resources, even at the same time.
@@ -155,8 +184,8 @@ For more details on \gls{pcie} and \glspl{ntb}, see \paperref{cc:pcie}, and \pap
 %Memory addresses are translated between different address domains by SmartIO in a manner that is transparent to application software, device drivers, and even the \gls{os}.
 %This makes it possible to provide optimizations based on resource locality and minimizing data movement, without requiring the user to be aware of the underlying PCIe topology.
 %\section{General idea}\label{sec:idea}
-High level explanation of borrowers and lenders here.
-Software architecture figure (showing the different components here)
+%High level explanation of borrowers and lenders here.
+%Software architecture figure (showing the different components here)
 
 \subsection{Device Lending}
 \begin{itemize}
