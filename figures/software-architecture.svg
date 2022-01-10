@@ -26,7 +26,7 @@
      units="pt"
      inkscape:zoom="2.5620932"
      inkscape:cx="159.43995"
-     inkscape:cy="175.24733"
+     inkscape:cy="144.02286"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -58,17 +58,17 @@
        ry="0" />
     <text
        id="text1230"
-       y="14.30513"
+       y="13.775964"
        x="18.384365"
        style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:2.46944px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="14.30513"
+         y="13.775964"
          x="18.384365"
          sodipodi:role="line"
-         id="tspan1408">Cluster Application</tspan><tspan
+         id="tspan1408">Cluster application</tspan><tspan
          style="font-size:2.46944px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="17.39193"
+         y="16.862762"
          x="18.384365"
          sodipodi:role="line"
          id="tspan14895">(Distributed)</tspan></text>
@@ -93,9 +93,7 @@
          y="77.044456"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:0.04914"><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif"
-   id="tspan13652">(A)</tspan><tspan
-   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif"
-   id="tspan7672"> </tspan>Low-level NTB Driver</tspan></text>
+   id="tspan13652">(A) </tspan>Low-level NTB driver</tspan></text>
     <rect
        ry="3.0177398e-07"
        rx="3.0177398e-07"
@@ -178,7 +176,7 @@
          sodipodi:role="line"
          id="tspan1244"><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif"
-   id="tspan17562">(B)</tspan> SmartIO Driver</tspan></text>
+   id="tspan17562">(B)</tspan> SmartIO driver</tspan></text>
     <rect
        ry="1.4741975"
        rx="1.4741975"
@@ -269,12 +267,12 @@
          style="font-size:2.46944px;text-align:center;text-anchor:middle;stroke-width:0.04914"
          y="2.3079011"
          x="17.984274"
-         sodipodi:role="line">SISCI API Extension</tspan><tspan
+         sodipodi:role="line">SISCI API extension</tspan><tspan
          id="tspan1332"
          style="font-size:2.46944px;text-align:center;text-anchor:middle;stroke-width:0.04914"
          y="5.394701"
          x="17.984274"
-         sodipodi:role="line">(User Space Device Driver)</tspan></text>
+         sodipodi:role="line">(User space device driver)</tspan></text>
     <text
        id="text1589"
        y="2.2697959"
@@ -285,7 +283,7 @@
          y="2.2697959"
          x="73.962852"
          sodipodi:role="line"
-         id="tspan151922">KVM Extension</tspan><tspan
+         id="tspan151922">KVM extension</tspan><tspan
          style="font-size:2.46944px;text-align:center;text-anchor:middle;stroke-width:0.04914"
          y="5.356596"
          x="73.962852"
@@ -359,7 +357,7 @@
     <rect
        ry="3.0177398e-07"
        rx="3.0177398e-07"
-       y="19.351439"
+       y="18.822271"
        x="2.0469005"
        height="4.9139915"
        width="32.825447"
@@ -367,13 +365,13 @@
        style="display:inline;fill:#aaccff;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text1404"
-       y="22.717957"
+       y="22.188789"
        x="18.389345"
        style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          id="tspan1402"
          style="font-size:2.46944px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="22.717957"
+         y="22.188789"
          x="18.389345"
          sodipodi:role="line">Distributed Device Driver</tspan></text>
     <path
@@ -391,15 +389,15 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
-       x="-53.574272"
+       x="-53.045105"
        y="29.586565"
        id="text1507"
        transform="rotate(-90)"><tspan
          sodipodi:role="line"
          id="tspan1505"
-         x="-53.574272"
+         x="-53.045105"
          y="29.586565"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914">API Extension</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914">API extension</tspan></text>
     <text
        id="text1521"
        y="40.251938"
