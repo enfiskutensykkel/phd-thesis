@@ -1,9 +1,13 @@
 \chapter{SmartIO}\label{chapter:smartio}
 SmartIO is a solution for allowing the local resources of a machine,~i.e., memory and devices, to be shared with and used by remote machines, over standard \gls{pcie}.
 %
-SmartIO works for \emph{all} standard \gls{pcie} devices and their Linux device drivers, no special adaptation is needed in either hardware or software to make this sharing possible.
+Our solution works for \emph{all} standard \gls{pcie} devices and their Linux device drivers, no special adaptation is needed in either hardware or software to make this sharing possible.
 %
-Additionally, as remote devices and memory resources are accessed over native \gls{pcie}, they can be shared and used by remote machines with very low latency and extremely low computing overhead.
+SmartIO is fully distributed and avoids dedicated servers.
+%
+All machines in the cluster~network may contribute their own local resources and access remote resources.
+%
+Furthermore, as remote devices and memory resources are accessed over native \gls{pcie}, they can be shared and used by remote machines with very low latency and extremely low computing overhead.
 %
 Whether devices are actually local or remote becomes irrelevant to the user, as SmartIO eliminates this distinction, with regard to both functionality and performance.
 %
@@ -14,8 +18,8 @@ In other words, SmartIO is a flexible and efficient solution for scaling out and
 \begin{figure}
     \centering
     \includegraphics{bus-enumeration}
-    \caption[Devices are part of the same address space as the \glsfmtshort{cpu} and system memory]
-    {Device memory regions (\glsxtrshortpl{bar}) are part of the same address space as \glsxtrshort{cpu} and system memory, allowing
+    \caption[Devices are mapped to the same address space as the \glsfmtshort{cpu} and system memory]
+    {Device memory regions (\glsxtrshortpl{bar}) are mapped to the same address space as \glsxtrshort{cpu} and system memory, allowing
     the \gls{cpu} to read from and write to device memory the same way it would access \glsxtrshort{ram}. Devices can similarly use \gls{dma} to read from and write to \glsxtrshort{ram}.}
     \label{fig:bus-enumeration}
 \end{figure}
@@ -133,9 +137,21 @@ However, requiring that compute tasks run in \glspl{vm} limits the generality of
 Virtualization is not necessarily appropriate in all circumstances, as it may add additional system load because \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment.
 %
 A more general mechanism is needed for abstracting away the complexity of dealing with a remote-side address space and allowing device drivers to remain agnostic about different address spaces.
-%
+
+
+
 %%% TODO FIXME NOTE: Pål wanted to end this section with a paragraph on "this is how we do it" or "we support X or Y" or something like this
 % the idea of the smartio driver should go here, i.e., mapping segments on behalf of the device, using global/cluster identifiers etc.
+% use "layer" etc
+% still direct access to hw when mappings are in place
+
+In SmartIO, we solve this ... 
+\begin{itemize}
+    \item device identifier
+    \item resolve adapters/paths
+    \item mapping on behalf of device
+    \item briefly mention shadow device for intercepting
+\end{itemize}
 
 
 \section{Implementation}\label{sec:impl}
@@ -148,8 +164,6 @@ A \gls{borrower} is a system that is currently using such a device.
 While a device only has one \gls{lender}, namely the computer system where it is physically installed, there can be several \glspl{borrower} using it simultaneously.
 %
 SmartIO also makes it possible for a system to act as both \gls{lender} and \gls{borrower} at the same time, lending out its own local devices and simultaneously borrowing remote devices from other machines.
-%
-All machines in the cluster~network may contribute their own local resources and access remote resources.
 
 
 
@@ -199,10 +213,9 @@ In fact, SmartIO can be implemented for existing computer systems that are conne
         %
         SmartIO is built on top of the \gls{ntb} interconnection solution from Dolphin and provides a logical decoupling of devices and which physical machines they are installed in.
         %
+        The SmartIO driver acts as the abstraction layer described in \cref{sec:idea}, and is responsible for dynamically setting up \gls{ntb} mappings, translating addresses between different address spaces, and resolving paths in the cluster.
         %
-        The SmartIO driver is responsible for dynamically setting up \gls{ntb} mappings, translating addresses between different address spaces, and resolving paths in the cluster.
-        %
-        With this driver, SmartIO facilitates the use of remote resources (both memory and devices) without requiring software to be aware of the underlying, physical \gls{pcie} topology or the internal \gls{io} address space layout of remote machines.
+        With this abstraction, SmartIO facilitates the use of remote resources (both memory and devices) without requiring software to be aware of the underlying, physical \gls{pcie} topology or the internal \gls{io} address space layout of remote machines.
         %
         Furthermore, our SmartIO driver also supports setting up mappings between multiple devices, even when they reside in different \glspl{lender}, allowing \gls{pcie} transactions between them to be routed along the shortest path in the cluster network (\gls{p2p}).
 
@@ -233,13 +246,21 @@ In fact, SmartIO can be implemented for existing computer systems that are conne
         %
         Our \gls{api}~extension makes it possible for device operation to become part of the cluster application itself, allowing devices to access shared memory segments using native \gls{dma}.
         %
-
-
+        By relying on our SmartIO framework to resolve memory addresses between individual address spaces, a driver implementation does not need to consider the system-local address space of the machine where the device is installed.
+        %
+        This greatly reduces the complexity of implementing distributed applications, as it becomes possible for software to assume that \gls{io} resources are local, while taking full advantage of shared-memory capabilities.
+        %
+        Using this \gls{api}~extension, devices may be \gls{disaggregated} at the software level and shared simultaneously between application processes running on different remote machines.
 \end{description}
+%
+Finally, it should be noted that it is possible to combine the sharing methods of SmartIO. 
+%
+For example, using the \gls{api}~extension, we can \gls{disaggregate} the device memory of a remote \gls{gpu} while it is borrowed with Device~Lending.
 
 
-Need a concluding sentence leading to the further descriptions of the various components below.
+%Need a concluding sentence leading to the further descriptions of the various components below.
 
+% something about direct access?
 
 
 
