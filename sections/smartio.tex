@@ -187,7 +187,7 @@ In fact, SmartIO can be implemented for existing computer systems that are conne
 
 \Cref{fig:architecture} illustrates the different software components of the SmartIO framework, and how they fit together:
 \begin{description}
-    \item[Low-level \gls{ntb} Driver] Illustrated as {\textsf{(A)}} in \cref{fig:architecture}.
+    \item[Low-level \gls{ntb} Driver] Illustrated as layer {\textsf{(A)}} in \cref{fig:architecture}.
         %
         The low-level \gls{ntb} driver provides the fundamental \gls{pcie} networking infrastructure and memory mapping functionality which SmartIO builds on.
         %
@@ -195,7 +195,7 @@ In fact, SmartIO can be implemented for existing computer systems that are conne
         %
         Moreover, application software may use the \gls{sisciapi} to interact with this driver and implement shared-memory communication.
 
-    \item[SmartIO Driver] Illustrated as {\textsf{(B)}} in \cref{fig:architecture}.
+    \item[SmartIO Driver] Illustrated as layer {\textsf{(B)}} in \cref{fig:architecture}.
         %
         SmartIO is built on top of the \gls{ntb} interconnection solution from Dolphin and provides a logical decoupling of devices and which physical machines they are installed in.
         %
@@ -206,7 +206,7 @@ In fact, SmartIO can be implemented for existing computer systems that are conne
         %
         Furthermore, our SmartIO driver also supports setting up mappings between multiple devices, even when they reside in different \glspl{lender}, allowing \gls{pcie} transactions between them to be routed along the shortest path in the cluster network (\gls{p2p}).
 
-    \item[Device~Lending] Illustrated as {\textsf{(1)}} in \cref{fig:architecture}.
+    \item[Device~Lending] Illustrated by arrow {\textsf{(1)}} in \cref{fig:architecture}.
         Device~Lending allows devices to be time-shared among machines in the network.
         %
         Remote devices can be dynamically added to a system while it is running and inserted into the local \gls{pcie} device tree of a machine.
@@ -217,7 +217,7 @@ In fact, SmartIO can be implemented for existing computer systems that are conne
         device drivers, applications software, and even the \gls{os} can use the device as if it was locally installed.
         %
 
-    \item[\gls{mdev}] Illustrated as {\textsf{(2)}} in \cref{fig:architecture}.
+    \item[\gls{mdev}] Illustrated by arrow {\textsf{(2)}} in \cref{fig:architecture}.
         %
         The \gls{mdev} extension to the \gls{kvm} facilitates \gls{passthrough} of borrowed devices to \glspl{vm}.
         %
@@ -225,7 +225,7 @@ In fact, SmartIO can be implemented for existing computer systems that are conne
         %
         \Gls{mdev} makes it possible for \glspl{vm} to be distributed on different \glspl{host} in the cluster while benefiting from the bare-metal performance of direct access to physical hardware.
 
-    \item[\gls{api} Extension] Illustrated as {\textsf{(3)}} in \cref{fig:architecture}.
+    \item[\gls{api} Extension] Illustrated by arrow {\textsf{(3)}} in \cref{fig:architecture}.
         %
         As an alternative to Device~Lending and \gls{mdev}, our SmartIO solution also provides an extension to the \gls{sisciapi} for managing devices and developing (distributed) device drivers.
         %
@@ -238,7 +238,7 @@ In fact, SmartIO can be implemented for existing computer systems that are conne
 \end{description}
 
 
-
+Need a concluding sentence leading to the further descriptions of the various components below.
 
 
 
