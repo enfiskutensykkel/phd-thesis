@@ -107,6 +107,7 @@ Conversely, when the device driver attempts to initiate \gls{dma} transfers or c
 
 
 
+%%% TODO move this to DMA window/IOMMU discussion?
 \Gls{dma} is particularly challenging in this context.
 %
 Device drivers may assume that any local memory address can be reached by the device, but the \gls{ntb} only provide \emph{windows} into a remote address space.
@@ -145,12 +146,18 @@ A more general mechanism is needed for abstracting away the complexity of dealin
 % use "layer" etc
 % still direct access to hw when mappings are in place
 
-In SmartIO, we solve this ... 
+SmartIO solves these issues by logical decoupling devices and the physical machines they are installed in.
+%
+When devices are registered with our framework, they are assigned an unique identifier.
+
+
+%In SmartIO, we solve this ... 
 \begin{itemize}
     \item device identifier
     \item resolve adapters/paths
     \item mapping on behalf of device
     \item briefly mention shadow device for intercepting
+    \item DMA windows
 \end{itemize}
 
 
@@ -211,7 +218,7 @@ In fact, SmartIO can be implemented for existing computer systems that are conne
 
     \item[SmartIO Driver] Illustrated as layer {\textsf{(B)}} in \cref{fig:architecture}.
         %
-        SmartIO is built on top of the \gls{ntb} interconnection solution from Dolphin and provides a logical decoupling of devices and which physical machines they are installed in.
+        SmartIO is built on top of the \gls{ntb} interconnection solution from Dolphin.
         %
         The SmartIO driver acts as the abstraction layer described in \cref{sec:idea}, and is responsible for dynamically setting up \gls{ntb} mappings, translating addresses between different address spaces, and resolving paths in the cluster.
         %
