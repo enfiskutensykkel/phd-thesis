@@ -5,7 +5,7 @@
 \usepackage{phdstyle}
 \usepackage[toc,acronym,seeautonumberlist,nohypertypes={nolist},nopostdot]{glossaries}
 \usepackage{glossaries-extra}
-\usepackage{xparse}
+\usepackage{xparse,xstring}
 \usepackage{subcaption}
 \usepackage[all]{hypcap}
 %\usepackage{layout}
@@ -71,19 +71,48 @@
 \setcounter{tocdepth}{3}
 
 
-% Refer to a section in a paper from the main body of the dissertation
-% Also provides a page number reference
-\NewDocumentCommand{\papersectref}{ m m }{%
-    \ifthenelse{\equal{#2}{}}{%
-        \hyperref[#1]{\cref*{#1}}~(on~\cpageref{#1})%
-    }{%
-        \hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(on~\cpageref{#1:#2})%
-    }%
+% Referring to sections in the papers from the main body of the dissertation
+\NewDocumentCommand{\getpaper}{m m}{#1}
+\NewDocumentCommand{\getsect}{m m}{#1:#2}
+
+
+\NewDocumentCommand{\makepapersectref}
+{ m m }
+{%
+    \StrCount{#2}{,}[\papersectrefcount]%
+    \ifthenelse{\equal{\papersectrefcount}{0}}%
+    {\hyperref[#2]{\cref*{#2} of \cref*{#1}}~(on~\cpageref{#2})}%
+    {\cref{#2} of \cref*{#1}~(on~\cpageref{#2})}%
 }
 
-% Convenience macro for referring to a specific section of a ppaper
+\NewDocumentCommand{\addpapersectref}
+{ > {\SplitArgument{1}{:}}m }
+{%
+    \pgfkeysifdefined{/{\getpaper #1}}%
+    {\pgfkeyssetevalue{/{\getpaper #1}}{\pgfkeysvalueof{/{\getpaper #1}},{\getsect #1}}}%
+    {\pgfkeyssetvalue{/{\getpaper #1}}{\getsect #1}}%
+}
+
+\NewDocumentCommand{\makepapersectrefs}
+{ > {\SplitArgument{1}{:}}m }
+{%
+    \pgfkeysifdefined{/{\getpaper #1}}
+    {%
+        \ifthenelse{\equal{\pgfkeysvalueof{/{\getpaper #1}}}{}}
+        {%
+        }%
+        {%
+            \paperrefand{}\makepapersectref{{\getpaper #1}}{\pgfkeysvalueof{/{\getpaper #1}}}%
+            \renewcommand{\paperrefand}{ and }%
+            \pgfkeyssetvalue{/{\getpaper #1}}{}%
+        }%
+    }%
+    {}%
+}
+
 \NewDocumentCommand{\paperref}
-{ > {\SplitArgument{1}{:}}m }{\papersectref #1}
+{ > { \SplitList {,} } m }
+{\begingroup\newcommand{\paperrefand}{}\ProcessList{#1}{\addpapersectref}\ProcessList{#1}{\makepapersectrefs}\endgroup}
 
 
 

@@ -138,12 +138,17 @@ However, requiring that compute tasks run in \glspl{vm} limits the generality of
 Virtualization is not necessarily appropriate in all circumstances, as it may add additional system load because \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment.
 %
 A more general mechanism is needed for abstracting away the complexity of dealing with a remote-side address space without requiring \glspl{vm}.
-
-
-
-The challenges for our framework are described in further detail in the papers.
 %
-Particularly \cref{tocs} provides a more in-depth explanation of the main challenges facing SmartIO.
+Regardless, distributing devices to \glspl{vm} should \emph{also} be supported.
+
+
+
+The published papers provide further details on the challenges facing our framework.
+%
+As part of the description of the implementation of the different components of SmartIO, given in \paperref{tocs:lending,tocs:mdev,tocs:nvme}, we provide a more in-depth explanation of the main challenges and how we have tackled them.
+%
+Moreover, we provide a discussion of additional considerations that are not mentioned here in \paperref{tocs:disc}.
+
 
 
 
@@ -181,7 +186,7 @@ For example, we can \gls{disaggregate} the device memory of a remote \gls{gpu} w
     \centering
     \includegraphics{software-architecture}
     \caption[Three different sharing methods are made possible by our framework. The SmartIO driver abstracts away the physical location of a remote resource]
-    {The software architecture of SmartIO. Three different sharing methods are made possible by our framework: \textbf{(1)}~Device~Lending,\textbf{(2)}~\glsxtrshort{mdev}, and \textbf{(3)}~using the \gls{sisciapi}~extension. The SmartIO driver abstracts away the physical location of remote resources, for both devices and software using SmartIO.}
+    {The software architecture of SmartIO. Three different sharing methods are made possible by our framework: \textbf{(1)}~Device~Lending,\textbf{(2)}~\glsxtrshort{mdev}, and \textbf{(3)}~using the \gls{sisciapi}~extension. The SmartIO driver, shown as \textbf{(B)}, abstracts away the physical location of remote resources, for both the physical device and software using the device.}
     \label{fig:architecture}
 \end{figure}
 
@@ -240,9 +245,9 @@ With the abstraction this driver provides, SmartIO is able to facilitate the sha
 %
 By relying on the SmartIO driver to resolve addresses, a borrower may use remote \gls{io} addresses without requiring that it is aware of the internal \gls{io} address space layout of remote machines.
 %
-More details on how SmartIO resolves the paths between devices and other memory resources that must be mapped for the device are given in the papers, particularly in \paperref{tocs:lending-p2p} and \paperref{cc:p2p}.
+More details on how SmartIO resolves the paths between devices and other memory resources that must be mapped for the device are given in the papers, particularly in \paperref{tocs:lending-p2p,cc:p2p}.
 %
-This also explains how makes it possible for devices to use \gls{p2pdma} in order to read and write to memory of \emph{other} devices.
+This also explains how memory regions (\glspl{bar}) of \emph{other} devices can be mapped for a device, even when they reside in a different lender machine.
 
 
 %Our solution provides a more general mechanism for abstracting away the complexity of dealing with a remote-side address space, without relying on \glspl{vm}.
