@@ -145,9 +145,9 @@ Regardless, distributing devices to \glspl{vm} should \emph{also} be supported.
 
 The published papers provide further details on the challenges facing our framework.
 %
-As part of the description of the implementation of the different components of SmartIO, given in \paperref{tocs:lending,tocs:mdev,tocs:nvme}, we provide a more in-depth explanation of the main challenges and how we have tackled them.
+As part of the description of the implementation of the different components of SmartIO, described in \paperref{tocs:lending,tocs:mdev,tocs:nvme}, we provide a more in-depth explanation of the main challenges and how we have tackled them.
 %
-Moreover, we provide a discussion of additional considerations that are not mentioned here in \paperref{tocs:disc}.
+We also provide a discussion of additional considerations that are not mentioned here in \paperref{tocs:disc}.
 
 
 
@@ -250,15 +250,19 @@ More details on how SmartIO resolves the paths between devices and other memory 
 This also explains how memory regions of \emph{other} devices can be mapped for a device, even when they reside in a different lender machine.
 
 
+
+
 \subsection{Device Lending}\label{sec:lending}
 
 \begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{device-lending}
-    \caption[test]
-    {test}
+    \caption[Device~Lending injects a hot-added ``shadow device'' into the local \glsfmtshort{pcie} device tree, making remote device access transparent to both \glsfmtshort{cpu} and the device]
+    {Device~Lending injects a hot-added ``shadow device'' into the Linux kernel device tree using mappings to \glspl{devicebar} and }
     \label{fig:device-lending}
 \end{figure}
+
+Illustrated as arrow \textbf{(1)} in \cref{fig:architecture}.
 
 
 
