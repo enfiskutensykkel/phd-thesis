@@ -43,7 +43,7 @@ Therefore, the term ``\gls{bar}'' is used interchangeably for a region of device
 %
 Addresses reserved by the system for interrupts are also written to the device's \gls{cfgspace}.
 %
-For more details on \gls{pcie}, particularly how memory transactions are routed, please refer to \paperref{tocs:pcie}. See also \paperref{cc:pcie}.
+For more details on \gls{pcie}, particularly how memory transactions are routed, please refer to \paperref{tocs:pcie,cc:pcie}.
 
 
 
@@ -247,9 +247,75 @@ By relying on the SmartIO driver to resolve addresses, a borrower may use remote
 %
 More details on how SmartIO resolves the paths between devices and other memory resources that must be mapped for the device are given in the papers, particularly in \paperref{tocs:lending-p2p,cc:p2p}.
 %
-This also explains how memory regions (\glspl{bar}) of \emph{other} devices can be mapped for a device, even when they reside in a different lender machine.
+This also explains how memory regions of \emph{other} devices can be mapped for a device, even when they reside in a different lender machine.
 
 
+\subsection{Device Lending}\label{sec:lending}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.99\textwidth]{device-lending}
+    \caption[test]
+    {test}
+    \label{fig:device-lending}
+\end{figure}
+
+
+
+\begin{itemize}
+    \item explain shadow device
+    \item intercept configuration cycles
+    \item hooking DMA api for setting up DMA windows
+    \item IOMMU discussion
+\end{itemize}
+        %While Device~Lending only allows devices to be distributed to a single machine at the time, it is nevertheless highly suitable in the case where a device has a complex or proprietary device driver.
+
+\subsection{MDEV}\label{sec:mdev}
+\begin{itemize}
+    \item \textbf{very} brief: what is passthrough/VFIO
+    \item what MDEV gives us
+    \item how to map VM memory for device
+    \item relaying interrupts
+\end{itemize}
+
+\subsection{API extension}\label{sec:api}
+\begin{itemize}
+    \item why do we need API? (disaggregation in software + shared memory networking)
+    \item short explanation of SISCI
+    \item what functions did we add to SISCI?
+\end{itemize}
+
+
+
+\subsection{NVMe driver}\label{sec:nvme}
+\begin{itemize}
+    \item why a prototype driver? demonstrate disaggregation in software
+    \item why nvme? easy to parallelize because of queues
+    \item driver implementation and queue sharing
+    \item gpudirect + co-operation with device lending
+\end{itemize}
+
+%\section{Workload}\label{sec:eval}
+
+\section{Performance measurements}\label{sec:eval}
+Some selected performance graphs here, demonstrating zero-overhead :)
+
+\section{Related work}\label{sec:rw}
+should rw go in discussion and conclusion instead?
+\begin{itemize}
+    \item rdma stuff
+    \item fabric partitioning: mr-iov, broadcom/microsemi chips with partitioning
+    \item ladon (and other ntb stuff)
+    \item disaggregation
+\end{itemize}
+
+\glspl{guest}
+
+% RW first??
+%An example of this is rCUDA, where multiple clients may run jobs on the same \gls{gpu} by relying ~\cite{Duato2010}
+%\Gls{rdma}-based \gls{disaggregation} can even allow a single resource to be shared by several machines in the cluster at the same time. 
+%
+%However, since 
 %Our solution provides a more general mechanism for abstracting away the complexity of dealing with a remote-side address space, without relying on \glspl{vm}.
 %
 %Using SmartIO, it becomes possible to distribute devices to bare-metal machines, while still allowing device drivers and even the \gls{host}~\gls{os} to remain unaware of remote address spaces.
@@ -355,9 +421,6 @@ This also explains how memory regions (\glspl{bar}) of \emph{other} devices can 
 %
 
 
-%\paperref{tocs}{pcie-addr}
-
-
 
 %%
 %Also unlike existing \gls{pcie}-based solutions, SmartIO is fully distributed and avoids dedicated servers.
@@ -388,62 +451,3 @@ This also explains how memory regions (\glspl{bar}) of \emph{other} devices can 
 %
 %        SmartIO provides a logical decoupling of devices and which physical machines they are installed in on several abstraction levels.
 %%
-\subsection{Device Lending}\label{sec:lending}
-
-
-
-
-\begin{itemize}
-    \item explain shadow device
-    \item intercept configuration cycles
-    \item hooking DMA api for setting up DMA windows
-    \item IOMMU discussion
-\end{itemize}
-        %While Device~Lending only allows devices to be distributed to a single machine at the time, it is nevertheless highly suitable in the case where a device has a complex or proprietary device driver.
-
-\subsection{MDEV}\label{sec:mdev}
-\begin{itemize}
-    \item \textbf{very} brief: what is passthrough/VFIO
-    \item what MDEV gives us
-    \item how to map VM memory for device
-    \item relaying interrupts
-\end{itemize}
-
-\subsection{API extension}\label{sec:api}
-\begin{itemize}
-    \item why do we need API? (disaggregation in software + shared memory networking)
-    \item short explanation of SISCI
-    \item what functions did we add to SISCI?
-\end{itemize}
-
-
-
-\subsection{NVMe driver}\label{sec:nvme}
-\begin{itemize}
-    \item why a prototype driver? demonstrate disaggregation in software
-    \item why nvme? easy to parallelize because of queues
-    \item driver implementation and queue sharing
-    \item gpudirect + co-operation with device lending
-\end{itemize}
-
-%\section{Workload}\label{sec:eval}
-
-\section{Performance measurements}\label{sec:eval}
-Some selected performance graphs here, demonstrating zero-overhead :)
-
-\section{Related work}\label{sec:rw}
-should rw go in discussion and conclusion instead?
-\begin{itemize}
-    \item rdma stuff
-    \item fabric partitioning: mr-iov, broadcom/microsemi chips with partitioning
-    \item ladon (and other ntb stuff)
-    \item disaggregation
-\end{itemize}
-
-\glspl{guest}
-
-% RW first??
-%An example of this is rCUDA, where multiple clients may run jobs on the same \gls{gpu} by relying ~\cite{Duato2010}
-%\Gls{rdma}-based \gls{disaggregation} can even allow a single resource to be shared by several machines in the cluster at the same time. 
-%
-%However, since 
