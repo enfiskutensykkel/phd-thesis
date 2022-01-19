@@ -14,7 +14,7 @@ Whether devices are actually local or remote becomes irrelevant to the user, as 
 In other words, SmartIO is a flexible and efficient solution for scaling out and using more hardware resources than there are available in a single machine.
 
 
-\section{Principal idea and challenges}\label{sec:idea}
+\section{Principal idea}\label{sec:idea}
 \begin{figure}
     \centering
     \includegraphics{bus-enumeration}
@@ -93,9 +93,10 @@ We can use this to map memory resources for a device, be it \gls{ram} or memory 
 %
 Furthermore, because \gls{pcie} uses \gls{msi}, it is even possible to map interrupt addresses through an \gls{ntb}, as they too are mappable.
 
+\section{Main challenges}
 
 
-However, although \glspl{ntb} provide the fundamental memory mapping capabilities that can facilitate the use of remote devices, the challenge is to avoid requiring device drivers to be aware of remote-side address spaces.
+Although \glspl{ntb} provide the fundamental memory mapping capabilities that can facilitate the use of remote devices, the challenge is to avoid requiring device drivers to be aware of remote-side address spaces.
 %
 As touched upon in \cref{sec:motivation}, this is desirable in order to use existing device driver implementations.
 %
@@ -137,17 +138,17 @@ Virtualization is not necessarily appropriate in all circumstances, as it may ad
 
 
 
-Our solution provides a more general mechanism for abstracting away the complexity of dealing with a remote-side address space, without relying on \glspl{vm}.
+%Our solution provides a more general mechanism for abstracting away the complexity of dealing with a remote-side address space, without relying on \glspl{vm}.
 %
-Using SmartIO, it becomes possible to distribute devices to bare-metal machines, while still allowing device drivers and even the \gls{host}~\gls{os} to remain unaware of remote address spaces.
+%Using SmartIO, it becomes possible to distribute devices to bare-metal machines, while still allowing device drivers and even the \gls{host}~\gls{os} to remain unaware of remote address spaces.
 %
-Nonetheless, \gls{passthrough} to \glspl{vm} is \emph{also} possible using our implementation.
+%Nonetheless, \gls{passthrough} to \glspl{vm} is \emph{also} possible using our implementation.
 %
-Furthermore, our framework is able to prepare \gls{ntb} windows in advance of use.
+%Furthermore, our framework is able to prepare \gls{ntb} windows in advance of use.
 %
-This way, we avoid communicating with remote machines in the critical path, allowing \gls{dma} addresses to be transparently injected without incurring any performance overhead.
+%This way, we avoid communicating with remote machines in the critical path, allowing \gls{dma} addresses to be transparently injected without incurring any performance overhead.
 %
-With SmartIO, the hard separation between local and remote is blurred, as remote resources may be used as if they were locally installed and with native \gls{pcie} performance.
+%With SmartIO, the hard separation between local and remote is blurred, as remote resources may be used as if they were locally installed and with native \gls{pcie} performance.
 
 
 
