@@ -3,8 +3,8 @@
 
 <svg
    width="246pt"
-   height="233pt"
-   viewBox="0 0 86.783327 82.19722"
+   height="230pt"
+   viewBox="0 0 86.783327 81.138886"
    version="1.1"
    id="svg1075"
    inkscape:version="1.1.1 (50ffc5b540, 2022-01-11)"
@@ -25,8 +25,8 @@
      showgrid="true"
      units="pt"
      inkscape:zoom="3.623347"
-     inkscape:cx="207.40492"
-     inkscape:cy="63.201234"
+     inkscape:cx="63.615216"
+     inkscape:cy="147.10156"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -37,13 +37,17 @@
      inkscape:snap-bbox="true"
      inkscape:snap-global="true"
      inkscape:snap-bbox-midpoints="true"
-     showguides="false"
+     showguides="true"
      inkscape:snap-grids="true"
      inkscape:guide-bbox="true"
      inkscape:snap-bbox-edge-midpoints="true">
     <inkscape:grid
        type="xygrid"
        id="grid1136" />
+    <sodipodi:guide
+       position="84.534369,89.076389"
+       orientation="0,-1"
+       id="guide1850" />
   </sodipodi:namedview>
   <defs
      id="defs1072" />
@@ -54,8 +58,8 @@
     <rect
        ry="0.5291692"
        rx="0.5291692"
-       y="75.40625"
-       x="0.52916664"
+       y="74.347916"
+       x="0.47624999"
        height="6.333374"
        width="85.724998"
        id="rect1292"
@@ -63,13 +67,13 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.04914"
-       x="43.270397"
-       y="79.459015"
+       x="43.217484"
+       y="78.400681"
        id="text1296"><tspan
          id="tspan1300"
          sodipodi:role="line"
-         x="43.270397"
-         y="79.459015"
+         x="43.217484"
+         y="78.400681"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:0.04914"><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif"
    id="tspan13652">(A) </tspan>Low-level NTB Driver</tspan></text>
@@ -77,17 +81,17 @@
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.09664px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.04914"
        x="47.900387"
-       y="65.682777"
+       y="65.15361"
        id="text1483"><tspan
          id="tspan7471"
          sodipodi:role="line"
          x="47.900387"
-         y="65.682777"
+         y="65.15361"
          style="font-size:2.35871px;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:0.04914">Virtual Device</tspan><tspan
          id="tspan7475"
          sodipodi:role="line"
          x="47.900387"
-         y="68.631165"
+         y="68.101997"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.35871px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:0.04914">(3)</tspan></text>
     <text
        xml:space="preserve"
@@ -136,11 +140,11 @@
        sodipodi:nodetypes="ccc"
        inkscape:connector-curvature="0"
        id="path1971"
-       d="m 34.819167,8.8447649 c 0,-2.456986 12.843601,0.4914097 13.335001,-1.965598 0.80893,2.3777057 13.758332,-0.491388 13.758332,1.965598"
+       d="m 34.819167,8.8447649 c 0,-2.456986 12.567708,0.4156518 13.335001,-1.965598 C 49.05375,9.2604167 61.9125,6.3877789 61.9125,8.8447649"
        style="display:inline;fill:none;stroke:#000000;stroke-width:0.349;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
        style="display:inline;fill:none;stroke:#000000;stroke-width:0.349;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 65.24625,8.8447649 c 0,-2.456986 9.525,0.4156518 10.4775,-1.965598 0.9525,2.3812498 10.001249,-0.491388 10.001249,1.965598"
+       d="m 65.24625,8.8447649 c 0,-2.456986 9.525,0.4156517 10.4775,-1.965598 0.9525,2.3812497 10.001249,-0.491388 10.001249,1.965598"
        id="path1973"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc" />
@@ -148,16 +152,16 @@
        sodipodi:nodetypes="ccc"
        inkscape:connector-curvature="0"
        id="path2475"
-       d="m 1.190625,8.8287099 c 0,-2.456986 15.289077,0.9828514 16.271874,-1.965598 0.982801,2.9484494 13.308545,-0.491388 13.308543,1.965598"
+       d="m 1.190625,8.8287099 c 0,-2.456986 14.019078,0.9828514 15.001875,-1.965598 0.982801,2.9484494 14.578544,-0.491388 14.578542,1.965598"
        style="display:inline;fill:none;stroke:#000000;stroke-width:0.349;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <text
        id="text7467"
-       y="65.416023"
+       y="64.886856"
        x="46.375"
        style="font-style:normal;font-weight:normal;font-size:1.57248px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="stroke-width:0.04914"
-         y="65.416023"
+         y="64.886856"
          x="46.375"
          id="tspan7465"
          sodipodi:role="line"> </tspan></text>
@@ -165,39 +169,28 @@
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="43.391666"
-       y="53.007618"
+       y="52.478451"
        id="text73027"><tspan
          sodipodi:role="line"
          id="tspan73025"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#000000;stroke:none;stroke-width:0.264583px"
          x="43.391666"
-         y="53.007618">(1)</tspan></text>
+         y="52.478451">(1)</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="70.643745"
-       y="53.007618"
+       y="52.478451"
        id="text86485"><tspan
          sodipodi:role="line"
          id="tspan86483"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#000000;stroke:none;stroke-width:0.264583px"
          x="70.643745"
-         y="53.007618">(2)</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="20.372915"
-       y="53.007618"
-       id="text86489"><tspan
-         sodipodi:role="line"
-         id="tspan86487"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#000000;stroke:none;stroke-width:0.264583px"
-         x="20.372915"
-         y="53.007618">(3)</tspan></text>
+         y="52.478451">(2)</tspan></text>
     <rect
        ry="0.5291692"
        rx="0.5291692"
-       y="68.262505"
+       y="67.733337"
        x="19.579166"
        height="6.3649826"
        width="66.675003"
@@ -207,75 +200,46 @@
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.04914"
        x="52.795403"
-       y="72.331078"
+       y="71.80191"
        id="text1872"><tspan
          id="tspan1870"
          sodipodi:role="line"
          x="52.795403"
-         y="72.331078"
+         y="71.80191"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:0.04914"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#ffffff"
            id="tspan1868">(B) SmartIO Driver</tspan></tspan></text>
-    <path
-       sodipodi:nodetypes="cccccccccccccccccccccccc"
-       inkscape:connector-curvature="0"
-       id="path1517"
-       d="m 12.373957,29.855037 3.931187,-3.931194 3.931203,3.931202 h -1.965595 l -9e-6,9.630122 h 5.428236 c 2.337397,0.09051 3.979781,1.006577 3.931195,3.931193 l 6e-6,20.914946 h 1.965596 l -3.931194,3.931195 -3.931189,-3.931195 h 1.965594 V 43.416354 H 9.1093466 V 71.42396 H 11.074941 L 7.1437489,75.355157 3.2125538,71.42396 H 5.178152 v -28.0076 c 0.072594,-2.386937 1.0629275,-3.975694 3.9311906,-3.931193 h 5.2302094 v -9.63013 z"
-       style="display:inline;fill:#fff6d5;fill-opacity:1;stroke:#000000;stroke-width:0.286;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
-       x="-53.512764"
-       y="26.47517"
-       id="text1507"
-       transform="rotate(-90)"><tspan
-         sodipodi:role="line"
-         id="tspan1505"
-         x="-53.512764"
-         y="26.47517"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914">API Extension</tspan></text>
-    <text
-       id="text1521"
-       y="42.368607"
-       x="16.272022"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914"
-         y="42.368607"
-         x="16.272022"
-         id="tspan1519"
-         sodipodi:role="line">SISCI API</tspan></text>
     <rect
        ry="0.5291692"
        rx="0.5291692"
-       y="26.722919"
+       y="26.193752"
        x="34.528126"
-       height="13.758331"
+       height="13.251708"
        width="51.72604"
        id="rect8533"
        style="display:inline;fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <rect
        ry="0.52916211"
        rx="0.52916211"
-       y="32.543755"
-       x="36.247917"
+       y="31.48542"
+       x="36.909374"
        height="6.6145782"
-       width="23.8125"
+       width="22.621876"
        id="rect1389"
        style="display:inline;fill:#aaccff;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text1395"
-       y="35.291821"
+       y="34.233486"
        x="47.993755"
        style="font-style:normal;font-weight:normal;font-size:2.29306px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:2.29306px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="35.291821"
+         y="34.233486"
          x="47.993755"
          sodipodi:role="line"
          id="tspan1410">Standard</tspan><tspan
          style="font-size:2.29306px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="38.158138"
+         y="37.099812"
          x="47.993755"
          sodipodi:role="line"
          id="tspan28247">Device Driver</tspan></text>
@@ -283,75 +247,75 @@
        sodipodi:nodetypes="ccccccccccc"
        inkscape:connector-curvature="0"
        id="path1497"
-       d="m 44.222979,44.412451 3.93119,-3.9312 3.9312,3.9312 h -1.965597 v 19.91885 h 1.965597 l -3.931196,3.9312 -3.931194,-3.931193 1.965595,-7e-6 v -19.91885 z"
+       d="m 44.222979,43.089533 3.93119,-3.9312 3.9312,3.9312 H 50.119772 V 64.3313 h 1.965597 l -3.931196,3.9312 -3.931194,-3.931193 1.965595,-7e-6 V 43.089533 Z"
        style="display:inline;fill:#fff6d5;fill-opacity:1;stroke:#000000;stroke-width:0.286;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
-       x="-54.382214"
+       x="-53.853046"
        y="48.932766"
        id="text3029"
        transform="rotate(-90)"><tspan
          sodipodi:role="line"
-         x="-54.382214"
+         x="-53.853046"
          y="48.932766"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914"
          id="tspan3027">Device Lending</tspan></text>
     <rect
        ry="0.5291692"
        rx="0.5291692"
-       y="10.054168"
-       x="0.52916664"
+       y="10.054167"
+       x="0.5291636"
        height="15.874999"
        width="61.383335"
        id="rect15549"
        style="display:inline;fill:#f9f9f9;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text1230"
-       y="13.254831"
-       x="16.902489"
+       y="12.990247"
+       x="16.902487"
        style="font-style:normal;font-weight:normal;font-size:2.64583px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:2.64583px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="13.254831"
-         x="16.902489"
+         y="12.990247"
+         x="16.902487"
          sodipodi:role="line"
          id="tspan1408">Cluster Application</tspan><tspan
          style="font-size:2.64583px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="16.562119"
-         x="16.902489"
+         y="16.297535"
+         x="16.902487"
          sodipodi:role="line"
          id="tspan14895">(Distributed)</tspan></text>
     <rect
        ry="0.5291692"
        rx="0.5291692"
-       y="10.054168"
-       x="0.52916664"
+       y="10.054167"
+       x="0.5291636"
        height="15.874999"
        width="30.427084"
        id="rect15787"
        style="display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:0.6, 0.6;stroke-dashoffset:0;paint-order:markers stroke fill" />
     <text
        id="text15930"
-       y="16.452398"
-       x="48.263035"
+       y="16.187813"
+       x="48.263031"
        style="font-style:normal;font-weight:normal;font-size:2.64583px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:2.64583px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="16.452398"
-         x="48.263035"
+         y="16.187813"
+         x="48.263031"
          sodipodi:role="line"
          id="tspan15926">Application</tspan><tspan
          style="font-size:2.64583px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="19.759686"
-         x="48.263035"
+         y="19.495102"
+         x="48.263031"
          sodipodi:role="line"
          id="tspan15928">(Local)</tspan></text>
     <rect
        ry="0.5291692"
        rx="0.5291692"
-       y="10.054168"
-       x="34.528126"
+       y="10.054167"
+       x="34.528122"
        height="15.874999"
        width="27.384377"
        id="rect23104"
@@ -361,14 +325,14 @@
        rx="0.5291692"
        y="10.054167"
        x="65.352081"
-       height="20.372917"
+       height="21.166666"
        width="20.240631"
        id="rect34993"
        style="display:inline;fill:#d8ffff;fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;paint-order:markers stroke fill" />
     <rect
        ry="0.52916771"
        rx="0.52916771"
-       y="19.84375"
+       y="20.372917"
        x="66.542709"
        height="9.2604179"
        width="17.859375"
@@ -376,105 +340,105 @@
        style="display:inline;fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text66923"
-       y="22.995497"
+       y="23.524664"
        x="75.405731"
        style="font-style:normal;font-weight:normal;font-size:2.29306px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:2.29306px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="22.995497"
+         y="23.524664"
          x="75.405731"
          sodipodi:role="line"
          id="tspan66921">Guest OS</tspan></text>
     <rect
        ry="0.52916247"
        rx="0.52916247"
-       y="14.287504"
+       y="13.758334"
        x="66.542709"
-       height="4.762495"
+       height="6.0854163"
        width="17.859375"
        id="rect81172"
        style="display:inline;fill:#f9f9f9;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text81176"
-       y="17.252697"
-       x="75.4879"
+       y="17.433647"
+       x="75.560852"
        style="font-style:normal;font-weight:normal;font-size:2.29306px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:2.29306px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="17.252697"
-         x="75.4879"
+         y="17.433647"
+         x="75.560852"
          sodipodi:role="line"
          id="tspan81174">Application</tspan></text>
     <text
        id="text82851"
-       y="13.464118"
+       y="12.934952"
        x="75.533028"
        style="font-style:normal;font-weight:normal;font-size:3.175px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:3.175px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="13.464118"
+         y="12.934952"
          x="75.533028"
          sodipodi:role="line"
          id="tspan82849">VM</tspan></text>
     <text
        id="text85580"
-       y="30.396078"
+       y="29.866911"
        x="48.094223"
        style="font-style:normal;font-weight:normal;font-size:3.175px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:3.175px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="30.396078"
+         y="29.866911"
          x="48.094223"
          sodipodi:role="line"
          id="tspan85578">Host OS</tspan></text>
     <rect
        ry="0.52916652"
        rx="0.52916652"
-       y="17.991667"
-       x="4.7624998"
+       y="17.727081"
+       x="4.7624974"
        height="6.6145802"
        width="22.621876"
        id="rect87901"
        style="display:inline;fill:#aaccff;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text87907"
-       y="20.67617"
-       x="15.952257"
+       y="20.411585"
+       x="15.952255"
        style="font-style:normal;font-weight:normal;font-size:2.29306px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:2.29306px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="20.67617"
-         x="15.952257"
+         y="20.411585"
+         x="15.952255"
          sodipodi:role="line"
          id="tspan87903">Distributed</tspan><tspan
          style="font-size:2.29306px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="23.54249"
-         x="15.952257"
+         y="23.27791"
+         x="15.952255"
          sodipodi:role="line"
          id="tspan87905">Device Driver</tspan></text>
     <rect
        ry="0.52916771"
        rx="0.52916771"
-       y="31.485416"
-       x="66.06646"
+       y="32.543751"
+       x="66.675003"
        height="3.96875"
-       width="19.050003"
+       width="17.859371"
        id="rect90012"
        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text90016"
-       y="34.102398"
+       y="35.160732"
        x="75.478935"
        style="font-style:normal;font-weight:normal;font-size:2.29306px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:2.29306px;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914"
-         y="34.102398"
+         y="35.160732"
          x="75.478935"
          sodipodi:role="line"
          id="tspan90014">Hypervisor</tspan></text>
     <path
        style="display:inline;fill:#fff6d5;fill-opacity:1;stroke:#000000;stroke-width:0.286;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 71.853151,39.649938 3.931188,-3.931187 3.9312,3.931187 h -1.965601 v 24.643813 h 1.965601 l -3.9312,3.9312 -3.931188,-3.931193 1.965594,-7e-6 V 39.649938 Z"
+       d="m 71.853151,40.179104 3.931188,-3.931187 3.9312,3.931187 H 77.749938 V 64.29375 h 1.965601 l -3.9312,3.9312 -3.931188,-3.931193 1.965594,-7e-6 V 40.179104 Z"
        id="path1268"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccccc" />
@@ -482,18 +446,18 @@
        transform="rotate(-90)"
        id="text1491"
        y="76.813049"
-       x="-51.040298"
+       x="-52.363213"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          id="tspan1495"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914"
          y="76.813049"
-         x="-51.040298"
+         x="-52.363213"
          sodipodi:role="line">MDEV</tspan></text>
     <rect
        ry="0.52916718"
        rx="0.52916718"
-       y="24.341667"
+       y="24.870834"
        x="67.257088"
        height="3.7041652"
        width="16.430626"
@@ -501,14 +465,54 @@
        style="display:inline;fill:#aaccff;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text36542"
-       y="26.982851"
+       y="27.512018"
        x="75.36853"
        style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
        xml:space="preserve"><tspan
          style="font-size:2.11667px;text-align:center;text-anchor:middle;stroke-width:0.04914"
-         y="26.982851"
+         y="27.512018"
          x="75.36853"
          sodipodi:role="line"
          id="tspan36540">Device Driver</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="20.372915"
+       y="52.478451"
+       id="text86489"><tspan
+         sodipodi:role="line"
+         id="tspan86487"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#000000;stroke:none;stroke-width:0.264583px"
+         x="20.372915"
+         y="52.478451">(3)</tspan></text>
+    <path
+       sodipodi:nodetypes="cccccccccccccccccccccccc"
+       inkscape:connector-curvature="0"
+       id="path1517"
+       d="m 12.373957,29.595777 3.931187,-3.931194 3.931203,3.931202 h -1.965595 l -9e-6,9.360215 h 5.428236 c 2.337397,0.09051 3.979781,1.006577 3.931195,3.931193 l 6e-6,21.444112 h 1.965596 L 25.664582,68.2625 21.733393,64.331305 h 1.965594 V 42.887187 H 9.1093466 V 70.894793 H 11.074941 L 7.1437489,74.82599 3.2125538,70.894793 H 5.178152 v -28.0076 C 5.250746,40.500256 6.2410795,38.911499 9.1093426,38.956 h 5.2302094 v -9.360223 z"
+       style="display:inline;fill:#fff6d5;fill-opacity:1;stroke:#000000;stroke-width:0.286;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
+       x="-52.983597"
+       y="26.47517"
+       id="text1507"
+       transform="rotate(-90)"><tspan
+         sodipodi:role="line"
+         id="tspan1505"
+         x="-52.983597"
+         y="26.47517"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914">API Extension</tspan></text>
+    <text
+       id="text1521"
+       y="41.839439"
+       x="16.272022"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.04914"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.04914"
+         y="41.839439"
+         x="16.272022"
+         id="tspan1519"
+         sodipodi:role="line">SISCI API</tspan></text>
   </g>
 </svg>
