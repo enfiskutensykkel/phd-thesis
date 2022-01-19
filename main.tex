@@ -71,20 +71,23 @@
 \setcounter{tocdepth}{3}
 
 
-% Refer to a section in a paper from the main body
+% Refer to a section in a paper from the main body of the dissertation
+% Also provides a page number reference
 \NewDocumentCommand{\papersectref}{ m m }{%
-    \hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(on~\cpageref{#1:#2})%
-    %``\textit{\hyperref[#1:#2]{\nameref*{#1:#2}}}''~(\cref*{#1},~\cref*{#1:#2}, \cpageref{#1:#2})%
-    %\hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(``\textit{\hyperref[#1:#2]{\nameref*{#1:#2}}}'',~\cpageref{#1:#2})%
-    %\hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(\cpageref{#1:#2})%
+    \ifthenelse{\equal{#2}{}}{%
+        \hyperref[#1]{\cref*{#1}}~(on~\cpageref{#1})%
+    }{%
+        \hyperref[#1:#2]{\cref*{#1:#2} of \cref*{#1}}~(on~\cpageref{#1:#2})%
+    }%
 }
 
+% Convenience macro for referring to a specific section of a ppaper
 \NewDocumentCommand{\paperref}
 { > {\SplitArgument{1}{:}}m }{\papersectref #1}
 
 
-% Research question and proposition/objectives/requirements
 
+% Research question and proposition/objectives/requirements
 \makeatletter
 \newenvironment{question}
 {\begin{quote}\itshape}

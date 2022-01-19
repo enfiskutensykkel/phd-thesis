@@ -25,8 +25,8 @@
      showgrid="true"
      units="pt"
      inkscape:zoom="3.623347"
-     inkscape:cx="63.615216"
-     inkscape:cy="147.10156"
+     inkscape:cx="154.96722"
+     inkscape:cy="154.27725"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -76,7 +76,9 @@
          y="78.400681"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:0.04914"><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif"
-   id="tspan13652">(A) </tspan>Low-level NTB Driver</tspan></text>
+   id="tspan13652"><tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+   id="tspan8775">(A)</tspan> </tspan>Low-level NTB Driver</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.09664px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.04914"
@@ -208,7 +210,9 @@
          y="71.80191"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:0.04914"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#ffffff"
-           id="tspan1868">(B) SmartIO Driver</tspan></tspan></text>
+           id="tspan1868"><tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+   id="tspan5027">(B)</tspan> SmartIO Driver</tspan></tspan></text>
     <rect
        ry="0.5291692"
        rx="0.5291692"
