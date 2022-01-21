@@ -7,7 +7,7 @@
    viewBox="0 0 121.70833 54.680565"
    version="1.1"
    id="svg1742"
-   inkscape:version="1.1.1 (eb90963e84, 2021-10-02)"
+   inkscape:version="1.1.1 (50ffc5b540, 2022-01-11)"
    sodipodi:docname="pooling.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -25,8 +25,8 @@
      showgrid="true"
      units="pt"
      inkscape:zoom="2.6832492"
-     inkscape:cx="194.7266"
-     inkscape:cy="158.01738"
+     inkscape:cx="311.00354"
+     inkscape:cy="149.073"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -4468,23 +4468,23 @@
        xml:space="preserve"
        style="font-size:2.46944px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="26.729961"
-       y="54.569412"
+       y="54.040245"
        id="text30987"><tspan
          sodipodi:role="line"
          id="tspan30985"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:0.264583px"
          x="26.729961"
-         y="54.569412">Individual Devices</tspan></text>
+         y="54.040245">Physical Topology</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.46944px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="99.225792"
-       y="54.569412"
+       y="54.040245"
        id="text39055"><tspan
          sodipodi:role="line"
          id="tspan39053"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:0.264583px"
          x="99.225792"
-         y="54.569412">Shared Pool of Devices</tspan></text>
+         y="54.040245">Resource Pooling</tspan></text>
   </g>
 </svg>

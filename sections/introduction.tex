@@ -551,9 +551,9 @@ We have developed a framework called \emph{SmartIO} for sharing resources and di
 %
 In particular, the main contributions of this dissertation are listed as follows:
 \begin{itemize}
-    \item Testing and evaluation of the \emph{Device~Lending} method for \textbf{distributing \gls{pcie} devices to remote systems} (see \cref{paper:nossdav,paper:mmsys}): 
+    \item Testing and evaluation of the \emph{\gls{dl}} method for \textbf{distributing \gls{pcie} devices to remote systems} (see \cref{paper:nossdav,paper:mmsys}): 
         %
-        using Device~Lending, any standard \gls{pcie} device, such as \glspl{nvme}, \glspl{gpu}, \glspl{nic}, and \glspl{fpga}, may be assigned to a remote system. 
+        using \gls{dl}, any standard \gls{pcie} device, such as \glspl{nvme}, \glspl{gpu}, \glspl{nic}, and \glspl{fpga}, may be assigned to a remote system. 
         %
         The device appears to the remote system as if it has been dynamically hot-added to the system, allowing existing device drivers to use the device without requiring any modifications to software.
 
@@ -563,7 +563,7 @@ In particular, the main contributions of this dissertation are listed as follows
         %
         This \gls{mdev} implementation includes a method for dynamically discovering \gls{guest}-physical memory layout. Using this \gls{mdev} extension, local and remote devices can be \lgls{passthrough}{``passed through''} to \glspl{vm} and used with bare-metal performance.
 	
-    \item Improvement of the Device~Lending and \gls{mdev} methods by implementing \textbf{support for multiple devices} and \textbf{supporting devices in different physical machines} (see \cref{paper:srmpds,paper:cc}):
+    \item Improvement of the \gls{dl} and \gls{mdev} methods by implementing \textbf{support for multiple devices} and \textbf{supporting devices in different physical machines} (see \cref{paper:srmpds,paper:cc}):
         %
         a method for resolving device memory addresses and setting up memory mappings, in a way that is transparent to both the devices and the device drivers, is implemented. 
         %
@@ -571,16 +571,16 @@ In particular, the main contributions of this dissertation are listed as follows
 
     \item Extension of the \gls{sisci} shared-memory \gls{api} with new, \textbf{device-oriented programming semantics and support functions for writing device drivers as shared-memory applications} (see \cref{paper:tocs}):
     %
-	this \gls{api} extension makes it possible to \gls{disaggregate} devices and device memory in software, similarly to \gls{rdma} \gls{disaggregation} solutions.
+    this \gls{apiext} makes it possible to \gls{disaggregate} devices and device memory in software, similarly to \gls{rdma} \gls{disaggregation} solutions.
     %
 	Unlike \gls{rdma} solutions, however, remote resources can be memory-mapped directly into the virtual address space of a software process.
 	%
-	Through our \gls{api} extension, device driver implementations may take full advantage of \gls{pcie} shared memory capabilities, such as remote memory access and multicasting, without requiring awareness of the underlying \gls{pcie} topology and the different address domains of remote systems.
+    Through our \gls{apiext}, device driver implementations may take full advantage of \gls{pcie} shared memory capabilities, such as remote memory access and multicasting, without requiring awareness of the underlying \gls{pcie} topology and the different address domains of remote systems.
 	%
 	This makes it easier to optimize data flow through the \gls{pcie} network, as software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
 
-    \item Development of a \textbf{new prototype \gls{nvme} device driver}\footnote{The prototype \gls{nvme} device driver is open source and can be found at \mbox{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}} using our device-oriented \gls{api} extension (see \cref{paper:tocs}):
-        although the Device~Lending and \gls{mdev} methods make it possible to use existing device drivers, most device drivers are written in a way that assumes exclusive control over the device. Therefore, a distributed device (\gls{function}) may only be used by a single user at the time.
+    \item Development of a \textbf{new prototype \gls{nvme} device driver}\footnote{The prototype \gls{nvme} device driver is open source and can be found at \mbox{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}} using our device-oriented \gls{apiext} (see \cref{paper:tocs}):
+        although the \gls{dl} and \gls{mdev} methods make it possible to use existing device drivers, most device drivers are written in a way that assumes exclusive control over the device. Therefore, a distributed device (\gls{function}) may only be used by a single user at the time.
         %
     To demonstrate software-enabled \gls{disaggregation}, we have implemented a \emph{distributed} \gls{nvme} driver. 
     %
@@ -620,30 +620,30 @@ The rest of this dissertation is organized as follows:
         summarizes our work and presents candidates for future work.
 
     \item[\cref{paper:nossdav}]
-        describes the initial implementation of the Device~Lending component of SmartIO.
+        describes the initial implementation of the \gls{dl} component of SmartIO.
         %
-        We evaluate how performance is improved by using Device~Lending to enable \gls{dma} transfers directly between a \gls{gpu} and remote memory, compared to using \gls{rdma} to achieve the same.
+        We evaluate how performance is improved by using \gls{dl} to enable \gls{dma} transfers directly between a \gls{gpu} and remote memory, compared to using \gls{rdma} to achieve the same.
 
     \item[\cref{paper:mmsys}]
-        is a demonstration of how the Device~Lending component can be used for a realistic video stream processing workload implemented for \glspl{gpu}.
-        We demonstrate how real-time processing requirements can be met by using Device~Lending to scale up the number of available \glspl{gpu}.
+        is a demonstration of how the \gls{dl} component can be used for a realistic video stream processing workload implemented for \glspl{gpu}.
+        We demonstrate how real-time processing requirements can be met by using \gls{dl} to scale up the number of available \glspl{gpu}.
 
     \item[\cref{paper:srmpds}]
-        presents the \gls{mdev} component of SmartIO and how we improved the initial Device~Lending implementation with support for multiple devices residing in different machines. 
+        presents the \gls{mdev} component of SmartIO and how we improved the initial \gls{dl} implementation with support for multiple devices residing in different machines. 
         %
         We evaluate how performance is improved by enabling \gls{p2p} \gls{dma} transfers directly between devices instead of needing to bounce data transfers via system memory, and also identify performance issues with relying on the \gls{iommu}.
 
     \item[\cref{paper:cc}]
-        is an extension of \cref{paper:srmpds} and provides an extended evaluation of both \gls{mdev} and Device~Lending.
+        is an extension of \cref{paper:srmpds} and provides an extended evaluation of both \gls{mdev} and \gls{dl}.
         %
         We show how different cluster network topologies affect \gls{dma} performance, for both \glspl{hostmachine} and \glspl{vmguest}.
         %
         Additionally, we also describe how we improved the original \gls{mdev} component with a mechanism for detecting \gls{guest}-physical memory layout.
 
     \item[\cref{paper:tocs}]
-        presents the entire SmartIO solution as a whole, including the final iterations of the Device~Lending and \gls{mdev} components.
+        presents the entire SmartIO solution as a whole, including the final iterations of the \gls{dl} and \gls{mdev} components.
         %
-        We also introduce the \gls{sisciapi} extension that makes it possible to \gls{disaggregate} devices and memory resources in software.
+        We also introduce the \gls{sisciapiext} that makes it possible to \gls{disaggregate} devices and memory resources in software.
         %
         A thorough and complete performance evaluation of all parts and components of SmartIO is provided, in order to prove that the final implementation does not cause \emph{any} performance overhead compared to native \gls{pcie}.
 \end{description}

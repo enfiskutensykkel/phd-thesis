@@ -24,8 +24,8 @@
      inkscape:document-units="mm"
      showgrid="true"
      inkscape:zoom="2.5620932"
-     inkscape:cx="193.39656"
-     inkscape:cy="149.87745"
+     inkscape:cx="243.74601"
+     inkscape:cy="183.05345"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -38,7 +38,7 @@
      inkscape:snap-bbox="true"
      inkscape:snap-bbox-midpoints="true"
      inkscape:snap-object-midpoints="true"
-     inkscape:snap-grids="true"
+     inkscape:snap-grids="false"
      inkscape:snap-to-guides="true"
      inkscape:bbox-nodes="true"
      inkscape:snap-global="true">
@@ -138,7 +138,7 @@
          id="tspan168619"
          x="26.702641"
          y="67.718468"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229392px">Lender (Remote)</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229392px">Lender (Device-side)</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -149,7 +149,7 @@
          id="tspan23360"
          x="95.229729"
          y="67.680489"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229392px">Borrower (Local)</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229392px">Borrower (CPU-side)</tspan></text>
   </g>
   <g
      inkscape:label="Stuff"
@@ -157,7 +157,7 @@
      id="layer1">
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.606897;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 37.703121,55.297917 H 24.606246 V 13.493749"
+       d="M 37.703121,55.827084 H 24.606246 V 13.493749"
        id="path67159"
        sodipodi:nodetypes="ccc" />
     <g
@@ -563,12 +563,7 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
          x="11.072692"
          y="39.200405"
-         id="tspan45597">Device-side</tspan><tspan
-         sodipodi:role="line"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
-         x="11.072692"
-         y="42.06673"
-         id="tspan31261">NTB</tspan></text>
+         id="tspan31261">Lender NTB</tspan></text>
     <path
        sodipodi:open="true"
        sodipodi:end="4.4438177"
@@ -584,7 +579,7 @@
        d="m 24.421823,13.334644 a 0.71255285,0.71255285 0 0 1 0.872382,0.502686 0.71255285,0.71255285 0 0 1 -0.501208,0.873232 0.71255285,0.71255285 0 0 1 -0.87408,-0.49973 0.71255285,0.71255285 0 0 1 0.498249,-0.874924" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.606897;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 87.141381,55.297918 10.318743,10e-7 v -41.80417"
+       d="m 87.141381,55.827085 10.318743,1e-6 V 13.493749"
        id="path56279"
        sodipodi:nodetypes="ccc" />
     <path
@@ -656,13 +651,13 @@
        d="m 28.919746,13.334644 a 0.71255285,0.71255285 0 0 1 0.872382,0.502686 0.71255285,0.71255285 0 0 1 -0.501208,0.873232 0.71255285,0.71255285 0 0 1 -0.87408,-0.49973 0.71255285,0.71255285 0 0 1 0.498249,-0.874924" />
     <path
        style="display:inline;fill:none;stroke:#4d4d4d;stroke-width:0.705;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 72.628125,55.033331 c -7.093929,2.57961 -3.693151,0.793029 -8.032781,-0.317182 -2.746914,-0.702744 -5.686153,2.536014 -7.568298,2.310747 -2.404155,-0.287745 -1.067671,-1.993565 -6.918473,-1.57755"
+       d="m 72.628125,55.562498 c -7.093929,2.57961 -3.693151,0.793029 -8.032781,-0.317182 -2.746914,-0.702744 -5.686153,2.536014 -7.568298,2.310747 -2.404155,-0.287745 -1.067671,-1.993565 -6.918473,-1.57755"
        id="path7756"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cssc" />
     <g
        id="g3494"
-       transform="translate(-22.154097,22.225299)">
+       transform="translate(-22.154097,22.754466)">
       <g
          id="g3452"
          transform="matrix(0.76082656,0,0,0.76082656,24.53694,-9.850248)">
@@ -781,7 +776,7 @@
     </g>
     <g
        id="g58986"
-       transform="translate(21.960417,-53.974999)">
+       transform="translate(21.960417,-53.445832)">
       <g
          id="g58718"
          transform="matrix(-0.76082656,0,0,0.76082656,96.7992,66.263031)">
@@ -910,7 +905,7 @@
        style="fill:#ffffff;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect192102"
        width="19.050003"
-       height="18.785416"
+       height="19.84375"
        x="101.07082"
        y="7.1437502"
        rx="0.52916664"
@@ -948,19 +943,19 @@
        width="19.050003"
        height="11.112503"
        x="101.07082"
-       y="27.252083"
+       y="27.78125"
        rx="0.52916664"
        ry="0.52916664" />
     <text
        xml:space="preserve"
        style="font-size:2.29306px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="110.53928"
-       y="30.09837"
+       y="30.627537"
        id="text192120"><tspan
          sodipodi:role="line"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
          x="110.53928"
-         y="30.09837"
+         y="30.627537"
          id="tspan215921">Interrupts</tspan></text>
     <g
        id="g217766"
@@ -1164,7 +1159,7 @@
          y="33.072182"
          id="tspan293863">Registers</tspan></text>
     <rect
-       y="31.353115"
+       y="31.882282"
        x="102.26144"
        height="5.1593843"
        width="16.668747"
@@ -1174,24 +1169,24 @@
        xml:space="preserve"
        style="font-size:2.29306px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="110.53927"
-       y="34.767513"
+       y="35.29668"
        id="text305695"><tspan
          sodipodi:role="line"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
          x="110.53927"
-         y="34.767513"
+         y="35.29668"
          id="tspan305693">MSI Vectors</tspan></text>
     <rect
-       y="43.39167"
+       y="43.127083"
        x="2.9104166"
-       height="10.583333"
+       height="11.187049"
        width="16.668751"
        id="rect319620"
        style="fill:#b0c4de;fill-opacity:1;stroke:#0055d4;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:0.9, 0.9;stroke-dashoffset:0;stroke-opacity:1" />
     <rect
        y="55.386116"
        x="2.9104166"
-       height="5.9972167"
+       height="5.7326341"
        width="16.668751"
        id="rect319624"
        style="fill:#e5d5ff;fill-opacity:1;stroke:#800080;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:0.9, 0.9;stroke-dashoffset:0;stroke-opacity:1" />
@@ -1214,22 +1209,17 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
          x="110.42373"
          y="42.226879"
-         id="tspan320241">CPU-side</tspan><tspan
-         sodipodi:role="line"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
-         x="110.42373"
-         y="45.093204"
-         id="tspan50474">NTB</tspan></text>
+         id="tspan50474">Borrower NTB</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.29306px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="11.212882"
-       y="59.239582"
+       y="59.107292"
        id="text327994"><tspan
          sodipodi:role="line"
          style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';fill:#000000;stroke:none;stroke-width:0.264583px"
          x="11.212882"
-         y="59.239582"
+         y="59.107292"
          id="tspan333782">MSI Window</tspan></text>
     <text
        xml:space="preserve"
@@ -1278,28 +1268,28 @@
        xml:space="preserve"
        style="font-size:2.29306px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="43.221268"
-       y="62.483505"
+       y="63.012672"
        id="text26225"><tspan
          sodipodi:role="line"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
          x="43.221268"
-         y="62.483505"
-         id="tspan26223">Device-side NTB</tspan></text>
+         y="63.012672"
+         id="tspan2967">Lender NTB</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.29306px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="78.146263"
-       y="62.483505"
+       y="63.012672"
        id="text42727"><tspan
          sodipodi:role="line"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
          x="78.146263"
-         y="62.483505"
-         id="tspan42725">CPU-side NTB</tspan></text>
+         y="63.012672"
+         id="tspan5059">Borrower NTB</tspan></text>
     <rect
        y="46.831253"
        x="102.39375"
-       height="6.6145835"
+       height="6.0854135"
        width="16.668747"
        id="rect319622"
        style="fill:#ffccaa;fill-opacity:1;stroke:#d45500;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:0.9, 0.9;stroke-dashoffset:0;stroke-opacity:1" />
@@ -1307,17 +1297,17 @@
        xml:space="preserve"
        style="font-size:2.29306px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="110.72141"
-       y="49.560242"
+       y="49.295658"
        id="text428325"><tspan
          sodipodi:role="line"
          style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';fill:#000000;stroke:none;stroke-width:0.264583px"
          x="110.72141"
-         y="49.560242"
+         y="49.295658"
          id="tspan55106">Mapped</tspan><tspan
          sodipodi:role="line"
          style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';fill:#000000;stroke:none;stroke-width:0.264583px"
          x="110.72141"
-         y="52.426567"
+         y="52.161983"
          id="tspan55110">Device BARs</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#d45500;stroke-width:0.565;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2.26, 1.13;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker2297)"
@@ -1326,12 +1316,12 @@
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.565;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow1Mend-8)"
-       d="m 77.361016,46.302083 0.06346,7.137419"
+       d="m 79.795529,44.751167 0.274782,8.159168"
        id="path60507"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:#ffffff;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
-       d="m 76.524561,36.823037 c -0.177549,0.0022 -0.354424,0.02227 -0.527987,0.05974 l -0.05467,0.01243 c -0.768933,0.183602 -1.41644,0.699554 -1.767101,1.408078 -0.192664,-0.0015 -0.384919,0.01798 -0.573384,0.05802 l -0.05466,0.01243 c -0.919587,0.219941 -1.653432,0.911288 -1.927774,1.81614 -1.342437,0.405788 -2.139605,1.783703 -1.822229,3.149745 0.210354,0.89874 0.871375,1.624306 1.746689,1.917239 0.0077,0.05115 0.01689,0.10206 0.02755,0.152673 0.331638,1.426284 1.753218,2.316698 3.181228,1.992579 0.370862,-0.08528 0.719122,-0.249092 1.021292,-0.4804 0.645246,0.688378 1.606734,0.983658 2.527128,0.776102 0.650566,-0.148513 1.221598,-0.536007 1.599935,-1.085692 0.644889,0.697877 1.61294,0.998974 2.539887,0.78999 1.12594,-0.25594 1.95839,-1.208728 2.060903,-2.358828 0.01295,-0.0022 0.02574,-0.0044 0.03862,-0.0068 1.428016,-0.324104 2.29102,-1.497349 2.443873,-2.953689 0.09518,-0.906968 -0.404921,-1.582609 -1.513225,-1.560191 l 0.03669,-0.01125 c 0.713906,-1.313735 -1.235126,-2.621135 -2.574834,-2.04885 -0.451219,-1.827996 -1.660245,-1.88873 -3.091593,-1.579678 l -0.05467,0.01243 c -0.498689,0.119096 -0.952365,0.379711 -1.306469,0.750507 -0.50951,-0.533281 -1.217482,-0.831203 -1.954988,-0.822681 z"
+       d="m 76.537994,36.964317 c -0.164273,0.0021 -0.327922,0.0206 -0.488507,0.05527 l -0.05058,0.0115 c -0.711436,0.169873 -1.310526,0.647245 -1.634967,1.30279 -0.178259,-0.0014 -0.356137,0.01664 -0.53051,0.05368 l -0.05057,0.0115 c -0.850825,0.203495 -1.529798,0.843147 -1.783626,1.68034 -1.242058,0.375446 -1.979618,1.650328 -1.685975,2.914226 0.194626,0.831537 0.80622,1.50285 1.616083,1.773879 0.0071,0.04733 0.01563,0.09442 0.02549,0.141257 0.306841,1.319635 1.622123,2.143469 2.943355,1.843586 0.343132,-0.0789 0.665351,-0.230467 0.944927,-0.444479 0.596998,0.636905 1.486591,0.910107 2.338164,0.71807 0.60192,-0.137408 1.130255,-0.495928 1.480302,-1.00451 0.596668,0.645693 1.492334,0.924276 2.349969,0.730919 1.041749,-0.236802 1.811953,-1.118347 1.906801,-2.182449 0.01198,-0.0021 0.02381,-0.0041 0.03573,-0.0062 1.321237,-0.29987 2.119711,-1.385387 2.261135,-2.73283 0.08806,-0.839151 -0.374644,-1.464271 -1.400075,-1.443529 l 0.03394,-0.0104 c 0.660528,-1.215547 -1.142767,-2.425188 -2.382299,-1.895694 -0.41748,-1.69131 -1.536102,-1.747502 -2.860423,-1.461559 l -0.05058,0.0115 c -0.4614,0.110191 -0.881152,0.351319 -1.208778,0.694389 -0.471412,-0.493405 -1.126446,-0.76905 -1.808806,-0.761166 z"
        id="path39358"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccccccccccccscccccccc" />
@@ -1503,18 +1493,18 @@
     <text
        xml:space="preserve"
        style="font-size:2.29306px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="79.738884"
+       x="79.209717"
        y="33.339172"
        id="text73606"><tspan
          sodipodi:role="line"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
-         x="79.738884"
+         x="79.209717"
          y="33.339172"
-         id="tspan75588">Hot-Added Device</tspan><tspan
+         id="tspan19804">Borrowed device</tspan><tspan
          sodipodi:role="line"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;stroke:none;stroke-width:0.264583px"
-         x="79.738884"
+         x="79.209717"
          y="36.205498"
-         id="tspan96169">(Shadow Device)</tspan></text>
+         id="tspan24000">appears hot-added</tspan></text>
   </g>
 </svg>

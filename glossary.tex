@@ -27,10 +27,18 @@
 \newacronym{mriov}{MR-IOV}{Multi-Root I/O Virtualization}
 \newacronym{api}{API}{application programming interface}
 \newacronym{vm}{VM}{virtual machine}
-\newacronym{mdev}{MDEV}{Mediated Device Driver}
-\newacronym{sisci}{SISCI}{Software Infrastructure Shared-Memory Cluster Interconnect}
 \linkedgls{sisci}{sisciapi}{\glsxtrshort{sisci}~\glsxtrshort{api}}
 \newacronym{fio}{FIO}{Flexible I/O tester}
+\newacronym{sisci}{SISCI}{Software Infrastructure for Shared-Memory Cluster Interconnects}
+\newacronym{vfio}{VFIO}{Virtual Function I/O}
+
+\newglossaryentry{dl}{
+    name={Device~Lending},
+    description={One of the sharing methods of SmartIO, allowing devices to be distributed to and shared with remote machines.}
+}
+
+\newdualentry[seealso={passthrough}]{mdev}{MDEV}{Mediated Device Driver}
+{One of the sharing methods of SmartIO, allowing devices to be distributed and shared with remote \glsabbrlinkpl{vm}.}
 
 \newglossaryentry{lut}{
     name={look-up table},
@@ -51,6 +59,19 @@
     name={configuration space},
     description={A set of standard registers that is used to configure a \glsabbrlink{pcie} device, such as reserving \glsabbrlinkpl{bar} and interrupt addresses.}
 }
+
+\newglossaryentry{shadowdev}{
+    name={shadow device},
+    description={The mechanism used by \glsabbrlink{dl} to intercept certain device interactions from a device driver.}
+    seealso={dl}
+}
+
+\newglossaryentry{apiext}{
+    name={\glsentryshort{api}~extension},
+    description={One of the sharing methods of SmartIO, extending the \glshyperlink[SISCI~API]{sisci} with device-oriented functionality for writing device drivers as part of shared-memory cluster applications.},
+    seealso={userspace}
+}
+\linkedgls{apiext}{sisciapiext}{\glsentryshort{sisci}~\glsentryshort{api}~extension}
 
 \newdualentry{sriov}{SR-IOV}{Single-Root I/O Virtualization}
 {Allows a single device to virtualize multiple device functions in hardware, each virtual function appearing to the system as a real device (function) with its own set of resources.}
@@ -95,7 +116,7 @@
 
 \newglossaryentry{userspace}{
     name={user space},
-    description={Virtual memory and execution privileges suitable for application software, in contrast to \glshyperlink[kernel space]{kernelspace}.}
+    description={Virtual memory and execution privileges suitable for application software, in contrast to \glshyperlink[kernel space]{kernelspace}. Device drivers implemented in user space by-pass the kernel for improved performance, but sacrifices functionality that requires \glshyperlink[kernel space]{kernelspace} privileges.}
 }
 
 \newglossaryentry{passthrough}{
@@ -161,9 +182,11 @@
     seealso={lender},
     description={A computer system using a remote device with SmartIO.}
 }
+\linkedgls{borrower}{borrowermachine}{borrower~machine}
 
 \newglossaryentry{lender}{
     name={lender},
     seealso={borrower},
     description={A computer system that has registered one or more of its internal devices with SmartIO and allowing it to be used by other machines.}
 }
+\linkedgls{lender}{lendermachine}{borrower~machine}
