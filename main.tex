@@ -52,7 +52,7 @@
 	\setcounter{section}{0}
 
     \label{#3}
-	\includearticle[#1]{papers/#3}{#4}
+    \includearticle[#1]{papers/#3}{#4}
 
 	% Restore section titles prefix the chapter number
 	\counterwithin{section}{chapter}
@@ -75,22 +75,42 @@
 \NewDocumentCommand{\getpaper}{m m}{#1}
 \NewDocumentCommand{\getsect}{m m}{#1:#2}
 
-
 \NewDocumentCommand{\makepapersectref}
 { m m }
 {%
-    \StrCount{#2}{,}[\papersectrefcount]%
-    \ifthenelse{\equal{\papersectrefcount}{0}}%
-    {\hyperref[#2]{\cref*{#2} of \cref*{#1}}~(on~\cpageref{#2})}%
-    {\cref{#2} of \cref*{#1}~(on~\cpageref{#2})}%
+    \IfStrEq{#2}{NOSECT}%
+    {%
+        \cref{#1}%
+    }%
+    {%
+        \StrCount{#2}{,}[\papersectrefcount]%
+        \ifthenelse{\equal{\papersectrefcount}{0}}%
+        {\hyperref[#2]{\cref*{#2} of \cref*{#1}}~(on~\cpageref{#2})}%
+        {\cref{#2} of \cref*{#1}~(on~\cpageref{#2})}%
+    }%
+}
+
+\NewDocumentCommand{\addpapersectrefhelper}
+{ m m }
+{%
+    \IfNoValueTF{#2}%
+    {%
+        \pgfkeyssetvalue{/{\getpaper{#1}{#2}}}{NOSECT}%
+    }%
+    {%
+        \pgfkeysifdefined{/{\getpaper{#1}{#2}}}%
+        {\pgfkeyssetevalue{/{\getpaper{#1}{#2}}}{\pgfkeysvalueof{/{\getpaper{#1}{#2}}},{\getsect{#1}{#2}}}}%
+        {\pgfkeyssetvalue{/{\getpaper{#1}{#2}}}{\getsect{#1}{#2}}}%
+    }%
 }
 
 \NewDocumentCommand{\addpapersectref}
 { > {\SplitArgument{1}{:}}m }
 {%
-    \pgfkeysifdefined{/{\getpaper #1}}%
-    {\pgfkeyssetevalue{/{\getpaper #1}}{\pgfkeysvalueof{/{\getpaper #1}},{\getsect #1}}}%
-    {\pgfkeyssetvalue{/{\getpaper #1}}{\getsect #1}}%
+    \addpapersectrefhelper #1%
+%    \pgfkeysifdefined{/{\getpaper #1}}%
+%    {\pgfkeyssetevalue{/{\getpaper #1}}{\pgfkeysvalueof{/{\getpaper #1}},{\getsect #1}}}%
+%    {\pgfkeyssetvalue{/{\getpaper #1}}{\getsect #1}}%
 }
 
 \NewDocumentCommand{\makepapersectrefs}

@@ -203,16 +203,16 @@ For example, we can \gls{disaggregate} the device memory of a remote \gls{gpu} w
     \centering
     \includegraphics{software-architecture}
     \caption[Three different sharing methods are made possible by our framework. The SmartIO driver abstracts away the physical location of a remote resource]
-    {The software architecture of SmartIO. Three different sharing methods are made possible by our framework: \textbf{(1)}~\gls{dl},\textbf{(2)}~\gls{mdev}, and \textbf{(3)}~using the \gls{sisciapiext}. The SmartIO driver, shown as \textbf{(B)}, abstracts away the physical location of remote resources, for both the physical device and software using the device.}
+    {The software architecture of SmartIO. Three different sharing methods are made possible by our framework: \textbf{(1)}~\gls{dl}, \textbf{(2)}~\gls{mdev}, and \textbf{(3)}~using the \gls{sisciapiext}. The SmartIO driver, shown as \textbf{(B)}, abstracts away the physical location of remote resources, for both the shared device and software using the device.}
     \label{fig:architecture}
 \end{figure}
 
 
-In this section we give a bottom-up summary of the implementation of SmartIO.
-%
 \Cref{fig:architecture} illustrates the different components of SmartIO and how they fit together.
 %
-The full implementation details can be found in the published papers, particularly \cref{paper:tocs}.
+In this section we give a bottom-up summary of the implementation of SmartIO.
+%
+The full implementation details can be found in the published papers, with \cref{paper:tocs} providing a detailed description of the entire solution as a whole.
 
 
 
@@ -228,6 +228,7 @@ Memory segments in remote machines may be mapped into the local address space of
 Moreover, \gls{userspace} applications may use the \gls{sisciapi} to interact with the \gls{ntb} driver to manage memory segments and implement shared-memory communication.
 
 
+
 \subsection{SmartIO driver}\label{sec:smartio-driver}
 The SmartIO driver, shown as layer \textbf{(B)} in \cref{fig:architecture}, runs on all machines in the cluster.
 %
@@ -235,63 +236,83 @@ It acts as an abstraction layer, providing a logical decoupling of devices and w
 %
 Devices registered with SmartIO are assigned an unique identifier which allows machines to refer to a device without needing to specify which \gls{lender}~machine it resides in.
 %
-The SmartIO driver is also responsible for making \glspl{devicebar} available as shared memory segments, which allows machines to map device memory such as device registers.
+Internally, the SmartIO driver keeps track of devices and which machine they reside in, and uses the device identifier to look this up.
+%
+The SmartIO driver is also responsible for making \glspl{devicebar} available as shared memory segments, which allows machines to memory map device memory such as device registers into their local address space (\gls{mmio}).
 
 
 
 Most important is the SmartIO driver's responsibility of mapping memory segments \textbf{on behalf of a device}.
 %
-SmartIO resolves the physical locations of devices and memory segments,~i.e., which machines they reside in, and map resources for a device through the appropriate \glspl{ntb}.
+SmartIO resolves the physical locations of devices and memory segments,~i.e., which machines they reside in and which \glspl{ntb} the device must use in order to reach the segment, and is able to map resources for a device through appropriate \glspl{ntb}.
 %
-For example, a \gls{borrower} can request that SmartIO maps a memory segment in the \gls{borrowermachine} so that the device may use \gls{dma} to it.
+Note that the memory segment can reside in the \gls{borrowermachine}, in the \gls{lendermachine}, or a third and different machine altogether.
 %
-The SmartIO driver will set up the necessary maps and return a \emph{device-side} \gls{io} address that the \gls{borrower} can then pass to the device when initiating \gls{dma}.
+This allows both a \gls{borrower} and the device to remain agnostic about the underlying, physical \gls{pcie} topology, as they can rely on SmartIO to resolve paths in the cluster network and mapping resources through the appropriate \glspl{ntb}.
 %
-The \gls{borrower} does not need to know anything about this address, other than the fact that SmartIO has resolved it so that it maps through the device-side, or \gls{lender}'s, \gls{ntb} in order for the device to reach the memory segment.
+A \gls{borrower} may use \gls{io} addresses seen by the device, without requiring that it is aware of the internal \gls{io} address space layout of \glspl{lender} or even be aware of which physical machine the \gls{lender} even is.
 %
-This allows the user to remain agnostic about the underlying, physical \gls{pcie} topology, and rely on SmartIO to resolve paths in the \gls{pcie} cluster network.
+For example, a \gls{borrower} can request that SmartIO maps a memory segment in a different machine so that the device may use \gls{dma} to it.
+%
+The SmartIO driver will set up the necessary maps on the \gls{lender} and return the (device-side) \gls{io} address that the \gls{borrower} can then use when interacting with the device in order to initiate the \gls{dma} transfer.
+%
+The \gls{borrower} does not need to know anything about this resolved address, other than the fact that it is mapped through the \gls{lender}'s, or device-side, \gls{ntb} so that the device is able to reach the memory segment.
 
 
 
 
-With the abstraction this driver provides, SmartIO is able to facilitate the sharing and use of remote resources (both memory and devices) as described in \cref{sec:lending,sec:mdev,sec:api}.
+With the abstraction the SmartIO driver provides, our framework is able to facilitate the sharing and use of remote resources (both memory and devices) as described in \cref{sec:lending,sec:mdev,sec:api}.
 %
-By relying on the SmartIO driver to resolve addresses, a \gls{borrower} may use remote \gls{io} addresses without requiring that it is aware of the internal \gls{io} address space layout of \glspl{lender}.
+Neither devices nor software need to consider where resources physically reside, since SmartIO resolves this on behalf of both the device and the \gls{borrower}.
 %
-In other words, the SmartIO driver is the first step towards solving the challenges described in \cref{sec:challenges}.
+As such, the SmartIO driver is the first step towards solving the challenges described in \cref{sec:challenges}.
 
 
-More details on how SmartIO resolves the paths between devices and other memory resources that must be mapped for the device are given in the papers, particularly in \paperref{tocs:lending-p2p,cc:p2p}.
-%
-This also explains how memory regions of \emph{other} devices can be mapped for a device, even when they reside in a different \gls{lendermachine}.
 
+More details on how SmartIO resolves the paths between devices and other memory resources that must be mapped for the device are given in the papers, particularly in \paperref{tocs}.
+%
+\paperref{tocs:lending-p2p,cc:p2p} explain how memory regions of \emph{other} devices can be mapped for a device, even when the devices reside in different \glspl{lendermachine}.
+%
+However, please note that the SmartIO driver is not mentioned explicitly by name in the papers, and the description of its functionality is interleaved with the implementation details of the sharing methods of SmartIO,~i.e., \gls{dl}, \gls{mdev}, and the \gls{apiext}.
 
 
 
 \subsection{Device Lending}\label{sec:lending}
-As explained in \cref{sec:idea}, it is possible to map the device memory regions, or \glspl{bar}, of a remote device through an \gls{ntb}.
+\Gls{dl}, illustrated as arrow \textbf{(1)} in \cref{fig:architecture}, makes it possible to distribute devices to remote \glspl{hostmachine}.
 %
-Using the \gls{ntb}, a local \gls{cpu} can perform memory operations on a remote device, such as reading from and writing to device registers.
+The devices become part of the system they are distributed to, allowing application software, device drivers, and even the \gls{os} to use them as if they were locally installed.
 %
-Conversely, we can also map local resources, such as \gls{ram} and interrupt addresses, for the remote device, allowing it to use \gls{dma} through the \gls{ntb} and trigger interrupt routines on the \gls{cpu}.
-%
-By using the SmartIO driver, we eliminate the complexity of managing multiple (remote) address spaces and may rely on SmartIO to resolve where resources are located and configure maps through the appropriate \glspl{ntb}.
-%
-However, as pointed out in \cref{sec:challenges}, we still need a mechanism to make sure that device drivers use \gls{io} addresses that map through the \glspl{ntb} without requiring that they be re-written. 
-%
-In other words, a mechanism is needed for injecting resolved \gls{io} addresses without the driver or device being aware.
+No modifications to software is required.
 
-%making it appear to the OS
 
 \begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{device-lending}
-    \caption[Device~Lending injects a hot-added ``shadow device'' into the local \glsfmtshort{pcie} device tree, making remote device access transparent to both \glsfmtshort{cpu} and the device]
-    {\gls{dl} inserts a \gls{shadowdev} into the local device tree, making it appear as if a device has been hot-added to the system. The \gls{shadowdev} makes it possible to intercept device interactions by a device driver and inject addresses that are mapped through the \gls{ntb} in a transparent manner.}
+    %\caption[Device~Lending inserts a shadow device into the local device tree, making it possible to intercept device interactions by a device driver and transparently inject addresses]
+    %{\gls{dl} inserts a \gls{shadowdev} into the local device tree, making it appear as if the remote device has been hot-added to the system. This \gls{shadowdev} makes it possible to intercept device interactions by a device driver and inject addresses that are mapped through the \gls{ntb} in a transparent manner.}
+    \caption{TODO needs caption}
     \label{fig:device-lending}
 \end{figure}
+As explained in \cref{sec:idea}, it is possible to map the device memory regions, or \glspl{bar}, of a remote device through an \gls{ntb}.
+%
+Using the \gls{ntb}, a local \gls{cpu} can perform memory operations on a remote device, such as reading from and writing to device registers.
+%
+Conversely, local resources, such as \gls{ram} and interrupt addresses, can in turn be mapped for the remote device itself. 
+%
+This allows the remote device to use \gls{dma} through the \gls{ntb} and trigger interrupt routines on the local \gls{cpu}.
+%
+The SmartIO driver, as explained in \cref{sec:smartio-driver}, eliminates the complexity of managing multiple address spaces: the user may rely on SmartIO to resolve where resources are located and configure maps through the appropriate \glspl{ntb} and provide us with the corresponding \gls{io} addresses.
+%
+However, as pointed out in \cref{sec:challenges}, we still need to make sure that device drivers use this functionality without requiring that they be re-written. 
+%
+More precisely, we need a mechanism for transparently injecting resolved \gls{io} addresses, without the devices or their drivers being aware of this.
 
-Our \emph{\gls{dl}} method, illustrated as arrow \textbf{(1)} in \cref{fig:architecture}, solves this.
+
+
+\Gls{dl} solves this by inserting a ``\gls{shadowdev}'' into the local \gls{pcie} device tree.
+%
+This \gls{shadowdev} makes it appear as if the remote device has been hot-added to the local system, and makes it possible to intercept certain operations a device driver performs on a device such as setting up \gls{dma} buffers or configuring interrupt addresses.
+%
 
 
 
