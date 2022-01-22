@@ -335,7 +335,7 @@ Similarly, when the device driver configures interrupts, we are able to intercep
 
 The \gls{shadowdev} also provides us with the means to intercept when a device driver is making \gls{dma} buffers available for a device.
 %
-As mentioned in \cref{sec:challenges}, unlike \glspl{devicebar} and \gls{msi} addresses, \gls{dma} buffer addresses is generally not known in advance.
+However, unlike \glspl{devicebar} and \gls{msi} addresses, memory addresses for \gls{dma} buffers are not known in advance, as mentioned in \cref{sec:challenges}.
 %
 The pages used for \gls{dma} memory buffers may be scattered in physical memory, and a driver may initiate several transfers to different parts of memory altogether.
 %
@@ -357,7 +357,7 @@ Moreover, all address translations between the different address domains are don
 
 
 
-A technical description of the implementation of \gls{dl} can be found in \paperref{tocs:lending}, including details about the \gls{shadowdev} and \glspl{cfgcycle}.
+A more technical description of the implementation of \gls{dl} can be found in \paperref{tocs:lending}, including details about the \gls{shadowdev} and \glspl{cfgcycle}.
 %
 This also includes a description of how \gls{dl} is able to support \gls{p2p} \gls{dma} between multiple borrowed devices, even when they reside in different \glspl{lendermachine}.
 
