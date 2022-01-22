@@ -30,7 +30,7 @@
 \linkedgls{sisci}{sisciapi}{\glsxtrshort{sisci}~\glsxtrshort{api}}
 \newacronym{fio}{FIO}{Flexible I/O tester}
 \newacronym{sisci}{SISCI}{Software Infrastructure for Shared-Memory Cluster Interconnects}
-\newacronym{vfio}{VFIO}{Virtual Function I/O}
+\newacronym[seealso={passthrough}]{vfio}{VFIO}{Virtual Function I/O}
 
 \newglossaryentry{dl}{
     name={Device~Lending},
@@ -211,11 +211,11 @@
     seealso={segment}
 }
 
-\newglossaryentry{msiwindow}{
-    name={MSI~window},
-    description={An address range mapped for a device through the \glsglossarylink{lender}'s \glsabbrlink{ntb}, so that the device may trigger interrupt routines on the \glsglossarylink{borrower}'s \glsabbrlink{cpu}.},
-    seealso={segment}
-}
+%\newglossaryentry{msiwindow}{
+%    name={MSI~window},
+%    description={An address range mapped for a device through the \glsglossarylink{lender}'s \glsabbrlink{ntb}, so that the device may trigger interrupt routines on the \glsglossarylink{borrower}'s \glsabbrlink{cpu}.},
+%    seealso={segment}
+%}
 
 \newglossaryentry{hotadd}{
     name={PCIe hot-add},

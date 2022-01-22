@@ -333,6 +333,33 @@ Similarly, when the device driver configures interrupts, we are able to intercep
 \end{figure}
 
 
+The \gls{shadowdev} also provides us with the means to intercept when a device driver is making \gls{dma} buffers available for a device.
+%
+As mentioned in \cref{sec:challenges}, unlike \glspl{devicebar} and \gls{msi} addresses, \gls{dma} buffer addresses is generally not known in advance.
+%
+The pages used for \gls{dma} memory buffers may be scattered in physical memory, and a driver may initiate several transfers to different parts of memory altogether.
+%
+Mapping individual memory pages through the \gls{lender}'s \gls{ntb} would not only exhaust the number of available entries in its \gls{lut}, but communicating with the \gls{lendermachine} in order to map these pages dynamically would introduce communication latency in the critical performance path.
+
+
+
+To solve this, \gls{dl} relies on the \gls{iommu} on the \gls{borrower} as depicted in \cref{fig:dma-window}.
+%
+We can prepare a contiguous memory address range \emph{in advance} using the \gls{borrower}'s \gls{iommu}.
+%
+This range can be mapped through the \gls{lender}'s \gls{ntb} with a single map, even before any device drivers are using the device.
+%
+When a device driver, at a later point, allocates \gls{dma} buffers, we can simply add these addresses to the \gls{iommu} range.
+%
+Since this is an entirely local operation (on the \gls{borrower}), communication with the remote \gls{lendermachine} is avoided.
+%
+Moreover, all address translations between the different address domains are done in \gls{ntb} and \gls{iommu} hardware, ensuring that this solution is able to achieve native \gls{pcie} performance in the data path.
+
+
+
+A technical description of the implementation of \gls{dl} can be found in \paperref{tocs:lending}, including details about the \gls{shadowdev} and \glspl{cfgcycle}.
+%
+This also includes a description of how \gls{dl} is able to support \gls{p2p} \gls{dma} between multiple borrowed devices, even when they reside in different \glspl{lendermachine}.
 
 
 
