@@ -336,7 +336,7 @@ The solution should be able to \gls{disaggregate} such \gls{sriov}-capable devic
 However, since not all devices implement \gls{sriov}, the solution should also provide a device driver \gls{api} that will make it possible to \gls{disaggregate} memory and device resources in software.
 %
 In addition to the native sharing capabilities described in \cref{obj:distributed,obj:transparent,obj:performance,obj:dynamic}, this \gls{api} 
-would provide facilities for memory-mapping device registers as well as mapping shared memory segments for a \gls{dma}-capable device.
+would provide facilities for memory-mapping device registers as well as mapping \gls{sharedsegment} for a \gls{dma}-capable device.
 %
 Effectively, this would bring shared-memory concepts to device driver implementations, allowing device operation and device resources to become part of the same global address space as distributed cluster applications.
 %

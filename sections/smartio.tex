@@ -51,7 +51,7 @@ For more details on \gls{pcie}, particularly how memory transactions are routed,
     \centering
     \includegraphics[width=.99\textwidth]{ntb-example}
     \caption[Two computer systems connected using \glsfmtshortpl{ntb}, and the \glsfmtshortpl{ntb} translate between the two different address domains]
-    {Two computer systems connected together using \glspl{ntb} and external cables. Host~1 has mapped segments of Host~2's memory through its local \gls{ntb}, providing Host~1 with ``windows'' into the remote system's address space. The \glspl{ntb} translate addresses between the two independent address spaces.}
+    {Two computer systems connected together using \glspl{ntb} and external cables. Host~1 has mapped \glspl{segment} of Host~2's memory through its local \gls{ntb}, providing Host~1 with ``windows'' into the remote system's address space. The \glspl{ntb} translate addresses between the two independent address spaces.}
     \label{fig:ntb-example}
 \end{figure}
 
@@ -81,7 +81,7 @@ More details on how \glspl{ntb} work can be found in \paperref{tocs:pcie-ntb}.
 
 Since device memory on a remote system is part of the same address space as system memory, we can use an \gls{ntb} to map memory of a remote device.
 %
-We show this in \cref{fig:ntb-example}, where Segment~3 is allocated in \gls{gpu} memory rather than system~\gls{ram}, but still mapped for the \gls{cpu} of Host~1's similarly to the other segments.
+We show this in \cref{fig:ntb-example}, where Segment~3 is allocated in \gls{gpu} memory rather than system~\gls{ram}, but still mapped for the \gls{cpu} of Host~1's similarly to the other \glspl{segment}.
 %
 By mapping all \glspl{bar} of a remote device for a local \gls{cpu}, it would be possible to perform memory operations on the remote device, such as reading from or writing to device registers.
 %
@@ -161,7 +161,7 @@ A discussion of additional considerations is given in \paperref{tocs:disc}.
 
 
 
-\section{Implementation}\label{sec:impl}
+\section{Implementation}\label{sec:implementation}
 In our framework, computer systems act as \emph{``\glspl{borrower}''} and \emph{``\glspl{lender}''}.
 %
 A \gls{lender} is a computer system that registers one or more of its internal \gls{pcie} devices with SmartIO, allowing these devices to be distributed to and used by remote machines.
@@ -208,7 +208,9 @@ For example, we can \gls{disaggregate} the device memory of a remote \gls{gpu} w
 \end{figure}
 
 
-In this section we give a bottom-up summary of the implementation of SmartIO and its components, as illustrated by \cref{fig:architecture}.
+In this section we address the challenges of \cref{sec:challenges}, and give a bottom-up summary of the implementation of SmartIO.
+%
+\cref{fig:architecture} illustrates the different components of our framework, and how they fit together.
 %
 The full implementation details can be found in the published papers, with \cref{paper:tocs} providing a detailed description of the entire solution as a whole.
 
@@ -219,11 +221,11 @@ SmartIO is implemented on top of the \gls{ntb} interconnection solution from Dol
 %
 The low-level \gls{ntb} driver, illustrated as layer \textbf{(A)} in \cref{fig:architecture}, provides the fundamental \gls{pcie} networking infrastructure and memory mapping functionality which SmartIO builds on.
 %
-Individual systems may contribute parts, or \emph{``segments''}, of their local memory to a distributed, shared memory space. 
+Individual systems may contribute parts, or \emph{``\glspl{segment}''}, of their local memory to a distributed, shared memory space. 
 %
-Memory segments in remote machines may be mapped into the local address space of a system by using the \gls{ntb}, as explained in \cref{sec:idea}.
+\Glspl{memorysegment} in remote machines may be mapped into the local address space of a system by using the \gls{ntb}, as explained in \cref{sec:idea}.
 %
-Moreover, \gls{userspace} applications may use the \gls{sisciapi} to interact with the \gls{ntb} driver to manage memory segments and implement shared-memory communication.
+Moreover, \gls{userspace} applications may use the \gls{sisciapi} to interact with the \gls{ntb} driver to manage \glspl{memorysegment} and implement shared-memory communication.
 
 
 
@@ -236,15 +238,15 @@ Devices registered with SmartIO are assigned an unique identifier which allows m
 %
 Internally, the SmartIO driver keeps track of devices and which machine they reside in, and uses the device identifier to look this up.
 %
-The SmartIO driver is also responsible for making \glspl{devicebar} available as shared memory segments, which allows machines to memory map device memory such as device registers into their local address space (\gls{mmio}).
+The SmartIO driver is also responsible for making \glspl{devicebar} available as \glspl{sharedsegment}, which allows machines to memory map device memory such as device registers into their local address space (\gls{mmio}).
 
 
 
-Most important is the SmartIO driver's responsibility of mapping memory segments \textbf{on behalf of a device}.
+Most important is the SmartIO driver's responsibility of mapping \glspl{memorysegment} \textbf{on behalf of a device}.
 %
-SmartIO resolves the physical locations of devices and memory segments,~i.e., which machines they reside in and which \glspl{ntb} the device must use in order to reach the segment, and is able to map resources for a device through appropriate \glspl{ntb}.
+SmartIO resolves the physical locations of devices and \glspl{memorysegment},~i.e., which machines they reside in and which \glspl{ntb} the device must use in order to reach the \gls{segment}, and is able to map resources for a device through appropriate \glspl{ntb}.
 %
-Note that the memory segment can reside in the \gls{borrowermachine}, in the \gls{lendermachine}, or a third and different machine altogether.
+Note that the \gls{memorysegment} can reside in the \gls{borrowermachine}, in the \gls{lendermachine}, or a third and different machine altogether.
 %
 This allows both a \gls{borrower} and the device to remain agnostic about the underlying, physical \gls{pcie} topology, as they can rely on SmartIO to resolve paths in the cluster network and mapping resources through the appropriate \glspl{ntb}.
 %
@@ -257,11 +259,11 @@ A \gls{borrower} may use \gls{io} addresses as they are seen by the device, with
 
 The SmartIO driver is the first step towards solving the challenges described in \cref{sec:challenges}.
 %
-For example, a \gls{borrower} can request that SmartIO maps a memory segment in a different machine so that the device may use \gls{dma} to it.
+For example, a \gls{borrower} can request that SmartIO maps a \gls{memorysegment} in a different machine so that the device may use \gls{dma} to it.
 %
-The SmartIO driver will configure the \gls{ntb} on the \gls{lender}, mapping the memory segment for the device, and return the (device-side) \gls{io} address.
+The SmartIO driver will configure the \gls{ntb} on the \gls{lender}, mapping the \gls{memorysegment} for the device, and return the (device-side) \gls{io} address.
 %
-The \gls{borrower} may then use this resolved address when interacting with the device in order to initiate the \gls{dma} transfer, and the device is able to reach the memory segment through the lender's, or device-side, \gls{ntb}.
+The \gls{borrower} may then use this resolved address when interacting with the device in order to initiate the \gls{dma} transfer, and the device is able to reach the \gls{memorysegment} through the lender's, or device-side, \gls{ntb}.
 %
 Neither devices nor software need to consider where resources physically reside, since SmartIO resolves this on behalf of both the device and the \gls{borrower}.
 
@@ -283,7 +285,7 @@ However, please note that the SmartIO driver is not mentioned explicitly by name
 %
 The devices become part of the system they are shared with, allowing application software, device drivers, and even the \gls{os} to use them as if they were locally installed.
 %
-No modifications to software is required.
+While \gls{dl} only allows individual \glspl{devicefunction} to be distributed to a single machine at the time, it is nevertheless highly suitable in the case where a device has a complex or proprietary device driver as no modifications to existing software is required.
 
 
 As explained in \cref{sec:idea}, it is possible to map the device memory regions, or \glspl{bar}, of a remote device through an \gls{ntb}.
@@ -305,18 +307,16 @@ More precisely, we need a mechanism for transparently injecting resolved \gls{io
 \begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{device-lending}
-    %\caption[Device~Lending inserts a shadow device into the local device tree, making it possible to intercept device interactions by a device driver and transparently inject addresses]
-    %{\gls{dl} inserts a \gls{shadowdev} into the local device tree, making it appear as if the remote device has been hot-added to the system. This \gls{shadowdev} makes it possible to intercept device interactions by a device driver and inject addresses that are mapped through the \gls{ntb} in a transparent manner.}
-
-    \caption{The memory regions of a remote device is mapped for the \gls{cpu} on the borrower, so that it can read and write to device registers. Similarly, local resources are mapped for the device, making \gls{dma} and \gls{msi} possible. \Gls{dl} inserts a \gls{shadowdev} into the local device tree using these mappings, making remote device access transparent to both \gls{cpu} and device.}
-
+    \caption
+    [The memory regions of a remote device is mapped for the \glsfmtshort{cpu} on the borrower, so that it can read and write to device registers. Local resources are mapped for the device, so that it may use \glsfmtshort{dma} and trigger interrupts. \Glsentrytext{dl} inserts a \glsentrytext{shadowdev} into the local device tree using these mappings, making remote device access transparent to both \glsfmtshort{cpu} and device.]
+    {The memory regions of a remote device is mapped for the \gls{cpu} on the borrower, so that it can read and write to device registers. Local resources are mapped for the device, so that it may use \gls{dma} and trigger interrupts. \Gls{dl} inserts a \gls{shadowdev} into the local device tree using these mappings, making remote device access transparent to both \gls{cpu} and device.}
     \label{fig:device-lending}
 \end{figure}
 
 
 \Gls{dl} solves this by inserting a ``\gls{shadowdev}'' into the local \gls{pcie} device tree on the \gls{borrower}, as depicted in \cref{fig:device-lending}. 
 %
-The \gls{shadowdev} makes it appear as if the remote device has been hot-added to the local system, and provides us with a mechanism for intercepting interactions with the device by the \gls{os} and any device drivers. 
+The \gls{shadowdev} makes it appear as if the remote device has been \gls{hotadded} to the local system, and provides us with a mechanism for intercepting interactions with the device by the \gls{os} and any device drivers. 
 %
 We make sure that a device driver attempting to memory map the device's \glspl{bar} use addresses that map through the \gls{ntb}, without the driver being aware that the device is actually remote.
 %
@@ -324,23 +324,17 @@ Similarly, when the device driver configures interrupts, we are able to intercep
 
 
 
-
 \begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{dma-window}
-    \caption[DMA window]
-    {DMA window}
+    \caption[The borrower's \glsfmtshort{iommu} is used to create a single continuous memory range that may be mapped through the lender's \glsfmtshort{ram}. Adding and removing memory pages from the local \glsfmtshort{iommu} group is inexpensive compared to actively communicating with the remote lender~machine in order to map dynamically]
+    {The \gls{borrower}'s \gls{iommu} is used to create a single continuous memory range that may be mapped through the \gls{lender}'s \gls{ntb}, in order for the remote device to reach local \gls{ram}. Adding and removing memory pages from the local \gls{iommu} group is inexpensive compared to actively communicating with the remote \gls{lendermachine} in order to map dynamically.}
     \label{fig:dma-window}
 \end{figure}
 
 
-\begin{itemize}
-    \item explain shadow device
-    \item intercept configuration cycles
-    \item hooking DMA api for setting up DMA windows
-    \item IOMMU discussion
-\end{itemize}
-        %While Device~Lending only allows devices to be distributed to a single machine at the time, it is nevertheless highly suitable in the case where a device has a complex or proprietary device driver.
+
+
 
 \subsection{MDEV}\label{sec:mdev}
 \begin{itemize}

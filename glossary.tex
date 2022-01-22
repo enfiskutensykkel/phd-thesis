@@ -41,13 +41,14 @@
 {One of the sharing methods of SmartIO, allowing devices to be distributed and shared with remote \glsabbrlinkpl{vm}.}
 
 \newglossaryentry{lut}{
-    name={look-up table},
+    name={NTB look-up table},
+    text={look-up table},
     description={Address translation table in an \glsabbrlink{pcie} \glsabbrlink{ntb}.},
     type=nolist
 }
 
 \newglossaryentry{function}{
-    name={device function},
+    name={PCIe device function},
     text={function},
     description={\glsabbrlink{pcie} devices may have one or more functions, each appearing to the system as individual devices with their own set of resources. Also known as a \glsabbrlink{pcie} endpoint.},
     seealso={gls-sriov},
@@ -56,9 +57,11 @@
 \linkedgls{function}{devicefunction}{device~function}
 
 \newglossaryentry{cfgspace}{
-    name={configuration space},
-    description={A set of standard registers that is used to configure a \glsabbrlink{pcie} device, such as reserving \glsabbrlinkpl{bar} and interrupt addresses.}
+    name={PCIe configuration space},
+    description={A set of standard registers that is used to configure a \glsabbrlink{pcie} device, such as reserving \glsabbrlinkpl{bar} and interrupt addresses.},
+    text={configuration space}
 }
+\linkedgls{cfgspace}{cfgcycle}{configuration cycle}
 
 \newglossaryentry{shadowdev}{
     name={shadow device},
@@ -190,3 +193,33 @@
     description={A computer system that has registered one or more of its internal devices with SmartIO and allowing it to be used by other machines.}
 }
 \linkedgls{lender}{lendermachine}{borrower~machine}
+
+
+\newglossaryentry{segment}{
+    name={shared memory segment},
+    description={A contiguous range of memory that may be mapped through an \glsabbrlink{ntb}. Segments can be allocated in \glsabbrlink{ram} or in device memory (\glsabbrlink{bar}).},
+    text={segment}
+}
+\linkedgls{segment}{memorysegment}{memory~segment}
+\linkedgls{segment}{sharedsegment}{shared memory segment}
+
+
+
+\newglossaryentry{dmawindow}{
+    name={DMA~window},
+    description={A \glsglossarylink{segment} mapped for a device through the \glsglossarylink{lender}'s \glsabbrlink{ntb}, so that it may \glsabbrlink{dma} to it.},
+    seealso={segment}
+}
+
+\newglossaryentry{msiwindow}{
+    name={MSI~window},
+    description={An address range mapped for a device through the \glsglossarylink{lender}'s \glsabbrlink{ntb}, so that the device may trigger interrupt routines on the \glsglossarylink{borrower}'s \glsabbrlink{cpu}.},
+    seealso={segment}
+}
+
+\newglossaryentry{hotadd}{
+    name={PCIe hot-add},
+    text={hot-add},
+    description={A \glsabbrlink{pcie} feature where a device is added to the device tree of a running system, and after the bus enumeration process.}
+}
+\linkedgls{hotadd}{hotadded}{hot-added}

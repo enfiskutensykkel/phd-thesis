@@ -243,6 +243,13 @@
         \glshyperlink[\glsfmtshortpl{#1}]{#1}%
     }%
 }
+\DeclareDocumentCommand{\glsglossarylink}{ m }{%
+    \ifglsentryexists{nolist-#1}{%
+        \glshyperlink[\glsentrytext{nolist-#1}]{gls-#1}%
+    }{%
+        \glshyperlink[\glsentrytext{#1}]{#1}%
+    }%
+}
 
 
 % Some terms need to refer something else in the glossary
