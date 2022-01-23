@@ -124,7 +124,7 @@ Virtualization is not necessarily appropriate in all circumstances, as it may ad
 %
 A more general mechanism is needed for abstracting away the complexity of dealing with a remote-side address space without requiring \glspl{vm}.
 %
-Regardless, distributing devices to \glspl{vm} should \emph{also} be supported.
+Regardless, sharing devices with \glspl{vm} should \emph{also} be supported.
 
 
 
@@ -149,6 +149,10 @@ each machine added would increase the \gls{ntb} memory requirements by its entir
 Moreover, the number of maps supported by an \gls{ntb} is also limited (by the size of its \gls{lut}).
 %
 We must find a way to prepare memory-maps through the \gls{ntb} in advance of driver use, in order to avoid adding communication latency in the critical path, and without requiring that the entire address space is mapped for the device.
+
+
+% TODO: Section about the challenges of MDEV
+% - Mapping all of VM memory in order to avoid requiring specialized guest driver
 
 
 
@@ -336,7 +340,7 @@ The \gls{shadowdev} also provides us with the means to detect when a device driv
 %
 Notwithstanding, unlike \glspl{devicebar} and \gls{msi} addresses, memory addresses for \gls{dma} buffers are not known in advance, as mentioned in \cref{sec:challenges}.
 %
-Mapping \glspl{bar} and interrupts is a one-time operation,
+Mapping \glspl{bar} and interrupts is a one-time operation.
 %
 The pages used for \gls{dma} memory buffers, on the other hand, may be scattered in physical memory.
 %
