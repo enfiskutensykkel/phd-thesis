@@ -135,9 +135,9 @@ This is not solved by virtualization either, as \gls{passthrough} is faced with 
 %
 a device driver running in the \gls{vmguest} will be both unaware of the fact that it is running in an virtualized address space \emph{and} that the device is on the other side of an \gls{ntb}, and may try to use any (virtualized) memory address.
 %
-The only solution is to map the entire memory of the \gls{guest}, but this requires a mechanism to detect \gls{hostphys} memory used by the \gls{emulator} so that it may be mapped through the \gls{ntb}.
+Without any mechanisms to detect when a driver in the \gls{guest} is initiating \gls{dma} transfers, the only solution is to map the entire memory of the \gls{vm} and use \glspl{iommu} to ensure that the device is mapped to the same virtual address space as seen by the \gls{vmguest}.
 %
-Additionally, a mechanism for discovering the virtual, or \gls{guestphys}, memory layout of the \gls{vm} is also needed, so that the device can be mapped to the same virtual address space as the \gls{vm}.
+As such, a mechanism to detect \gls{hostphys} memory used by the \gls{emulator} is needed, so that it may be mapped through the \gls{ntb}.
 
 
 
@@ -269,7 +269,7 @@ The SmartIO driver solves the challenge of managing multiple address spaces, as 
 %
 For example, a \gls{borrower} can request a \gls{memorysegment} in a different machine is mapped so that the device may use \gls{dma} to it.
 %
-Our SmartIO driver will look up the \gls{lendermachine} and which (device-side) \gls{ntb} it must use, configure the \gls{ntb}, map the \gls{memorysegment} for the device, and return the (device-side) \gls{io} address of this map back to the \gls{borrower}.
+Our SmartIO driver will look up the \gls{lendermachine} and which (device-side) \gls{ntb} it must use, configure the \gls{ntb}, map the \gls{memorysegment} for the device, and return the device-side \gls{io} address of this map back to the \gls{borrower}.
 %
 The \gls{borrower} can then use this \gls{io} address when interacting with the device in order to initiate the \gls{dma} transfer, and the device is able to reach the \gls{memorysegment} through the lender's \gls{ntb}.
 %
@@ -389,6 +389,58 @@ As devices are no longer tightly coupled with the \glspl{hostmachine} they are i
     \caption{MDEV}
     \label{fig:mdev-dma}
 \end{figure}
+
+
+Our \gls{mdev} sharing method is implemented using the mediated device driver \gls{paravirtualization} interface~\cite{url:LinuxMDEV}.
+%
+Comparable to the \gls{shadowdev} used by \gls{dl}~(\cref{sec:lending}), this interface makes it possible to \gls{trap}~(handle) certain operations, such as \glspl{cfgcycle} and device resets, and to set the memory addresses of the device's \glspl{bar}.
+%
+Unlike \gls{dl}, however, we have no way of knowing which addresses a device driver in the \gls{guest} may attempt to use for \gls{dma}.
+%
+In \gls{dl}, we prepare an \gls{iommu} range in advance, and map it through the \gls{lender}'s \gls{ntb} in advance. 
+%
+The \gls{shadowdev} makes it possible to detect when a device driver is preparing \gls{dma} buffers, and we can inject the device-side \gls{io} address of our \gls{dmawindow}.
+%
+In contrast, a device driver running in the \gls{vmguest} is completely isolated, leaving us without any equivalent mechanism to inject \gls{io} addresses we have prepared.
+%
+As such, the only possible option is to make sure that the device is mapped to the same virtual address space as the \gls{vm}.
+
+
+
+As pointed out in \cref{sec:challenges}, this requires that all of the memory used by the \gls{emulator} application is mapped.
+%
+s
+
+
+
+through the \gls{lender}'s \gls{ntb}.
+%
+
+
+In addition, and to map 
+
+
+We are not able to know which memory addresses the driver in the \gls{guest} is using
+%
+To make 
+%
+%
+However,
+
+create a virtual \gls{io} address space that mirrors the \gls{guestphys} memory layout of the \gls{vm}.
+
+
+
+However, challenge.
+%
+First, 
+
+
+as the memory allocated by a \gls{emulator} can not be known in advance.
+
+and use the \gls{lender}'s \gls{iommu} to create a virtual \gls{io} address space that mirrors 
+%
+
 
 \begin{itemize}
     \item \textbf{very} brief: what is passthrough/VFIO
