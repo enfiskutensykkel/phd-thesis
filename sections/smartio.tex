@@ -358,7 +358,7 @@ To solve this, \gls{dl} relies on the \gls{iommu} on the \gls{borrower} as depic
 %
 We can prepare a contiguous memory address range \emph{in advance} using the \gls{borrower}'s \gls{iommu}.
 %
-This range can be mapped through the \gls{lender}'s \gls{ntb} with a single map, even before any device drivers are using the device.
+This range can be mapped through the \gls{lender}'s \gls{ntb} with a single map (``\gls{dmawindow}''), even before any device drivers are using the device.
 %
 When a device driver, at a later point, allocates \gls{dma} buffers, we can simply add these addresses to the \gls{iommu} range.
 %
@@ -371,6 +371,8 @@ Moreover, all address translations between the different address domains are don
 A more technical description of the implementation of \gls{dl} can be found in \paperref{tocs:lending}, including details about the \gls{shadowdev} and \glspl{cfgcycle}.
 %
 \paperref{tocs:lending-p2p,cc:p2p} explain how \gls{dl} is able to support \gls{p2p} \gls{dma} between multiple borrowed devices, even when they reside in different \glspl{lendermachine}.
+%
+In addition, \paperref{tocs:lending-dma,tocs:disc-devs} explain how we can use the \emph{\gls{lender}'s} \gls{iommu} to remap \glspl{dmawindow} from high to low memory addresses for devices with addressing limitations.
 
 
 
