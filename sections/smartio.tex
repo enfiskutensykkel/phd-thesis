@@ -274,9 +274,7 @@ With this abstraction that our SmartIO driver provides, our framework is able to
 %
 More details on how SmartIO resolves the paths between devices and other memory resources that must be mapped for the device are given in the papers, particularly in \paperref{tocs}.
 %
-\paperref{tocs:lending-p2p,cc:p2p} explain how memory regions of \emph{other} devices can be mapped for a device, even when the devices reside in different \glspl{lendermachine}.
-%
-However, please note that the SmartIO driver is not mentioned explicitly by name in the papers, and the description of its functionality is interleaved with the implementation details of the sharing methods of SmartIO,~i.e., \gls{dl}, \gls{mdev}, and the \gls{apiext}.
+However, please note that the SmartIO driver is not mentioned explicitly by name in the papers, as the description of its functionality is interleaved with the implementation details of the sharing methods of SmartIO,~i.e., \gls{dl}, \gls{mdev}, and the \gls{apiext}.
 
 
 
@@ -359,7 +357,7 @@ Moreover, all address translations between the different address domains are don
 
 A more technical description of the implementation of \gls{dl} can be found in \paperref{tocs:lending}, including details about the \gls{shadowdev} and \glspl{cfgcycle}.
 %
-This also includes a description of how \gls{dl} is able to support \gls{p2p} \gls{dma} between multiple borrowed devices, even when they reside in different \glspl{lendermachine}.
+\paperref{tocs:lending-p2p,cc:p2p} explain how \gls{dl} is able to support \gls{p2p} \gls{dma} between multiple borrowed devices, even when they reside in different \glspl{lendermachine}.
 
 
 
