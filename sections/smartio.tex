@@ -109,7 +109,6 @@ Conversely, when the device driver attempts to initiate \gls{dma} transfers or c
 
 
 
-
 One possibility is to use virtualization to mitigate the complexity of managing different address spaces.
 %
 The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical \lgls{host}{host~machines}.
@@ -122,25 +121,33 @@ However, requiring that compute tasks run in \glspl{vm} limits the generality of
 %
 Virtualization is not necessarily appropriate in all circumstances, as it may add additional system load because \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment.
 %
-A more general mechanism is needed for abstracting away the complexity of dealing with a remote-side address space without requiring \glspl{vm}.
-%
-Regardless, sharing devices with \glspl{vm} should \emph{also} be supported.
-
-
+A more general mechanism is needed for abstracting away the complexity of dealing with a remote-side address space, which can be used to support sharing for \glspl{vm} and bare-metal machines alike.
 
 
 
 \Gls{dma} is particularly challenging in this context.
 %
-Device drivers may assume that any local memory address can be reached by the device, but as explained in \cref{sec:idea}, the \gls{ntb} only provide \emph{windows} into a remote address space.
+A device driver running on the \gls{hostmachine} may assume that any local memory address can be reached by the device, but as explained in \cref{sec:idea}, the \gls{ntb} only provide \emph{windows} into a remote address space.
 %
 It is generally not possible to predict in advance which memory addresses a device driver may use, yet memory must be mapped through the \gls{ntb} before the driver initiates \gls{dma} transfers.
 %
-Deferring the action of setting up these maps until the device driver initiates \gls{dma}, or some other time when the specific addresses of \gls{dma} buffers may be known, is not viable;
+This is not solved by virtualization either, as \gls{passthrough} is faced with the same problem:
+%
+a device driver running in the \gls{vmguest} will be both unaware of the fact that it is running in an virtualized address space \emph{and} that the device is on the other side of an \gls{ntb}, and may try to use any (virtualized) memory address.
+%
+The only solution is to map the entire memory of the \gls{guest}, but this requires a mechanism to detect \gls{hostphys} memory used by the \gls{emulator} so that it may be mapped through the \gls{ntb}.
+%
+Additionally, a mechanism for discovering the virtual, or \gls{guestphys}, memory layout of the \gls{vm} is also needed, so that the device can be mapped to the same virtual address space as the \gls{vm}.
+
+
+
+Another consideration is the performance.
+%
+Deferring the action of mapping memory through the \gls{ntb} until a device driver initiates \gls{dma}, or some other time when the specific addresses of \gls{dma} buffers and \gls{vm} memory can be known, is not viable;
 %
 synchronizing with the remote system at this time will introduce communication overhead in the performance-critical path.
 %
-A naive solution is to map the entire system memory for the device, but this workaround would require the \gls{ntb}~\glspl{bar} to be at least \emph{as large} as the size of \gls{ram}.
+The naive solution is to map the entire system memory (of the \gls{hostmachine}) for the device, but this workaround requires the \gls{ntb}~\glspl{bar} to be at least \emph{as large} as the size of \gls{ram}.
 %
 This does not scale very well, as it would effectively limit the number of machines the cluster can support;
 %
@@ -148,17 +155,14 @@ each machine added would increase the \gls{ntb} memory requirements by its entir
 %
 Moreover, the number of maps supported by an \gls{ntb} is also limited (by the size of its \gls{lut}).
 %
-We must find a way to prepare memory-maps through the \gls{ntb} in advance of driver use, in order to avoid adding communication latency in the critical path, and without requiring that the entire address space is mapped for the device.
-
-
-% TODO: Section about the challenges of MDEV
-% - Mapping all of VM memory in order to avoid requiring specialized guest driver
+We must find a way to prepare memory-maps through the \gls{ntb} in advance of use, in order to avoid adding communication latency in the critical path, and without requiring that the entire \gls{host} memory is mapped for the device.
 
 
 
-The published papers provide further details on these challenges facing our framework as part of the description of the implementation of the different components of SmartIO.
+
+The published papers provide further details on these challenges as part of the description of the implementation of the different components of SmartIO.
 %
-Particularly \paperref{tocs:lending,tocs:mdev,tocs:nvme} provide a more in-depth explanation of what the main challenges, in addition to explaining how we have tackled them.
+Particularly \paperref{tocs:lending,tocs:mdev,tocs:nvme} provide a more in-depth explanation of what the main challenges are, and they also explain how SmartIO tackle them.
 %
 A discussion of additional considerations is given in \paperref{tocs:disc}.
 
@@ -382,7 +386,9 @@ A more technical description of the implementation of \gls{dl} can be found in \
     \item \textbf{very} brief: what is passthrough/VFIO
     \item what MDEV gives us
     \item how to map VM memory for device
-    \item relaying interrupts
+    \item relaying interrupts (see papers)
+    \item busmaster hack
+    \item probing memory layout
 \end{itemize}
 
 \subsection{API extension}\label{sec:api}
