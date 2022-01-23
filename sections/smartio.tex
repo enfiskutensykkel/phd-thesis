@@ -334,8 +334,8 @@ Similarly, when the device driver configures interrupts, we are able to intercep
 \begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{dma-window}
-    \caption[The borrower's \glsfmtshort{iommu} is used to create a single continuous memory range that may be mapped through the lender's \glsfmtshort{ram}. Adding and removing memory pages from the local \glsfmtshort{iommu} group is inexpensive compared to actively communicating with the remote lender~machine in order to map dynamically]
-    {The \gls{borrower}'s \gls{iommu} is used to create a single continuous memory range that may be mapped through the \gls{lender}'s \gls{ntb}, in order for the remote device to reach local \gls{ram}. Adding and removing memory pages from the local \gls{iommu} group is inexpensive compared to actively communicating with the remote \gls{lendermachine} in order to map dynamically.}
+    \caption[The borrower's \glsfmtshort{iommu} is used to create a single continuous memory range that may be mapped through the lender's \glsfmtshort{ntb} in advance. Adding and removing memory pages from the local \glsfmtshort{iommu} group is inexpensive compared to actively communicating with the remote lender~machine]
+    {The \gls{borrower}'s \gls{iommu} is used to create a single continuous memory range that may be mapped through the \gls{lender}'s \gls{ntb} in advance. Adding and removing memory pages from the local \gls{iommu} group is inexpensive compared to actively communicating with the remote \gls{lendermachine}.}
     \label{fig:dma-window}
 \end{figure}
 
