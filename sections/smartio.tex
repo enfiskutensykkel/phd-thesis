@@ -358,7 +358,7 @@ To solve this, \gls{dl} relies on the \gls{iommu} on the \gls{borrower} as depic
 %
 We can prepare a contiguous memory address range \emph{in advance} using the \gls{borrower}'s \gls{iommu}.
 %
-This range can be mapped through the \gls{lender}'s \gls{ntb} with a single map (``\gls{dmawindow}''), even before any device drivers are using the device.
+This range can be mapped through the \gls{lender}'s \gls{ntb} with a single map, or ``\gls{dmawindow}'', even before any device drivers are using the device.
 %
 When a device driver, at a later point, allocates \gls{dma} buffers, we can simply add these addresses to the \gls{iommu} range.
 %
@@ -377,6 +377,12 @@ In addition, \paperref{tocs:lending-dma,tocs:disc-devs} explain how we can use t
 
 
 \subsection{MDEV}\label{sec:mdev}
+Our \gls{mdev} implementation, shown as arrow \textbf{(2)} in \cref{fig:architecture}, enables the Linux~\gls{kvm} to ``\emph{\lgls{passthrough}{pass through}}'' borrowed devices to \glspl{vm}.
+%
+This \gls{passthrough} makes it possible for software running in a \gls{vmguest} to use the physical device directly, without compromising the memory isolation provided by the virtualization.
+%
+As devices are no longer tightly coupled with the \glspl{hostmachine} they are installed in, \gls{mdev} makes it possible to distribute \glspl{vm} across different \glspl{host} in the cluster while benefiting from the bare-metal performance of direct access to physical hardware.
+
 \begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{mdev-dma}
