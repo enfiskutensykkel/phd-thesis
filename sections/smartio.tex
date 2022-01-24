@@ -131,7 +131,7 @@ Deferring the action of mapping memory through the \gls{ntb} until a device driv
 %
 synchronizing with the remote system at this time will introduce communication overhead in the performance-critical path.
 %
-The naive solution is to map the entire system memory (of the \gls{hostmachine}) for the device, but this workaround requires the \gls{ntb}~\glspl{bar} to be at least \emph{as large} as the size of \gls{ram}.
+The naive solution is to map the entire system memory for the device, but this workaround requires the \gls{ntb}~\glspl{bar} to be at least \emph{as large} as the size of \gls{ram}.
 %
 This does not scale very well, as it would effectively limit the number of machines the cluster can support;
 %
@@ -139,17 +139,17 @@ each machine added would increase the \gls{ntb} memory requirements by its entir
 %
 Moreover, the number of maps supported by an \gls{ntb} is also limited (by the size of its \gls{lut}).
 %
-We must find a way to prepare memory-maps through the \gls{ntb} in advance of use, in order to avoid adding communication latency in the critical path, and without requiring that the entire \gls{host} memory is mapped for the device.
+We must find a way to prepare memory-maps through the \gls{ntb} in advance of use, in order to avoid adding communication latency in the critical path, and without requiring that the entire memory is mapped for the device.
 
 
 
 The challenge of \gls{dma} transfers is compounded for \gls{vmpassthrough}.
 %
-\Gls{passthrough} is made possible by using the \gls{iommu} to create a virtual \gls{io} address space for a device that corresponds to the virtual address space of the \gls{vm}~\cite{url:LinuxVFIO,url:LinuxIOMMU,Muli2006}.
+\Gls{passthrough} is possible by using the \gls{iommu} to create a virtual \gls{io} address space for a device that corresponds to the virtual address space of the \gls{vm}~\cite{url:LinuxVFIO,url:LinuxIOMMU,Muli2006}.
 %
 However, in order for a remote device to reach local \gls{hostphys} memory, it must use addresses that are mapped through the \gls{ntb}.
 %
-A device driver running in the \gls{vmguest} is completely isolated, and may try to use any (virtualized) memory address when initiating \gls{dma} transfers.
+A device driver running in the \gls{vmguest} on the local \gls{host} may try to use any (virtualized) memory address when initiating \gls{dma} transfers.
 %
 Consequently, supporting \gls{passthrough} requires devising a method for mapping the \gls{hostphys} memory of the \gls{emulator} through the \gls{ntb} that also mirrors the virtual address space of the \gls{vm}.
 
