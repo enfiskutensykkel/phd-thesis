@@ -151,7 +151,7 @@ However, in order for a remote device to reach local \gls{hostphys} memory, it m
 %
 A device driver running in the \gls{vmguest} on the local \gls{host} may try to use any (virtualized) memory address when initiating \gls{dma} transfers.
 %
-Consequently, supporting \gls{passthrough} requires devising a method for mapping the \gls{hostphys} memory of the \gls{emulator} through the \gls{ntb} that also mirrors the virtual address space of the \gls{vm}.
+Consequently, supporting \gls{passthrough} requires devising a method for mapping the \gls{hostphys} memory of the \gls{vmemulator} through the \gls{ntb} that also mirrors the virtual address space of the \gls{vm}.
 
 
 
@@ -340,7 +340,7 @@ Unlike \glspl{devicebar} and \gls{msi} addresses, memory addresses for \gls{dma}
 %
 Mapping \glspl{bar} and interrupts is a one-time operation.
 %
-The pages used for \gls{dma} memory buffers, on the other hand, may be scattered in physical memory.
+The pages used for \gls{dma} memory buffers, however, may be scattered in physical memory.
 %
 A driver may even initiate several transfers to different parts of memory altogether.
 %
@@ -348,7 +348,7 @@ Mapping individual memory pages through the \gls{lender}'s \gls{ntb} would not o
 
 
 
-To solve this, \gls{dl} relies on the \gls{iommu} on the \gls{borrower} as depicted in \cref{fig:dma-window}.
+To solve this, \gls{dl} relies on the \gls{iommu} on the \gls{borrower}, as depicted in \cref{fig:dma-window}.
 %
 We can prepare a continuous memory address range \emph{in advance} using the \gls{borrower}'s \gls{iommu}.
 %
@@ -382,7 +382,9 @@ As devices are no longer tightly coupled with the \glspl{hostmachine} they are i
 \begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{mdev-dma}
-    \caption{MDEV}
+    \caption
+    [The \glsfmtshortpl{iommu} on both sides of the \glsfmtshort{ntb} must be used in order to pass through a remote device to a local \glsfmtshort{vm}. The borrower's \glsfmtshort{iommu} is used to provide continuous memory ranges for scattered \glsfmtshort{vm} memory, while the lenders's \glsfmtshort{iommu} is used to mirror the guest-physical layout for the device]
+    {The \glspl{iommu} on both sides of the \gls{ntb} must be used in order to \lgls{passthrough}{pass through} a remote device to a local \gls{vm}. The \gls{borrower}'s \gls{iommu} is used to provide continuous memory ranges for scattered \gls{vm} memory, while the \gls{lender}'s \gls{iommu} is used to mirror the \gls{guestphys} layout for the device.}
     \label{fig:mdev-dma}
 \end{figure}
 
@@ -395,7 +397,7 @@ However, unlike \gls{dl}, we have no means of controlling which \gls{io} address
 %
 In \gls{dl}, we create a single, continuous \gls{iommu} range ahead of time, and map it through the \gls{lender}'s \gls{ntb}. 
 %
-We are able to detect when a device driver is preparing \gls{dma} buffers through the \gls{shadowdev}, enabling us to inject the prepared device-side \gls{io} address of our \gls{dmawindow}.
+We are able to detect when a device driver is preparing \gls{dma} buffers through the \gls{shadowdev}, and can inject the prepared device-side \gls{io} address of our \gls{dmawindow}.
 %
 In contrast, a device driver running in the \gls{vmguest} is completely isolated, leaving us without any equivalent mechanism to inject \gls{io} addresses we can control.
 %
@@ -403,38 +405,49 @@ The only possible option is to make sure that the device is mapped to the same v
 
 
 
-Mapping a remote device to the same virtual address space as a poses a dual challenge.
+In order for a device to \gls{dma} to \gls{vm} memory, the \gls{hostphys} memory pages backing the emulated memory needs to be locked in memory.
 %
-First, to avoid making any assumptions about the \gls{vm} or the system it emulates, all of its \gls{guestphys} memory must be mapped.
+In practice, all (\gls{host}) memory allocated by the \gls{vmemulator} application must be mapped for the device, as a device driver or application running in the \gls{guest} may use any (virtual) address.
 %
-In practice, \emph{any} (\gls{host}) memory allocated by a \gls{emulator} application can be potentially used to emulate \gls{guest} memory.
+However, as this is handled by the \gls{hypervisor} for normal \gls{passthrough} of a local device, the mediated device driver interface does not provide any notification when memory allocated by an \gls{emulator} needs to be mapped for \gls{dma}.
 %
-Additionally, the \gls{hostphys} memory pages may be scattered throughout physical \gls{ram}. 
+As such, we have no reliable method of detecting \gls{hostphys} memory that needs to be mapped through the \gls{ntb}.
 %
-We need a reliable method for detecting the memory allocated by a \gls{emulator} and determining which of those physical memory pages are used for backing \gls{guestphys} memory (and must be mapped for the device).
+To further complicate matters, we can not rely on modifying existing \gls{emulator} software to solve this issue, as per our objectives stated in \cref{sec:problem}.
 %
-To further complicate matters, this method can not require any modifications to existing \gls{emulator} software, as per our objectives stated in \cref{sec:problem}.
+Nevertheless, it is possible to rely on an assumption:
 %
-Second, for normal \gls{passthrough}, the \gls{hypervisor} places the device in a \gls{iommu} domain with \gls{io} virtual addresses that correspond to the \gls{vm}'s address layout.
+before a device can use \gls{dma}, it must be enabled in its \gls{cfgspace}.\footnote{Enabling the ``Bus Master'' bit in the command register enables \gls{dma} for a device.}
 %
-In our case, the device not only resides in \emph{different} machine,~i.e., the \gls{lender}, but the \gls{borrower}'s \gls{iommu} is needed to provide continuous address ranges to scattered physical memory, so this memory can be mapped through the \gls{lender}'s \gls{ntb} as continuous \glspl{dmawindow}.
+Since the mediated device driver interface makes it possible to trap \glspl{cfgcycle}, our \gls{mdev} implementation waits for \gls{dma} to be enabled.
+%
+By then, the \gls{emulator} has allocated all of the \gls{host}~memory it needs for the \gls{vm}, and we are able to use the \gls{hypervisor} to lock the \gls{hostphys} pages of the \gls{vm} in physical \gls{ram} and resolve their physical addresses.
 
 
 
-%as the memory allocated by a \gls{emulator} can not be known in advance.
-
-%and use the \gls{lender}'s \gls{iommu} to create a virtual \gls{io} address space that mirrors 
+With the \gls{hostphys} memory backing the \gls{vm} resolved, we can now map it for the device.
 %
+However, when \lgls{passthrough}{passing through} a local device, the \gls{hypervisor} places the device in a \gls{iommu} domain with \gls{io} virtual addresses that correspond to the \gls{vm}'s address layout.
+%
+In our case, the device resides in a \emph{different} machine,~i.e., the \gls{lender}.
+%
+Additionally, the \gls{hostphys} memory pages used by the \gls{emulator} may be scattered throughout physical \gls{ram}.
+%
+Our \gls{mdev} implementation solves this by using both the \gls{iommu} on the \gls{borrower} and on the \gls{lender}, as shown in \cref{fig:mdev-dma}.
+%
+The \gls{borrower}'s \gls{iommu} is used to provide continuous address ranges that can be mapped through the \gls{lender}'s \gls{ntb}, or \glspl{dmawindow}.
+%
+The \gls{iommu} on the \gls{lender} is used to map the device to a virtual \gls{io} address space that mirrors the \gls{vmguest}'s, allowing a device driver running in the \gls{vmguest} to initiate \gls{dma} transfers using \gls{guestphys} addresses.
 
 
-\begin{itemize}
-    \item \textbf{very} brief: what is passthrough/VFIO
-    \item what MDEV gives us
-    \item how to map VM memory for device
-    \item relaying interrupts (see papers)
-    \item busmaster hack
-    \item probing memory layout
-\end{itemize}
+
+\paperref{tocs:mdev} provides more information about the \gls{mdev} implementation, including a more detailed description of the mediated device driver interface and the functionality it provides. 
+%
+In this section, we also explain how interrupts are relayed from the \gls{lender} to the \gls{borrower}.
+%
+Finally, we outline a method of probing the \gls{kvm} using well-defined starting addresses for high and low memory, in order to pinpoint the \gls{guestphys} memory layout and conserve \gls{ntb} maps.
+
+
 
 \subsection{API extension}\label{sec:api}
 \begin{itemize}
