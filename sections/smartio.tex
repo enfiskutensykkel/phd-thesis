@@ -419,7 +419,7 @@ Nevertheless, it is possible to rely on an assumption:
 %
 before a device can use \gls{dma}, it must be enabled in its \gls{cfgspace}.\footnote{Enabling the ``Bus Master'' bit in the command register enables \gls{dma} for a device.}
 %
-Since the mediated device driver interface makes it possible to trap \glspl{cfgcycle}, our \gls{mdev} implementation waits for \gls{dma} to be enabled.
+Since the mediated device driver interface makes it possible to \gls{trap} \glspl{cfgcycle}, our \gls{mdev} implementation waits for \gls{dma} to be enabled.
 %
 By then, the \gls{emulator} has allocated all of the \gls{host}~memory it needs for the \gls{vm}, and we are able to use the \gls{hypervisor} to lock the \gls{hostphys} pages of the \gls{vm} in physical \gls{ram} and resolve their physical addresses.
 
