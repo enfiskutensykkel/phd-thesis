@@ -223,7 +223,7 @@ SmartIO is implemented on top of the \gls{ntb} interconnection solution from Dol
 %
 The low-level \gls{ntb} driver, illustrated as layer \textbf{(A)} in \cref{fig:architecture}, provides the fundamental \gls{pcie} networking infrastructure and memory mapping functionality which SmartIO builds on.
 %
-Individual systems may contribute parts, or \emph{``\glspl{segment}''}, of their local memory to a distributed, shared memory space. 
+Individual systems may contribute parts, or \emph{\glspl{segment}}, of their local memory to a distributed, shared memory space. 
 %
 \Glspl{memorysegment} in remote machines may be mapped into the local address space of a system by using the \gls{ntb}, as explained in \cref{sec:idea}.
 %
@@ -247,13 +247,13 @@ The SmartIO driver is also responsible for making \glspl{devicebar} available as
 
 
 
-Most important is the SmartIO driver's responsibility of mapping \glspl{memorysegment} \textbf{on behalf of a device} and returning \gls{io} addresses to these maps, \textbf{as seen by the device}.
+Most important is the SmartIO driver's responsibility of mapping \glspl{memorysegment} \textbf{on behalf of a device} and returning the \gls{io} addresses to these maps, \textbf{as seen by the device}.
 %
 The SmartIO driver works out the physical locations of devices and \glspl{memorysegment},~i.e., which machines they reside in and which \glspl{ntb} a device must use in order to reach a \gls{segment}.
 %
 Note that a \gls{segment} can reside in memory of the machine using the device~(the \gls{borrower}), in memory of the machine where the device is installed~(the \gls{lender}), or a different cluster machine altogether.
 %
-\Glspl{borrower} are not required to know anything about \gls{io} addresses returned by our SmartIO driver, other than the fact that they resolve to the same address space as the device.
+\Glspl{borrower} are not required to know anything about these \emph{device-side} \gls{io} addresses returned by our SmartIO driver, other than the fact that they resolve to the same address space as the device.
 %
 This allows both a \gls{borrower} and the device to remain agnostic about the underlying, physical \gls{pcie} topology, as they can rely on the SmartIO driver to resolve paths in the cluster network and map resources through the appropriate \glspl{ntb}.
 
