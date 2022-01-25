@@ -7,7 +7,7 @@
    viewBox="0 0 85.724998 34.572199"
    version="1.1"
    id="svg20802"
-   inkscape:version="1.1.1 (eb90963e84, 2021-10-02)"
+   inkscape:version="1.1.1 (26b7af14f2, 2022-01-19)"
    sodipodi:docname="direct-access.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -26,11 +26,11 @@
      units="pt"
      inkscape:zoom="4"
      inkscape:cx="163.625"
-     inkscape:cy="101.75"
+     inkscape:cy="101.625"
      inkscape:window-width="2558"
-     inkscape:window-height="1378"
-     inkscape:window-x="0"
-     inkscape:window-y="31"
+     inkscape:window-height="1409"
+     inkscape:window-x="2560"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      inkscape:snap-object-midpoints="true"
@@ -174,7 +174,7 @@
      id="layer1"
      style="display:inline">
     <rect
-       style="fill:#f2f2f2;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.185414;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#f9f9f9;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.185414;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect50794"
        width="22.124836"
        height="31.887255"
@@ -194,7 +194,7 @@
          y="34.380264"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.212661px">Remote Host</tspan></text>
     <rect
-       style="fill:#f2f2f2;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.185414;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#f9f9f9;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.185414;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect43406"
        width="43.047806"
        height="31.887255"
@@ -457,7 +457,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="RDMA"
-     style="display:inline">
+     style="display:none">
     <rect
        ry="0.49057326"
        rx="0.49057326"
@@ -909,7 +909,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="SmartIO"
-     style="display:none">
+     style="display:inline">
     <rect
        ry="0.4815253"
        rx="0.4815253"

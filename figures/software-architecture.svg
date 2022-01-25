@@ -7,7 +7,7 @@
    viewBox="0 0 86.783327 81.138886"
    version="1.1"
    id="svg1075"
-   inkscape:version="1.1.1 (50ffc5b540, 2022-01-11)"
+   inkscape:version="1.1.1 (26b7af14f2, 2022-01-19)"
    sodipodi:docname="software-architecture.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -26,11 +26,11 @@
      units="pt"
      inkscape:zoom="3.623347"
      inkscape:cx="154.96722"
-     inkscape:cy="154.27725"
+     inkscape:cy="132.33621"
      inkscape:window-width="2558"
-     inkscape:window-height="1378"
-     inkscape:window-x="0"
-     inkscape:window-y="31"
+     inkscape:window-height="1409"
+     inkscape:window-x="2560"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      inkscape:snap-object-midpoints="true"
@@ -221,7 +221,7 @@
        height="13.251708"
        width="51.72604"
        id="rect8533"
-       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="display:inline;fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <rect
        ry="0.52916211"
        rx="0.52916211"
@@ -273,7 +273,7 @@
        height="15.874999"
        width="61.383335"
        id="rect15549"
-       style="display:inline;fill:#f9f9f9;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text1230"
        y="12.990247"
@@ -341,7 +341,7 @@
        height="9.2604179"
        width="17.859375"
        id="rect66917"
-       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="display:inline;fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text66923"
        y="23.524664"
@@ -361,7 +361,7 @@
        height="6.0854163"
        width="17.859375"
        id="rect81172"
-       style="display:inline;fill:#f9f9f9;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        id="text81176"
        y="17.433647"

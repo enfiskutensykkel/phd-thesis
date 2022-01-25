@@ -25,13 +25,13 @@
      showgrid="true"
      inkscape:zoom="2.5620932"
      inkscape:cx="250.38121"
-     inkscape:cy="185.39529"
+     inkscape:cy="185.20013"
      inkscape:window-width="2558"
-     inkscape:window-height="1378"
-     inkscape:window-x="0"
-     inkscape:window-y="31"
+     inkscape:window-height="1409"
+     inkscape:window-x="2560"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      units="pt"
      showguides="false"
      inkscape:guide-bbox="true"
@@ -110,7 +110,7 @@
      id="layer2"
      inkscape:label="Background 1">
     <rect
-       style="fill:#f2f2f2;fill-opacity:1;stroke:#333333;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#f9f9f9;fill-opacity:1;stroke:#333333;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect3362"
        width="60.589596"
        height="63.5"
@@ -120,7 +120,7 @@
        ry="0.52916795"
        transform="scale(-1,1)" />
     <rect
-       style="fill:#f2f2f2;fill-opacity:1;stroke:#333333;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#f9f9f9;fill-opacity:1;stroke:#333333;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect67149"
        width="50.667709"
        height="63.5"
