@@ -232,11 +232,11 @@ A way to prepare the necessary memory-maps through the \gls{ntb}, without adding
 
 
 \section{Problem statement}\label{sec:problem}
-Utilizing \gls{pcie} \glspl{ntb} to share resources among machines in a \gls{pcie}-networked cluster requires a mechanism for abstracting away the physical location of a resource, including the address space of the computer system it is installed in. 
+Utilizing \gls{pcie} \glspl{ntb} to share resources among machines in a \gls{pcie}-networked cluster requires a solution for abstracting away the physical location of a resource, including the address space of the computer system it is installed in. 
 %
-More specifically, as it is desirable to avoid modifications to existing device drivers and application software, such a mechanism must also be able to present resources to the system as if they were locally installed.
+More specifically, as it is desirable to avoid modifications to existing device drivers and application software, such a solution must also be able to present resources to the system as if they were locally installed.
 %
-This mechanism must also allow remote resources to be used with the same performance expected for native \gls{pcie},~i.e., with the same performance as if they were attached to the local \gls{pcie} bus.
+Additionally, the solution must also allow remote resources to be used with the same performance expected for native \gls{pcie},~i.e., with the same performance as if they were attached to the local \gls{pcie} bus.
 %
 Hence, the goal of this dissertation is to develop a framework for sharing and distributing \gls{io}~resources (devices and memory) in a way that eliminates the distinction between local and remote access of a resource. 
 %
@@ -245,7 +245,7 @@ The challenges of this goal are addressed under the following research question:
     Can \glspl{ntb} be leveraged to allow the internal memory and devices of individual computers in a \gls{pcie}-networked cluster to be shared with and used by remote machines in the cluster, as if these resources were local to the remote machines?
 \end{restatable}
 %
-In particular, this research~question can be broken down into the following list of requirements that a solution must satisfy:
+In particular, this research~question can be broken down into the following six objectives:
 
 
 \begin{objective}\label{obj:distributed}
