@@ -103,7 +103,7 @@ As touched upon in \cref{sec:motivation}, this is desirable in order to use exis
 %
 In order for a device driver running on a local~machine to use a remote~device, we must make sure that the driver uses addresses that is mapped through both the local and remote \glspl{ntb}.
 %
-For instance, when the device driver attempts to access \glspl{devicebar}, we must make sure that the driver uses memory addresses that are mapped through the local, or \gls{cpu}-side, \gls{ntb} without the driver or device being aware of this.
+For instance, when the device driver attempts to access \glspl{devicebar}, we must make sure that the driver uses memory addresses that are mapped through the \gls{cpu}-side \gls{ntb} without the driver or device being aware of this.
 %
 Conversely, when the device driver attempts to initiate \gls{dma} transfers or configures an interrupt vector address, we must find a way to transparently inject memory addresses that are mapped through the remote, or device-side, \gls{ntb}.
 
@@ -145,13 +145,13 @@ We must find a way to prepare memory-maps through the \gls{ntb} in advance of us
 
 The challenge of \gls{dma} transfers is compounded for \gls{vmpassthrough}.
 %
-\Gls{passthrough} is possible by using the \gls{iommu} to create a virtual \gls{io} address space for a device that corresponds to the virtual address space of the \gls{vm}~\cite{url:LinuxVFIO,url:LinuxIOMMU,Muli2006}.
+\Gls{passthrough} is possible by using the \gls{iommu} to create a virtual \gls{io} address space for a device that corresponds to the virtual address space of the \gls{vm}~\cite{url:LinuxVFIO,url:LinuxIOMMU,Muli2006}, also known as the ``\gls{guestphys} address space''.
 %
 However, in order for a remote device to reach local \gls{hostphys} memory, it must use addresses that are mapped through the \gls{ntb}.
 %
 A device driver running in the \gls{vmguest} on the local \gls{host} may try to use any (virtualized) memory address when initiating \gls{dma} transfers.
 %
-Consequently, supporting \gls{passthrough} requires devising a method for mapping the \gls{hostphys} memory of the \gls{vmemulator} through the \gls{ntb} that also mirrors the virtual address space of the \gls{vm}.
+Consequently, supporting \gls{passthrough} requires devising a method for mapping the physical memory backing the \gls{vmemulator} through the \gls{ntb}, using device-side \gls{io} addresses that mirrors the \gls{guestphys} address space.
 
 
 
@@ -180,7 +180,7 @@ Basing our framework on standard \gls{pcie} is a a crucial part of the design.
 %
 Not only does this allow commodity devices to be operated remotely by standard device drivers over native \gls{pcie}, but this design also means that the implementation complexity of SmartIO lies entirely in software.
 %
-In fact, SmartIO can be implemented for existing computer systems that are connected using \glspl{ntb} in any network topology, regardless of whether the \glspl{ntb} are switch chips soldered onto a motherboard~(part of a ``system-on-chip'') or implemented as plug-in adapter cards.
+In fact, SmartIO can be implemented for existing computer systems that are connected using \glspl{ntb} in any network topology, regardless of whether the \glspl{ntb} are switch chips soldered onto a motherboard or implemented as plug-in adapter cards.
 
 
 
@@ -198,7 +198,7 @@ This makes it possible for several machines to simultaneously share a single \lg
 %
 It is even possible to \emph{combine} the sharing methods of SmartIO. 
 %
-For example, we can \gls{disaggregate} the device memory of a remote \gls{gpu} while it is being borrowed using the \gls{apiext}, or we can share \glspl{vf} of an \gls{sriov} \gls{nic} with both physical \glspl{hostmachine} and \glspl{vm}.
+For example, we can \gls{disaggregate} the device memory of a remote \gls{gpu} using the \gls{apiext} while it is being borrowed through \gls{dl}, or we can share \glspl{vf} of an \gls{sriov} \gls{nic} with both physical \glspl{hostmachine} and \glspl{vm}.
 
 
 \begin{figure}
@@ -252,6 +252,8 @@ Most important is the SmartIO driver's responsibility of mapping \glspl{memoryse
 The SmartIO driver works out the physical locations of devices and \glspl{memorysegment},~i.e., which machines they reside in and which \glspl{ntb} a device must use in order to reach a \gls{segment}.
 %
 Note that a \gls{segment} can reside in memory of the machine using the device~(the \gls{borrower}), in memory of the machine where the device is installed~(the \gls{lender}), or a different cluster machine altogether.
+%
+A segment can even be allocated in device memory of another device.
 %
 \Glspl{borrower} are not required to know anything about these \emph{device-side} \gls{io} addresses returned by our SmartIO driver, other than the fact that they resolve to the same address space as the device.
 %
@@ -405,9 +407,9 @@ The only possible option is to make sure that the device is mapped to the same v
 
 
 
-In order for a device to \gls{dma} to \gls{vm} memory, the \gls{hostphys} memory pages backing the emulated memory needs to be locked in memory.
+In order for a device to \gls{dma} to \gls{vm} memory, the \gls{hostphys} memory pages backing the emulated memory needs to be locked in physical \gls{ram}.
 %
-In practice, all (\gls{host}) memory allocated by the \gls{vmemulator} application must be mapped for the device, as a device driver or application running in the \gls{guest} may use any (virtual) address.
+In practice, all memory used by the \gls{vmemulator} application must be mapped for the device, as a device driver or application running in the \gls{guest} may try to use any \gls{guestphys} address when interacting with the device.
 %
 However, as this is handled by the \gls{hypervisor} for normal \gls{passthrough} of a local device, the mediated device driver interface does not provide any notification when memory allocated by an \gls{emulator} needs to be mapped for \gls{dma}.
 %
