@@ -450,15 +450,39 @@ Finally, we outline a method of probing the \gls{kvm} using well-defined startin
 
 
 \subsection{API extension}\label{sec:api}
+Most device drivers are written in a way that assumes exclusive control over the device.
+%
+In most cases, a device may only be distributed to a single \gls{borrowermachine} at the time, preventing others from using it while it is used.
+%
+Some devices implement \gls{sriov}~\cite{spec:SRIOV}, making a single physical device to appear as multiple device functions, or \emph{\glspl{vf}}.
+%
+Using \gls{dl} or our \gls{mdev} implementation, it is possible to distribute such \glspl{vf} to \glspl{borrowermachine}.
+%
+However, \gls{sriov} is not widely available, especially for commodity devices.
+
+
+The \gls{apiext}, depicted as arrow \textbf{(3)} in \cref{fig:architecture}, extends the \gls{sisciapi} with device-oriented programming semantics and support functions.
+%
+This extension exposes the core SmartIO capabilities through the same shared-memory \gls{api} used to write cluster applications, making it possible to implement device drivers as part of the application.
+%
+By integrating device operation into application software itself, devices and their drivers become part of the same shared global address space as distributed shared-memory applications.
+%
+Furthermore, our \gls{apiext} also makes it possible to \textbf{\gls{disaggregate} a device in software}.
+%
+
+
+
+
 \begin{itemize}
     \item why do we need API? (disaggregation in software + shared memory networking)
     \item short explanation of SISCI
     \item what functions did we add to SISCI?
+    \item reference back to ntb driver and smartio driver
 \end{itemize}
 
 
 
-\subsection{NVMe driver}\label{sec:nvme}
+\subsection{Proof-of-concept NVMe driver}\label{sec:nvme}
 \begin{itemize}
     \item why a prototype driver? demonstrate disaggregation in software
     \item why nvme? easy to parallelize because of queues
