@@ -451,22 +451,22 @@ we attempt to unify traditional device \gls{io} with distributed, shared-memory 
 %
 It is desirable to realize this approach by \textbf{building a working prototype}, in order to explore potential opportunities and weaknesses along the way.
 %
-As such, we follow the technocratic paradigm of iteratively designing, implementing, and testing a solution according to the objectives given in \cref{sec:problem}:
+As such, we have followed the technocratic paradigm of iteratively designing, implementing, and testing a solution according to the objectives given in \cref{sec:problem}:
 %
 \begin{itemize}
     \item 
-        A mechanism must be developed to make remote resources appear and behave exactly as if they were part of the local \gls{pcie} tree.
+        One of the mechanisms developed makes remote resources appear and behave exactly as if they were part of the local \gls{pcie} tree.
         %
-        In order to not require any special adaptions of existing hardware, device drivers, or application software, this mechanism must be completely transparent.
+        In order to not require any special adaptions of existing hardware, device drivers, or application software, this mechanism is completely transparent.
         %
-        This mechanism must also be thoroughly tested using a wide range of functionality tests, for many different types of devices and device driver implementations.
+        This mechanism must is thoroughly tested using a wide range of functionality tests, for many different types of devices and device driver implementations.
         %
-        As we make a point of using unmodified hardware and software, commodity devices and widely available software, such as standard benchmarking tools and well-known applications, should be used in the validation of our solution.
+        As we make a point of using unmodified hardware and software, commodity devices and widely available software, such as standard benchmarking tools and well-known applications, is used in the validation of our solution.
         %
-        A complete functionality evaluation should also include a variety of different cluster network topologies and machine configurations, including \glspl{vm}.
+        We also include tests using a variety of different cluster network topologies and machine configurations, including \glspl{vm}, to provide a complete functionality evaluation.
 
     \item 
-        A wide range of latency and throughput benchmarks should be used to measure the performance of the critical \gls{io} data path.
+        A wide range of latency and throughput benchmarks is used to measure the performance of the critical \gls{io} data path.
         %
         Since the solution allows machines to use the internal devices and memory in other (remote) machines as if these resources were locally installed, it is possible to rely on comparison testing.
         %
@@ -474,23 +474,23 @@ As such, we follow the technocratic paradigm of iteratively designing, implement
         %
         Then, the tests can repeated for remote resources using our solution, allowing us to compare the results and subsequently identify which component of the solution that needs to be improved.
         %
-        Note that the different iterations and gradual improvements of our solution can be seen in \crefrange{paper:nossdav}{paper:tocs}.
+        %Note that the different iterations and gradual improvements of our solution can be seen in \crefrange{paper:nossdav}{paper:tocs}.
 
     \item 
         Our implementation process should also identify and explore new possibilities that are enabled by the solution.
         %
         The strength of our shared-memory approach is best highlighted by demonstrating capabilities that other resource sharing solutions lack.
         %
-        For instance, as CUDA unified memory~\cite{url:unified-memory} can be supported by our solution, even for \glspl{gpu} that reside in \emph{different machines}, we should perform experiments with direct memory-to-memory transfers across the cluster network.
+        For instance, as CUDA unified memory~\cite{url:unified-memory} can be supported by our solution, even for \glspl{gpu} that reside in \emph{different machines}, we have performed experiments with direct memory-to-memory transfers across the cluster network.
         %
-        Other possibilities, such as exploiting memory \gls{disaggregation} to implement memory locality optimizations or using \gls{pcie} \gls{multicasting} to replicate data across several machines in a single operation, should also be explored.
+        Other possibilities, such as exploiting memory \gls{disaggregation} to implement memory locality optimizations or using \gls{pcie} \gls{multicasting} to replicate data across several machines in a single operation, is also explored.
         %
-        We should not only investigate how different cluster network topologies affect the data path, but we should also prove the flexibility of our solution and demonstrate several of the sharing scenarios that are made possible.
+        We investigate not only how different cluster network topologies affect the data path, but also prove the flexibility of our solution and demonstrate several of the sharing scenarios that are made possible.
 
     \item
-        A realistic and \gls{io}-intensive computing task, for example involving machine~learning, should be used to put the solution under heavy load.
+        Realistic and \gls{io}-intensive computing tasks,~e.g., machine~learning and image processing workloads, are used to put the solution under heavy load.
         %
-        By running a real-world application using several \gls{io} resources, we can observe the accumulated effects of any performance overhead caused by the implementation that are not visible on their own.
+        By running real-world applications using several \gls{io} resources, any accumulated effects of any performance overhead caused by the implementation that are not visible on their own should be revealed.
         %
         Moreover, this kind of stress testing also proves that the solution is stable and gives reliable performance for repeated runs, and that it does not have any unintentional side-effects that affect systems over time.
         %
