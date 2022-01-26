@@ -234,12 +234,14 @@ Moreover, \gls{userspace} applications may use the \gls{sisciapi} to interact wi
 \subsection{SmartIO driver}\label{sec:smartio-driver}
 The SmartIO driver, shown as layer \textbf{(B)} in \cref{fig:architecture}, runs on all machines in the cluster.
 %
-It acts as an abstraction layer, providing a logical decoupling of devices and which physical machines, or \emph{\glspl{lender}}, they are installed in.
+It acts as an abstraction layer, providing a logical decoupling of devices and which physical machines they are installed in (\glspl{lender}).
 %
-Neither devices nor software need to consider where resources physically reside, since SmartIO resolves this on behalf of both devices and a machines using them, or \emph{\glspl{borrower}}.
+Neither devices nor software need to consider where resources physically reside, since SmartIO resolves this on behalf of both devices and a machines using them (\glspl{borrower}).
+%
+By providing this abstraction, the SmartIO driver is the first step towards the sharing methods \gls{dl}, \gls{mdev}, and the \gls{sisciapiext}, presented in \cref{sec:lending,sec:mdev,sec:api} respectively.
 
 
-Devices registered with SmartIO are assigned an unique identifier which allows machines to refer to a device without needing to specify the \gls{lendermachine}.
+Devices registered with SmartIO are assigned a unique identifier which allows machines to refer to a device without needing to specify the \gls{lendermachine}.
 %
 Internally, the SmartIO driver keeps track of devices and \glspl{lender}, and uses this device identifier to look up machines, devices, and which \gls{ntb} to use.
 %
@@ -279,7 +281,9 @@ With the abstraction the SmartIO driver provides, our framework is able to facil
 %
 More details on how SmartIO resolves the paths between devices and other memory resources that must be mapped (for devices) are given in the papers, particularly in \paperref{tocs}.
 %
-However, please note that the SmartIO driver is not mentioned explicitly by name in the papers, as the description of its functionality is interleaved with the implementation details of the sharing methods of SmartIO,~i.e., \gls{dl}, \gls{mdev}, and the \gls{apiext}.
+However, please note that the SmartIO driver is not mentioned explicitly by name in the papers, as it is the unifying base for the sharing methods.
+%
+Instead, the description of its functionality is interleaved with the implementation details of these methods.
 
 
 
@@ -555,7 +559,7 @@ should rw go in discussion and conclusion instead?
 %
 %%SmartIO solves these issues by logical decoupling devices and the physical machines they are installed in.
 %%%
-%%When devices are registered with our framework, they are assigned an unique identifier.
+%%When devices are registered with our framework, they are assigned a unique identifier.
 %%
 %%
 %%%In SmartIO, we solve this ... 
