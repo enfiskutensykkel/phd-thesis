@@ -253,7 +253,7 @@ The SmartIO driver works out the physical locations of devices and \glspl{memory
 %
 Note that a \gls{segment} can reside in memory of the machine using the device~(the \gls{borrower}), in memory of the machine where the device is installed~(the \gls{lender}), or a different cluster machine altogether.
 %
-A segment can even be allocated in device memory of another device.
+A segment can even be allocated in device memory of another device, as the SmartIO driver can assist in mapping device \glspl{bar} and enabling \gls{p2p} between devices.
 %
 \Glspl{borrower} are not required to know anything about these \emph{device-side} \gls{io} addresses returned by our SmartIO driver, other than the fact that they resolve to the same address space as the device.
 %
@@ -409,9 +409,9 @@ The only possible option is to make sure that the device is mapped to the same v
 
 In order for a device to \gls{dma} to \gls{vm} memory, the \gls{hostphys} memory pages backing the emulated memory needs to be locked in physical \gls{ram}.
 %
-In practice, all memory used by the \gls{vmemulator} application must be mapped for the device, as a device driver or application running in the \gls{guest} may try to use any \gls{guestphys} address when interacting with the device.
+In practice, all memory used by a \gls{vmguest} must be mapped for the device, as a device driver or application running in the \gls{guest} may try to use any \gls{guestphys} address when interacting with the device.
 %
-However, as this is handled by the \gls{hypervisor} for normal \gls{passthrough} of a local device, the mediated device driver interface does not provide any notification when memory allocated by an \gls{emulator} needs to be mapped for \gls{dma}.
+However, as this is handled by the \gls{hypervisor} for normal \gls{passthrough} of a local device, the mediated device driver interface does not provide any notification of when memory is allocated by an \gls{emulator}.
 %
 As such, we have no reliable method of detecting \gls{hostphys} memory that needs to be mapped through the \gls{ntb}.
 %
