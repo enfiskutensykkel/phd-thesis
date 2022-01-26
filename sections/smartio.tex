@@ -413,9 +413,9 @@ The only possible option is to make sure that the device is mapped to the same v
 
 In order for a device to \gls{dma} to \gls{vm} memory, the \gls{hostphys} memory pages backing the emulated memory needs to be locked in physical \gls{ram}.
 %
-In practice, all memory used by a \gls{vmguest} must be mapped for the device, as a device driver or application running in the \gls{guest} may try to use any \gls{guestphys} address when interacting with the device.
+In practice, all memory allocated for a \gls{vmguest} must be mapped for the device, as a device driver or application running in the \gls{guest} may try to use any \gls{guestphys} address when interacting with the device.
 %
-However, as this is handled by the \gls{hypervisor} for normal \gls{passthrough} of a local device, the mediated device driver interface does not provide any notification of when memory is allocated by a \gls{vmemulator}.
+However, as this is handled by the \gls{hypervisor} for normal \gls{passthrough} of a local device, the mediated device driver interface does not provide any notification of when this memory is allocated by a \gls{vmemulator}.
 %
 As such, we have no reliable method of detecting \gls{hostphys} memory that needs to be mapped. %through the \gls{ntb}.
 %
@@ -469,12 +469,20 @@ However, \gls{sriov} is not widely available, especially for commodity devices.
 
 The \gls{apiext}, depicted as arrow \textbf{(3)} in \cref{fig:architecture}, extends the \gls{sisciapi} with device-oriented programming semantics and support functions.
 %
-This extension exposes the core SmartIO capabilities through the same shared-memory \gls{api} used to write cluster applications, making it possible to implement device drivers as part of the application.
+This extension exposes the core SmartIO capabilities, as described in \cref{sec:smartio-driver}, through the same shared-memory \gls{api} used to write cluster applications.
+
+making it possible to implement device drivers as part of the application.
 %
 By integrating device operation into application software itself, devices and their drivers become part of the same shared global address space as distributed shared-memory applications.
 %
 Furthermore, our \gls{apiext} also makes it possible to \textbf{\gls{disaggregate} a device in software}.
 %
+%Example of this is the our prototype NVMe driver using this extension, described in Section 222
+
+
+
+As mentioned in \cref{sec:idea,sec:ntb-driver}
+
 
 
 
