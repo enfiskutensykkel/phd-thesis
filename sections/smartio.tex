@@ -307,7 +307,7 @@ The SmartIO driver, as explained in \cref{sec:smartio-driver}, eliminates the co
 %
 However, as pointed out in \cref{sec:challenges}, we still need to make sure that device drivers use this functionality without requiring that they be re-written. 
 %
-More precisely, we need a mechanism for transparently injecting resolved \gls{io} addresses, without the devices or their drivers being aware of this.
+More precisely, we need a mechanism for \emph{transparently} injecting resolved \gls{io} addresses, without the devices or their drivers being aware of this.
 
 
 
@@ -407,7 +407,7 @@ We are able to detect when a device driver is preparing \gls{dma} buffers throug
 %
 In contrast, a device driver running in the \gls{vmguest} is completely isolated, leaving us without any equivalent mechanism to inject \gls{io} addresses we can control.
 %
-The only possible option is to make sure that the device is mapped to the same virtual address space as the \gls{vm}, as pointed out in \cref{sec:challenges}, 
+The only possible option is to make sure that the device is mapped to the same virtual address space as the \gls{vm}, as pointed out in \cref{sec:challenges}.
 
 
 
@@ -415,9 +415,9 @@ In order for a device to \gls{dma} to \gls{vm} memory, the \gls{hostphys} memory
 %
 In practice, all memory used by a \gls{vmguest} must be mapped for the device, as a device driver or application running in the \gls{guest} may try to use any \gls{guestphys} address when interacting with the device.
 %
-However, as this is handled by the \gls{hypervisor} for normal \gls{passthrough} of a local device, the mediated device driver interface does not provide any notification of when memory is allocated by an \gls{emulator}.
+However, as this is handled by the \gls{hypervisor} for normal \gls{passthrough} of a local device, the mediated device driver interface does not provide any notification of when memory is allocated by a \gls{vmemulator}.
 %
-As such, we have no reliable method of detecting \gls{hostphys} memory that needs to be mapped through the \gls{ntb}.
+As such, we have no reliable method of detecting \gls{hostphys} memory that needs to be mapped. %through the \gls{ntb}.
 %
 To further complicate matters, we can not rely on modifying existing \gls{emulator} software to solve this issue, as per our objectives stated in \cref{sec:problem}.
 %
@@ -449,9 +449,9 @@ The \gls{iommu} on the \gls{lender} is used to map the device to a virtual \gls{
 
 \paperref{tocs:mdev} provides more information about the \gls{mdev} implementation, including a more detailed description of the mediated device driver interface and the functionality it provides. 
 %
-In this section, we also explain how interrupts are relayed from the \gls{lender} to the \gls{borrower}.
+In the same section, we also explain a workaround for interrupts, by relaying them from the \gls{lender} to the \gls{borrower}.
 %
-Finally, we outline a method of probing the \gls{kvm} using well-defined starting addresses for high and low memory, in order to pinpoint the \gls{guestphys} memory layout and conserve \gls{ntb} maps.
+Finally, a method of probing the \gls{kvm} using well-defined starting addresses for high and low memory is outlined, in order to pinpoint the \gls{guestphys} memory layout and conserving \gls{ntb} maps.
 
 
 
