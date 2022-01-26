@@ -484,8 +484,6 @@ Similarly, the we also allow \glspl{memorysegment} to be mapped for a device.
 As such, devices may use native \gls{dma} to access \gls{sharedsegment} directly.
 %
 The \gls{apiext} also provides functionality for allocating \glspl{segment} associated with a device, and using access pattern hints in order for SmartIO to determine which machine it should allocate memory in.
-%
-We provide a more detailed description of the added functionality in \paperref{tocs:api}.
 
 
 
@@ -497,27 +495,29 @@ However, the trade-off from using our \gls{apiext} is that it requires implement
 %
 Implementing a driver from scratch typically entails a considerable engineering effort, and may not even be a viable option in many cases.
 %
-After all, the main strength of \gls{dl} and the \gls{mdev} implementation is precisely that they do not require any modifications to existing device drivers.
-
-
-
+After all, the strength of \gls{dl} and the \gls{mdev} implementation is precisely that they do not require any modifications to existing device drivers.
+%
 Even so, implementing device drivers as part of cluster applications may potentially be extremely useful for some application domains.
+
+
+
+By integrating shared-memory functionality with device operation, we enable the implementation of device drivers that fully utilize the capabilities of \gls{pcie} networks.
 %
-First, as previously pointed out, \lgls{function}{single-function} devices may be \gls{disaggregated} at the software level. 
+For instance, applications may use \gls{pciemulticasting} to stream data to several destinations in a single operation, or exploit memory locality in order to optimize data flow through the network.
 %
-This software-enabled \gls{disaggregation} is demonstrated by our proof-of-concept \gls{nvme} driver, described in \cref{sec:nvme-driver}.
+It is possible to combine the \gls{apiext} with the other sharing methods of SmartIO, allowing even \gls{disaggregation} \emph{borrowed} resources.
 %
-Second, it becomes possible to write device drivers that fully utilize the shared-memory capabilities of \gls{pcie} networks.
-%
-For instance, applications may use \gls{pcie} multicasting to stream data to several destinations in a single operation, or exploit memory locality in order to optimize data flow through the network.
-%
-It is even possible to combine the \gls{apiext} with the other sharing methods of SmartIO, \gls{disaggregating} a \emph{borrowed} resource.
-%
-An example of this is would be a machine using \gls{dl} to borrow a remote \gls{gpu} capable of GPUDirect~\cite{url:GPUDirect,url:Rosetti2014}, and then using the \gls{apiext} to export \gls{gpu} memory as a \gls{sharedsegment}.
+An example of this is would be a machine using \gls{dl} to borrow a remote \gls{gpu} capable of GPUDirect~\cite{url:GPUDirect,url:Rosetti2014}, allowing the device to be operated by the native driver, and then using the \gls{apiext} to export \gls{gpu} memory as a \gls{sharedsegment}.
 %
 This would allow other machines and devices to read and write directly to the \lgls{borrower}{borrowed} \gls{gpu}'s memory.
+
+
+
+The possibilities created by the \gls{apiext} are perhaps best demonstrated by our proof-of-concept \gls{nvme} driver, described in \cref{sec:nvme-driver}.
 %
-Our proof-of-concept \gls{nvme} driver also demonstrates this.
+This driver shows how a non-\gls{sriov} \gls{nvme} can be \gls{disaggregated} in software and shared by several machines.
+%
+A more specific description of the functionality added to \gls{sisci} by our \gls{apiext} can be found in \paperref{tocs:api}.
 
 
 \subsection{Proof-of-concept NVMe driver}\label{sec:nvme-driver}

@@ -302,7 +302,7 @@ would provide facilities for memory-mapping device registers as well as mapping 
 %
 Effectively, this would bring shared-memory concepts to device driver implementations, allowing device operation and device resources to become part of the same global address space as distributed cluster applications.
 %
-This would allow multiple machines to simultaneously share the same, non-\gls{sriov} device, as well as making it possible to combine traditional \gls{io} with \gls{pcie} cluster capabilities such as zero-copy data transfer and multicasting.
+This would allow multiple machines to simultaneously share the same, non-\gls{sriov} device, as well as making it possible to combine traditional \gls{io} with \gls{pcie} cluster capabilities such as zero-copy data transfer and \gls{multicasting}.
 %
 Moreover, the \gls{api} should be designed so that a driver implementation does not need to consider the system-local address space of the computer system where a device is installed, thus alleviating the complexity of programming device drivers for remote devices using \glspl{ntb}.
 
@@ -483,7 +483,7 @@ As such, we have followed the technocratic paradigm of iteratively designing, im
         %
         For instance, as CUDA unified memory~\cite{url:unified-memory} can be supported by our solution, even for \glspl{gpu} that reside in \emph{different machines}, we have performed experiments with direct memory-to-memory transfers across the cluster network.
         %
-        Other possibilities, such as exploiting memory \gls{disaggregation} to implement memory locality optimizations or using \gls{pcie} \gls{multicasting} to replicate data across several machines in a single operation, is also explored.
+        Other possibilities, such as exploiting memory \gls{disaggregation} to implement memory locality optimizations or using \gls{pciemulticasting} to replicate data across several machines in a single operation, is also explored.
         %
         We investigate not only how different cluster network topologies affect the data path, but also prove the flexibility of our solution and demonstrate several of the sharing scenarios that are made possible.
 
@@ -537,7 +537,7 @@ In particular, the main contributions of this dissertation are listed as follows
     %
 	Unlike \gls{rdma} solutions, however, remote resources can be memory-mapped directly into the virtual address space of a software process.
 	%
-    Through our \gls{apiext}, device driver implementations may take full advantage of \gls{pcie} shared memory capabilities, such as remote memory access and multicasting, without requiring awareness of the underlying \gls{pcie} topology and the different address domains of remote systems.
+        Through our \gls{apiext}, device driver implementations may take full advantage of \gls{pcie} shared memory capabilities, such as remote memory access and \gls{multicasting}, without requiring awareness of the underlying \gls{pcie} topology and the different address domains of remote systems.
 	%
 	This makes it easier to optimize data flow through the \gls{pcie} network, as software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
 
