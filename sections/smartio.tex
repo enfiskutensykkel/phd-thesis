@@ -460,28 +460,58 @@ Most device drivers are written in a way that assumes exclusive control over the
 %
 In most cases, a device may only be distributed to a single \gls{borrowermachine} at the time, preventing others from using it while it is used.
 %
-Some devices implement \gls{sriov}~\cite{spec:SRIOV}, making a single physical device to appear as multiple device functions, or \emph{\glspl{vf}}.
+Some devices implement \gls{sriov}~\cite{spec:SRIOV}, making a single physical device to appear as multiple (virtual) device functions, or \glspl{vf}.
 %
 Using \gls{dl} or our \gls{mdev} implementation, it is possible to distribute such \glspl{vf} to \glspl{borrowermachine}.
 %
 However, \gls{sriov} is not widely available, especially for commodity devices.
+%
+Therefore, our extension to the \gls{sisciapi}, depicted as arrow \textbf{(3)} in \cref{fig:architecture}, makes it possible for several machines to share the same device (\gls{function}), by facilitating \gls{disaggregation} in software instead.
+%
+This software-enabled \gls{disaggregation} is demonstrated by our proof-of-concept \gls{nvme} driver, described in \cref{sec:nvme-driver}.
 
 
-The \gls{apiext}, depicted as arrow \textbf{(3)} in \cref{fig:architecture}, extends the \gls{sisciapi} with device-oriented programming semantics and support functions.
+As mentioned in \cref{sec:idea,sec:ntb-driver}, a \gls{userspace} application may memory-map \glspl{sharedsegment} into its own local address space using \gls{sisci}.
 %
-This extension exposes the core SmartIO capabilities, as described in \cref{sec:smartio-driver}, through the same shared-memory \gls{api} used to write cluster applications.
+This makes it possible for application processes to read and write to remote memory, as if it was reading or writing to local \gls{ram}.
+%
+Our \gls{apiext} extends this functionality with device-oriented programming semantics and support functions, making it possible to rely on the core SmartIO capabilities, as described in \cref{sec:smartio-driver}, through the same shared-memory \gls{api} used to write cluster applications.
+%
+By allowing device drivers to be implemented as part of the application software, we make it possible for devices and device operation to become part of the same shared global address space as distributed shared-memory applications.
 
-making it possible to implement device drivers as part of the application.
+
+
+The \glspl{bar} of a device is exported as \glspl{sharedsegment} by the SmartIO driver, as briefly mentioned in \cref{sec:smartio-driver}.
 %
-By integrating device operation into application software itself, devices and their drivers become part of the same shared global address space as distributed shared-memory applications.
+These \gls{bar} segments can be mapped by the application, providing access to device registers and other device memory.
 %
-Furthermore, our \gls{apiext} also makes it possible to \textbf{\gls{disaggregate} a device in software}.
+Several application processes running on different machines may even access such memory mapped \glspl{bar} at the same time.
+%
+Similarly, the SmartIO driver also makes it possible to map \gls{memorysegment} for the device.
+%
+As such, devices may use native \gls{dma} to access \gls{sharedsegment} directly.
+%
+The \gls{apiext} also provides functionality for allocating \glspl{segment} associated with a device, and using access pattern hints in order for SmartIO to determine which machine it should allocate memory in.
+
+
+while tradeoff
+%
+Since the \gls{apiext} is built on the underlying SmartIO driver which resolves paths in the cluster, software can be written in a way that does not need to consider whether resources are local or remote.
+%
+This makes it possible to make memory locality optimizations
+
+also multicast and other snacks
+
+
+
+
+
+%
 %
 %Example of this is the our prototype NVMe driver using this extension, described in Section 222
 
 
 
-As mentioned in \cref{sec:idea,sec:ntb-driver}
 
 
 
@@ -496,7 +526,7 @@ As mentioned in \cref{sec:idea,sec:ntb-driver}
 
 
 
-\subsection{Proof-of-concept NVMe driver}\label{sec:nvme}
+\subsection{Proof-of-concept NVMe driver}\label{sec:nvme-driver}
 \begin{itemize}
     \item why a prototype driver? demonstrate disaggregation in software
     \item why nvme? easy to parallelize because of queues
