@@ -238,7 +238,7 @@ It acts as an abstraction layer, providing a logical decoupling of devices and w
 %
 Neither devices nor software need to consider where resources physically reside, since SmartIO resolves this on behalf of both devices and a machines using them (\glspl{borrower}).
 %
-By providing this abstraction, the SmartIO driver is the first step towards the sharing methods \gls{dl}, \gls{mdev}, and the \gls{sisciapiext}, presented in \cref{sec:lending,sec:mdev,sec:api} respectively.
+By providing this abstraction, the SmartIO driver is the first step towards \gls{dl}, \gls{mdev}, and the \gls{sisciapiext}, presented in \cref{sec:lending,sec:mdev,sec:api} respectively.
 
 
 Devices registered with SmartIO are assigned a unique identifier which allows machines to refer to a device without needing to specify the \gls{lendermachine}.
@@ -257,7 +257,7 @@ Note that a \gls{segment} can reside in memory of the machine using the device~(
 %
 A segment can even be allocated in device memory of another device, as the SmartIO driver can assist in mapping device \glspl{bar} and enabling \gls{p2p} between devices.
 %
-\Glspl{borrower} are not required to know anything about these \emph{device-side} \gls{io} addresses returned by our SmartIO driver, other than the fact that they resolve to the same address space as the device.
+\Glspl{borrower} are not required to know anything about the \emph{device-side} \gls{io} addresses returned by our SmartIO driver, other than the fact that they resolve to the same address space as the device.
 %
 This allows both a \gls{borrower} and the device to remain agnostic about the underlying, physical \gls{pcie} topology, as they can rely on the SmartIO driver to resolve paths in the cluster network and map resources through the appropriate \glspl{ntb}.
 
@@ -267,13 +267,13 @@ The SmartIO driver solves the challenge of managing multiple address spaces, as 
 %
 For example, a \gls{borrower} can request a \gls{memorysegment} in a different machine is mapped so that the device may use \gls{dma} to it.
 %
-Our SmartIO driver will look up the \gls{lendermachine} and which (device-side) \gls{ntb} it must use, configure the \gls{ntb}, map the \gls{memorysegment} for the device, and return the device-side \gls{io} address of this map back to the \gls{borrower}.
+Our SmartIO driver will look up which machine the \gls{memorysegment} is in, look up the \gls{lendermachine} and which (device-side) \gls{ntb} it must use, configure the \gls{ntb}, map the \gls{memorysegment} for the device, and return the device-side \gls{io} address of this map back to the \gls{borrower}.
 %
 The \gls{borrower} can then use this \gls{io} address when interacting with the device in order to initiate the \gls{dma} transfer, and the device is able to reach the \gls{memorysegment} through the lender's \gls{ntb}.
 %
 \Glspl{borrower} do not need to be aware of the internal \gls{io} address space layout of a \gls{lender}.
 %
-As it happens, they do not even need to know which physical machine the \gls{lender} is.
+As it happens, \glspl{borrower} do not even need to know which physical machine the \gls{lender} is.
 
 
 
