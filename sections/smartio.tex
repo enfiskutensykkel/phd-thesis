@@ -479,9 +479,11 @@ The \glspl{bar} of a device is exported as \glspl{sharedsegment} that may be map
 %
 Several application processes running on different machines may even access such memory mapped \glspl{bar} at the same time.
 %
-Similarly, the we also allow \glspl{memorysegment} to be mapped for a device.
+Similarly, the we also allow \glspl{memorysegment} to be mapped for a device, allowing devices may use native \gls{dma} to access \gls{sharedsegment} directly.
 %
-As such, devices may use native \gls{dma} to access \gls{sharedsegment} directly.
+These \glspl{segment} can be in \gls{ram} of the \gls{lender}, the \gls{borrower}, or a different cluster machine entirely.
+%
+\Glspl{segment} can even be allocated in device memory of \emph{other} devices.
 %
 The \gls{apiext} also provides functionality for allocating \glspl{segment} associated with a device, and using access pattern hints in order for SmartIO to determine which machine it should allocate memory in.
 
@@ -505,7 +507,7 @@ By integrating shared-memory functionality with device operation, we enable the 
 %
 For instance, applications may use \gls{pciemulticasting} to stream data to several destinations in a single operation, or exploit memory locality in order to optimize data flow through the network.
 %
-It is possible to combine the \gls{apiext} with the other sharing methods of SmartIO, allowing even \gls{disaggregation} \emph{borrowed} resources.
+It is even possible to combine the \gls{apiext} with the other sharing methods of SmartIO, allowing \gls{disaggregation} of \emph{borrowed} resources.
 %
 An example of this is would be a machine using \gls{dl} to borrow a remote \gls{gpu} capable of GPUDirect~\cite{url:GPUDirect,url:Rosetti2014}, allowing the device to be operated by the native driver, and then using the \gls{apiext} to export \gls{gpu} memory as a \gls{sharedsegment}.
 %
