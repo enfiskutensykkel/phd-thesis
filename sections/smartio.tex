@@ -456,34 +456,27 @@ Finally, a method of probing the \gls{kvm} using well-defined starting addresses
 
 
 \subsection{API extension}\label{sec:api}
-Most device drivers are written in a way that assumes exclusive control over the device.
+As mentioned in \cref{sec:ntb-driver}, a \gls{userspace} application may memory-map \glspl{sharedsegment} into its own local address space using the \gls{sisciapi}.
 %
-In most cases, a device may only be distributed to a single \gls{borrowermachine} at the time, preventing others from using it while it is used.
+Application processes running on different machines may read and write to remote memory, as if it was reading or writing to local \gls{ram}.
 %
-Some devices implement \gls{sriov}~\cite{spec:SRIOV}, making a single physical device to appear as multiple (virtual) device functions, or \glspl{vf}.
+Our \gls{apiext}, depicted as arrow \textbf{(3)} in \cref{fig:architecture}, adds device-oriented programming semantics and device driver support functionality to this shared-memory \gls{api}.
 %
-Using \gls{dl} or our \gls{mdev} implementation, it is possible to distribute such \glspl{vf} to \glspl{borrowermachine}.
-%
-However, \gls{sriov} is not widely available, especially for commodity devices.
-%
-Therefore, our extension to the \gls{sisciapi}, depicted as arrow \textbf{(3)} in \cref{fig:architecture}, makes it possible for several machines to share the same device (\gls{function}), by facilitating \gls{disaggregation} in software instead.
+This extension makes the core SmartIO capabilities, as described in \cref{sec:smartio-driver}, available through the same shared-memory \gls{api} used to write cluster applications.
 
 
-As mentioned in \cref{sec:idea,sec:ntb-driver}, a \gls{userspace} application may memory-map \glspl{sharedsegment} into its own local address space using \gls{sisci}.
-%
-This makes it possible for application processes to read and write to remote memory, as if it was reading or writing to local \gls{ram}.
-%
-Our \gls{apiext} extends this functionality with device-oriented programming semantics and support functions, making it possible to rely on the core SmartIO capabilities, as described in \cref{sec:smartio-driver}, through the same shared-memory \gls{api} used to write cluster applications.
-%
-The \glspl{bar} of a device is exported as \glspl{sharedsegment} that may be mapped by the application, providing access to device registers and other device memory.
+
+The \glspl{bar} of a device is exported as \glspl{sharedsegment} that may be mapped by the application, providing access to device registers and other device memory (\gls{mmio}).
 %
 Several application processes running on different machines may even access such memory mapped \glspl{bar} at the same time.
 %
-Similarly, the we also allow \glspl{memorysegment} to be mapped for a device, allowing devices may use native \gls{dma} to access \gls{sharedsegment} directly.
+Similarly, \glspl{memorysegment} can be mapped for a device, allowing devices may use native \gls{dma} to access \gls{sharedsegment} directly.
 %
-These \glspl{segment} can be in \gls{ram} of the \gls{lender}, the \gls{borrower}, or a different cluster machine entirely.
+These \glspl{segment} can reside in local \gls{ram} of the \gls{lender}, the \gls{borrower}, or a different cluster machine entirely.
 %
 \Glspl{segment} can even be allocated in device memory of \emph{other} devices.
+%
+SmartIO dynamically resolves the location of \glspl{segment} and devices in the cluster network, and can set up and tear down the necessary \gls{ntb} maps for the respective machines.
 %
 The \gls{apiext} also provides functionality for allocating \glspl{segment} associated with a device, and using access pattern hints in order for SmartIO to determine which machine it should allocate memory in.
 
@@ -491,38 +484,55 @@ The \gls{apiext} also provides functionality for allocating \glspl{segment} asso
 
 By allowing device drivers to be implemented as part of the application software, we make it possible for devices and device operation to become part of the same shared global address space as distributed shared-memory applications.
 %
-Since the \gls{apiext} is built on the underlying SmartIO driver which resolves paths in the cluster, software can be written in a way that does not need to consider whether resources are local or remote.
+Thus, device drivers can be implemented in a way that fully utilize the capabilities of \gls{pcie} networks.
 %
-However, the trade-off from using our \gls{apiext} is that it requires implementing a new device driver. 
+For instance, applications may stream data to several destinations in a single operation, replicating data across several machines by relying \gls{multicasting} support in \gls{pcie} hardware.
 %
-Implementing a driver from scratch typically entails a considerable engineering effort, and may not even be a viable option in many cases.
-%
-After all, the strength of \gls{dl} and the \gls{mdev} implementation is precisely that they do not require any modifications to existing device drivers.
-%
-Even so, implementing device drivers as part of cluster applications may potentially be extremely useful for some application domains.
-
-
-
-By integrating shared-memory functionality with device operation, we enable the implementation of device drivers that fully utilize the capabilities of \gls{pcie} networks.
-%
-For instance, applications may use \gls{pciemulticasting} to stream data to several destinations in a single operation, or exploit memory locality in order to optimize data flow through the network.
+A programmer can exploit memory locality to optimize data flow through the network without needing to be aware of the actual network topology, by specifying memory access pattern hints and allowing SmartIO to decide where \glspl{segment} should be allocated.
 %
 It is even possible to combine the \gls{apiext} with the other sharing methods of SmartIO, allowing \gls{disaggregation} of \emph{borrowed} resources.
 %
 An example of this is would be a machine using \gls{dl} to borrow a remote \gls{gpu} capable of GPUDirect~\cite{url:GPUDirect,url:Rosetti2014}, allowing the device to be operated by the native driver, and then using the \gls{apiext} to export \gls{gpu} memory as a \gls{sharedsegment}.
 %
-This would allow other machines and devices to read and write directly to the \lgls{borrower}{borrowed} \gls{gpu}'s memory.
+Application processes on other machines can then memory map this (remote) device memory \gls{segment}, allowing them to read and write directly to it as if it was local memory.
 
 
 
-The possibilities created by the \gls{apiext} are perhaps best demonstrated by our proof-of-concept \gls{nvme} driver, described in \cref{sec:nvme-driver}.
+Since the \gls{apiext} is built on the underlying SmartIO driver, software can be written in a way that does not need to consider whether resources are local or remote.
 %
-This driver shows how a non-\gls{sriov} \gls{nvme} can be \gls{disaggregated} in software and shared by several machines.
+However, the trade-off from using our \gls{apiext} is that it requires implementing a new device driver. 
+%
+Implementing a driver from scratch typically entails a considerable engineering effort, and may not be a viable option in many cases.
+%
+After all, the strength of \gls{dl} and the \gls{mdev} implementation is precisely that they do not require any modifications to existing device drivers.
+%
+Even so, being able to integrate device drivers into the cluster application itself may potentially be extremely useful for some application domains.
+%
+The possibilities created by the \gls{apiext} are perhaps best exemplified by our proof-of-concept \gls{nvme} driver, described in \cref{sec:nvme-driver}.
+%
+This driver shows how a non-\gls{sriov} \gls{nvme} can be \gls{disaggregated} in software and shared by several machines, as well as how we can use the \gls{apiext} for \gls{disaggregating} memory resources.
 %
 A more specific description of the functionality added to \gls{sisci} by our \gls{apiext} can be found in \paperref{tocs:api}.
 
 
+
 \subsection{Proof-of-concept NVMe driver}\label{sec:nvme-driver}
+Most device drivers are written in a way that assumes exclusive control over the device.
+%
+Therefore, a device may, in most cases, only be distributed to a single \gls{borrowermachine} at the time, preventing others from using it while it is used.
+%
+Some devices implement \gls{sriov}~\cite{spec:SRIOV}, making a single physical device to appear as multiple (virtual) device functions, or \glspl{vf}.
+%
+Using \gls{dl} or our \gls{mdev} implementation, it is possible to distribute such \glspl{vf} to \glspl{borrowermachine}.
+%
+However, \gls{sriov} is not widely available, especially for commodity devices.
+%
+
+
+
+Therefore, our extension to the \gls{sisciapi}, depicted as arrow \textbf{(3)} in \cref{fig:architecture}, makes it possible for several machines to share the same device (\gls{function}), by facilitating \gls{disaggregation} in software instead.
+
+
 \begin{itemize}
     \item why a prototype driver? demonstrate disaggregation in software
     \item why nvme? easy to parallelize because of queues
