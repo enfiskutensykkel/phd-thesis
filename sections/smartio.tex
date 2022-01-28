@@ -470,7 +470,7 @@ The \glspl{bar} of a device is exported as \glspl{sharedsegment} that may be map
 %
 Several application processes running on different machines may even access such memory mapped \glspl{bar} at the same time.
 %
-Similarly, \glspl{memorysegment} can be mapped for a device, allowing devices may use native \gls{dma} to access \gls{sharedsegment} directly.
+Similarly, \glspl{memorysegment} can be mapped for a device (as \glspl{dmawindow}), allowing devices to use native \gls{dma} to access \gls{sharedsegment} directly.
 %
 These \glspl{segment} can reside in local \gls{ram} of the \gls{lender}, the \gls{borrower}, or a different cluster machine entirely.
 %
@@ -517,6 +517,15 @@ A more specific description of the functionality added to \gls{sisci} by our \gl
 
 
 \subsection{Proof-of-concept NVMe driver}\label{sec:nvme-driver}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.99\textwidth]{nvme-driver}
+    \caption
+    [NVMe driver]
+    {TODO explain NVMe driver}
+    \label{fig:nvme-driver}
+\end{figure}
 Most device drivers are written in a way that assumes exclusive control over the device.
 %
 Therefore, a device may, in most cases, only be distributed to a single \gls{borrowermachine} at the time, preventing others from using it while it is used.
