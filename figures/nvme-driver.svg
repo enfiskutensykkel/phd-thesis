@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="2.5620933"
-     inkscape:cx="228.13377"
-     inkscape:cy="168.02667"
+     inkscape:zoom="1.2810467"
+     inkscape:cx="331.36967"
+     inkscape:cy="435.97163"
      inkscape:window-width="2558"
      inkscape:window-height="1409"
      inkscape:window-x="2560"
@@ -818,7 +818,7 @@
        style="fill:#ffffff;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect192102"
        width="19.050003"
-       height="17.991665"
+       height="18.520832"
        x="101.07082"
        y="4.4979181"
        rx="0.52916664"
@@ -2779,7 +2779,7 @@
        style="fill:#ffffff;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect234244"
        width="19.050003"
-       height="17.991665"
+       height="18.520832"
        x="101.07082"
        y="44.185417"
        rx="0.52916664"
@@ -2981,5 +2981,16 @@
        rx="0"
        inkscape:transform-center-x="2.1903688"
        inkscape:transform-center-y="-0.072522351" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="42.332649"
+       y="43.362038"
+       id="text27622"><tspan
+         sodipodi:role="line"
+         x="42.332649"
+         y="43.362038"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229392px"
+         id="tspan27620">Shared NVMe</tspan></text>
   </g>
 </svg>
