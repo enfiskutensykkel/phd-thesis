@@ -23,13 +23,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="2.5620934"
-     inkscape:cx="250.38119"
-     inkscape:cy="220.71795"
+     inkscape:zoom="1.8116736"
+     inkscape:cx="424.74538"
+     inkscape:cy="328.97758"
      inkscape:window-width="2558"
-     inkscape:window-height="1409"
-     inkscape:window-x="2560"
-     inkscape:window-y="0"
+     inkscape:window-height="1378"
+     inkscape:window-x="0"
+     inkscape:window-y="31"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer2"
      units="pt"
@@ -38,7 +38,7 @@
      inkscape:snap-bbox="true"
      inkscape:snap-bbox-midpoints="true"
      inkscape:snap-object-midpoints="true"
-     inkscape:snap-grids="true"
+     inkscape:snap-grids="false"
      inkscape:snap-to-guides="true"
      inkscape:bbox-nodes="true"
      inkscape:snap-global="true">
@@ -340,13 +340,13 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="95.573692"
-       y="85.142982"
+       x="95.550774"
+       y="85.360878"
        id="text128822"><tspan
          sodipodi:role="line"
          id="tspan128820"
-         x="95.573692"
-         y="85.142982"
+         x="95.550774"
+         y="85.360878"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#000000;fill-opacity:1;stroke-width:0.229392px">Host 3 (Borrower)</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.606897;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -2539,14 +2539,19 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="42.332649"
-       y="43.891205"
+       x="42.861816"
+       y="28.54537"
        id="text27622"><tspan
          sodipodi:role="line"
-         x="42.332649"
-         y="43.891205"
+         x="42.861816"
+         y="28.54537"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229392px"
-         id="tspan27620">Shared NVMe</tspan></text>
+         id="tspan77600">Shared by</tspan><tspan
+         sodipodi:role="line"
+         x="42.861816"
+         y="32.073147"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229392px"
+         id="tspan77604">all 3 hosts</tspan></text>
     <g
        id="g15767"
        transform="translate(-8.9958336,2.6458334)">
