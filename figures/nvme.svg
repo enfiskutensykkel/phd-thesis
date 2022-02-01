@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="5.0884714"
-     inkscape:cx="146.70418"
-     inkscape:cy="65.245528"
+     inkscape:zoom="7.1961852"
+     inkscape:cx="156.40231"
+     inkscape:cy="37.102992"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -429,7 +429,7 @@
        transform="rotate(-90)" />
     <path
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutM-6)"
-       d="M 36.380201,26.193747 V 13.520206"
+       d="m 36.380201,26.193747 0,-10.58333"
        id="path175152"
        sodipodi:nodetypes="cc" />
     <rect
