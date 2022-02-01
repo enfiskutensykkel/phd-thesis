@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="2.5620934"
-     inkscape:cx="226.96284"
-     inkscape:cy="314.1962"
+     inkscape:zoom="1.8116736"
+     inkscape:cx="300.55083"
+     inkscape:cy="259.98061"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -3918,49 +3918,48 @@
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.2449px">GPU</tspan></text>
     </g>
     <g
-       id="g31191"
-       transform="translate(22.621877,25.664578)">
+       id="g41720">
       <rect
-         style="opacity:0.933877;fill:#dbdee3;stroke:#000080;stroke-width:0.4;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         style="opacity:0.933877;fill:#ffe6d5;stroke:#d45500;stroke-width:0.4;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
          id="rect87533"
          width="3.5718744"
          height="5.0270834"
-         x="48.22031"
-         y="28.707304" />
+         x="70.842186"
+         y="54.371883" />
       <rect
-         style="opacity:0.933877;fill:#dbdee3;stroke:#000080;stroke-width:0.4;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         style="opacity:0.933877;fill:#ffe6d5;stroke:#d45500;stroke-width:0.4;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
          id="rect87531"
          width="3.5718744"
          height="5.0270834"
-         x="48.749477"
-         y="29.236464" />
+         x="71.371353"
+         y="54.901043" />
       <rect
-         style="opacity:0.933877;fill:#dbdee3;stroke:#000080;stroke-width:0.4;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         style="opacity:0.933877;fill:#ffe6d5;stroke:#d45500;stroke-width:0.4;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
          id="rect81990"
          width="3.5718744"
          height="5.0270834"
-         x="49.278645"
-         y="29.765623" />
+         x="71.90052"
+         y="55.430202" />
       <text
          xml:space="preserve"
          style="font-size:1.41111px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="51.063892"
-         y="30.950987"
+         x="73.685768"
+         y="56.615566"
          id="text83823"><tspan
            sodipodi:role="line"
            id="tspan83821"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:1.41111px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold';fill:#000000;stroke:none;stroke-width:0.264583px"
-           x="51.063892"
-           y="30.950987">0101</tspan><tspan
+           x="73.685768"
+           y="56.615566">0101</tspan><tspan
            sodipodi:role="line"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:1.41111px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold';fill:#000000;stroke:none;stroke-width:0.264583px"
-           x="51.063892"
-           y="32.725998"
+           x="73.685768"
+           y="58.390575"
            id="tspan83825">1010</tspan><tspan
            sodipodi:role="line"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:1.41111px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold';fill:#000000;stroke:none;stroke-width:0.264583px"
-           x="51.063892"
-           y="34.501007"
+           x="73.685768"
+           y="60.165585"
            id="tspan83827">0010</tspan></text>
     </g>
     <path
@@ -5000,7 +4999,7 @@
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.2449px">NTB</tspan></text>
     </g>
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#0055d4;stroke-width:0.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow1Mstart);marker-end:url(#marker2297-6)"
+       style="fill:none;fill-rule:evenodd;stroke:#d45500;stroke-width:0.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow1Mstart);marker-end:url(#marker2297-6)"
        d="M 16.007292,26.19375 H 8.3872917 V 15.08125 H 5.2916667 V 37.570834 H 44.529375 v 26.9875 h 18.57375 v 16.66875 h 53.445835 v -21.43125 h -2.91042 V 70.64375 h -6.19125"
        id="path284995"
        sodipodi:nodetypes="cccccccccccccc" />
