@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="3.6233472"
-     inkscape:cx="277.78183"
-     inkscape:cy="130.26629"
+     inkscape:zoom="1.8116736"
+     inkscape:cx="264.12042"
+     inkscape:cy="298.61891"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -5205,5 +5205,22 @@
        rx="0"
        inkscape:transform-center-x="2.1903688"
        inkscape:transform-center-y="-0.072522351" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.175px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ff7f2a;fill-opacity:0.937255;stroke:#000000;stroke-width:0.15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="29.624548"
+       y="52.089584"
+       id="text340914"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ff7f2a;fill-opacity:0.937255;stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
+         x="29.624548"
+         y="52.089584"
+         id="tspan16932">Peer-to-peer</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ff7f2a;fill-opacity:0.937255;stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
+         x="29.624548"
+         y="56.058334"
+         rotate="0 0 0 0"
+         id="tspan3669">DMA</tspan></text>
   </g>
 </svg>

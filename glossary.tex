@@ -32,6 +32,9 @@
 \newacronym{sisci}{SISCI}{Software Infrastructure for Shared-Memory Cluster Interconnects}
 \newacronym[seealso={passthrough}]{vfio}{VFIO}{Virtual Function I/O}
 
+\newacronym{sq}{SQ}{submission queue}
+\newacronym{cq}{CQ}{completion queue}
+
 \newglossaryentry{dl}{
     name={Device~Lending},
     description={One of the sharing methods of SmartIO, allowing devices to be distributed to and shared with remote machines.}
@@ -45,6 +48,13 @@
     name={NTB look-up table},
     text={look-up table},
     description={Address translation table in an \glsabbrlink{pcie} \glsabbrlink{ntb}.},
+    type=nolist
+}
+
+\newglossaryentry{db}{
+    name={NVMe doorbell register},
+    text={doorbell~register},
+    description={TODO if relevant},
     type=nolist
 }
 

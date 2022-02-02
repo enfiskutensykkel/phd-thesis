@@ -517,33 +517,67 @@ A more specific description of the functionality added to \gls{sisci} by our \gl
 
 
 \subsection{Proof-of-concept NVMe driver}\label{sec:nvme-driver}
-\begin{figure}
-    \centering
-    \includegraphics{nvme}
-    \caption
-    [NVMe]
-    {TODO explain NVMe}
-    \label{fig:nvme}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=.99\textwidth]{nvme-driver}
-    \caption
-    [NVMe driver]
-    {TODO explain NVMe driver}
-    \label{fig:nvme-driver}
-\end{figure}
 Most device drivers are written in a way that assumes exclusive control over the device.
 %
-Therefore, a device may, in most cases, only be distributed to a single \gls{borrowermachine} at the time, preventing others from using it while it is used.
+Therefore, a device may only be distributed to a single \gls{borrowermachine} at the time in most cases, preventing others from using it while it is used.
 %
 Some devices implement \gls{sriov}~\cite{spec:SRIOV}, making a single physical device to appear as multiple (virtual) device functions, or \glspl{vf}.
 %
 Using \gls{dl} or our \gls{mdev} implementation, it is possible to distribute such \glspl{vf} to \glspl{borrowermachine}.
 %
 However, due to the complexity of supporting virtualization in hardware, \gls{sriov} is not widely available, especially not for commodity devices.
+%
+By facilitating \gls{disaggregation} in \emph{software} instead, our \gls{sisciapiext}~(\cref{sec:api}) makes it possible for several application processes running on different machines to share the same device (\gls{function}).
+%
+As proof of this \gls{disaggregation} concept, we have implemented an \gls{nvme} driver as a \gls{userspace} \gls{sisci} application.
 
+
+
+\begin{figure}
+    \centering
+    \includegraphics{nvme}
+    \caption
+    [NVMe]
+    {NVMe}
+    \label{fig:nvme}
+\end{figure}
+%
+\begin{figure}
+    \centering
+    \includegraphics[width=.99\textwidth]{nvme-driver}
+    \caption
+    [NVMe driver]
+    {}
+    \label{fig:nvme-driver}
+\end{figure}
+
+
+
+
+As illustrated in \cref{fig:nvme}, \glspl{nvme} support asynchronous operation by using a system of paired command \glspl{sq} and \glspl{cq}~\cite{spec:NVMe}.
+%
+Both types of queues are data structures that are allocated in memory by discretion of the driver, and may be placed in \emph{any} memory location.
+%
+The driver submits \gls{io} commands, such as reading or writing $N$ blocks from storage, to an \gls{sq}.
+%
+The \gls{nvme} will use \gls{dma} to fetch commands from the \gls{sq}, and once a command is carried out, the \gls{nvme} posts the command completion status to the associated \gls{cq} (also using \gls{dma}) containing the status of the command.
+%
+``\Gls{db}'' on the \gls{nvme} device are used to signal when new commands should be fetched, and each queue has its own \gls{db} in order to avoid any contention in the command submission and completion paths.
+%
+Furthermore, as \emph{multiple} of these queue pairs can be created, parallel operation is supported.
+%
+An example of this is a multi-core \gls{cpu} that assigns an \gls{sq} and an associated \gls{cq} per \gls{cpu} core, where each core can operate the \gls{nvme} completely independent of each other.
+
+
+
+%
+\Cref{fig:nvme-driver} shows how our driver implementation utilize this, in order to enable multi-host sharing:
+%
+Each machine allocates a \gls{memorysegment} where it sets up the queue data structures, and uses the \gls{apiext} to map these segments for the device.
+%
+They also use the \gls{apiext} to memory map device registers through their respective \glspl{ntb}.
+
+    {An \gls{nvme} can access queues residing in memory segments on different machines by mapping these segments for the device as \glspl{dmawindow}. \Glspl{borrower} can in turn map doorbell registers for their respective queues. The \gls{nvme} is able to fetch commands from queues in remote memory the same way it would fetch commands from queues in local memory on the \gls{lender}, using native \gls{dma} transfers. Since queues are completely parallel, each machine can submit commands independent of each other.}
 
 \begin{figure}
     \centering
@@ -575,16 +609,9 @@ However, due to the complexity of supporting virtualization in hardware, \gls{sr
     {TODO explain SQ placement}
     \label{fig:nvme-queues}
 \end{figure}
-    
-As mentioned in \cref{sec:api}, the \gls{sisciapiext} makes it possible for several machines to share the same device (\gls{function}), by facilitating \gls{disaggregation} in software instead.
-%
-In order to demonstrate this, we have developed a proof-of-concept \gls{nvme} device driver using our \gls{apiext}.
 
 
-Something about NVMe being particularly well-suited because parallel
-Mention queues and DMA, not too many details
-Figure should show four machines, but with one machine hosting queues in GPU memory
-Figure should also say that it is possible to map nvme device registers for gpu
+
 
 
 \begin{itemize}
