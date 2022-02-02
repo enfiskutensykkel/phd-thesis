@@ -506,7 +506,7 @@ Implementing a driver from scratch typically entails a considerable engineering 
 %
 After all, the strength of \gls{dl} and the \gls{mdev} implementation is precisely that they do not require any modifications to existing device drivers.
 %
-Even so, being able to integrate device drivers into the cluster application itself may potentially be extremely useful for some application domains.
+Even so, being able to integrate device drivers into the cluster application itself may potentially be very useful for some application domains.
 %
 The possibilities created by the \gls{apiext} are perhaps best exemplified by our proof-of-concept \gls{nvme} driver, described in \cref{sec:nvme-driver}.
 %
@@ -567,6 +567,14 @@ However, due to the complexity of supporting virtualization in hardware, \gls{sr
 \end{figure}
 
 
+\begin{figure}
+    \centering
+    \includegraphics[width=.99\textwidth]{nvme-queues}
+    \caption
+    [NVMe queues]
+    {TODO explain SQ placement}
+    \label{fig:nvme-queues}
+\end{figure}
     
 As mentioned in \cref{sec:api}, the \gls{sisciapiext} makes it possible for several machines to share the same device (\gls{function}), by facilitating \gls{disaggregation} in software instead.
 %
