@@ -547,21 +547,27 @@ However, due to the complexity of supporting virtualization in hardware, \gls{sr
 
 \begin{figure}
     \centering
-    \includegraphics[width=.99\textwidth]{nvme-local-gpu}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=.99\textwidth]{nvme-local-gpu}
+        \caption{Local GPU}
+        \label{fig:nvme-local-gpu}
+    \end{subfigure}
+    \par\vspace{5mm}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=.99\textwidth]{nvme-remote-gpu}
+        \caption{Remote GPU}
+        \label{fig:nvme-remote-gpu}
+    \end{subfigure}
     \caption
-    [SQ]
-    {TODO SQ}
-    \label{fig:nvme-local-gpu}
+    [A caption]
+    {Cool GPU stuff}
+    \label{fig:nvme-gpu}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=.99\textwidth]{nvme-remote-gpu}
-    \caption
-    [SQ]
-    {TODO SQ}
-    \label{fig:nvme-remote-gpu}
-\end{figure}
+
+    
 As mentioned in \cref{sec:api}, the \gls{sisciapiext} makes it possible for several machines to share the same device (\gls{function}), by facilitating \gls{disaggregation} in software instead.
 %
 In order to demonstrate this, we have developed a proof-of-concept \gls{nvme} device driver using our \gls{apiext}.
