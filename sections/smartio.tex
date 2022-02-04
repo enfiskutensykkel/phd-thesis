@@ -564,8 +564,8 @@ An example of this is a multi-core \gls{cpu} that assigns an \gls{sq} and an ass
     \centering
     \includegraphics[width=.99\textwidth]{nvme-driver}
     \caption
-    [NVMe driver]
-    {TODO make caption}
+    [Several machines can operate the same \glsfmtshort{nvme} simultaneously by distributing queues]
+    {Several machines can share and operate the same \gls{nvme} simultaneously by distributing queues. Using the \gls{sisciapiext}, \glspl{memorysegment} with the queues' data structures can be mapped for the device, and \glspl{db} can be memory mapped for application processes.}
     \label{fig:nvme-driver}
 \end{figure}
 
@@ -590,9 +590,8 @@ Many \glspl{gpu} support \gls{p2pdma} in order to avoid unnecessary copies via s
 This makes it possible for \gls{gpu}-accelerated applications that require fast storage to directly load data into \gls{gpu} memory~\cite{Bergman2019,url:Thompson2019}.
 %
 For Nvidia \glspl{gpu}, it is possible to make on-board \gls{gpu} memory accessible through the \gls{gpu}'s \glspl{bar} using the \gls{gpudirect}~\gls{api}~\cite{url:GPUDirect}.
-
-For Nvidia \glspl{gpu}, \gls{p2pdma} with other devices is supported using their \gls{gpudirect}~\gls{api}~\cite{url:GPUDirect,url:Rosetti2014}.
 %
+
 
 
 
