@@ -205,7 +205,7 @@ For example, we can \gls{disaggregate} the device memory of a remote \gls{gpu} u
     \centering
     \includegraphics{software-architecture}
     \caption[Three different sharing methods are made possible by our framework. The SmartIO driver abstracts away the physical location of a remote resource]
-    {The software architecture of SmartIO. Three different sharing methods are made possible by our framework: \textbf{(1)}~\gls{dl}, \textbf{(2)}~\gls{mdev}, and \textbf{(3)}~using the \gls{sisciapiext}. The SmartIO driver, shown as \textbf{(B)}, abstracts away the physical location of remote resources, for both the shared device and software using the device.}
+    {The software architecture of SmartIO. Three different sharing methods are made possible by our framework: \textbf{(1)}~\gls{dl}, \textbf{(2)}~\gls{mdev}, and \textbf{(3)}~using the \gls{sisciapiext}. The SmartIO driver, shown as layer \textbf{(B)}, abstracts away the physical location of remote resources, for both the shared device and software using the device.}
     \label{fig:architecture}
 \end{figure}
 
@@ -399,7 +399,7 @@ Our \gls{mdev} sharing method is implemented using the mediated device driver \g
 %
 Comparable to the \gls{shadowdev} used by \gls{dl}~(\cref{sec:lending}), this interface makes it possible to \gls{trap}~(handle) certain operations, such as \glspl{cfgcycle} and device resets, and to set the memory addresses of the device's \glspl{bar}.
 %
-However, unlike \gls{dl}, we have no means of controlling which \gls{io} addresses a device driver should use when initiating \gls{dma} transfers.
+However, unlike \gls{dl}, we do not have any means of controlling which \gls{io} addresses a device driver should use when initiating \gls{dma} transfers.
 %
 In \gls{dl}, we create a single, continuous \gls{iommu} range ahead of time, and map it through the \gls{lender}'s \gls{ntb}. 
 %
@@ -492,7 +492,7 @@ A programmer can exploit memory locality to optimize data flow through the netwo
 %
 It is even possible to combine the \gls{apiext} with the other sharing methods of SmartIO, allowing \gls{disaggregation} of \emph{borrowed} resources.
 %
-An example of this is would be a machine using \gls{dl} to borrow a remote \gls{gpu} capable of GPUDirect~\cite{url:GPUDirect,url:Rosetti2014}, allowing the device to be operated by the native driver, and then using the \gls{apiext} to export \gls{gpu} memory as a \gls{sharedsegment}.
+An example of this is would be a machine using \gls{dl} to borrow a remote \gls{gpu} capable of \gls{gpudirect}~\cite{url:GPUDirect,url:Rosetti2014}, allowing the device to be operated by the native driver, and then using the \gls{apiext} to export \gls{gpu} memory as a \gls{sharedsegment}.
 %
 Application processes on other machines can then memory map this (remote) device memory \gls{segment}, allowing them to read and write directly to it as if it was local memory.
 
@@ -538,18 +538,9 @@ As a demonstration of this software-enabled \gls{disaggregation}, we have implem
     \centering
     \includegraphics{nvme}
     \caption
-    [NVMe]
-    {TODO make caption}
+    [\Glsfmtshortpl{nvme} support parallel operation by using independent queues. An \glsfmtshort{nvme} uses \glsfmtshort{dma} to fetch commands and post completions]
+    {\Glspl{nvme} support asynchronous operation by usingpairs for submitting \gls{io} commands and receiving completions. These queues are hosted in memory, and an \gls{nvme} uses \gls{dma} to fetch commands and post completions.}
     \label{fig:nvme}
-\end{figure}
-%
-\begin{figure}
-    \centering
-    \includegraphics[width=.99\textwidth]{nvme-driver}
-    \caption
-    [NVMe driver]
-    {TODO make caption}
-    \label{fig:nvme-driver}
 \end{figure}
 
 
@@ -562,13 +553,21 @@ The driver submits \gls{io} commands, such as reading or writing $N$ blocks from
 %
 The \gls{nvme} will use \gls{dma} to fetch commands from the \gls{sq}, and once a command is carried out, the \gls{nvme} posts the command completion status to the associated \gls{cq} (also using \gls{dma}) containing the status of the command.
 %
-``\Gls{db}'' on the \gls{nvme} device are used to signal when new commands should be fetched, and each queue has its own \gls{db}.
+``\Glspl{db}'' on the \gls{nvme} device are used to signal when new commands should be fetched, and each queue has its own \gls{db}.
 %
 Furthermore, as \emph{multiple} of these queue pairs can be created, \glspl{nvme} avoid any contention in the command submission and completion paths.
 %
 An example of this is a multi-core \gls{cpu} that assigns an \gls{sq} and an associated \gls{cq} per \gls{cpu} core, allowing each core to operate the \gls{nvme} independent of others.
 
 
+\begin{figure}
+    \centering
+    \includegraphics[width=.99\textwidth]{nvme-driver}
+    \caption
+    [NVMe driver]
+    {TODO make caption}
+    \label{fig:nvme-driver}
+\end{figure}
 
 As shown in \cref{fig:nvme-driver}, our own driver implementation works by taking this one step further, allowing \glspl{cpu} in different machines to operate an \gls{nvme} simultaneously using their own queue pairs.
 %
@@ -578,11 +577,26 @@ This allows the \gls{nvme} to read \gls{sq} memory and write to \gls{cq} memory 
 %
 Likewise, as \glspl{devicebar} are automatically exported by SmartIO as \glspl{segment}, all machines can memory map \glspl{db} for their respective queues.
 %
-Since queues are completely parallel, each machine can submit \gls{io} commands and receive completions, entirely independent of each other.
+Since queues are completely parallel, all the machines can submit \gls{io} commands and receive completions entirely independent of each other, once the queues are configured.
 %
 Note that all machines are able to operate the \gls{nvme} at the same time, including the \gls{lender}.
 %
-The software is the same regardless of which machine it runs on, since SmartIO keeps track of where the \glspl{segment} and the device reside, and is able to decide where \glspl{segment} should be allocated based on memory access pattern hinting, as explained in \cref{sec:api}.
+The software is the same regardless of which machine it runs on, as SmartIO keeps track of where the \glspl{segment} and the device reside.
+
+
+
+Many \glspl{gpu} support \gls{p2pdma} in order to avoid unnecessary copies via system memory.
+%
+This makes it possible for \gls{gpu}-accelerated applications that require fast storage to directly load data into \gls{gpu} memory~\cite{Bergman2019,url:Thompson2019}.
+%
+For Nvidia \glspl{gpu}, it is possible to make on-board \gls{gpu} memory accessible through the \gls{gpu}'s \glspl{bar} using the \gls{gpudirect}~\gls{api}~\cite{url:GPUDirect}.
+
+For Nvidia \glspl{gpu}, \gls{p2pdma} with other devices is supported using their \gls{gpudirect}~\gls{api}~\cite{url:GPUDirect,url:Rosetti2014}.
+%
+
+
+
+is able to decide where \glspl{segment} should be allocated based on memory access pattern hinting, as explained in \cref{sec:api}.
 
 
 \begin{figure}
@@ -627,7 +641,7 @@ The software is the same regardless of which machine it runs on, since SmartIO k
     \item gpudirect + co-operation with device lending
 \end{itemize}
 
-We demonstrate this combining with as part of the evaluation of our proof-of-concept \gls{nvme} driver in \paperref{tocs:eval-nvme-sq}.
+%We demonstrate this combining with as part of the evaluation of our proof-of-concept \gls{nvme} driver in \paperref{tocs:eval-nvme-sq}.
 
 
 

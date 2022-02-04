@@ -24,8 +24,8 @@
      inkscape:document-units="mm"
      showgrid="true"
      inkscape:zoom="2.5620934"
-     inkscape:cx="253.89395"
-     inkscape:cy="144.80347"
+     inkscape:cx="190.27409"
+     inkscape:cy="167.0509"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -2228,7 +2228,7 @@
        id="path191262"
        sodipodi:nodetypes="cc" />
     <rect
-       style="opacity:0.933877;fill:#dfc043;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       style="opacity:0.933877;fill:#ff7f2a;fill-opacity:0.93725491;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect191268"
        width="1.4287502"
        height="2.0982533"
@@ -2258,7 +2258,7 @@
        id="path191274"
        sodipodi:nodetypes="cc" />
     <rect
-       style="opacity:0.933877;fill:#dfc043;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       style="opacity:0.933877;fill:#ff7f2a;fill-opacity:0.93725491;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect191276"
        width="1.4287502"
        height="2.0982533"
@@ -2291,7 +2291,7 @@
          y="16.475822"
          id="tspan191282">CQ</tspan></text>
     <rect
-       style="opacity:0.933877;fill:#dfc043;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       style="opacity:0.933877;fill:#ff7f2a;fill-opacity:0.93725491;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect207380"
        width="1.4287502"
        height="2.0982533"
@@ -2415,7 +2415,7 @@
        id="path234268"
        sodipodi:nodetypes="cc" />
     <rect
-       style="opacity:0.933877;fill:#dfc043;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       style="opacity:0.933877;fill:#da80f0;fill-opacity:0.93725491;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect234270"
        width="1.4287502"
        height="2.0982533"
@@ -2445,7 +2445,7 @@
        id="path234276"
        sodipodi:nodetypes="cc" />
     <rect
-       style="opacity:0.933877;fill:#dfc043;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       style="opacity:0.933877;fill:#da80f0;fill-opacity:0.93725491;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect234278"
        width="1.4287502"
        height="2.0982533"
@@ -2478,7 +2478,7 @@
          y="61.984161"
          id="tspan234284">CQ</tspan></text>
     <rect
-       style="opacity:0.933877;fill:#dfc043;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       style="opacity:0.933877;fill:#da80f0;fill-opacity:0.93725491;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect234288"
        width="1.4287502"
        height="2.0982533"
@@ -2515,7 +2515,7 @@
        id="path112006"
        sodipodi:nodetypes="csc" />
     <rect
-       style="opacity:0.933877;fill:#dfc043;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       style="opacity:0.933877;fill:#da80f0;fill-opacity:0.93725491;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect246267"
        width="1.4287502"
        height="2.0982533"
@@ -2526,7 +2526,7 @@
        inkscape:transform-center-x="2.1903688"
        inkscape:transform-center-y="-0.072522351" />
     <rect
-       style="opacity:0.933877;fill:#dfc043;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       style="opacity:0.933877;fill:#da80f0;fill-opacity:0.93725491;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect246269"
        width="1.4287502"
        height="2.0982533"
@@ -3136,5 +3136,38 @@
          style="fill:#666666;fill-opacity:1;stroke:#000000;stroke-width:0.0885748;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          d="m 83.810661,82.851242 a 0.51135957,0.51135957 0 0 1 -0.506739,0.511339 0.51135957,0.51135957 0 0 1 -0.515897,-0.502098 0.51135957,0.51135957 0 0 1 0.497415,-0.520413 0.51135957,0.51135957 0 0 1 0.524887,0.492693" />
     </g>
+    <rect
+       style="display:inline;opacity:0.933877;fill:#5599ff;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       id="rect87368"
+       width="1.4287502"
+       height="2.0982533"
+       x="-23.087847"
+       y="-38.587532"
+       ry="0.26458246"
+       rx="0"
+       inkscape:transform-center-x="2.1903688"
+       inkscape:transform-center-y="-0.072522351" />
+    <rect
+       style="display:inline;opacity:0.933877;fill:#da80f0;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       id="rect120982"
+       width="1.4287502"
+       height="2.0982533"
+       x="-60.129498"
+       y="-47.583366"
+       ry="0.26458246"
+       rx="0"
+       inkscape:transform-center-x="2.1903688"
+       inkscape:transform-center-y="-0.072522351" />
+    <rect
+       style="display:inline;opacity:0.933877;fill:#ff7f2a;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       id="rect142647"
+       width="1.4287502"
+       height="2.0982533"
+       x="-49.546154"
+       y="-33.825031"
+       ry="0.26458246"
+       rx="0"
+       inkscape:transform-center-x="2.1903688"
+       inkscape:transform-center-y="-0.072522351" />
   </g>
 </svg>

@@ -481,7 +481,7 @@ As such, we have followed the technocratic paradigm of iteratively designing, im
         %
         The strength of our shared-memory approach is best highlighted by demonstrating capabilities that other resource sharing solutions lack.
         %
-        For instance, as CUDA unified memory~\cite{url:unified-memory} can be supported by our solution, even for \glspl{gpu} that reside in \emph{different machines}, we have performed experiments with direct memory-to-memory transfers across the cluster network.
+        For instance, as \gls{cuda} unified memory~\cite{url:unified-memory} and \gls{gpudirect}~\cite{url:GPUDirect,url:Rosetti2014} can be supported by our solution, even for \glspl{gpu} that reside in \emph{different machines}, we have performed experiments with direct memory-to-memory transfers across the cluster network.
         %
         Other possibilities, such as exploiting memory \gls{disaggregation} to implement memory locality optimizations or using \gls{pciemulticasting} to replicate data across several machines in a single operation, is also explored.
         %
