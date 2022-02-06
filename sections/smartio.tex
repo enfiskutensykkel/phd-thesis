@@ -500,11 +500,11 @@ Application processes on other machines can then memory map this (remote) device
 
 Since the \gls{apiext} is built on the underlying SmartIO driver, software can be written in a way that does not need to consider whether resources are local or remote.
 %
-However, the trade-off from using our \gls{apiext} is that it requires implementing a new device driver. 
+However, using the \gls{apiext} requires the implementation of new device driver software.
 %
-Implementing a driver from scratch typically entails a considerable engineering effort, and may not be a viable option in many cases.
+Implementing a driver from scratch may not be a viable option in many cases, as it typically entails a considerable engineering effort.
 %
-After all, the strength of \gls{dl} and the \gls{mdev} implementation is precisely that they do not require any modifications to existing device drivers.
+After all, the strength of \gls{dl} and the \gls{mdev} implementation is precisely that they do not require any modifications to existing device driver software.
 %
 Even so, being able to integrate device drivers into the cluster application itself may potentially be very useful for some application domains.
 %
@@ -569,6 +569,7 @@ An example of this is a multi-core \gls{cpu} that assigns an \gls{sq} and an ass
     \label{fig:nvme-driver}
 \end{figure}
 
+
 As shown in \cref{fig:nvme-driver}, our own driver implementation works by taking this one step further, allowing \glspl{cpu} in different machines to operate an \gls{nvme} simultaneously using their own queue pairs.
 %
 Each machine allocates a \gls{memorysegment} where it sets up the queues' data structures, and uses the \gls{apiext} to map these segments for the device as \glspl{dmawindow}.
@@ -584,38 +585,24 @@ Note that all machines are able to operate the \gls{nvme} at the same time, incl
 The software is the same regardless of which machine it runs on, as SmartIO keeps track of where the \glspl{segment} and the device reside.
 
 
-
-Many \glspl{gpu} support \gls{p2pdma} in order to avoid unnecessary copies via system memory.
-%
-This makes it possible for \gls{gpu}-accelerated applications that require fast storage to directly load data into \gls{gpu} memory~\cite{Bergman2019,url:Thompson2019}.
-%
-For Nvidia \glspl{gpu}, it is possible to make on-board \gls{gpu} memory accessible through the \gls{gpu}'s \glspl{bar} using the \gls{gpudirect}~\gls{api}~\cite{url:GPUDirect}.
-%
-
-
-
-
-is able to decide where \glspl{segment} should be allocated based on memory access pattern hinting, as explained in \cref{sec:api}.
-
-
 \begin{figure}
     \centering
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=.99\textwidth]{nvme-local-gpu}
-        \caption{TODO make caption for local GPU}
+        \caption{Loading data directly into the memory of a \gls{gpu} residing in the \gls{borrower}.}
         \label{fig:nvme-local-gpu}
     \end{subfigure}
     \par\vspace{5mm}
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=.99\textwidth]{nvme-remote-gpu}
-        \caption{TODO make caption for remote GPU}
+        \caption{Loading data into, and storing data from, memory of a borrowed \gls{gpu}.}
         \label{fig:nvme-remote-gpu}
     \end{subfigure}
     \caption
-    [A caption]
-    {TODO make caption for cool GPU stuff}
+    [Our proof-of-concept \glsfmtshort{nvme} driver is able to map \glsfmtshort{gpu} memory for an \glsfmtshort{nvme} using the SmartIO \glsfmttext{apiext}, making it possible to load and store data directly from \glsfmtshort{gpu} memory]
+    {By relying on \gls{gpudirect} to expose \gls{gpu} memory through the \gls{gpu}'s \glspl{bar}, our proof-of-concept \gls{nvme} driver is able to map \gls{gpu} memory for an \gls{nvme} using the SmartIO \gls{apiext}. This makes it possible to load and store \gls{gpu} data directly, without unnecessarily copying it via \gls{ram}.}
     \label{fig:nvme-gpu}
 \end{figure}
 
@@ -624,23 +611,89 @@ is able to decide where \glspl{segment} should be allocated based on memory acce
     \centering
     \includegraphics{nvme-queues}
     \caption
-    [NVMe queues]
-    {TODO make caption for SQ optimization}
+    [By using access pattern hinting, it is possible to consider memory locality without being aware of the underlying \glsfmtshort{pcie} topology]
+    {Our \gls{nvme} driver implementation relies on SmartIO to decide where \glspl{segment} containing queues should be allocated. By using access pattern hinting, it is possible to consider memory locality without being aware of the underlying \gls{pcie} topology.}
     \label{fig:nvme-queues}
 \end{figure}
 
 
+As mentioned in \cref{sec:api}, while using \gls{apiext} requires developing a new device driver, such as our proof-of-concept \gls{nvme} driver, the benefit is that device operation can become part of the cluster application itself.
+%
+Because SmartIO abstracts away the location of devices and \glspl{memorysegment}, the complexity of developing such distributed drivers is somewhat alleviated as software can be written in a way that does not need to consider whether resources are local or remote.
+%
+Any memory resource can be mapped for the device, regardless of its location in the cluster.
+%
+An implementation can exploit this in order to optimize the movement of data through the network---without needing to consider the actual \gls{pcie} topology.
+%
+It is even possible to combine the use of the \gls{apiext} with the other sharing methods of SmartIO.
+%
+Our \gls{nvme} driver demonstrates some of the possibilities created by the \gls{apiext}: 
+%
+\begin{description}
+    \item[Remote \gls{gpu} access] (\cref{fig:nvme-gpu}):
+        %
+        Many \gls{gpu}-accelerated applications, such as big~data and machine~learning tasks, require access to data on a storage device.
+        %
+        Traditionally, loading data from a storage device and into \gls{gpu} memory involves first reading data to system memory, and then copy it onto the \gls{gpu}.
+        %
+        Likewise, storing the result of a \gls{gpu} computation involves copying it out of the \gls{gpu} to system memory, and then writing it to storage.
+        %
+        Since datasets used in typical big~data and machine~learning tasks can be as large as hundreds of terrabytes, \gls{gpu} applications become bounded by transfers between storage and \gls{gpu}.
+        %
+        To overcome this, some \glspl{gpu} support \gls{p2pdma}, making it possible to load data directly into \gls{gpu} memory and avoid unnecessary copies via system memory~\cite{Bergman2019,url:Thompson2019}.
+        %
+        For Nvidia \glspl{gpu}, this functionality is supported through the \gls{gpudirect}~\gls{api}~\cite{url:GPUDirect}, which makes on-board \gls{gpu} memory accessible through the \gls{gpu}'s \glspl{bar}.
+        %
+        As explained in \cref{sec:smartio-driver}, SmartIO automatically exports \glspl{devicebar} as \glspl{memorysegment}, which can be mapped for a device using the \gls{apiext}.
+        %
+        Our proof-of-concept \gls{nvme} driver use this to enable an \gls{nvme} to read and write directly to the memory of both local \glspl{gpu} and \emph{borrowed} \glspl{gpu} (using \gls{dl}), as seen in \cref{fig:nvme-local-gpu,fig:nvme-remote-gpu} respectively.
+        %
+        Note that the \gls{gpu} is operated by the native \gls{gpu} driver in both scenarios, but we still use the \gls{apiext} to disaggregate its device memory.
+
+    \item[Memory locality optimizations] (\cref{fig:nvme-queues}):
+        %
+        In \gls{pcie}, the latency of transactions are affected by the number of switch chips they need to traverse.
+        %
+        Particularly memory reads are affected; the longer the path between a device and the memory it reads from, the higher the latency becomes, as \gls{pcie} transactions have to travel further.
+        %
+        As described in \cref{sec:api}, a programmer can rely on the \gls{apiext} to decide where \glspl{segment} should be allocated, based on memory access pattern hinting.
+        %
+        In the case of our \gls{nvme} driver, we can use this functionality when creating \glspl{segment} for queue memory, as illustrated in \cref{fig:nvme-queues}.
+        %
+        By specifying that the \gls{segment} containing \glspl{cq} will be written to by the \gls{nvme}, and read by the \gls{borrower}'s \gls{cpu}, SmartIO will decide to allocate the \gls{segment} in memory closer to the \gls{cpu},~i.e., in the \gls{borrower}'s local \gls{ram}.
+        %
+        Similarly, a segment with an \gls{sq} can be allocated in the \gls{lender}'s \gls{ram} by specifying that the \gls{nvme} will read from it and the \gls{cpu} will only write to it, shown as SQ1 in \cref{fig:nvme-queues}.
+        %
+        It is even possible to use memory of \emph{another device} for \glspl{sq}.
+        %
+        By mapping \gls{gpu} memory for the device, as explained above, it is possible to allocate the \gls{sq} on a borrowed \gls{gpu} that is close to the \gls{nvme}, depicted as SQ2 in \cref{fig:nvme-queues}.
+
+\end{description}
+
+
+Our proof-of-concept \gls{nvme} driver demonstrate how 
+
+
+for making device drivers part of distributed, shared-memory applications:
 
 
 
-\begin{itemize}
-    \item why a prototype driver? demonstrate disaggregation in software
-    \item why nvme? easy to parallelize because of queues
-    \item driver implementation and queue sharing
-    \item gpudirect + co-operation with device lending
-\end{itemize}
 
+
+
+
+%\begin{itemize}
+%    \item why a prototype driver? demonstrate disaggregation in software
+%    \item why nvme? easy to parallelize because of queues
+%    \item driver implementation and queue sharing
+%    \item gpudirect + co-operation with device lending
+%\end{itemize}
+
+%unlock potential
 %We demonstrate this combining with as part of the evaluation of our proof-of-concept \gls{nvme} driver in \paperref{tocs:eval-nvme-sq}.
+%see papers for running the nvme driver on the gpu as a cuda kernel
+%multicasting
+%failover
 
 
 

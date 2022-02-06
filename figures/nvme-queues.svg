@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="2.5442357"
-     inkscape:cx="134.61803"
-     inkscape:cy="99.047428"
+     inkscape:zoom="3.5980926"
+     inkscape:cx="224.14654"
+     inkscape:cy="141.46384"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -2032,10 +2032,10 @@
        id="text4088"><tspan
          x="66.647095"
          y="-4.7077231"
-         id="tspan19332"><tspan
+         id="tspan86778"><tspan
            dx="0 1.4521099 1.2950133 0.83302546 0.82372332 1.2950134 1.731163 1.3022485"
            style="font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
-           id="tspan19330">Borrower</tspan></tspan></text>
+           id="tspan86776">Borrower</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2300,7 +2300,7 @@
     <rect
        y="16.394955"
        x="71.569801"
-       height="5.2916679"
+       height="8.7404623"
        width="18.891258"
        id="rect87370"
        style="display:inline;fill:#b0c4de;fill-opacity:1;stroke:#0055d4;stroke-width:0.4;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
@@ -2324,7 +2324,7 @@
        id="path87366"
        sodipodi:nodetypes="cc" />
     <rect
-       style="display:inline;opacity:0.933877;fill:#5599ff;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       style="display:inline;opacity:0.933877;fill:#dc88f1;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect87368"
        width="1.4287502"
        height="2.0982533"
@@ -2344,18 +2344,18 @@
          x="75.169579"
          y="19.68985"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan87471">SQ 1</tspan></text>
+         id="tspan87471">CQ1</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="80.95002"
-       y="24.305634"
+       y="27.480637"
        id="text91922"><tspan
          sodipodi:role="line"
          x="80.95002"
-         y="24.305634"
+         y="27.480637"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan91920">SQ 1 in local RAM</tspan></text>
+         id="tspan91920">CQs in local RAM</tspan></text>
     <rect
        y="7.3991213"
        x="34.52813"
@@ -2403,7 +2403,7 @@
          x="38.127911"
          y="10.694012"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan120984">SQ 2</tspan></text>
+         id="tspan120984">SQ 1</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2414,7 +2414,7 @@
          x="44.356895"
          y="3.345964"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan120988">SQ 2 in RAM</tspan><tspan
+         id="tspan120988">SQ1 in RAM</tspan><tspan
          sodipodi:role="line"
          x="44.356895"
          y="6.4327641"
@@ -2488,7 +2488,7 @@
          x="48.711254"
          y="24.452345"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan142649">SQ 3</tspan></text>
+         id="tspan142649">SQ 2</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker2998)"
        d="m 45.24375,23.8125 h -4.7625"
@@ -2533,7 +2533,7 @@
          x="55.377953"
          y="17.44585"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan170835">SQ 3 in memory</tspan><tspan
+         id="tspan170835">SQ2 in memory</tspan><tspan
          sodipodi:role="line"
          x="55.377953"
          y="20.53265"
@@ -2983,36 +2983,36 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:3.175px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#dc88f1;fill-opacity:1;stroke:none;stroke-width:0.15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       x="16.668751"
+       x="18.785419"
        y="16.076536"
        id="text236964"><tspan
          sodipodi:role="line"
-         x="16.668751"
+         x="18.785419"
          y="16.076536"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#dc88f1;fill-opacity:1;stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
-         id="tspan236962">(2)</tspan></text>
+         id="tspan236962">SQ1</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:3.175px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ff7f2a;fill-opacity:1;stroke:#000000;stroke-width:0.15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       x="13.096875"
-       y="30.628622"
+       x="15.21354"
+       y="31.157789"
        id="text246875"><tspan
          sodipodi:role="line"
-         x="13.096875"
-         y="30.628622"
+         x="15.21354"
+         y="31.157789"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ff7f2a;fill-opacity:1;stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
-         id="tspan246873">(3)</tspan></text>
+         id="tspan246873">SQ2</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:3.175px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#609fff;fill-opacity:1;stroke:#000000;stroke-width:0.15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       x="99.615616"
-       y="19.251539"
+       x="97.41552"
+       y="19.293659"
        id="text253324"><tspan
          sodipodi:role="line"
-         x="99.615616"
-         y="19.251539"
+         x="97.41552"
+         y="19.293659"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#609fff;fill-opacity:1;stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
-         id="tspan253322">(1)</tspan></text>
+         id="tspan253322">CQs</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker2998)"
        d="M 82.946868,43.127083 V 47.625"
@@ -3058,7 +3058,7 @@
          x="78.873726"
          y="41.385681"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan6814">SQ 2</tspan></text>
+         id="tspan6814">SQ2</tspan></text>
     <rect
        style="display:inline;opacity:0.933877;fill:#da80f0;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect6818"
@@ -3121,7 +3121,7 @@
          x="78.873734"
          y="36.623184"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan6830">SQ 3</tspan></text>
+         id="tspan6830">SQ1</tspan></text>
     <rect
        style="display:inline;opacity:0.933877;fill:#ff7f2a;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect6834"
@@ -3148,11 +3148,11 @@
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="56.936665"
-       y="38.878933"
+       y="34.645596"
        id="text12485"><tspan
          sodipodi:role="line"
          x="56.936665"
-         y="38.878933"
+         y="34.645596"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
          id="tspan3941">Mapped for NVMe</tspan></text>
     <path
@@ -3161,9 +3161,9 @@
        id="path15850"
        sodipodi:nodetypes="cc" />
     <rect
-       y="39.696712"
+       y="35.71875"
        x="48.577496"
-       height="3.7041674"
+       height="7.9375"
        width="17.700634"
        id="rect21317"
        style="display:inline;fill:#b0c4de;fill-opacity:1;stroke:#0055d4;stroke-width:0.4;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:1.2, 0.4;stroke-dashoffset:0;stroke-opacity:1" />
@@ -3187,7 +3187,7 @@
        id="path21323"
        sodipodi:nodetypes="cc" />
     <rect
-       style="display:inline;opacity:0.933877;fill:#609fff;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       style="display:inline;opacity:0.933877;fill:#ff8737;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="rect21325"
        width="1.4287502"
        height="2.0982533"
@@ -3207,7 +3207,7 @@
          x="51.70031"
          y="42.18729"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan21327">SQ 1</tspan></text>
+         id="tspan21327">CQ2</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -3232,5 +3232,109 @@
          y="-30.352873"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
          id="tspan13177">RAM</tspan></text>
+    <rect
+       style="display:inline;opacity:0.933877;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+       id="rect45673"
+       width="8.0962515"
+       height="2.6458321"
+       x="79.427925"
+       y="21.422045"
+       ry="0.2645846"
+       rx="0.23812486" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutM)"
+       d="m 78.332363,22.744965 h 2.021601"
+       id="path45675"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutM)"
+       d="m 86.995016,22.744965 h 1.66689"
+       id="path45677"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="display:inline;opacity:0.933877;fill:#ff8737;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       id="rect45679"
+       width="1.4287502"
+       height="2.0982533"
+       x="85.619164"
+       y="21.695837"
+       ry="0.26458246"
+       rx="0"
+       inkscape:transform-center-x="2.1903688"
+       inkscape:transform-center-y="-0.072522351" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="75.169579"
+       y="23.39402"
+       id="text45683"><tspan
+         sodipodi:role="line"
+         x="75.169579"
+         y="23.39402"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
+         id="tspan45681">CQ2</tspan></text>
+    <rect
+       style="display:inline;opacity:0.933877;fill:#ff8737;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       id="rect47760"
+       width="1.4287502"
+       height="2.0982533"
+       x="83.632072"
+       y="21.70504"
+       ry="0.26458246"
+       rx="0"
+       inkscape:transform-center-x="2.1903688"
+       inkscape:transform-center-y="-0.072522351" />
+    <rect
+       style="display:inline;opacity:0.933877;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+       id="rect52836"
+       width="8.0962515"
+       height="2.6458321"
+       x="55.615437"
+       y="36.512501"
+       ry="0.2645846"
+       rx="0.23812486" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutM)"
+       d="m 54.519866,37.835426 h 2.021601"
+       id="path52838"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutM)"
+       d="m 63.182508,37.835426 h 1.666875"
+       id="path52840"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="display:inline;opacity:0.933877;fill:#dc88f1;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       id="rect52842"
+       width="1.4287502"
+       height="2.0982533"
+       x="61.806686"
+       y="36.786293"
+       ry="0.26458246"
+       rx="0"
+       inkscape:transform-center-x="2.1903688"
+       inkscape:transform-center-y="-0.072522351" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="51.70031"
+       y="38.48312"
+       id="text52846"><tspan
+         sodipodi:role="line"
+         x="51.70031"
+         y="38.48312"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
+         id="tspan52844">CQ1</tspan></text>
+    <rect
+       style="display:inline;opacity:0.933877;fill:#ff8737;fill-opacity:1;stroke:#000000;stroke-width:0.365;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
+       id="rect56826"
+       width="1.4287502"
+       height="2.0982533"
+       x="59.814903"
+       y="40.490456"
+       ry="0.26458246"
+       rx="0"
+       inkscape:transform-center-x="2.1903688"
+       inkscape:transform-center-y="-0.072522351" />
   </g>
 </svg>

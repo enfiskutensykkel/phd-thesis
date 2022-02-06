@@ -318,7 +318,9 @@ Standardized test suites should be used as far as possible, to prove that applic
 %
 Moreover, to demonstrate the completeness of the solution, the evaluation should also include workloads relying on different \gls{pcie} network topologies and include several types of devices, such as \glspl{nvme}, \glspl{gpu}, and \glspl{nic}.
 %
-Finally, a prototype device driver using the device driver \gls{api} (\cref{obj:disaggregation}) should be developed and evaluated. This driver should demonstrate that it is possible to \gls{disaggregate} a non-\gls{sriov} device in software, and shared with multiple machines simultaneously. 
+Finally, a prototype device driver using the device driver \gls{api} (\cref{obj:disaggregation}) should be developed and evaluated. 
+%
+This driver should demonstrate that it is possible to implement a distributed device driver, \gls{disaggregating} a non-\gls{sriov} device in software, and sharing it with multiple machines. 
 %
 The driver should also demonstrate how it can rely on memory \gls{disaggregation} and shared memory capabilities to implement data path optimizations.
 
@@ -541,14 +543,14 @@ In particular, the main contributions of this dissertation are listed as follows
 	%
 	This makes it easier to optimize data flow through the \gls{pcie} network, as software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
 
-    \item Development of a \textbf{new prototype \gls{nvme} device driver}\footnote{The prototype \gls{nvme} device driver is open source and can be found at \mbox{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}} using our device-oriented \gls{apiext} (see \cref{paper:tocs}):
+    \item Development of a \textbf{new distributed \gls{nvme} device driver}\footnote{The prototype \gls{nvme} device driver is open source and can be found at \mbox{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}} using our device-oriented \gls{apiext} (see \cref{paper:tocs}):
         although the \gls{dl} and \gls{mdev} methods make it possible to use existing device drivers, most device drivers are written in a way that assumes exclusive control over the device. Therefore, a distributed device (\gls{function}) may only be used by a single user at the time.
-        %
-    To demonstrate software-enabled \gls{disaggregation}, we have implemented a \emph{distributed} \gls{nvme} driver. 
     %
-    As a proof of concept, we show that a single NVMe device can be shared and operated by multiple cluster machines simultaneously, without requiring \gls{sriov}.
+    To demonstrate software-enabled \gls{disaggregation}, we have implemented an \gls{nvme} driver as a \gls{userspace} \gls{sisci} application.
+    %
+    As a proof of concept, we show that a single \gls{nvme} device can be shared and operated by multiple cluster machines simultaneously, without requiring \gls{sriov}.
 	This driver also demonstrates how multiple sharing aspects of SmartIO may be combined, 
-	by \gls{disaggregating} remote GPU memory and enabling memory access optimizations.
+        by \gls{disaggregating} remote \gls{gpu} memory and enabling memory access optimizations.
 
     \item A \textbf{comprehensive performance evaluation} covering all parts of SmartIO and the implementation of performance optimizations (see \cref{paper:mmsys,paper:cc,paper:tocs}):
         %
