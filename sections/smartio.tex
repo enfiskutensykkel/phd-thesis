@@ -671,18 +671,24 @@ Our \gls{nvme} driver demonstrates some of the possibilities created by the \gls
 \end{description}
 
 
-\paperref{tocs:nvme} explains the implementation of proof-of-concept \gls{nvme} driver in more details.
+The technical details of the implementation of the proof-of-concept \gls{nvme} driver can be found in \paperref{tocs:nvme}.
 %
-Here, we also explain how our implementation can support multi-path fail-over, and how \gls{pciemulticasting} can be used to replicate data loaded from storage across machines in a single operation.
+Here, we describe how the driver is split into a manager and a client component, with the manager being responsible for resetting the device and assigning queues to clients.
 %
-Finally, we also explain how our \gls{nvme} driver implementation can run as a \gls{gpu} application, offloading the task of operating the \gls{nvme} to the \gls{gpu} itself.
+We also explain how our implementation can support multi-path fail-over, and how \gls{pciemulticasting} can be used to replicate data loaded from storage across machines in a single operation.
+%
+Details on how it is possible to run the \gls{nvme} driver as part of a \gls{cuda} kernel can also be found here, making it possible for software running on the \gls{gpu} to control an \gls{nvme} entirely without any involvement of the \gls{cpu}.
+
 
 
 \section{Performance measurements}\label{sec:eval}
 Some selected performance graphs here, demonstrating zero-overhead :)
 
 \section{Related work}\label{sec:rw}
-should rw go in discussion and conclusion instead?
+
+%\subsection{RDMA-based solutions}
+
+%\subsection{PCIe-based solutions}
 \begin{itemize}
     \item rdma stuff
     \item fabric partitioning: mr-iov, broadcom/microsemi chips with partitioning
