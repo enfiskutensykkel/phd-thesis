@@ -671,31 +671,11 @@ Our \gls{nvme} driver demonstrates some of the possibilities created by the \gls
 \end{description}
 
 
-Our proof-of-concept \gls{nvme} driver demonstrate how 
-
-
-for making device drivers part of distributed, shared-memory applications:
-
-
-
-
-
-
-
-%\begin{itemize}
-%    \item why a prototype driver? demonstrate disaggregation in software
-%    \item why nvme? easy to parallelize because of queues
-%    \item driver implementation and queue sharing
-%    \item gpudirect + co-operation with device lending
-%\end{itemize}
-
-%unlock potential
-%We demonstrate this combining with as part of the evaluation of our proof-of-concept \gls{nvme} driver in \paperref{tocs:eval-nvme-sq}.
-%see papers for running the nvme driver on the gpu as a cuda kernel
-%multicasting
-%failover
-
-
+\paperref{tocs:nvme} explains the implementation of proof-of-concept \gls{nvme} driver in more details.
+%
+Here, we also explain how our implementation can support multi-path fail-over, and how \gls{pciemulticasting} can be used to replicate data loaded from storage across machines in a single operation.
+%
+Finally, we also explain how our \gls{nvme} driver implementation can run as a \gls{gpu} application, offloading the task of operating the \gls{nvme} to the \gls{gpu} itself.
 
 
 \section{Performance measurements}\label{sec:eval}
