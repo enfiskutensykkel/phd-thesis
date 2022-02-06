@@ -568,7 +568,7 @@ This dissertation describes the design, implementation, and evaluation of the Sm
 %
 The complete framework is described in detail in \cref{paper:tocs}, with the individual components and parts explained in \cref{paper:nossdav,paper:srmpds,paper:cc}.
 %
-Additionally, these papers show the evolution towards the complete framework, including different iterations of the framework components and gradual performance improvements.
+These papers also show the evolution towards the finished solution, including the gradual performance improvements of the different iterations.
 %
 The rest of this dissertation is organized as follows:
 %
@@ -576,7 +576,7 @@ The rest of this dissertation is organized as follows:
     \item[\cref{chapter:smartio}]
         gives a brief summary of SmartIO.
         %
-        We describe the initial idea and challenges for SmartIO, and provide a high-level overview of the implementation.
+        We describe the initial idea and challenges for SmartIO, and provide a high-level overview of the implementation and its considerations.
         %
         We also present related work focused on \gls{io} resource sharing in cluster networks.
 
@@ -605,10 +605,10 @@ The rest of this dissertation is organized as follows:
         Additionally, we also describe how we improved the original \gls{mdev} component with a mechanism for detecting \gls{guest}-physical memory layout.
 
     \item[\cref{paper:tocs}]
-        presents the entire SmartIO solution as a whole, including the final iterations of the \gls{dl} and \gls{mdev} components.
+        presents the entire SmartIO solution as a whole, with the final iteration of the \gls{dl} and \gls{mdev} components.
         %
-        We also introduce the \gls{sisciapiext} that makes it possible to \gls{disaggregate} devices and memory resources in software.
+        We also introduce the \gls{sisciapiext} that makes it possible to \gls{disaggregate} devices and memory resources in software, and a proof-of-concept device driver implementation that uses this extension.
         %
-        A thorough and complete performance evaluation of all parts and components of SmartIO is provided, in order to prove that the final implementation does not cause \emph{any} performance overhead compared to native \gls{pcie}.
+        A thorough and complete performance evaluation of \emph{all} parts and components of SmartIO is provided, in order to prove that the final implementation does not cause \emph{any} performance overhead compared to native \gls{pcie}.
 \end{description}
 
