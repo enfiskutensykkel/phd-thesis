@@ -4,10 +4,10 @@
 <svg
    width="345pt"
    height="150pt"
-   viewBox="0 0 121.70833 52.916674"
+   viewBox="0 0 121.70833 52.916672"
    version="1.1"
    id="svg1742"
-   inkscape:version="1.1.1 (eb90963e84, 2021-10-02)"
+   inkscape:version="1.1.1 (26b7af14f2, 2022-01-19)"
    sodipodi:docname="fabric-partitioning.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -24,17 +24,18 @@
      inkscape:document-units="mm"
      showgrid="true"
      units="pt"
-     inkscape:zoom="3.7946875"
-     inkscape:cx="240.20423"
-     inkscape:cy="133.87137"
+     inkscape:zoom="2.6832493"
+     inkscape:cx="206.27975"
+     inkscape:cy="97.642811"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
      inkscape:window-y="31"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      inkscape:snap-object-midpoints="true"
-     inkscape:snap-global="true">
+     inkscape:snap-global="true"
+     inkscape:snap-grids="false">
     <inkscape:grid
        type="xygrid"
        id="grid1803" />
@@ -362,12 +363,12 @@
        sodipodi:ry="1.0387155"
        sodipodi:rx="1.0387155"
        sodipodi:cy="5.8208332"
-       sodipodi:cx="3.5718751"
+       sodipodi:cx="3.0893853"
        sodipodi:type="arc"
        id="path100845"
        style="display:inline;fill:#808080;fill-opacity:1;stroke:#000000;stroke-width:0.303;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        sodipodi:arc-type="arc"
-       d="M 3.3030358,4.8175111 A 1.0387155,1.0387155 0 0 1 4.5747406,5.5502957 1.0387155,1.0387155 0 0 1 3.8441101,6.8232393 1.0387155,1.0387155 0 0 1 2.5699313,6.0947649 1.0387155,1.0387155 0 0 1 3.2962476,4.8193546" />
+       d="M 2.8205459,4.8175111 A 1.0387155,1.0387155 0 0 1 4.0922508,5.5502957 1.0387155,1.0387155 0 0 1 3.3616203,6.8232393 1.0387155,1.0387155 0 0 1 2.0874415,6.0947649 1.0387155,1.0387155 0 0 1 2.8137577,4.8193546" />
     <rect
        style="fill:#fff6d5;fill-opacity:1;stroke:#d4aa00;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect202768"
@@ -974,14 +975,14 @@
          id="tspan144477">Partitionable PCIe Switch Chip</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="7.6629844"
+       style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="7.1804948"
        y="2.5051186"
        id="text11459"><tspan
          sodipodi:role="line"
-         x="7.6629844"
+         x="7.1804948"
          y="2.5051186"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
          id="tspan11457">PCIe Root Port</tspan></text>
     <text
        xml:space="preserve"
@@ -2747,30 +2748,30 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229392px">Device Tree</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="7.6577601"
+       style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="7.1752706"
        y="6.4620752"
        id="text105900"><tspan
          sodipodi:role="line"
-         x="7.6577601"
+         x="7.1752706"
          y="6.4620752"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
          id="tspan105898">Switch Port</tspan></text>
     <path
        style="fill:#ffffff;fill-rule:evenodd;stroke:#800080;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker169875);marker-end:url(#marker199836)"
-       d="m 6.0325273,9.7895961 h -4.52438"
+       d="m 5.5500375,9.7895961 h -4.52438"
        id="path112818"
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="7.6629491"
+       style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="7.1804595"
        y="10.44263"
        id="text113111"><tspan
          sodipodi:role="line"
-         x="7.6629491"
+         x="7.1804595"
          y="10.44263"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
          id="tspan113109">Isolated I/O (Host 1)</tspan></text>
     <path
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#800080;stroke-width:0.6;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker2288);marker-end:url(#marker2297)"
@@ -2784,19 +2785,19 @@
        sodipodi:nodetypes="cccc" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#d4aa00;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow1Sstart);marker-end:url(#Arrow1Send)"
-       d="M 5.953125,13.493749 H 1.428745"
+       d="m 5.4706352,13.493749 h -4.52438"
        id="path178176"
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="7.5835471"
+       style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="7.1010575"
        y="14.146782"
        id="text178180"><tspan
          sodipodi:role="line"
-         x="7.5835471"
+         x="7.1010575"
          y="14.146782"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
          id="tspan178178">Isolated I/O (Host 2)</tspan></text>
     <g
        id="g67177"
@@ -2976,12 +2977,12 @@
        sodipodi:ry="1.0387155"
        sodipodi:rx="1.0387155"
        sodipodi:cy="1.8520833"
-       sodipodi:cx="3.5718751"
+       sodipodi:cx="3.0893853"
        sodipodi:type="arc"
        id="path100927"
        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.303;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        sodipodi:arc-type="arc"
-       d="M 3.3030358,0.84876121 A 1.0387155,1.0387155 0 0 1 4.5747406,1.5815458 1.0387155,1.0387155 0 0 1 3.8441101,2.8544894 1.0387155,1.0387155 0 0 1 2.5699313,2.126015 1.0387155,1.0387155 0 0 1 3.2962476,0.85060476" />
+       d="M 2.8205459,0.84876121 A 1.0387155,1.0387155 0 0 1 4.0922508,1.5815458 1.0387155,1.0387155 0 0 1 3.3616203,2.8544894 1.0387155,1.0387155 0 0 1 2.0874415,2.126015 1.0387155,1.0387155 0 0 1 2.8137577,0.85060476" />
     <g
        id="g85620"
        transform="translate(-0.36359371,1.4077006)">
@@ -4755,14 +4756,14 @@
          id="tspan21299">RAM</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="12.882502"
        y="15.714927"
        id="text11459-4"><tspan
          sodipodi:role="line"
          x="12.882502"
          y="15.714927"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
          id="tspan11457-0">Root Port</tspan></text>
     <path
        style="display:inline;fill:#cccccc;stroke:#000000;stroke-width:0.258116;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -4772,14 +4773,14 @@
        sodipodi:nodetypes="ccccccccc" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="12.875482"
        y="21.331156"
        id="text11465-6"><tspan
          sodipodi:role="line"
          x="12.875482"
          y="21.331156"
-         style="font-size:2.11667px;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
          id="tspan11463-2">Switch Chip</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -4788,14 +4789,14 @@
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="12.921596"
        y="26.742302"
        id="text11481-9"><tspan
          sodipodi:role="line"
          x="12.921596"
          y="26.742302"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.264583px"
          id="tspan11479-0">Bus Link</tspan></text>
     <path
        sodipodi:open="true"
