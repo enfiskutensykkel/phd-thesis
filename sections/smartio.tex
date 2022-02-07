@@ -590,14 +590,14 @@ The software is the same regardless of which machine it runs on, as SmartIO keep
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=.99\textwidth]{nvme-local-gpu}
-        \caption{Loading data directly into the memory of a \gls{gpu} residing in the \gls{borrower}.}
+        \caption{Storing from and loading into the memory of a \gls{gpu} residing in the \gls{borrower}.}
         \label{fig:nvme-local-gpu}
     \end{subfigure}
     \par\vspace{5mm}
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=.99\textwidth]{nvme-remote-gpu}
-        \caption{Loading data into, and storing data from, memory of a borrowed \gls{gpu}.}
+        \caption{Storing from and loading into the memory of a borrowed (remote) \gls{gpu}.}
         \label{fig:nvme-remote-gpu}
     \end{subfigure}
     \caption
@@ -611,8 +611,8 @@ The software is the same regardless of which machine it runs on, as SmartIO keep
     \centering
     \includegraphics{nvme-queues}
     \caption
-    [By using access pattern hinting, it is possible to consider memory locality without being aware of the underlying \glsfmtshort{pcie} topology]
-    {Our \gls{nvme} driver implementation relies on SmartIO to decide where \glspl{segment} containing queues should be allocated. By using access pattern hinting, it is possible to consider memory locality without being aware of the underlying \gls{pcie} topology.}
+    [By using access pattern hinting, it is possible to consider memory locality without requiring the driver implementation to be aware of the underlying \glsfmtshort{pcie} topology]
+    {Our \gls{nvme} driver implementation relies on SmartIO to decide where \glspl{segment} containing queues should be allocated. By using access pattern hinting, it is possible to consider memory locality without requiring the driver implementation to be aware of the underlying \gls{pcie} topology.}
     \label{fig:nvme-queues}
 \end{figure}
 
@@ -684,8 +684,13 @@ Details on how it is possible to run the \gls{nvme} driver as part of a \gls{cud
 \section{Performance measurements}\label{sec:eval}
 Some selected performance graphs here, demonstrating zero-overhead :)
 
-\section{Related work}\label{sec:rw}
 
+
+\section{Related work}\label{sec:rw}
+Broadly divided into the following categories:
+\begin{itemize}
+    \item PCIe-based solutions
+\end{itemize}
 %\subsection{RDMA-based solutions}
 
 %\subsection{PCIe-based solutions}

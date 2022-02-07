@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="11.313708"
-     inkscape:cx="276.69973"
-     inkscape:cy="71.329397"
+     inkscape:zoom="3.9999998"
+     inkscape:cx="164.37501"
+     inkscape:cy="101.5"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -1582,12 +1582,12 @@
          x="79.365952"
          y="35.914955"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan80387">NVMe reads/writes</tspan><tspan
+         id="tspan381758">Operated by native</tspan><tspan
          sodipodi:role="line"
          x="79.365952"
          y="38.781281"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.29306px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan381758">directly to GPU</tspan></text>
+         id="tspan7031">GPU driver</tspan></text>
     <rect
        y="5.8208332"
        x="102.15562"
@@ -2574,29 +2574,25 @@
          x="142.50888"
          y="46.542374"
          id="tspan273150">(Segment 1)</tspan></text>
+    <path
+       style="color:#000000;fill:#ff8737;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 26.320312,14.201172 V 44.005859 H 96.314453 V 14.201172 h -2.605469 v 15.347656 h -3.301172 v 0.699219 h 4.002344 V 14.902344 h 1.205078 V 43.306641 H 27.019531 V 14.902344 h 1.44336 l 0,11.515926 h 4.875 v -0.699219 h -4.173829 l 0,-11.517879 z"
+       id="path4227"
+       sodipodi:nodetypes="ccccccccccccccccccccc" />
     <g
-       id="path284995"
+       id="g4217"
        style="stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none">
-      <path
-         style="color:#000000;fill:#ff8737;fill-rule:evenodd;stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
-         d="M 26.320312,14.201172 V 44.005859 H 96.314453 V 14.201172 h -2.605469 v 15.347656 h -3.301172 v 0.699219 h 4.002344 V 14.902344 h 1.205078 V 43.306641 H 27.019531 V 14.902344 h 1.44336 v 11.111328 h 4.875 V 25.314453 H 29.164062 V 14.201172 Z"
-         id="path4227"
-         sodipodi:nodetypes="ccccccccccccccccccccc" />
       <g
-         id="g4217"
+         id="path4219"
          style="stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none">
-        <g
-           id="path4219"
-           style="stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none">
-          <path
-             style="color:#000000;fill:#ff8737;fill-rule:evenodd;stroke-width:0.15;stroke:#000000;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
-             d="m 91.620625,29.897916 1.4,-1.4 -4.9,1.4 4.9,1.4 z"
-             id="path4223" />
-          <path
-             style="color:#000000;fill:none;fill-rule:evenodd;stroke:none;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
-             d="m 93.662109,28.121094 -6.220703,1.777343 6.220703,1.777344 -1.777343,-1.777344 z m -1.283203,0.753906 -1.021484,1.023437 0.130859,0.13086 0.892578,0.892578 -3.580078,-1.023438 z"
-             id="path4225" />
-        </g>
+        <path
+           style="color:#000000;fill:#ff8737;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
+           d="m 91.620625,29.897916 1.4,-1.4 -4.9,1.4 4.9,1.4 z"
+           id="path4223" />
+        <path
+           style="color:#000000;fill:none;fill-rule:evenodd;stroke:none;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
+           d="m 93.662109,28.121094 -6.220703,1.777343 6.220703,1.777344 -1.777343,-1.777344 z m -1.283203,0.753906 -1.021484,1.023437 0.130859,0.13086 0.892578,0.892578 -3.580078,-1.023438 z"
+           id="path4225" />
       </g>
     </g>
     <text
@@ -2871,10 +2867,10 @@
        id="text4088"><tspan
          x="66.647095"
          y="-4.7077231"
-         id="tspan3641"><tspan
+         id="tspan9027"><tspan
            dx="0 1.4521099 1.2950133 0.83302546 0.82372332 1.2950134 1.731163 1.3022485"
            style="font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
-           id="tspan3639">Borrower</tspan></tspan></text>
+           id="tspan9025">Borrower</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.29306px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2984,5 +2980,22 @@
          y="22.308784"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
          id="tspan7278">Borrowed</tspan></text>
+    <g
+       id="g1618"
+       style="stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
+       transform="matrix(-1,0,0,1,122.89517,-3.8380873)">
+      <g
+         id="g1616"
+         style="stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none">
+        <path
+           style="color:#000000;fill:#ff8737;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
+           d="m 91.620625,29.897916 1.4,-1.4 -4.9,1.4 4.9,1.4 z"
+           id="path1612" />
+        <path
+           style="color:#000000;fill:none;fill-rule:evenodd;stroke:none;stroke-width:0.15;stroke-miterlimit:4;stroke-dasharray:none"
+           d="m 93.662109,28.121094 -6.220703,1.777343 6.220703,1.777344 -1.777343,-1.777344 z m -1.283203,0.753906 -1.021484,1.023437 0.130859,0.13086 0.892578,0.892578 -3.580078,-1.023438 z"
+           id="path1614" />
+      </g>
+    </g>
   </g>
 </svg>
