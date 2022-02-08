@@ -337,7 +337,7 @@ We aim to support this for three different abstraction levels:
 \begin{enumerate}
     \item Dynamically distributing devices to remote machines.
     \item Dynamically distributing (physical) devices to \glspl{vm} running on remote machines.
-    \item Enabling \gls{disaggregation} of devices and memory resources in software, allowing them to be shared \emph{simultaneously} by software processes running on several machines simultaneously.
+    \item Enabling \gls{disaggregation} of devices and memory resources in software, allowing them to be shared simultaneously by software processes running on several machines.
 \end{enumerate}
 
 
@@ -453,7 +453,7 @@ we attempt to unify traditional device \gls{io} with distributed, shared-memory 
 %
 It is desirable to realize this approach by \textbf{building a working prototype}, in order to explore potential opportunities and weaknesses along the way.
 %
-As such, we have followed the technocratic paradigm of iteratively designing, implementing, and testing a solution according to the objectives given in \cref{sec:problem}:
+As such, we have followed the technocratic paradigm by iteratively designing, implementing, and testing our solution according to the objectives given in \cref{sec:problem}:
 %
 \begin{itemize}
     \item 
@@ -502,9 +502,9 @@ As such, we have followed the technocratic paradigm of iteratively designing, im
 %
 For the sake of convenience, functionality testing and the overall validation process is implicit in the performance experiments presented in this dissertation.
 %
-It should also be noted that while the presented experiments primarily use Intel~Xeon as the \gls{cpu} architecture and \glspl{nvme}, Ethernet~\glspl{nic}, and Nvidia \glspl{gpu} were used for shared resources, we also used additional \gls{cpu} architectures and devices during the development and validation phases.
+However, it should be mentioned that while the presented experiments primarily use Intel~Xeon as the \gls{cpu} architecture, and \glspl{nvme}, Ethernet~\glspl{nic}, and Nvidia \glspl{gpu} were used for shared resources, additional \gls{cpu} architectures and devices were also used during the development and validation phases.
 %
-This includes \gls{cpu} architectures like AMD and ARM, and other devices like \glspl{fpga}, sound cards, and \gls{pcie}-attached cameras.
+This includes \gls{cpu} architectures like AMD and ARM, and other devices like \glspl{fpga}, AMD \glspl{gpu}, sound cards, and \gls{pcie}-attached cameras.
 
 
 \section{Contributions}

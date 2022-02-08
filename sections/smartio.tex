@@ -381,9 +381,12 @@ In addition, \paperref{tocs:lending-dma,tocs:disc-devs} explain how we can use t
 \subsection{MDEV}\label{sec:mdev}
 Our \gls{mdev} implementation, shown as arrow \textbf{(2)} in \cref{fig:architecture}, enables the Linux~\gls{kvm} to \emph{\lgls{passthrough}{pass through}} borrowed devices to \glspl{vm}.
 %
-This \gls{passthrough} makes it possible for software running in a \gls{vmguest} to use the physical device directly, without compromising the memory isolation provided by the virtualization.
+This \gls{passthrough} allows software running in a \gls{vmguest} to use the physical device directly, without compromising the memory isolation provided by the virtualization.
 %
-As devices are no longer tightly coupled with the \glspl{hostmachine} they are installed in, \gls{mdev} makes it possible to distribute \glspl{vm} across different \glspl{host} in the cluster while benefiting from the bare-metal performance of direct access to physical hardware.
+Whereas \gls{dl} is only supported for machines running Linux, \gls{mdev} makes it possible to share devices with \emph{any} \gls{guestos} (running in the \gls{vm}).
+%
+Using \gls{mdev}, devices are no longer tightly coupled with the \glspl{hostmachine} they are installed in, allowing \glspl{vm} to be distributed across different \glspl{host} in the cluster while benefiting from the bare-metal performance of direct access to physical hardware.
+
 
 \begin{figure}
     \centering
@@ -671,7 +674,7 @@ Our \gls{nvme} driver demonstrates some of the possibilities created by the \gls
 \end{description}
 
 
-The technical details of the implementation of the proof-of-concept \gls{nvme} driver can be found in \paperref{tocs:nvme}.
+A more technical description of the implementation of the proof-of-concept \gls{nvme} driver can be found in \paperref{tocs:nvme}.
 %
 Here, we describe how the driver is split into a manager and a client component, with the manager being responsible for resetting the device and assigning queues to clients.
 %
@@ -687,6 +690,17 @@ Some selected performance graphs here, demonstrating zero-overhead :)
 
 
 \section{Related work}\label{sec:rw}
+%
+At its core, SmartIO is a framework for sharing \gls{io} resources and facilitating remote access, 
+%
+However, as a complete solution consisting of several components, SmartIO relates .
+
+SmartIO has several components that could potentially be discussed at great length in order to place them in proper context.
+%
+Therefore, we primarily consider
+
+%many solutions already exist
+
 Broadly divided into the following categories:
 \begin{itemize}
     \item PCIe-based solutions
