@@ -97,11 +97,11 @@ Furthermore, because \gls{pcie} uses \gls{msi}, it is even possible to map inter
 
 
 \section{Main challenges}\label{sec:challenges}
-Although \glspl{ntb} provide the fundamental memory mapping capabilities that can facilitate the use of remote devices, the challenge is to avoid requiring device drivers to be aware of remote-side address spaces.
+Although \glspl{ntb} provide the fundamental memory mapping capabilities that can facilitate the use of remote devices, the challenge is to avoid requiring that device drivers must be aware of remote-side address spaces.
 %
 As touched upon in \cref{sec:motivation}, this is desirable in order to use existing device driver implementations.
 %
-In order for a device driver running on a local~machine to use a remote~device, we must make sure that the driver uses addresses that is mapped through both the local and remote \glspl{ntb}.
+For a device driver running on a local~machine to be able to use a remote~device, we must make sure that the driver uses addresses that is mapped through both the local and remote \glspl{ntb}.
 %
 For instance, when the device driver attempts to access \glspl{devicebar}, we must make sure that the driver uses memory addresses that are mapped through the \gls{cpu}-side \gls{ntb} without the driver or device being aware of this.
 %
@@ -113,11 +113,13 @@ One possibility is to use virtualization to mitigate the complexity of managing 
 %
 The fact that devices are on the other side of an \gls{ntb} could be hidden for device drivers by distributing devices to \gls{vm} \glspl{guest} instead of physical \lgls{host}{host~machines}, for example with \gls{passthrough}.
 %
-However, while \gls{passthrough} allows devices to be used by \glspl{vmguest} directly, requiring that compute tasks run in \glspl{vm} limits the generality of a solution.
+However, while \gls{passthrough} allows devices to be used by \glspl{vmguest} directly, \emph{requiring} that compute tasks run in \glspl{vm} will limit the generality of a solution.
 %
-Virtualization is not necessarily appropriate in all circumstances, as it may add additional system load because \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment.
+Virtualization is not necessarily appropriate in all circumstances, as \gls{cpu} cycles are spent on \lgls{host}{hosting} the virtualized environment, thus adding additional system load.
 %
-A more general mechanism is needed for abstracting away the complexity of dealing with a remote-side address space, in order to support sharing to bare-metal machines in addition to \glspl{vm}.
+Instead, a more general mechanism is needed for abstracting away the complexity of dealing with a remote-side address space.
+%
+This mechanism must support abstracting remote address spaces for \glspl{vm} and bare-metal machines alike.
 
 
 
@@ -133,11 +135,11 @@ synchronizing with the remote system at this time will introduce communication o
 %
 The naive solution is to map the entire system memory for the device, but this workaround requires the \gls{ntb}~\glspl{bar} to be at least \emph{as large} as the size of \gls{ram}.
 %
-This does not scale very well, as it would effectively limit the number of machines the cluster can support;
+This does not scale very well, as it would effectively limit the number of machines the cluster can support.
 %
-each machine added would increase the \gls{ntb} memory requirements by its entire \gls{ram} size.
+Each new machine using a device would increase the device-side \gls{ntb} memory requirements by its entire \gls{ram} size.
 %
-Moreover, the number of maps supported by an \gls{ntb} is also limited (by the size of its \gls{lut}).
+Moreover, as the number of maps supported by an \gls{ntb} is also limited (by the size of its \gls{lut}), it is crucial to conserve memory maps wherever possible.
 %
 We must find a way to prepare memory-maps through the \gls{ntb} in advance of use, in order to avoid adding communication latency in the critical path, and without requiring that the entire memory is mapped for the device.
 
@@ -147,11 +149,11 @@ The challenge of \gls{dma} transfers is compounded for \gls{vmpassthrough}.
 %
 \Gls{passthrough} is possible by using the \gls{iommu} to create a virtual \gls{io} address space for a device that corresponds to the virtual address space of the \gls{vm}~\cite{url:LinuxVFIO,url:LinuxIOMMU,Muli2006}, also known as the ``\gls{guestphys} address space''.
 %
-However, in order for a remote device to reach local \gls{hostphys} memory, it must use addresses that are mapped through the \gls{ntb}.
+For \gls{passthrough} of a local device, this makes it possible for the device driver running in the \gls{vmguest} to use any (virtualized) memory address when initiating \gls{dma} transfers.
 %
-A device driver running in the \gls{vmguest} on the local \gls{host} may try to use any (virtualized) memory address when initiating \gls{dma} transfers.
+In our case, however, the driver must use addresses that are mapped through the \gls{ntb} in order for a remote device to reach local \gls{hostphys} memory.
 %
-Consequently, supporting \gls{passthrough} requires devising a method for mapping the physical memory backing the \gls{vmemulator} through the \gls{ntb}, using device-side \gls{io} addresses that mirrors the \gls{guestphys} address space.
+In order to support \gls{passthrough}, we must devise a method for mapping the physical memory backing the \gls{vmemulator} through the \gls{ntb}, using device-side \gls{io} addresses that mirrors the \gls{guestphys} address space.
 
 
 
@@ -690,20 +692,22 @@ Some selected performance graphs here, demonstrating zero-overhead :)
 
 
 \section{Related work}\label{sec:rw}
+As a complete solution, SmartIO encompasses multiple components that each could potentially be discussed at great length in order to place them in proper context.
 %
-At its core, SmartIO is a framework for sharing \gls{io} resources and facilitating remote access, 
-%
-However, as a complete solution consisting of several components, SmartIO relates .
+However, at its core, SmartIO is a framework for sharing \gls{io} resources and facilitating remote access.
 
-SmartIO has several components that could potentially be discussed at great length in order to place them in proper context.
-%
-Therefore, we primarily consider
+
+In an attempt to condense related work down to the most relevant, we broadly divide it
 
 %many solutions already exist
 
 Broadly divided into the following categories:
 \begin{itemize}
     \item PCIe-based solutions
+    \item memory disaggregation
+    \item shared-memory
+    \item ladon
+    \item 
 \end{itemize}
 %\subsection{RDMA-based solutions}
 
