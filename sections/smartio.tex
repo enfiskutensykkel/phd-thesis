@@ -178,7 +178,7 @@ SmartIO also makes it possible for a system to act as both \gls{lender} and \gls
 
 
 
-Basing our framework on standard \gls{pcie} is a a crucial part of the design.
+Basing our framework on standard \gls{pcie} is a deliberate design choice.
 %
 Not only does this allow commodity devices to be operated remotely by standard device drivers over native \gls{pcie}, but this design also means that the implementation complexity of SmartIO lies entirely in software.
 %
@@ -297,6 +297,16 @@ The devices become part of the system they are shared with, allowing application
 While \gls{dl} only allows individual \glspl{devicefunction} to be distributed to a single machine at the time, it is nevertheless highly suitable in the case where a device has a complex or proprietary device driver as no modifications to existing software is required.
 
 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.99\textwidth]{device-lending}
+    \caption
+    [The memory regions of a remote device is mapped for the \glsfmtshort{cpu} on the borrower, so that it can read and write to device registers. Local resources are mapped for the device, so that it may use \glsfmtshort{dma} and trigger interrupts. \Glsentrytext{dl} inserts a \glsentrytext{shadowdev} into the local device tree using these mappings, making remote device access transparent to both \glsfmtshort{cpu} and device.]
+    {The memory regions of a remote device is mapped for the \gls{cpu} on the borrower, so that it can read and write to device registers. Local resources are mapped for the device, so that it may use \gls{dma} and trigger interrupts. \Gls{dl} inserts a \gls{shadowdev} into the local device tree using these mappings, making remote device access transparent to both \gls{cpu} and device.}
+    \label{fig:device-lending}
+\end{figure}
+
 As mentioned in \cref{sec:idea}, it is possible to map the device memory regions, or \glspl{bar}, of a remote device through an \gls{ntb}.
 %
 Using the \gls{ntb}, a local \gls{cpu} can perform memory operations on a remote device, such as reading from and writing to device registers.
@@ -313,16 +323,6 @@ More precisely, we need a mechanism for \emph{transparently} injecting resolved 
 
 
 
-\begin{figure}
-    \centering
-    \includegraphics[width=.99\textwidth]{device-lending}
-    \caption
-    [The memory regions of a remote device is mapped for the \glsfmtshort{cpu} on the borrower, so that it can read and write to device registers. Local resources are mapped for the device, so that it may use \glsfmtshort{dma} and trigger interrupts. \Glsentrytext{dl} inserts a \glsentrytext{shadowdev} into the local device tree using these mappings, making remote device access transparent to both \glsfmtshort{cpu} and device.]
-    {The memory regions of a remote device is mapped for the \gls{cpu} on the borrower, so that it can read and write to device registers. Local resources are mapped for the device, so that it may use \gls{dma} and trigger interrupts. \Gls{dl} inserts a \gls{shadowdev} into the local device tree using these mappings, making remote device access transparent to both \gls{cpu} and device.}
-    \label{fig:device-lending}
-\end{figure}
-
-
 \Gls{dl} solves this by inserting a ``\gls{shadowdev}'' into the local \gls{pcie} device tree on the \gls{borrower}, as depicted in \cref{fig:device-lending}. 
 %
 The \gls{shadowdev} makes it appear as if the remote device has been \gls{hotadded} to the local system, and provides us with a mechanism for intercepting interactions with the device by the \gls{os} and any device drivers. 
@@ -331,15 +331,6 @@ We make sure that a device driver attempting to memory map the device's \glspl{b
 %
 Similarly, when the device driver configures interrupts, we are able to intercept this and inject an address that map through the \gls{lender}'s \gls{ntb}, again without the driver being aware.
 
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=.99\textwidth]{dma-window}
-    \caption[The borrower's \glsfmtshort{iommu} is used to create a single continuous memory range that may be mapped through the lender's \glsfmtshort{ntb} in advance. Adding and removing memory pages from the local \glsfmtshort{iommu} domain is inexpensive compared to actively communicating with the remote lender~machine]
-    {The \gls{borrower}'s \gls{iommu} is used to create a single continuous memory range that may be mapped through the \gls{lender}'s \gls{ntb} in advance. Adding and removing memory pages from the local \gls{iommu} domain is inexpensive compared to actively communicating with the remote \gls{lendermachine}.}
-    \label{fig:dma-window}
-\end{figure}
 
 
 The \gls{shadowdev} also provides us with the means to detect when a device driver is allocating \gls{dma} buffers and making memory available for \gls{dma} transfers.
@@ -353,6 +344,17 @@ The pages used for \gls{dma} memory buffers, however, may be scattered in physic
 A driver may even initiate several transfers to different parts of memory altogether.
 %
 Mapping individual memory pages through the \gls{lender}'s \gls{ntb} would not only exhaust the number of available entries in its \gls{lut}, but communicating with the \gls{lendermachine} in order to map these pages dynamically would introduce communication latency in the critical performance path.
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.99\textwidth]{dma-window}
+    \caption[The borrower's \glsfmtshort{iommu} is used to create a single continuous memory range that may be mapped through the lender's \glsfmtshort{ntb} in advance. Adding and removing memory pages from the local \glsfmtshort{iommu} domain is inexpensive compared to actively communicating with the remote lender~machine]
+    {The \gls{borrower}'s \gls{iommu} is used to create a single continuous memory range that may be mapped through the \gls{lender}'s \gls{ntb} in advance. Adding and removing memory pages from the local \gls{iommu} domain is inexpensive compared to actively communicating with the remote \gls{lendermachine}.}
+    \label{fig:dma-window}
+\end{figure}
+
 
 
 
