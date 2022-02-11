@@ -694,30 +694,84 @@ Some selected performance graphs here, demonstrating zero-overhead :)
 
 
 \section{Related work}\label{sec:rw}
-As a complete solution, SmartIO encompasses multiple components that each could potentially be discussed at great length in order to place them in proper context.
+Resource \gls{disaggregation} and sharing is a wide-ranging topic that covers several research areas.
 %
-However, at its core, SmartIO is a framework for sharing \gls{io} resources and facilitating remote access.
+In fact, each individual component of SmartIO could potentially be discussed at great length on their own, in order to place them in proper context.
+%
+In this section, we attempt to condense related work down to the most relevant, in order to provide an overview.
+%
+A more in-depth presentation of related work can be found in the published papers, particularly in \paperref{tocs:rw}.
 
 
-In an attempt to condense related work down to the most relevant, we broadly divide it
 
-%many solutions already exist
-
-Broadly divided into the following categories:
+At its core, SmartIO is a framework for sharing \gls{io} resources among machines in a network.
+%
+Related resource \gls{disaggregation} and sharing solutions can broadly be divided into the following two categories:
+%
 \begin{itemize}
-    \item PCIe-based solutions
-    \item memory disaggregation
-    \item shared-memory
-    \item ladon
-    \item 
-\end{itemize}
-%\subsection{RDMA-based solutions}
+    \item Solutions based on \textbf{\Gls{pcie} switch partitioning}, including so-called ``rack-scale computing'' solutions~\cite{url:rackscale,url:liqid,url:gigaio}.
+        %
+        These solutions rely on \gls{pcie} switch chips with virtualization support to create logical device trees (as illustrated in \cref{fig:partitioning})~\cite{whitepaper:Microsemi,Wong2011,whitepaper:IDT,Chung2018}.
+        %
+        We also include \gls{mriov}~\cite{spec:MRIOV} in this category, although we are not aware of any commercially available implementations of it.
+        
+        As already addressed in \cref{sec:motivation}, by relying on partitionable switches as the enabling component, these solutions are only share devices that are directly attached to such switches.
+        %
+        It is not possible to share the \emph{internal} devices of a machine.
+        %
+        Moreover, solutions based on switch partitioning do not specify any memory-to-memory communication between hosts, requiring alternative networking technologies instead.
+        %
+        Consequently, partitioning does not provide the level of sharing compared to our \gls{ntb}-based system.
+        %
+        Simultaneously sharing a (non-\gls{sriov}) device between multiple machines requires additional distribution methods, such as \gls{rdma}.
+        %
+        In contrast, our SmartIO implementation is fully distributed, allowing all machines to contribute their own internal devices, and use the internal devices of other machines.
+        %
+        Shared-memory computing is made possible by \glspl{ntb}.
+        %
+        Using the \gls{sisciapiext}, it is even possible to implement ``\gls{mriov} in software'', as demonstrated by our proof-of-concept \gls{nvme} driver (\cref{sec:nvme-driver}).
+        
 
-%\subsection{PCIe-based solutions}
-\begin{itemize}
-    \item rdma stuff
-    \item fabric partitioning: mr-iov, broadcom/microsemi chips with partitioning
-    \item ladon (and other ntb stuff)
-    \item disaggregation
+    \item Solutions based on \textbf{using \gls{rdma} for \gls{disaggregation}}.
+        %
+        \Gls{rdma} is by far the most widely used solution for \gls{disaggregating} resources and sharing them over a network.
+        %
+        Examples include rCUDA~\cite{Duato2010} for sharing \glspl{gpu}, and \gls{nvmeof}~\cite{Guz2018} for \glspl{nvme}.
+        %
+        \Gls{rdma} has also been used for \gls{disaggregating} memory~\cite{Liang2005,Gu2017,Aguilera2018}.
+
 \end{itemize}
+
+
+also ladon and pcie shared memory
+
+
+Lim2009
+
+
+IO device sharing, rcuda nvmeof
+memory disaggregation
+\Gls{rdma}-based solutions include rCUDA~ and 
+
+
+Related work is discussed more in detail in the published papers, particularly in \paperref{tocs:rw}.
+
+
+%Broadly divided into the following categories:
+%\begin{itemize}
+%    \item PCIe-based solutions
+%    \item memory disaggregation
+%    \item shared-memory
+%    \item ladon
+%    \item 
+%\end{itemize}
+%%\subsection{RDMA-based solutions}
+%
+%%\subsection{PCIe-based solutions}
+%\begin{itemize}
+%    \item rdma stuff
+%    \item fabric partitioning: mr-iov, broadcom/microsemi chips with partitioning
+%    \item ladon (and other ntb stuff)
+%    \item disaggregation
+%\end{itemize}
 

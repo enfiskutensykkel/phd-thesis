@@ -27,15 +27,8 @@
 	school = {Stony Brook University},
 }
 
-@inproceedings{Fountain2005,
-	title = "{PCI Express}: An Overview of {PCI Express}, Cabled {PCI Express} and {PXI Express}",
-	author = "Trevor Fountain and Alexandra McCarthy and Fangfang Peng",
-	booktitle = {Proceedings of the 10th International Conference on Accelerator \& Large Experimental Physics
-		Control Systems},
-	series = {ICALEPCS'05},
-	year = 2005,
-    month = oct,
-}
+
+
 
 @article{Bergman2019,
 	title = {{SPIN}: Seamless Operating System Integration of Peer-to-Peer {DMA} Between {SSDs} and {GPUs}},
@@ -118,9 +111,61 @@
     pages = {74120--74150}
 }
 
+@article{Guz2018,
+	author = {Zvika Guz and Harry Li and Anahita Shayesteh and Vijay Balkrishnan},
+	title = {Performance Characterization of {NVMe-over-Fabrics} Storage Disaggregation},
+	year = {2018},
+	month = dec,
+	issn = {1553-3077},
+	doi = {10.1145/3239563},
+	journal = {ACM Transactions on Storage},
+    volume = {14},
+    number = {4},
+    pages = {31:1--31:18}
+}
+
+@article{Shim2018,
+	year = 2018,
+	month = feb,
+	title = {Design and implementation of initial {OpenSHMEM} on {PCIe NTB} based Cloud Computing},
+	author = {Cheol Shim and Kwang-Ho Cha and Min Choi},
+	journal = {Cluster Computing},
+    %journalsubtitle = {The Journal of Networks, Software Tools and Applications},
+	doi = {10.1007/s10586-018-1707-0},
+	volume = {22},
+    issuetitle = {Supplement issue 1},
+	pages = {1815--1826},
+}
+
+@article{Tu2013,
+	author = {Cheng-Chun Tu and Chao-tang Lee and Tzi-cker Chiueh},
+	title = {Secure {I/O} Device Sharing Among Virtual Machines on Multiple Hosts},
+	journal = {ACM SIGARCH Computing Architecture News},
+	volume = {41},
+	number = {3},
+	year = {2013},
+	pages = {108--119},
+	doi = {10.1145/2508148.2485932},
+	acmid = {2485932},
+} 
+
+
+
+
+@inproceedings{Fountain2005,
+	title = "{PCI Express}: An Overview of {PCI Express}, Cabled {PCI Express} and {PXI Express}",
+	author = "Trevor Fountain and Alexandra McCarthy and Fangfang Peng",
+	booktitle = {Proceedings of the 10th International Conference on Accelerator \& Large Experimental Physics
+		Control Systems},
+	series = {ICALEPCS'05},
+	year = {2005},
+    month = {oct},
+    url = {https://accelconf.web.cern.ch/ica05/proceedings/pdf/I3_001.pdf}
+}
+
 @inproceedings{Trivedi2011,
 	author = {Animesh Trivedi and Bernard Metzler and Patrick Stuedi},
-	booktitle = {Proceedings of the Second Asia-Pacific Workshop on Systems},
+	booktitle = {Proceedings of the 2nd ACM SIGOPS Asia-Pacific Workshop on Systems},
 	series = {APSys'11},
 	doi = {10.1145/2103799.2103820},
 	pages = {17:1--17:5},
@@ -135,7 +180,7 @@
 	title = {Utilizing {IOMMUs} for virtualization in {Linux} and {Xen}},
 	author = {Muli, Ben-Yehuda and Mason, Jon and Krieger, Orran and Xenidis, Jimi and Van Doorn,
 		Leendert and Mallick, Asit and Nakijima, Jun and Wahlig, Elsie},
-	booktitle = {Proceedings of the Ottawa Linux Symposium},
+	booktitle = {Proceedings of the 8th Ottawa Linux Symposium},
     series = {OLS'06},
     month = {jul},
 	year = {2006},
@@ -152,12 +197,13 @@
 	acmid = {3043086},
 	pages={1337--1345},
     month = {jun},
-    issn = {2640-3498}
+    issn = {2640-3498},
+    url = {http://proceedings.mlr.press/v28/coates13.pdf}
 }
 
 @inproceedings{Huang2012,
 	author = {Jian Huang and Xiangyong Ouyang and Jithin Jose and Md. Wasi-Ur-Rahman and Hao Wang and Miao Luo and Hari Subramoni and Chet Murthy and Dhabaleswar K. Panda},
-	booktitle = {Proceedings of 26th IEEE International Parallel and Distributed Processing Symposium},
+	booktitle = {Proceedings of 26th {IEEE}/{ACM} International Parallel and Distributed Processing Symposium},
 	series = {IPDPS'12},
 	doi = {10.1109/IPDPS.2012.74},
 	pages = {774--785},
@@ -166,35 +212,22 @@
     issn = {1530-2075},
 }
 
-@article{Guz2018,
-	author = {Zvika Guz and Harry Li and Anahita Shayesteh and Vijay Balkrishnan},
-	title = {Performance Characterization of {NVMe-over-Fabrics} Storage Disaggregation},
-	year = {2018},
-	month = dec,
-	issn = {1553-3077},
-	doi = {10.1145/3239563},
-	journal = {ACM Transactions on Storage},
-    volume = {14},
-    number = {4},
-    pages = {31:1--31:18}
-}
-
 
 @inproceedings{Guz2017,
 	series = {SYSTOR'17},
 	title = {{NVMe-over-Fabrics} Performance Characterization and the Path to Low-Overhead Flash Disaggregation},
 	author = {Zvika Guz and Harry Li and Anahita Shayesteh and Vijay Balakrishnan},
-	month = may,
+	month = {may},
 	year = {2017},
 	doi = {10.1145/3078468.3078483},
-	booktitle = {Proceedings of the 10th ACM International Systems and Storage Conference},
+	booktitle = {Proceedings of the 10th {ACM} International Systems and Storage Conference},
 	pages = {1--9}
 }
 
 
 @inproceedings{Venkatesh2014,
 	author = {Akshay Venkatesh and Hari Subramoni and Khaled Hamidouche and Dhabaleswar K. Panda},
-	booktitle = {Proceedings of the 21st International Conference on High Performance Computing},
+	booktitle = {Proceedings of the 21st {IEEE} International Conference on High Performance Computing},
 	title = {A high performance broadcast design with hardware multicast and {GPUDirect RDMA} for streaming applications on {Infiniband} clusters},
 	series = {HiPC'14},
 	year = {2014},
@@ -214,13 +247,48 @@
 	doi = {10.1109/ICPP.2017.24}, 
 	issn = {2332-5690},
 	month = {aug},
-	booktitle = {Proceedings of the 46th International Conference on Parallel Processing},
+	booktitle = {Proceedings of the 46th {ACM} International Conference on Parallel Processing},
 	series = {ICPP'17}
+}
+
+@inproceedings{Gu2017,
+	author = {Juncheng Gu and Youngmoon Lee and Yiwen Zhang and Mosharaf Chowdury and Kang G. Shin},
+	title = {Efficient Memory Disaggregation with {INFINISWAP}},
+	booktitle = {Proceedings of the 14th {USENIX} Symposium on Networked Systems Design and Implementation},
+	series = {NSDI'17},
+	year = {2017},
+	month = {mar},
+	pages = {649--667},
+	isbn = {978-1-931971-37-9},
+    url = {https://www.usenix.org/system/files/conference/nsdi17/nsdi17-gu.pdf},
+}
+
+@inproceedings{Aguilera2018,
+	author = {Marcos K. Aguilera and Nadav Amit and Irina Calciu and Xavier Deguillard and Jayneel Gandhi and Stanko Novakovi{\'c} and Arun Ramanathan and Pratap Subrahmanyam and Lalith Suresh and Kiran Tati and Rajesh Venkatasubramanian and Michael Wei},
+	title = {Remote Regions: A Simple Abstraction for Remote Memory},
+	isbn = {978-1-939133-01-4},
+	year = 2018, 
+	pages = {775--787},
+	series = {ATC'18},
+	booktitle = {Proceedings of the 24th {USENIX} Annual Technical Conference},
+    url = {https://www.usenix.org/system/files/conference/atc18/atc18-aguilera.pdf}
+}
+
+@inproceedings{Liang2005,
+	author = {Shuang Liang and Ranjit Noronha and Dhabaleswar K. Panda},
+	title = {Swapping to remote memory over {Infiniband}: An approach using a high performance network block device},
+	month = {sep},
+	year = {2005},
+	doi = {10.1109/CLUSTR.2005.347050},
+	issn = {2168-9253},
+	booktitle = {Proceedings of the 7th {IEEE} International Conference on Cluster Computing},
+	series = {Cluster'05},
+	pages = {1--10}
 }
 
 @inproceedings{Duato2010, 
 	author={Jos\'{e} Duato and Antonio J. Pena and Frederico Silla and Rafael Mayo and Enrique S. Quintana-Ort\'{i}}, 
-	booktitle = {Proceedings of the International Conference on High Performance Computing \& Simulation}, 
+	booktitle = {Proceedings of the 8th {IEEE} International Conference on High Performance Computing \& Simulation}, 
 	series = {HPCS'10},
 	title = {{rCUDA}: Reducing the Number of {GPU}-based Accelerators in High Performance Clusters}, 
 	year = {2010}, 
@@ -231,44 +299,30 @@
 
 @inproceedings{Ravindran2008,
 	author = {Murali Ravindran},
-	booktitle = {Proceedings of the 2nd Annual IEEE Systems Conference},
+	booktitle = {Proceedings of the 2nd Annual {IEEE} International Systems Conference},
 	doi = {10.1109/SYSTEMS.2008.4519048}, 
 	series = {SysCon'08},
 	pages = {1--7},
 	title = {Extending Cabled {PCI Express} to Connect Devices with Independent {PCI} Domains},
 	year = {2008},
-    month = apr
+    month = {apr}
 }
 
 @inproceedings{Lim2019,
 	author = {Seung-Ho Lim and Ki-Woong Park and Kwang-Ho Cha},
 	title = {Developing an {OpenSHMEM} Model over a Switchless {PCIe} Non-Transparent Bridge Interface},
 	year = {2019},
-	month = may,
+	month = {may},
 	doi = {10.1109/IPDPSW.2019.00104},
 	pages = {593--602},
-	booktitle = {Proceedings of the IEEE International Parallel and Distributed Processing Symposium Workshops},
+	booktitle = {Proceedings of the 33rd {IEEE} International Parallel and Distributed Processing Symposium Workshops},
 	series = {IPDPSW'19},
 }
-
-@article{Shim2018,
-	year = 2018,
-	month = feb,
-	title = {Design and implementation of initial {OpenSHMEM} on {PCIe NTB} based Cloud Computing},
-	author = {Cheol Shim and Kwang-Ho Cha and Min Choi},
-	journal = {Cluster Computing},
-    %journalsubtitle = {The Journal of Networks, Software Tools and Applications},
-	doi = {10.1007/s10586-018-1707-0},
-	volume = {22},
-    issuetitle = {Supplement issue 1},
-	pages = {1815--1826},
-}
-
 
 @inproceedings{Tu2018,
 	title = {Seamless Fail-over for {PCIe} Switched Networks},
 	author = {Cheng-Chun Tu and Tzi-cker Chiueh},
-	booktitle = {Proceedings of the 11th ACM International Systems and Storage Conference},
+	booktitle = {Proceedings of the 11th {ACM} International Systems and Storage Conference},
 	series = {SYSTOR'18},
 	year = {2018},
     month = jun,
@@ -277,22 +331,10 @@
 	acmid = {3211895},
 }
 
-@article{Tu2013,
-	author = {Cheng-Chun Tu and Chao-tang Lee and Tzi-cker Chiueh},
-	title = {Secure {I/O} Device Sharing Among Virtual Machines on Multiple Hosts},
-	journal = {ACM SIGARCH Computing Architecture News},
-	volume = {41},
-	number = {3},
-	year = {2013},
-	pages = {108--119},
-	doi = {10.1145/2508148.2485932},
-	acmid = {2485932},
-} 
-
 @inproceedings{Tu2014,
 	title = {Marlin: A Memory-based Rack Area Network},
 	author={Cheng-Chun Tu and Chao-tang Lee and Tzi-cker Chiueh},
-	booktitle = {Proceedings of the 10th ACM/IEEE Symposium on Architectures for Networking and Communications Systems},
+	booktitle = {Proceedings of the 10th {ACM}/{IEEE} Symposium on Architectures for Networking and Communications Systems},
 	series = {ANCS'14},
 	year = {2014},
     month = oct,
@@ -306,7 +348,7 @@
 	author = {Rui Hou and Tao Jiang and Liuhang Zhang and Pengfei Qi and Jianbo Dong and Haibin Wang and
 		Xiongli Gu and Shujie Zhang},
 	year = {2013},
-	booktitle = {Proceedings of the 19th International Symposium on High Performance Computer Architecture},
+	booktitle = {Proceedings of the 19th {IEEE} International Symposium on High Performance Computer Architecture},
 	pages = {179--187},
 	series = {HPCA'13},
 	doi = {10.1109/HPCA.2013.6522317}
@@ -317,17 +359,17 @@
 	title = {High-Performance Design of {Hadoop RPC} with {RDMA} over {InfiniBand}},
 	author = {Xiaoyi Lu and Nusrat S. Islam and Md. Wasi-Ur-Rahman and Jithin Jose and Hari Subramoni and Hao Wang and Dhabaleswar K. Panda},
 	year = {2013},
-	month = oct,
+	month = {oct},
 	pages = {641--650},
-	booktitle = {Proceedings of the 42nd International Conference on Parallel Processing},
+	booktitle = {Proceedings of the 42nd {ACM} International Conference on Parallel Processing},
 	series = {ICPP'13},
 	doi = {10.1109/ICPP.2013.78},
 }
 
 @inproceedings{Jiang2004,
     author = {Weihang Jiang and Jiuxing Liu and Hyun-Wook Jin and Dhabaleswar K. Panda and William Gropp and Rajeev Thakur},
-	booktitle = {Proceedings of the IEEE International Symposium on Cluster Computing and the Grid},
-	series = {CCGrid 2004},
+	booktitle = {Proceedings of the 4th {IEEE} International Symposium on Cluster Computing and the Grid},
+	series = {CCGrid'04},
 	pages = {531--538},
 	title = {High performance {MPI-2} one-sided communication over {InfiniBand}},
 	year = {2004},
@@ -340,7 +382,7 @@
 	year = 2018,
 	month = jan,
 	doi = {10.1145/3149457.3149466}, 
-	booktitle = {Proceedings of the International Conference on High Performance Computing in Asia-Pacific Region},
+	booktitle = {Proceedings of the 1st {ACM SIGHPC} International Conference on High Performance Computing in Asia-Pacific Region},
 	pages = {137--147},
 	series = {HPC Asia'18},
 }
@@ -364,6 +406,16 @@
 	url = {https://pcisig.com/specifications},
     urldate = {2022-01-25},
     note = {Revision 3.1}
+}
+
+@manual{spec:MRIOV,
+    author = {{Peripheral Component Interconnect Special Interest Group (PCI-SIG)}},
+    title = {{Multi-Root I/O Virtualisation and Sharing Specification}},
+    month = may,
+    year = 2008,
+	url = {https://pcisig.com/specifications},
+    urldate = {2022-02-11},
+    note = {Revision 1.x}
 }
 
 
