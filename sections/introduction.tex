@@ -85,7 +85,7 @@ However, while \gls{rdma} allows data to be transferred efficiently over the net
 %
 Compared to accessing a local device, this protocol translation incurs latency overheads that are not insignificant.
 %
-Moreover, as \gls{rdma} requires the use of specific programming models like message-passing~\cite{Jiang2004}, \gls{disaggregation} solutions based on \gls{rdma} are usually implemented either as application-specific \gls{middleware}, or as part of the application itself.
+Moreover, as \gls{rdma} requires the use of specific programming models like \gls{mpi}~\cite{Jiang2004}, \gls{disaggregation} solutions based on \gls{rdma} are usually implemented either as application-specific \gls{middleware}, or as part of the application itself.
 %
 The sharing capabilities of \gls{rdma} solutions are, therefore, often limited to a single type of device.
 Sharing several types of devices, for example both \glspl{gpu} and \glspl{nvme}, usually requires multiple \gls{disaggregation} implementations, and integrating them with each other may be a challenge.
@@ -578,7 +578,7 @@ The rest of this dissertation is organized as follows:
         %
         We describe the initial idea and challenges for SmartIO, and provide a high-level overview of the implementation and its considerations.
         %
-        We also present related work focused on \gls{io} resource sharing in cluster networks.
+        We also present an overview of related work focused on \gls{io} resource sharing in cluster networks.
 
     \item[\cref{chapter:conclusion}]
         summarizes our work and presents ideas for future work.
