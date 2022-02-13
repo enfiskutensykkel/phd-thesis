@@ -696,7 +696,7 @@ Some selected performance graphs here, demonstrating zero-overhead :)
 \section{Related work}\label{sec:rw}
 \Gls{disaggregation} and efficient resource sharing over a network is a wide-ranging topic that covers several research areas.
 %
-In fact, each individual component of our SmartIO framework could potentially be discussed at great length on their own, in order to place them in proper context.
+In fact, each individual component of our solution could potentially be discussed at great length on their own, in order to place them in proper context.
 %
 However, at its core, SmartIO is a framework for machines in a \gls{pcie} network to share their internal devices and memory resources.
 %
@@ -704,7 +704,7 @@ In this section, we attempt to condense related work down to the most relevant, 
 
 
 
-Related \gls{disaggregation} solutions can be broadly divided into the following four groups:
+Related \gls{disaggregation} solutions can be broadly divided into the following categories:
 %
 \begin{itemize}
     \item Device sharing through \textbf{\Gls{pcie} switch partitioning}~\cite{whitepaper:Microsemi,Wong2011,whitepaper:IDT,Chung2018}.
@@ -720,7 +720,9 @@ Related \gls{disaggregation} solutions can be broadly divided into the following
         %
         It is not possible to share memory or \emph{internal devices} of a machine; only devices that are directly attached to a switch chip that supports the partitioning is possible to share.
         %
-        As such, solutions based on switch partitioning can not support memory-to-memory communication between hosts, requiring alternative networking technologies instead.
+        As such, solutions based on switch partitioning can not support memory-to-memory communication between hosts, nor are they able to support memory \gls{disaggregation}.
+        %
+        %Instead, additional solutions are needed, for example alternative networking technologies instead.
         %
         Sharing a device between multiple machines is only possible if the device supports \gls{sriov}, or additional distribution methods, such as \gls{rdma}, must be used.
         
@@ -734,40 +736,49 @@ Related \gls{disaggregation} solutions can be broadly divided into the following
         Devices can be shared with physical machines and \glspl{vm} alike (\cref{sec:lending,sec:mdev}), and it is even possible to implement ``\gls{mriov} in software'' using the \gls{sisciapiext}, as demonstrated by our proof-of-concept \gls{nvme} driver (\cref{sec:nvme-driver}).
         
 
-    \item \textbf{\gls{rdma}-based resource sharing}.
+    \item Distributed \gls{io} and sharing devices over a network using \textbf{\gls{rdma}-based device \gls{disaggregation}}. 
         %
-        \Gls{rdma} is by far the most widely used solution for \gls{disaggregation} and sharing resource over a network~\cite{Trivedi2011}, and is supported by many \glspl{nic}.
+        Examples include rCUDA for sharing \glspl{gpu} in an InfiniBand cluster~\cite{Duato2010}, and \gls{nvmeof} using \gls{rdma}~\cite{Guz2018}.
         %
-        Examples of device sharing using \gls{rdma} include rCUDA~\cite{Duato2010} for sharing \glspl{gpu}, and \gls{nvmeof}~\cite{Guz2018} for \glspl{nvme}.
+        As addressed in \cref{sec:motivation}, although \gls{rdma} enables efficient data transfer over a network through one-sided initiation and direct access to application memory, \gls{rdma} is not as closely integrated to the \gls{pcie} fabric as our own \gls{pcie}-based solution is;
         %
+        \gls{rdma}-based approaches rely on communicating with a driver running on the device-side system, in order to interact with the remote device, and typically solve this by implementing a \gls{middlewareservice}.
+        %
+        As seen in \cref{fig:direct-access}, this additional software component inevitably leads to a performance overhead, compared to a local device driver accessing a device on the \gls{pcie} bus.
+        %
+        Furthermore, this limitation also means that \gls{rdma}-based solutions are specific to the device they \gls{disaggregate}.
+
+        
+
+        In comparison, our SmartIO framework enables access to remote resources over native \gls{pcie}.
+        %
+        Not only does this allow allow devices to remote devices to be used with near-local performance (\cref{sec:eval}), but our solution is more general, in the sense that it is possible to share \emph{any} \gls{pcie} device.
+        %
+        Furthermore, SmartIO makes it possible to support remote memory access even for \emph{the device itself}.
+        %
+        One example of this is SmartIO being able to support the \gls{cuda} unified memory model~\cite{url:unified-memory}.
+        %
+        At the time of writing, we are unaware of any \gls{rdma}-based \gls{gpu} \gls{disaggregation} solutions that are able to support this.
+        %
+        Finally, it should also be pointed out that using SmartIO, \gls{rdma}-capable \glspl{nic} such as InfiniBand cards can be \lgls{borrower}{borrowed}, making it possible to run \gls{rdma} applications on top of SmartIO.
+
+
+    \item Solutions that enable shared-memory communication through \textbf{memory \gls{disaggregation}}.
+        marlin \cite{Tu2014}
+        \cite{Hou2013}
+        \cite{Lim2009}
+
+        \cite{Lim2019,Shim2018}
         \Gls{rdma} has also been used for \gls{disaggregating} system memory~\cite{Liang2005,Gu2017,Aguilera2018}, and is often used to implement shared-memory communication based on \gls{mpi}~\cite{Huang2012,Jiang2004,Lu2013,Venkatesh2014,Venkatesh2017}.
-
-
-        As we also addressed in \cref{sec:motivation}, \gls{rdma} is not as closely integrated to the \gls{pcie} fabric as our own \gls{ntb}-based solution is.
-        %
-        Even though \gls{rdma} enables efficient transfer over a network, device \gls{disaggregation} solutions based on \gls{rdma} typically require application- or device-specific \gls{middleware}, or another method of communicating with a driver running on the \emph{device-side} system, in order to interact with the remote device.
-        %
-        This additional software complexity inevitably leads to a performance overhead, compared to accessing a device on the local \gls{pcie} bus where only a local device driver is involved.
-        %
-        In comparison, our SmartIO framework enables access to remote resources over native \gls{pcie}, allowing remote devices to be used with near-local performance (\cref{sec:eval}).
-        %
-        Furthermore, SmartIO is general, in the sense that it is not only possible to share \emph{any} \gls{pcie} device, but we are able to enable direct access to memory resources (both system memory and device memory).
-        %
-        This makes it possible to support features such as \gls{cuda} unified memory~\cite{url:unified-memory}.
-        %
-        We are not aware of any \gls{rdma}-based \gls{gpu} \gls{disaggregation} solutions that are able to support this.
-
-    \item Shared-memory \Gls{pcie}-based shared memory approaches
-        also ntb shared memory thing, marlin
-        Lim2009
+ntb based shared memory thing
 
     \item Other solutions,
-        suzuki, dredbox, shoal from nsdi19
+        suzuki, dredbox, shoal from nsdi19, 
 
 \end{itemize}
 
 
-ladon as a separate point here
+ladon as a separate point here \cite{Tu2013,Tu2018}
 
 
 A more in-depth presentation of related work can be found in the published papers, particularly in \paperref{tocs:rw}.
