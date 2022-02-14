@@ -708,16 +708,16 @@ Related work can broadly be divided into the following three categories:
 \begin{itemize}
     \item Device sharing through so-called ``\textbf{rack-scale \gls{disaggregation}}'', where modular blade servers are connected to a backplane, or some other shared \gls{io} bus fabric, within a data center rack.
         %
-        Devices are installed in dedicated resource units, and can be distributed to dedicated computation hosts.
+        Devices are installed in dedicated resource servers, and can be dynamically assigned to compute hosts as needed.
         %
         These solutions can be realized using specialized interconnection technologies~\cite{Suzuki2016,Krishnan2006,Shrivastav2019,Katrinis2016}, but \gls{pcie} is more commonly used for commercial solutions~\cite{url:liqid,url:gigaio,Chung2018}.
         %
-        We also include \gls{mriov}~\cite{spec:MRIOV} in this category, even though we are unaware of any available implementations of it.
+        We also include \gls{mriov}~\cite{spec:MRIOV} in this category, even though we are unaware if there are any available implementations of it.
 
         
-        \Gls{pcie}-based solutions for rack-scale \gls{disaggregation} use \gls{pcie} switch chips with virtualization support, making them capable of \emph{partitioning}~\cite{Wong2011,whitepaper:Microsemi,whitepaper:IDT,Chung2018}.
+        \Gls{pcie}-based solutions for rack-scale \gls{disaggregation} use \gls{pcie} switch chips with virtualization support for \emph{partitioning} the \gls{pcie} fabric~\cite{Wong2011,whitepaper:Microsemi,whitepaper:IDT,Chung2018}.
         %
-        As illustrated in \cref{fig:partitioning}, this partitioning makes it possible to isolate devices and individual \gls{cpu} by creating logical device trees.
+        As illustrated in \cref{fig:partitioning}, this partitioning makes it possible to isolate devices and \glspl{cpu} by creating logical device trees for each host.
         %
         It is even possible to assign individual \glspl{vf} of an \gls{sriov}-capable device to different hosts.
         %
@@ -778,26 +778,21 @@ Related work can broadly be divided into the following three categories:
 
     \item \textbf{Memory \gls{disaggregation}} through remote memory access.
         %
-        This category includes solutions that require the use of specific programming models for accessing remote memory, such as \gls{mpi}~\cite{Jiang2004}, \gls{rpc}~\cite{Lu2013}, or through other abstractions~\cite{Aguilera2018}.
+        This category includes solutions that require the use of parallel programming models for accessing remote memory, such as \gls{mpi}~\cite{Jiang2004}, \gls{rpc}~\cite{Lu2013}, or through other abstractions~\cite{Aguilera2018}.
         %
         Approaches for accessing remote memory in a \emph{transparent} fashion also exist, most commonly realized through ``\lgls{trap}{faulting in}'' remote memory pages by modifying the system page fault handler to initiate \gls{rdma} transfers~\cite{Liang2005,Gu2017,Lim2009}.
 
 
-        % rdma is a level of indirection, must be initiated
-        %Remote memory access and shared-memory communication and through \textbf{memory \gls{disaggregation}}.
-        %
-        % either inter-rack, or intra-rack
 
-
-        Memory \gls{disaggregation} solutions, particularly those that offer remote memory access through explicit programming models, are not so much aimed at sharing \gls{io} resources, but rather enabling \emph{shared-memory communication} for distributed cluster applications.
+        Memory \gls{disaggregation} solutions, in particular those that use explicit programming models, are not so much aimed at sharing \gls{io} resources, but rather enabling \emph{shared-memory communication} for distributed cluster applications.
         %
         Especially \gls{mpi} protocols implemented using \gls{rdma} appears to be widely adopted for this purpose.
         %
-        Many of these solutions also support \gls{gpudirect}, enabling \gls{disaggregation} of on-board \gls{gpu} memory~\cite{Venkatesh2014,Venkatesh2017,url:Rosetti2014}.
+        Many of these solutions also support \gls{gpudirect}, making it possible to \gls{disaggregate} \gls{gpu} memory~\cite{Venkatesh2014,Venkatesh2017,url:Rosetti2014}.
         %
-        However, as with solutions for \gls{rdma}-based device \gls{disaggregation}, \gls{rdma} is an additional layer of indirection.
+        However, as with using \gls{rdma} for sharing devices over a network, \gls{rdma} is an additional layer of indirection for memory \gls{disaggregation} solutions too;
         %
-        This indirection causes increased latency when accessing remote memory, compared to software running on a local \gls{cpu} reading and writing to a (remote) memory location directly.
+        compared to a \gls{cpu} (or device) reading and writing to a memory location directly, initiating \gls{rdma} transfers can significantly increase latency.
         
 
 
