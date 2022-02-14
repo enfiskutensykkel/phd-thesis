@@ -16,7 +16,7 @@
 	year = 2011,
     month = may,
     doi = {1721.1/66819},
-    url = {https://dspace.mit.edu/handle/1721.1/66819}
+    %url = {https://dspace.mit.edu/handle/1721.1/66819}
 }
 
 @phdthesis{Tu2014phd,
@@ -42,6 +42,18 @@
     journal = {ACM Transactions on Computer Systems},
     pages = {5:1--5:26},
     articleno = {5}
+}
+
+@article{Suzuki2016,
+	title = {Disaggregation and Sharing of {I/O} Devices in Cloud Data Centers},
+	author = {Jun Suzuki and Yoichi Hidaka and Hunichi Higuchi and Masaki Kan and Takashi Yoshikawa},
+	journal = {IEEE Transactions on Computers},
+	year = {2016},
+	volume = {65},
+	pages = {3013--3026},
+	month = {dec},
+	issue = {10},
+	doi = {10.1109/TC.2015.2513759}
 }
 
 
@@ -575,14 +587,6 @@
 	month = dec
 }
 
-@online{url:rackscale,
-	title = {Intel Rack Scale Design},
-	author = {{Intel Corporation}},
-	year = 2015,
-	url = {https://www.intel.com/content/www/us/en/architecture-and-technology/rack-scale-design-overview.html},
-    urldate = {2021-11-28}
-}
-
 @online{url:liqid,
 	title = {Liqid Composable Infrastructure},
 	author = {{Liqid Corporation}},
@@ -629,7 +633,7 @@
     year = 2008,
     month = dec,
     url = {https://www.renesas.com/eu/en/document/apn/708-switch-partitioning-pcie-switches},
-    urldate = {2021-11-18},
+    urldate = {2022-02-14},
     title = {Switch Partitioning in {PCI Express} Switches}
 }
 
@@ -642,3 +646,50 @@
     urldate = {2022-01-26},
 }
 
+
+@inproceedings{Shan2018,
+	title = {{LegoOS}: A Disseminated, Distributed {OS} for Hardware Resource Disaggregation},
+	author = {Yizhou Shan and Yutong Huang and Yilun Chen and Yiying Zhang},
+	isbn = {978-1-939133-08-3},
+	year = {2018},
+    month = {oct},
+	pages = {69--87},
+	series = {OSDI'18},
+	booktitle = {Proceedings of the 13th {USENIX} Symposium on Operating Systems Design and Implementation},
+    url = {https://www.usenix.org/system/files/osdi18-shan.pdf}
+}
+
+@inproceedings{Shrivastav2019,
+    title = {Shoal: A Network Architecture for Disaggregated Racks},
+    author = {Vishal Shrivastav and Asaf Valadarsky and Hitesh Ballani and Paolo Costa and Ki Suh Lee and Han Wang and Rachit Agarwal and Hakim Weatherspoon},
+    isbn = {978-1-931971-49-2},
+    month = {feb},
+    year = {2019},
+    series = {NSDI'19},
+    booktitle = {Proceedings of the 16th {USENIX} Symposium on Networked Systems Design and Implementation},
+    url = {https://www.usenix.org/system/files/nsdi19-shrivastav.pdf}
+}
+
+@inproceedings{Katrinis2016,
+    author = {Kostas Katrinis and Dimitris Syrivelis and Dionisis Pnevmatikatos and Georgios Zervas and Dimitris Theodoropoulos and Iordanis Koutsopoulos and Kobi Hasharomi and Daniel Raho and Christian Pinto and Felix Espina and Sergio López-Buedo and Q. Chen and Mario Daniel Nemirovsky and Damian Roca and Hans Klos and Tom Berends},
+    title = {Rack-Scale Disaggregated cloud data centers: The {dReDBox} project vision},
+    booktitle = {Proceedings of the 19th {IEEE} Conference on Design, Automation \& Test in Europe},
+    series = {DATE'16},
+    year = {2016},
+    month = {march},
+    issn = {1558-1101},
+    pages = {690--695},
+    doi = {10.3850/9783981537079_1014},
+}
+
+@inproceedings{Krishnan2006,
+    title = {A Case Study in {I/O} Disaggregation using {PCI Express} {Advanced Switching Interconnect (ASI)}},
+    year = {2006},
+    month = {aug},
+    pages = {15--24},
+    booktitle = {Proceedings of the 14th {IEEE} Symposium on High-Performance Interconnects},
+    series = {HOTI'06},
+    doi = {10.1109/HOTI.2006.5}, 
+    issn = {1550-4794},
+    author = {Venkata Krishnan and Todd Comins and Rudy Stalzer and David Wong},
+}
