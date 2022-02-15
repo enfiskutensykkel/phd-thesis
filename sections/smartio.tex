@@ -702,7 +702,7 @@ However, at its core, SmartIO is a framework for machines in a \gls{pcie} networ
 %
 In this section, we attempt to provide a condensed overview of related work we consider the most relevant.
 %
-A more technical comparison between specific solutions and our SmartIO solution and is provided in \paperref{tocs:rw}.
+More technical comparisons between specific solutions and our SmartIO solution are provided in \paperref{tocs:rw}.
 
 
 \subsection{Disaggregation solutions}
@@ -728,41 +728,42 @@ State of the art within \gls{disaggregation} and resource sharing can broadly be
         %
         Consequently, solutions based on switch partitioning cannot support memory-to-memory communication between hosts, nor are they able to support any memory \gls{disaggregation}.
         %
-        Instead, additional \gls{disaggregation} solutions are needed in order to support this, for instance \gls{rdma}-based solutions.
-
-    \item Device \gls{disaggregation} by \textbf{distributed \gls{io} over a network using \gls{rdma}}.
-        %
-        Examples include rCUDA for sharing \glspl{gpu} in an InfiniBand cluster~\cite{Duato2010}, and \gls{nvmeof} using \gls{rdma}~\cite{Guz2018}.
-        %
-        Solutions for sharing \glspl{gpu}~\cite{Hou2013} and Ethernet \glspl{nic}~\cite{Tu2014} over a \gls{pcie} fabric using \gls{rdma} have also been proposed, by using \gls{pcie} switch chips capable of \gls{dma} to transfer data from memory to memory in the different machines.
-        
-
-        Although \gls{rdma} enables efficient data transfer over a network through one-sided initiation and direct access to application memory, \gls{rdma}-based approaches rely on communicating with a driver running on the device-side system, in order to interact with the remote device.
-        %
-        This is typically solved by implementing a \gls{middlewareservice} that uses an existing device driver, or by implementing a distributed device driver.
-        %
-        As such, \gls{rdma}-based solutions are specific to the (type of) device they \gls{disaggregate}, as mentioned in \cref{sec:motivation}.
-        %
-        Moreover, as illustrated in \cref{fig:direct-access}, this additional software component on the remote system inevitably leads to a performance overhead, compared to a local device driver directly interacting with a device. % on the \gls{pcie} bus.
+        Instead, additional \gls{disaggregation} solutions are needed in order to support this, for instance solutions that use \gls{rdma}.
 
 
     \item Memory \gls{disaggregation} through \textbf{remote memory access}.
         %
-        This category includes solutions that require the use of parallel programming models on top of \gls{rdma}, such as \gls{mpi}~\cite{Jiang2004}, \gls{rpc}~\cite{Lu2013}, or through other abstractions~\cite{Aguilera2018}.
+        The goal of memory \gls{disaggregation} solutions is not so much sharing \gls{io} resources, but rather to use \gls{rdma} to facilitate shared-memory communication for distributed cluster applications.
         %
-        Approaches for accessing remote memory in a \emph{transparent} fashion also exist, most commonly realized by ``\lgls{trap}{faulting in}'' remote memory pages by modifying the system page fault handler to initiate \gls{rdma} transfers~\cite{Liang2005,Gu2017,Lim2009}.
+        Therefore, this category encompasses implementations of parallel programming models, such as \gls{mpi}~\cite{Jiang2004} and \gls{rpc}~\cite{Lu2013}, as well as other abstractions~\cite{Aguilera2018}.
+        %
+        Approaches for accessing remote memory in a more \emph{transparent} fashion also exist, most commonly achieved through ``\lgls{trap}{faulting in}'' remote memory pages by modifying the system page fault handler to initiate \gls{rdma} transfers~\cite{Liang2005,Gu2017,Lim2009}.
+        
+
+        Especially \gls{mpi} protocols implemented using \gls{rdma} over InfiniBand appear to be widely used for distributed computing.
+        %
+        Many of these \gls{mpi} solutions also support \gls{gpudirect}, effectively making it possible to \gls{disaggregate} \gls{gpu} memory~\cite{Venkatesh2014,Venkatesh2017,url:Rosetti2014}.
+        %
+        Although \gls{rdma} enables efficient data transfer over a network through one-sided initiation and direct access to application memory, it nonetheless introduces a layer of indirection;
+        %
+        compared to a \gls{cpu} (or device) reading and writing to a memory location directly, latency is significantly increased by needing to initiate (and wait for) \gls{rdma} transfers.
 
 
+    \item Device \gls{disaggregation} by \textbf{distributed \gls{io} over a network} using \gls{rdma}.
+        %
+        Examples include rCUDA for sharing \glspl{gpu} in an InfiniBand cluster~\cite{Duato2010}, and \gls{nvmeof} using \gls{rdma}~\cite{Guz2018}.
+        %
+        Solutions for sharing \glspl{gpu}~\cite{Hou2013} and Ethernet \glspl{nic}~\cite{Tu2014} over a \gls{pcie} fabric have also been proposed, by using \gls{pcie} switch chips capable of \gls{dma} to transfer data from memory to memory in the different machines.
+        
+        
+        \Gls{rdma}-based approaches rely on communicating with a driver running on the device-side system, in order to interact with the remote device.
+        %
+        This is typically solved by implementing a \gls{middlewareservice} that uses an existing device driver, or by implementing a distributed device driver.
+        %
+        Because of this, \gls{rdma}-based device \gls{disaggregation} solutions are specific to the (type of) device they \gls{disaggregate}, as mentioned in \cref{sec:motivation}.
+        %
+        Moreover, as illustrated in \cref{fig:direct-access}, this additional software component on the remote system inevitably leads to a performance overhead, compared to a local device driver directly interacting with a device. % on the \gls{pcie} bus.
 
-        Memory \gls{disaggregation} solutions, in particular those that use explicit programming models, are not so much aimed at sharing \gls{io} resources, but rather enabling shared-memory communication for distributed cluster applications.
-        %
-        Especially \gls{mpi} protocols implemented using \gls{rdma} appears to be widely used for this purpose.
-        %
-        Many of these solutions also support \gls{gpudirect}, effectively making it possible to \gls{disaggregate} \gls{gpu} memory~\cite{Venkatesh2014,Venkatesh2017,url:Rosetti2014}.
-        %
-        However, as with using \gls{rdma} for sharing devices over a network, \gls{rdma} is an additional layer of indirection for memory \gls{disaggregation} solutions too;
-        %
-        compared to a \gls{cpu} (or device) reading and writing to a memory location directly, latency is significantly increased by initiating \gls{rdma} transfers.
 \end{itemize}
 
 
@@ -780,7 +781,25 @@ However, by being implemented on top of \gls{pcie} cluster networking, SmartIO i
 %
 \begin{itemize}
     \item Unlike \gls{pcie}-based rack-scale \gls{disaggregation}, where only resources attached directly to partitionable switch chips can be shared, SmartIO instead makes it possible for all machines to lend out their internal devices and borrow resources from remote machines.
-        
+
+    \item In contrast to \gls{rdma}-based solutions for memory \gls{disaggregation}, remote \glspl{memorysegment} can be mapped into a local software application's virtual address space directly.
+
+    \item devices can use native dma, no rdma is needed
+
+        are accessed over native \gls{pcie}.
+        %
+        No software or \gls{rdma} initiation is needed in the performance critical path, as the \gls{sisciapi} makes it possible to memory map remote \glspl{memorysegment} into a local software application's virtual address space.
+%        the \gls{sisciapi} makes it possible to map remote \glspl{memorysegment} into a local application's virtual address space (\cref{sec:idea}).
+%        %
+%        This way, we avoid any latency from initiating \gls{rdma} transfers altogether, as a \gls{cpu} reads and writes across the \gls{ntb} directly.
+%        This way, we avoid any latency from initiating \gls{rdma} transfers altogether, as a \gls{cpu} reads and writes across the \gls{ntb} directly.
+%        %
+%        SmartIO greatly extends this functionality through the \gls{apiext}, by making it possible to also map shared \glspl{memorysegment} for \emph{devices}.
+%        %
+%        Not only does this allow devices to read and write to remote memory using native \gls{dma}, but we are even able to make device operation part of the cluster application itself.
+    \item underneath the os, smartio is general
+
+
 \end{itemize}
 %
 By having the flexibility of shared-memory solutions \emph{and} the performance advantage of native \gls{pcie}, SmartIO is ``the best of both worlds''.
