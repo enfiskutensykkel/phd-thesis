@@ -694,7 +694,7 @@ Some selected performance graphs here, demonstrating zero-overhead :)
 
 
 \section{Related work}\label{sec:rw}
-\Gls{disaggregation} and efficient resource sharing over a network is a wide-ranging topic that covers several research areas.
+Sharing resources efficiently among networked machines is a wide-ranging topic that span several research areas.
 %
 In fact, each individual component of our solution could potentially be discussed at great length on their own, in order to place them in proper context.
 %
@@ -706,26 +706,26 @@ In this section, we attempt to provide a condensed overview of the state of the 
 Related work can broadly be divided into the following three categories:
 %
 \begin{itemize}
-    \item Device sharing through so-called ``\textbf{rack-scale \gls{disaggregation}}'', where modular blade servers are connected to a backplane, or some other shared \gls{io} bus fabric, within a data center rack.
+    \item So-called ``rack-scale \gls{disaggregation}'' and device sharing by \textbf{logical partitioning}, where modular blade servers are connected to a backplane, or some other shared \gls{io} bus fabric, within a data center rack.
         %
         Devices are installed in dedicated resource servers, and can be dynamically assigned to compute hosts as needed.
         %
-        These solutions can be realized using specialized interconnection technologies~\cite{Suzuki2016,Krishnan2006,Shrivastav2019,Katrinis2016}, but \gls{pcie} is more commonly used for commercial solutions~\cite{url:liqid,url:gigaio,Chung2018}.
+        These solutions can be realized using interconnection technologies that are specialized for this purpose~\cite{Suzuki2016,Krishnan2006,Shrivastav2019,Katrinis2016}, but
+        %
+        \gls{pcie} (with additional virtualization support) is more often used for commercial solutions~\cite{url:liqid,url:gigaio,Chung2018}.
         %
         We also include \gls{mriov}~\cite{spec:MRIOV} in this category, even though we are unaware if there are any available implementations of it.
 
         
-        \Gls{pcie}-based solutions for rack-scale \gls{disaggregation} use \gls{pcie} switch chips with virtualization support for \emph{partitioning} the \gls{pcie} fabric~\cite{Wong2011,whitepaper:Microsemi,whitepaper:IDT,Chung2018}.
+        \Gls{pcie}-based solutions use switch chips with virtualization support that makes it possible to isolate devices and \glspl{cpu} by creating logical device trees for each host~\cite{Wong2011,whitepaper:Microsemi,whitepaper:IDT,Chung2018}, as illustrated in \cref{fig:partitioning}.
         %
-        As illustrated in \cref{fig:partitioning}, this partitioning makes it possible to isolate devices and \glspl{cpu} by creating logical device trees for each host.
+        Some solutions even support assigning individual \glspl{vf} of an \gls{sriov}-capable device to different hosts~\cite{Chung2018}.
         %
-        It is even possible to assign individual \glspl{vf} of an \gls{sriov}-capable device to different hosts.
+        However, as we addressed in \cref{sec:motivation}, it is only possible to distribute resources that are directly attached to these partitionable switch chips, and it is not possible to share the \emph{internal resources} of a machine (such as its memory and local devices).
         %
-        However, as we addressed in \cref{sec:motivation}, it is only possible to distribute resources that are directly attached to these partitionable switch chips, and it is not possible to share the \emph{internal resources} of a machine, such as its memory or devices.
+        Consequently, solutions based on switch partitioning cannot support memory-to-memory communication between hosts, nor are they able to support any memory \gls{disaggregation}.
         %
-        As such, solutions based on switch partitioning cannot support memory-to-memory communication between hosts, nor are they able to support memory \gls{disaggregation}.
-        %
-        Instead, additional \gls{disaggregation} solutions are needed to support this, for example using \gls{rdma} over traditional network.
+        Instead, additional \gls{disaggregation} solutions are needed in order to support this, for instance \gls{rdma}-based solutions.
 
         
 %        As already addressed in \cref{sec:motivation}, by relying on partitionable switch chips as the enabling device sharing technology, these solutions do not provide the same level of sharing as our \gls{ntb}-based framework.
@@ -747,7 +747,8 @@ Related work can broadly be divided into the following three categories:
 %        Devices can be shared with physical machines and \glspl{vm} alike (\cref{sec:lending,sec:mdev}), and it is even possible to implement ``\gls{mriov} in software'' using the \gls{sisciapiext}, as demonstrated by our proof-of-concept \gls{nvme} driver (\cref{sec:nvme-driver}).
 %        
 
-    \item Distributed \gls{io} and sharing devices over a traditional network using \textbf{\gls{rdma}-based device \gls{disaggregation}}.
+    \item Device \gls{disaggregation} by \textbf{distributed \gls{io} over a network using \gls{rdma}}.
+    %\item Distributed \gls{io} and sharing devices over a traditional network using \textbf{\gls{rdma}-based device \gls{disaggregation}}.
         %
         Examples include rCUDA for sharing \glspl{gpu} in an InfiniBand cluster~\cite{Duato2010}, and \gls{nvmeof} using \gls{rdma}~\cite{Guz2018}.
         %
@@ -776,19 +777,19 @@ Related work can broadly be divided into the following three categories:
 %        Finally, it should also be pointed out that \gls{rdma}-capable \glspl{nic}, such as InfiniBand cards, can be \lgls{borrower}{borrowed} using SmartIO, making it possible to run \gls{rdma} applications on top of SmartIO.
 
 
-    \item \textbf{Memory \gls{disaggregation}} through remote memory access.
+    \item Memory \gls{disaggregation} through \textbf{remote memory access}.
         %
-        This category includes solutions that require the use of parallel programming models for accessing remote memory, such as \gls{mpi}~\cite{Jiang2004}, \gls{rpc}~\cite{Lu2013}, or through other abstractions~\cite{Aguilera2018}.
+        This category includes solutions that require the use of parallel programming models on top of \gls{rdma}, such as \gls{mpi}~\cite{Jiang2004}, \gls{rpc}~\cite{Lu2013}, or through other abstractions~\cite{Aguilera2018}.
         %
-        Approaches for accessing remote memory in a \emph{transparent} fashion also exist, most commonly realized through ``\lgls{trap}{faulting in}'' remote memory pages by modifying the system page fault handler to initiate \gls{rdma} transfers~\cite{Liang2005,Gu2017,Lim2009}.
+        Approaches for accessing remote memory in a \emph{transparent} fashion also exist, most commonly realized by ``\lgls{trap}{faulting in}'' remote memory pages by modifying the system page fault handler to initiate \gls{rdma} transfers~\cite{Liang2005,Gu2017,Lim2009}.
 
 
 
-        Memory \gls{disaggregation} solutions, in particular those that use explicit programming models, are not so much aimed at sharing \gls{io} resources, but rather enabling \emph{shared-memory communication} for distributed cluster applications.
+        Memory \gls{disaggregation} solutions, in particular those that use explicit programming models, are not so much aimed at sharing \gls{io} resources, but rather enabling shared-memory communication for distributed cluster applications.
         %
-        Especially \gls{mpi} protocols implemented using \gls{rdma} appears to be widely adopted for this purpose.
+        Especially \gls{mpi} protocols implemented using \gls{rdma} appears to be widely used for this purpose.
         %
-        Many of these solutions also support \gls{gpudirect}, making it possible to \gls{disaggregate} \gls{gpu} memory~\cite{Venkatesh2014,Venkatesh2017,url:Rosetti2014}.
+        Many of these solutions also support \gls{gpudirect}, effectively making it possible to \gls{disaggregate} \gls{gpu} memory~\cite{Venkatesh2014,Venkatesh2017,url:Rosetti2014}.
         %
         However, as with using \gls{rdma} for sharing devices over a network, \gls{rdma} is an additional layer of indirection for memory \gls{disaggregation} solutions too;
         %
