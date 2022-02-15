@@ -52,7 +52,7 @@
 }
 
 \newglossaryentry{mpi}{
-    name={message-passing interface},
+    name={message-passing},
     text={message-passing},
     description={A standardized method of communication commonly used in parallel computing, including semantics for sending and receiving messages.},
 }
@@ -77,15 +77,18 @@
 
 \newglossaryentry{function}{
     name={PCIe device function},
+    sort={device function},
     text={function},
     description={\glsabbrlink{pcie} devices may have one or more functions, each appearing to the system as individual devices with their own set of resources. Also known as a \glsabbrlink{pcie} endpoint.},
     seealso={gls-sriov},
 }
 \linkedgls{function}{ep}{endpoint}
 \linkedgls{function}{devicefunction}{device~function}
+\linkedgls{function}{pcieep}{\glsentryshort{pcie}~endpoint}
 
 \newglossaryentry{cfgspace}{
     name={PCIe configuration space},
+    sort={configuration space},
     description={A set of standard registers that is used to configure a \glsabbrlink{pcie} device, such as reserving \glsabbrlinkpl{bar} and interrupt addresses.},
     text={configuration space}
 }
@@ -103,7 +106,7 @@
 }
 \linkedgls{apiext}{sisciapiext}{\glsentryshort{sisci}~\glsentryshort{api}~extension}
 
-\newdualentry{sriov}{SR-IOV}{Single-Root I/O Virtualization}
+\newdualentry[seealso={function}]{sriov}{SR-IOV}{Single-Root I/O Virtualization}
 {Allows a single device to virtualize multiple device functions in hardware, each virtual function appearing to the system as a real device (function) with its own set of resources.}
 
 \newdualentry{dma}{DMA}{direct memory access}
@@ -114,9 +117,10 @@
 
 \newdualentry{ntb}{NTB}{non-transparent bridge}
 {A special \glsabbrlink{pcie} device that translates memory transactions between separate address spaces.}
+\linkedgls{ntb}{pcientb}{\glsentryshort{pcie} \glsentryshort{ntb}}
 
 \newdualentry[seealso={cfgspace}]{bar}{BAR}{Base Address Register}
-{Six registers in a device's configuration space containing the start addresses of the memory regions of a device. The term is often used synonymously for a device memory region.}
+{Registers in a device's configuration space containing the start addresses of the memory regions of a device. The term is often used synonymously for a device memory region.}
 \linkedgls{bar}{devicebar}{device~\glsentryshort{bar}}
 
 \newglossaryentry{gpudirect}{
@@ -131,11 +135,14 @@
 }
 
 \newglossaryentry{p2p}{
-    name={peer-to-peer},
+    name={peer-to-peer DMA},
+    sort={peer-to-peer},
+    text={peer-to-peer},
     description={A \glsabbrlink{pcie} feature allowing two devices to directly transfer data between each other without going through system \glsabbrlink{ram}.},
     seealso={gls-dma}
 }
 \linkedgls{p2p}{p2pdma}{\glsentrytext{p2p}~\glsentryshort{dma}}
+\linkedgls{p2p}{pciep2p}{\glsentryshort{pcie}~\glsentrytext{p2p}}
 
 \newglossaryentry{disaggregation}{
 	name={disaggregation},
@@ -151,7 +158,8 @@
 }
 
 \newglossaryentry{multicasting}{
-    name={PCIe multicasting},
+    name={multicasting},
+    sort={multicasting},
     description={A feature supported by some \glsabbrlink{pcie} switch chips that allow data coming in on one switch port to be replicated on all other switch ports.},
     text={multicasting}
 }
@@ -273,7 +281,8 @@
 %}
 
 \newglossaryentry{hotadd}{
-    name={PCIe hot-add},
+    name={hot-add},
+    sort={hot-add},
     text={hot-add},
     description={A \glsabbrlink{pcie} feature where a device is added to the device tree of a running system, and after the bus enumeration process.}
 }
@@ -284,3 +293,5 @@
     description={A hardware-assisted virtualization mechanism that makes it possible to invoke an interrupt routine with higher privileges. Also commonly known as a ``fault'' or ``exception''.}
 }
 \linkedgls{trap}{fault}{fault}
+
+

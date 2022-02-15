@@ -142,9 +142,9 @@ Sharing several types of devices, for example both \glspl{gpu} and \glspl{nvme},
 
 
 
-Extending the \gls{pcie} bus out of a single computer system and using it as a high-speed interconnection technology is a compelling alternative to distributed \gls{io} over a traditional network.
+Extending the \gls{pcie} bus out of a single computer system and using it as a high-speed interconnection technology is a compelling alternative to distributed \gls{io} over a traditional network~\cite{whitepaper:Regula2004,Fountain2005,Ravindran2008}.
 %
-As \gls{pcie} is the standard for connecting \gls{io} devices to a local computer system, using only native \gls{pcie} would have clear performance advantage, since conversion between network protocol and \gls{io} bus would not be necessary~\cite{Fountain2005,Ravindran2008,whitepaper:Regula2004}.
+As \gls{pcie} is the standard for connecting \gls{io} devices to a local computer system, using only native \gls{pcie} would have clear performance advantage, since conversion between network protocol and \gls{io} bus would not be necessary.
 %
 However, since \gls{pcie} was originally designed to connect devices to the local \gls{cpu} on a motherboard, individual computer systems operate with different \gls{pcie} address domains.
 %
@@ -170,11 +170,11 @@ While approaches using \gls{pcie} fabric partitioning can be said to enable a co
 
 
 
-Due to its intrinsic memory addressing abilities and low latency overhead, it is desirable to use \gls{pcie} as the enabling networking technology for distributed, shared-memory communication~\cite{Shim2018,whitepaper:Regula2004,url:Meduri2011}.
+Due to its intrinsic memory addressing abilities and low latency overhead, it is desirable to use \gls{pcie} as the enabling networking technology for distributed, shared-memory communication~\cite{Shim2018,url:Meduri2011}.
 %
 This requires translating memory transactions from one machine's address domain to another.
 %
-By far, the most common way of translating addresses between different \gls{pcie} address domains is by using a special type of device called a \gls{ntb}~\cite{whitepaper:PLX,whitepaper:Regula2004,Hou2013,Tu2014}.
+By far, the most common way of translating addresses between different \gls{pcie} address domains is by using a special type of device called a \gls{ntb}~\cite{whitepaper:PLX,whitepaper:Regula2004,Tu2014}.
 %
 %\Glspl{ntb} can be embedded as a \gls{cpu} feature~\cite{whitepaper:Sullivan2010,url:LinuxNTB-AMD}, but are more commonly implemented in \gls{pcie} switch chips~\cite{whitepaper:PLX,pex8733}.
 %
@@ -183,7 +183,7 @@ By using \glspl{ntb} to implement plug-in host adapter cards and cluster switche
 %
 The memory address translation capabilities of \glspl{ntb} make it possible for a machine to map (parts of) the address space of remote systems.
 %
-Since all memory address translations are done in the \gls{ntb} hardware, memory-to-memory transfers are supported with very low latency~\cite{Lim2019,Tu2014}.
+Since all memory address translations are done in the \gls{ntb} hardware, memory-to-memory transfers are supported with very low latency.
 
 
 
@@ -232,7 +232,7 @@ A way to prepare the necessary memory-maps through the \gls{ntb}, without adding
 
 
 \section{Problem statement}\label{sec:problem}
-Utilizing \gls{pcie} \glspl{ntb} to share resources among machines in a \gls{pcie}-networked cluster requires a solution for abstracting away the physical location of a resource, including the address space of the computer system it is installed in. 
+Utilizing \glspl{pcientb} to share resources among machines in a \gls{pcie}-networked cluster requires a solution for abstracting away the physical location of a resource, including the address space of the computer system it is installed in. 
 %
 More specifically, as it is desirable to avoid modifications to existing device drivers and application software, such a solution must also be able to present resources to the system as if they were locally installed.
 %
@@ -285,7 +285,7 @@ Remote resources should be accessed directly over \emph{native} \gls{pcie}, whic
 As stated in \cref{obj:transparent}, the solution should work for physical hosts, and not only \glspl{vm}. Therefore, it must be possible to assign and reassign resources while all machines in the cluster are running, without requiring rebooting hosts or changing settings in the \gls{bios}.
 For devices, this introduces the requirement that the \gls{os} supports hot-adding devices to the system (which most modern \gls{os} implementations do).
 Not only would this would allow systems to dynamically scale up or down their \gls{io} resources based on immediate workload requirements, but devices could be more efficiently partitioned between machines in the cluster, increasing the overall resource utilization. 
-Furthermore, the solution should also be able to automatically discover resource location, without requiring that the user knows anything about the underlying \gls{pcie} network topology, and dynamically set up memory mappings between devices, \glspl{cpu}, and memory resources. An example would be enabling \gls{pcie} \gls{p2p} between two or more \gls{dma}-capable devices that are physically installed in different machines.
+Furthermore, the solution should also be able to automatically discover resource location, without requiring that the user knows anything about the underlying \gls{pcie} network topology, and dynamically set up memory mappings between devices, \glspl{cpu}, and memory resources. An example would be enabling \gls{pciep2p} between two or more \gls{dma}-capable devices that are physically installed in different machines.
 
     
 \begin{objective}\label{obj:disaggregation}
@@ -344,7 +344,7 @@ We aim to support this for three different abstraction levels:
 
 Exploring resource sharing possibilities using alternative networking technologies, such as InfiniBand, is outside the scope of our dissertation.
 %
-The desired objectives for the sharing framework, as stated in \cref{sec:problem}, necessitate the use of \gls{pcie} \glspl{ntb}. %due to their shared-memory nature and performance requirements.
+The desired objectives for the sharing framework, as stated in \cref{sec:problem}, necessitate the use of \glspl{pcientb}. %due to their shared-memory nature and performance requirements.
 %
 Dolphin's \gls{ntb} adapter cards and cluster switches make it possible to build heterogeneous computing clusters in various network topologies.
 %
