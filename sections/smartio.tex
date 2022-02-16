@@ -709,7 +709,7 @@ A more detailed presentation of related work can be found in \paperref{tocs:rw}.
 State of the art within \gls{disaggregation} and resource sharing can broadly be divided into three categories:
 %
 \begin{itemize}
-    \item So-called ``rack-scale \gls{disaggregation}'' by \textbf{device assignment through logical partitioning}, where modular blade servers are connected to a backplane or a shared \gls{io} bus fabric within a data center rack.
+    \item So-called ``rack-scale \gls{disaggregation}'' by \textbf{logical partitioning}, where modular blade servers are connected to a backplane or a shared \gls{io} bus fabric within a data center rack.
         %
         Devices are installed in dedicated resource servers, and can be dynamically assigned to compute hosts as needed.
         %
@@ -735,7 +735,7 @@ State of the art within \gls{disaggregation} and resource sharing can broadly be
         %
         The goal of memory \gls{disaggregation} solutions is making more resources available or improving resource utilization, but rather to facilitate shared-memory communication for distributed cluster applications.
         %
-        Remote memory access is generally implemented on top of \gls{rdma}, and made available to applications through typical parallel programming models, such as \gls{mpi}~\cite{Jiang2004} and \gls{rpc}~\cite{Lu2013}, or through more explicit abstractions~\cite{Aguilera2018}.
+        Remote memory access is most commonly implemented on top of \gls{rdma}, and made available to the application through typical parallel programming models, such as \gls{mpi}~\cite{Jiang2004} and \gls{rpc}~\cite{Lu2013}, or through more explicit abstractions~\cite{Aguilera2018}.
         %
         Approaches for accessing remote memory in a more transparent fashion also exist, usually achieved by modifying the system page fault handler to initiate \gls{rdma} transfers so remote memory pages can be ``\lgls{trap}{faulted in}''~\cite{Liang2005,Gu2017,Lim2009}.
         
@@ -751,16 +751,14 @@ State of the art within \gls{disaggregation} and resource sharing can broadly be
 
     \item Device \gls{disaggregation} by \textbf{distributed \gls{io} over a network} using \gls{rdma}.
         %
-        Examples include rCUDA for sharing \glspl{gpu} in an InfiniBand cluster~\cite{Duato2010}, and \gls{nvmeof} using \gls{rdma}~\cite{Guz2018}.
+        Examples include rCUDA for sharing \glspl{gpu} in an InfiniBand cluster~\cite{Duato2010}, and \gls{nvmeof} using \gls{rdma}~\cite{Guz2018,spec:NVMe-oF}.
         %
         Solutions for sharing \glspl{gpu}~\cite{Hou2013} and Ethernet \glspl{nic}~\cite{Tu2014} over a \gls{pcie} fabric have also been proposed, by using \gls{pcie} switch chips capable of \gls{dma} to transfer data from memory to memory in the different machines.
         
-        
-        \Gls{rdma}-based approaches rely on communicating with a driver running on the device-side system, in order to interact with the remote device.
+
+        As mentioned in \cref{sec:motivation}, \gls{rdma}-based approaches must communicate with a device driver running on the device-side system, in order to interact with the remote device.
         %
-        This is typically solved by implementing a \gls{middlewareservice} that uses an existing device driver, or by implementing a distributed device driver.
-        %
-        Because of this, \gls{rdma}-based device \gls{disaggregation} solutions are specific to the (type of) device they \gls{disaggregate}, as mentioned in \cref{sec:motivation}.
+        As this is typically solved by implementing a \gls{middlewareservice} that uses an existing driver or by implementing a distributed driver, these solutions are generally specific to the (type of) device they \gls{disaggregate}.
         %
         Moreover, as illustrated in \cref{fig:direct-access}, this additional software component on the remote system inevitably leads to a performance overhead, compared to a local device driver directly interacting with a device. % on the \gls{pcie} bus.
 
@@ -834,7 +832,7 @@ In \paperref{tocs:rw-nvme}, we also present related background for our proof-of-
 \subsection{Solutions using NTBs}
 Shim~et~al.~\cite{Shim2018,Lim2019} have proposed a solution using \gls{pcie} switch chips to develop \gls{ntb} adapter cards and connected three machines in a cluster.
 %
-By extending a shared-memory \gls{api} with support for their \gls{ntb} implementation, they have implemented functionality that is very similar to how the \gls{sisciapi} works.
+By extending a shared-memory \gls{api} with support for their \gls{ntb} implementation, they have implemented \gls{pgas} that is very similar to how the \gls{sisciapi} works.
 %
 However, as their focus seem to be solely on enabling shared-memory functionality for high-performance computing applications, distributing and sharing devices appears not to have been considered.
 
