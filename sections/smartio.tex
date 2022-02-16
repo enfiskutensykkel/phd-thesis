@@ -705,7 +705,7 @@ In this section, we attempt to provide a condensed overview of related work we c
 A more detailed presentation of related work can be found in \paperref{tocs:rw}.
 
 
-\subsection{Disaggregation solutions}
+\subsection{Solutions not using NTBs}
 State of the art within \gls{disaggregation} and resource sharing can broadly be divided into three categories:
 %
 \begin{itemize}
@@ -833,15 +833,14 @@ We present a more technically detailed comparison between specific solutions and
 In \paperref{tocs:rw-nvme}, we also present related background for our proof-of-concept \gls{nvme} driver implementation.
 
 \subsection{Solutions using NTBs}
-\begin{itemize}
-    \item One solution have used \gls{pcie} switch chips to develop \gls{ntb} adapter cards and connected three machines in a cluster~\cite{Lim2019,Shim2018}.
+Shim~et~al.~\cite{Shim2018} have proposed a solution have used \gls{pcie} switch chips to develop \gls{ntb} adapter cards and connected three machines in a cluster~\cite{Lim2019,Shim2018}.
         %
         By extending a shared-memory \gls{api} with support for their \gls{ntb} implementation, they have implemented functionality that is very similar to how the \gls{sisciapi} works.
         %
         However, as their focus seem to be solely on enabling shared-memory functionality for high-performance computing applications, distributing and sharing devices appears not to have been considered.
 
-    \item The Ladon system~\cite{Tu2013,Tu2018} is a solution that is very similar 
+     The Ladon system~\cite{Tu2013,Tu2018} is a solution that is very similar 
         focused on sharing an sriov nic
         fully distributed
-\end{itemize}
+
 
