@@ -733,12 +733,11 @@ State of the art within \gls{disaggregation} and resource sharing can broadly be
 
     \item Memory \gls{disaggregation} through \textbf{remote memory access}.
         %
-        The goal of memory \gls{disaggregation} solutions is not so much sharing \gls{io} resources, but to facilitate shared-memory communication for distributed cluster applications.
+        The goal of memory \gls{disaggregation} solutions is making more resources available or improving resource utilization, but rather to facilitate shared-memory communication for distributed cluster applications.
         %
-        Remote memory access is usually implemented on top of \gls{rdma}, and made available to applications through common parallel programming models, such as \gls{mpi}~\cite{Jiang2004} and \gls{rpc}~\cite{Lu2013}, or through more explicit abstractions~\cite{Aguilera2018}.
+        Remote memory access is generally implemented on top of \gls{rdma}, and made available to applications through typical parallel programming models, such as \gls{mpi}~\cite{Jiang2004} and \gls{rpc}~\cite{Lu2013}, or through more explicit abstractions~\cite{Aguilera2018}.
         %
-        Approaches for accessing remote memory in a more transparent fashion also exist, typically achieved by modifying the system page fault handler to initiate \gls{rdma} transfers so remote memory pages can be ``\lgls{trap}{faulted in}''~\cite{Liang2005,Gu2017,Lim2009}.
-        
+        Approaches for accessing remote memory in a more transparent fashion also exist, usually achieved by modifying the system page fault handler to initiate \gls{rdma} transfers so remote memory pages can be ``\lgls{trap}{faulted in}''~\cite{Liang2005,Gu2017,Lim2009}.
         
 
         Especially \gls{mpi} protocols implemented on top of \gls{rdma} over InfiniBand appear to be widely used for distributed computing.
@@ -833,11 +832,11 @@ We present a more technically detailed comparison between specific solutions and
 In \paperref{tocs:rw-nvme}, we also present related background for our proof-of-concept \gls{nvme} driver implementation.
 
 \subsection{Solutions using NTBs}
-Shim~et~al.~\cite{Shim2018} have proposed a solution have used \gls{pcie} switch chips to develop \gls{ntb} adapter cards and connected three machines in a cluster~\cite{Lim2019,Shim2018}.
-        %
-        By extending a shared-memory \gls{api} with support for their \gls{ntb} implementation, they have implemented functionality that is very similar to how the \gls{sisciapi} works.
-        %
-        However, as their focus seem to be solely on enabling shared-memory functionality for high-performance computing applications, distributing and sharing devices appears not to have been considered.
+Shim~et~al.~\cite{Shim2018,Lim2019} have proposed a solution using \gls{pcie} switch chips to develop \gls{ntb} adapter cards and connected three machines in a cluster.
+%
+By extending a shared-memory \gls{api} with support for their \gls{ntb} implementation, they have implemented functionality that is very similar to how the \gls{sisciapi} works.
+%
+However, as their focus seem to be solely on enabling shared-memory functionality for high-performance computing applications, distributing and sharing devices appears not to have been considered.
 
      The Ladon system~\cite{Tu2013,Tu2018} is a solution that is very similar 
         focused on sharing an sriov nic
