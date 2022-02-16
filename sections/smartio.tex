@@ -715,7 +715,7 @@ State of the art within \gls{disaggregation} and resource sharing can broadly be
         %
         These solutions can be realized using interconnection technologies that are specialized for this purpose~\cite{Suzuki2016,Krishnan2006,Shrivastav2019,Katrinis2016}, but
         %
-        \gls{pcie} (with additional virtualization support) is by far the most often used alternative for commercial solutions~\cite{url:liqid,url:gigaio,Chung2018,Ravindran2008}.
+        \gls{pcie} (with additional virtualization support) is the most used alternative for commercial solutions~\cite{url:liqid,url:gigaio,Chung2018,Ravindran2008}.
         %
         We also include \gls{mriov}~\cite{spec:MRIOV} in this category, even though we are unaware of any available implementations of it.
 
@@ -733,11 +733,12 @@ State of the art within \gls{disaggregation} and resource sharing can broadly be
 
     \item Memory \gls{disaggregation} through \textbf{remote memory access}.
         %
-        The goal of memory \gls{disaggregation} solutions is not so much sharing \gls{io} resources, but to facilitate shared-memory communication for distributed cluster applications, most commonly by using \gls{rdma}.
+        The goal of memory \gls{disaggregation} solutions is not so much sharing \gls{io} resources, but to facilitate shared-memory communication for distributed cluster applications.
         %
-        This category encompasses implementations of parallel programming models, such as \gls{mpi}~\cite{Jiang2004} and \gls{rpc}~\cite{Lu2013}, as well as other abstractions for remote memory access~\cite{Aguilera2018}.
+        Remote memory access is usually implemented on top of \gls{rdma}, and made available to applications through common parallel programming models, such as \gls{mpi}~\cite{Jiang2004} and \gls{rpc}~\cite{Lu2013}, or through more explicit abstractions~\cite{Aguilera2018}.
         %
-        Approaches for accessing remote memory in a more \emph{transparent} fashion also exist, usually achieved through ``\lgls{trap}{faulting in}'' remote memory pages by modifying the system page fault handler to initiate \gls{rdma} transfers~\cite{Liang2005,Gu2017,Lim2009}.
+        Approaches for accessing remote memory in a more transparent fashion also exist, typically achieved by modifying the system page fault handler to initiate \gls{rdma} transfers so remote memory pages can be ``\lgls{trap}{faulted in}''~\cite{Liang2005,Gu2017,Lim2009}.
+        
         
 
         Especially \gls{mpi} protocols implemented on top of \gls{rdma} over InfiniBand appear to be widely used for distributed computing.
