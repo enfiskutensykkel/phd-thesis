@@ -673,7 +673,7 @@ Our \gls{nvme} driver demonstrates some of the possibilities created by the \gls
         %
         By mapping \gls{gpu} memory for the device, as explained above, it is possible to allocate the \gls{sq} on a borrowed \gls{gpu} that is close to the \gls{nvme}, depicted as SQ2 in \cref{fig:nvme-queues}.
 
-    \item[Initiating \gls{io} from the \gls{gpu}] (\cref{fig:nvme-gpu-offloading}):
+    \item[Initiating \gls{io} directly from the \gls{gpu}] (\cref{fig:nvme-gpu-offloading}):
 \begin{figure}
     \centering
     \includegraphics{nvme-gpu-offloading}
@@ -682,14 +682,15 @@ Our \gls{nvme} driver demonstrates some of the possibilities created by the \gls
     {Our \gls{nvme} driver can also run on a \gls{gpu}. \Gls{gpu} threads can submit \gls{io} commands and wait for completions independent of the \gls{cpu}.}
     \label{fig:nvme-gpu-offloading}
 \end{figure}
-%
-        The logic for submitting \gls{io} commands to an \gls{sq} and polling an \gls{cq} for completions is also implemented for \gls{cuda} applications in our \gls{nvme} driver.
         %
-        Similarly to how \gls{gpu} memory can be mapped for an \gls{nvme} using SmartIO, it is also possible to \textbf{map \glspl{db} for the \gls{gpu}}.
+        Similarly to how \gls{gpu} memory can be mapped for an \gls{nvme} using SmartIO, it is also possible to map \glspl{db} for the \gls{gpu}.
         %
-        This makes it possible to run the \gls{nvme} driver \emph{on a \gls{gpu}}, and the \gls{nvme} can be controlled directly from software running on the \gls{gpu} without any involvement from the \gls{cpu}.
+        The logic for submitting \gls{io} commands to an \gls{sq} and polling an \gls{cq} for completions is also supported for \gls{cuda} applications in our \gls{nvme} driver implementation.
         %
-        As \gls{gpu} threads can read from and write to storage directly, \gls{cuda} applications that need to load and store data at various points in the computation no longer need to synchronize with the \gls{cpu}.
+        As such, \textbf{our \gls{nvme} driver may run on a \gls{gpu}}, allowing \gls{gpu} threads to read from and write to storage directly without any involvement of the \gls{cpu}.
+        %
+        The performance of \gls{cuda} applications that work with large data sets, such as machine~learning workloads, can be increased, as loading and storing data at various points in the computation no longer requires synchronization with software running on the \gls{cpu}.
+        
 
 \end{description}
 
