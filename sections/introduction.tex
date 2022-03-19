@@ -543,14 +543,16 @@ In particular, the main contributions of this dissertation are listed as follows
 	%
 	This makes it easier to optimize data flow through the \gls{pcie} network, as software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
 
-    \item Development of a \textbf{new distributed \gls{nvme} device driver}\footnote{The prototype \gls{nvme} device driver is open source and can be found at \mbox{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}} using our device-oriented \gls{apiext} (see \cref{paper:tocs}):
+\item Development of a \textbf{new distributed \gls{nvme} device driver}\footnote{The prototype \gls{nvme} device driver is open source and can be found at \mbox{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}. It has also inspired and been adapted to other research projects: \mbox{\url{https://github.com/ZaidQureshi/gpudirect-nvme}}} using our device-oriented \gls{apiext} (see \cref{paper:tocs}):
         although the \gls{dl} and \gls{mdev} methods make it possible to use existing device drivers, most device drivers are written in a way that assumes exclusive control over the device. Therefore, a distributed device (\gls{function}) may only be used by a single user at the time.
     %
     To demonstrate software-enabled \gls{disaggregation}, we have implemented an \gls{nvme} driver as a \gls{userspace} \gls{sisci} application.
     %
     As a proof of concept, we show that a single \gls{nvme} device can be shared and operated by multiple cluster machines simultaneously, without requiring \gls{sriov}.
 	This driver also demonstrates how multiple sharing aspects of SmartIO may be combined, 
-        by \gls{disaggregating} remote \gls{gpu} memory and enabling memory access optimizations.
+        by \gls{disaggregating} remote \gls{gpu} memory and enabling memory access optimizations, supporting writing to and reading from storage directly to \gls{gpu} memory.
+        %
+        The \gls{nvme} driver may even run as a \gls{cuda} application on a remote \gls{gpu}, allowing \gls{gpu} threads to read and write to storage without involving the \gls{cpu}.
 
     \item A \textbf{comprehensive performance evaluation} covering all parts of SmartIO and the implementation of performance optimizations (see \cref{paper:mmsys,paper:cc,paper:tocs}):
         %
