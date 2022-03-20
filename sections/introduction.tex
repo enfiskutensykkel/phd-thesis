@@ -543,7 +543,9 @@ In particular, the main contributions of this dissertation are listed as follows
 	%
 	This makes it easier to optimize data flow through the \gls{pcie} network, as software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
 
-\item Development of a \textbf{new distributed \gls{nvme} device driver}\footnote{The prototype \gls{nvme} device driver is open source and can be found at \mbox{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}. It has also inspired and been adapted to other research projects: \mbox{\url{https://github.com/ZaidQureshi/gpudirect-nvme}}} using our device-oriented \gls{apiext} (see \cref{paper:tocs}):
+\item Development of a \textbf{new distributed \gls{nvme} device driver}\footnote{The prototype \gls{nvme} device driver is open source and can be found at \mbox{\url{https://github.com/enfiskutensykkel/ssd-gpu-dma}}}
+    % It has also inspired and been adapted to other research projects: \mbox{\url{https://github.com/ZaidQureshi/gpudirect-nvme}}}
+    using our device-oriented \gls{apiext} (see \cref{paper:tocs}):
         although the \gls{dl} and \gls{mdev} methods make it possible to use existing device drivers, most device drivers are written in a way that assumes exclusive control over the device. Therefore, a distributed device (\gls{function}) may only be used by a single user at the time.
     %
     To demonstrate software-enabled \gls{disaggregation}, we have implemented an \gls{nvme} driver as a \gls{userspace} \gls{sisci} application.
