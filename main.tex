@@ -74,6 +74,8 @@
 \NewDocumentCommand{\getpaper}{m m}{#1}
 \NewDocumentCommand{\getsect}{m m}{#1:#2}
 
+\NewDocumentCommand{\papersectpageref}{m}{~(on~\cpageref{#1})}
+
 \NewDocumentCommand{\makepapersectref}
 { m m }
 {%
@@ -84,8 +86,8 @@
     {%
         \StrCount{#2}{,}[\papersectrefcount]%
         \ifthenelse{\equal{\papersectrefcount}{0}}%
-        {\hyperref[#2]{\cref*{#2} of \cref*{#1}}~(on~\cpageref{#2})}%
-        {\cref{#2} of \cref*{#1}~(on~\cpageref{#2})}%
+        {\hyperref[#2]{\cref*{#2} of \cref*{#1}}\papersectpageref{#2}}%
+        {\cref{#2} of \cref*{#1}\papersectpageref{#2}}%
     }%
 }
 
@@ -174,6 +176,8 @@
     style=objective,
     numbered=yes
 ]{objective}
+\crefrangeformat{objective}{Objectives~#3#1#4--#5#2#6}
+\Crefrangeformat{objective}{Objectives~#3#1#4--#5#2#6}
 \crefname{objective}{Objective}{Objectives}
 \Crefname{objective}{Objective}{Objectives}
 

@@ -720,6 +720,8 @@ However, at its core, SmartIO is a framework for machines in a \gls{pcie} networ
 In this section, we attempt to give a condensed overview of related work we consider the most relevant.
 %
 A more detailed presentation of related work can be found in \paperref{tocs:rw}.
+%
+Background for the ideas behind our proof-of-concept \gls{nvme} driver is summarized in \paperref{tocs:rw-nvme}.
 
 
 \subsection{Solutions not using NTBs}
@@ -843,36 +845,55 @@ However, by being implemented on top of \gls{pcie} cluster networking, SmartIO i
 
 \end{itemize}
 
-We present a more technically detailed comparison between specific solutions and our own SmartIO implementation in the published papers, particularly in \paperref{tocs:rw-partitioning,tocs:rw-rdma,tocs:rw-disaggr}.
-%
-In \paperref{tocs:rw-nvme}, we also present related background for our proof-of-concept \gls{nvme} driver implementation.
-
+We present a more technically detailed comparison between specific solutions and our own SmartIO implementation in the published papers, particularly in \paperref{tocs:rw}.
 
 
 \subsection{Solutions using NTBs}
 Solutions that enable \gls{disaggregation} using \glspl{ntb} are particularly interesting to us, due to the similarities with our own work.
 %
-
-
+By using the same Broadcom~8733~\cite{pex8733} \gls{pcie} switch chips used in the Dolphin~PXH830 adapter cards used in our own evaluation (\cref{sec:eval}), Shim~et~al.~\cite{Shim2018} and Lim~et~al.~\cite{Lim2019} have implemented \gls{ntb} host adapter cards and connected three machines in a cluster.
 %
-Shim~et~al.~\cite{Shim2018,Lim2019} present an extension of the OpenSHMEM \gls{api} for the \gls{pgas}-style of shared memory, using their \gls{ntb} implementation.
+They have extended the OpenSHMEM \gls{api} with support for their \gls{ntb} implementation.
 %
-By using the same Broadcom~8733~\cite{pex8733} \gls{pcie} switch chips used in the Dolphin~PXH830 adapter cards used in our evaluation (\cref{sec:eval}), they have implemented \gls{ntb} host adapter cards 
-
-They implemented \gls{ntb} adapter cards and connecting three machines in a \gls{pcie} cluster
-
-Shim~et~al.~\cite{Shim2018,Lim2019} 
-An interesting solution has been proposed by 
-have developed a solution for extending a \gls{pgas}
-
-using \gls{pcie} switch chips to develop \gls{ntb} adapter cards and connected three machines in a cluster.
+However, their focus seem to be enabling \gls{pgas}-style shared memory functionality for high-performance computing applications, and distributing and sharing devices appears not to have been considered as part of their solution.
 %
-By extending a shared-memory \gls{api} with support for their \gls{ntb} implementation, they have implemented \gls{pgas} that is very similar to how the \gls{sisciapi} works.
+It should also be noted that the underlying memory-mapping functionality provided by their solution is very similar to functionality already existing in the \gls{sisciapi}.
+
+
+
+The Ladon system~\cite{Tu2013} is a solution that is very similar to our own \gls{mdev} implementation.
 %
-However, as their focus seem to be solely on enabling shared-memory functionality for high-performance computing applications, distributing and sharing devices appears not to have been considered.
+By using a top-of-rack \gls{pcie} switch with \gls{ntb}-capable ports, Ladon facilitates access to the same \gls{sriov} device from multiple \glspl{vmguest}. 
+%
+The device and a dedicated ``management host'' is connected to the switch in \emph{transparent} mode, and the management host enumerates the \gls{pcie} fabric and configures the device.
+%
+In that regard, the management host is conceptually similar to our \gls{lender}.
+%
+Multiple ``compute hosts'' are connected to the same switch through \emph{non-transparent} switch ports,~i.e., \glspl{ntb}.
+%
+The management host maps the entire memory of each compute host for the device, and assists the compute hosts in setting up mappings to individual \glspl{vf}, in order to pass them through to \glspl{vmguest} running on the compute hosts.
+%
+The \glspl{hypervisor} on the compute hosts are modified in order to route interrupts directly into the \glspl{vm}.
 
-     The Ladon system~\cite{Tu2013,Tu2018} is a solution that is very similar 
-        focused on sharing an sriov nic
-        fully distributed
 
+
+The main difference between Ladon and our own SmartIO framework is that while a single host owns the device in Ladon, SmartIO is truly distributed by allowing multiple machines to act as \glspl{lender}.
+%
+Machines may even act as both \gls{lender} and \gls{borrower} at the same time.
+%
+Moreover, in Ladon, the management host becomes a single point of failure.
+%
+Ladon has since been extended with fail-over support, allowing a back-up management host to replicate the \gls{pcie} fabric enumeration of the first host, and seamlessly take ownership of the device in case the first management host fails~\cite{Tu2018}.
+%
+However, we argue that this still does not make Ladon distributed in the same sense as our SmartIO solution.
+%
+For example, it is not possible for a compute host to use devices from \emph{different} management hosts.
+%
+In contrast, SmartIO supports scaling out and using devices from several machines across an entire cluster.
+%
+Finally, the Ladon system appears to only work for \glspl{vm} unless device specific host-drivers are implemented.
+%
+Our SmartIO framework on the other hand, supports both physical \glspl{host} and \glspl{vm} alike by through the \gls{dl} and \gls{mdev} sharing methods. 
+%
+With \gls{dl}, devices can be used by bare-metal \glspl{hostmachine} without requiring any modifications to driver software.
 
