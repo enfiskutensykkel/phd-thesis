@@ -21,6 +21,7 @@ main.pdf
 main.out
 main.nolist*
 
+results/*
 .DS_Store
 *~
 .*.swp
