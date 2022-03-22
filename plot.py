@@ -286,7 +286,7 @@ def smartio_driver_sq_figure():
     prepare_axis(hist, grid_axis='y')
     hist.set_ylabel("Latency distribution (µs)")
     hist.set_xlabel("Number of I/O operations")
-    hist.set_title("Histogram", fontsize=7, weight='medium', family='sans', pad=2)
+    hist.set_title("Histogram", fontsize=7, weight='medium', family='sans', pad=3)
 
     plot_histograms(hist, datasets, grouping, labels, (8, 9),
             bins=200, orientation="horizontal", show_median=True)
@@ -295,9 +295,12 @@ def smartio_driver_sq_figure():
     box.yaxis.tick_right()
     box.set_ylabel("Latency distribution (µs)")
     box.yaxis.set_label_position('right')
-    box.set_title("Boxplot (outliers removed)", fontsize=7, weight='medium', family='sans', pad=2)
+    box.set_title("Boxplot (outliers removed)", fontsize=7, weight='medium', family='sans', pad=3)
 
-    plot_boxes(box, datasets[::-1], grouping[::-1], labels[::-1], show_median=True)
+    plot_boxes(box, datasets[::-1], grouping[::-1], [l.replace(" ", "\n") for l in labels[::-1]], show_median=True)
+
+    for tick in box.xaxis.get_major_ticks():
+        tick.label.set_weight('bold')
 
     fig.tight_layout()
     fig.subplots_adjust(wspace=0.05)
