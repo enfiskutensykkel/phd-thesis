@@ -87,7 +87,7 @@ palette = {'orange': Palette('#ffccaa', '#d45500', '#ff7f2a'),
           }
 
 groups = {}
-groups['local'] = DataGroup(palette['orange'], "densely dashdotted", 'D', '////')
+groups['local'] = DataGroup(palette['orange'], "solid", 'D', '////')
 groups['remote'] = DataGroup(palette['blue'], "dashed", 'x', '\\\\\\\\')
 groups['gpu'] = DataGroup(palette['green'], "densely dotted", 'o', '++++')
 groups['local-alt'] = DataGroup(palette['purple'], "densely dashdotted", 'D', '////')
@@ -95,7 +95,7 @@ groups['local-alt'] = DataGroup(palette['purple'], "densely dashdotted", 'D', '/
 maxwidth = pt2in(345)
 
 mediancolor = "#303030"
-medianwidth = 1.4
+medianwidth = 1.2
 
 
 def prepare_axis(ax, grid_axis='both'):
@@ -129,6 +129,13 @@ def prepare_axis(ax, grid_axis='both'):
     for spine in ax.spines.values():
         spine.set_linewidth(width)
         spine.set_color(color)
+
+
+def draw_line(ax, point, linestyle, vertical):
+    draw_func = ax.axvline if vertical else ax.axhline
+    draw_func(point, linestyle=linestyle, linewidth=medianwidth, color=mediancolor, zorder=1005,
+              path_effects=[pe.Stroke(linewidth=medianwidth+.4, foreground="#b0b0b0"), pe.Normal()],
+             )
 
 
 def plot_median_line(ax, datasets, groups, labels):
@@ -169,13 +176,10 @@ def plot_histograms(ax, datasets, groups, labels, range, bins=1000, orientation=
     ax.legend(loc='upper right', fontsize=7, framealpha=1)
 
     if show_median:
-        func = ax.axvline if orientation == 'vertical' else ax.axhline
-
         for idx, group in enumerate(groups):
             dataset = datasets[idx]
             median = np.median(dataset)
-
-            func(median, linestyle=group.linestyle, linewidth=medianwidth, color=mediancolor, zorder=1005)
+            draw_line(ax, median, group.linestyle, orientation == "vertical")
 
 
 def plot_boxes(ax, datasets, groups, labels, show_median=False):
@@ -183,32 +187,32 @@ def plot_boxes(ax, datasets, groups, labels, show_median=False):
         for idx, group in enumerate(groups):
             dataset = datasets[idx]
             median = np.median(dataset)
+            draw_line(ax, median, group.linestyle, False)
 
-            ax.axhline(median, linestyle=group.linestyle, linewidth=medianwidth, color=mediancolor)
-
-    boxplot = ax.boxplot(datasets, showfliers=False, labels=labels, notch=False, patch_artist=True)
+    boxplot = ax.boxplot(datasets, showfliers=False, labels=labels, notch=False, patch_artist=True, zorder=1000)
 
     for idx, box in enumerate(boxplot['boxes']):
         group = groups[idx]
         box.set_facecolor(group.fillcolor)
         box.set_edgecolor(group.edgecolor)
         box.set_hatch(group.hatch)
+        box.set_linewidth(medianwidth + .2)
 
     for idx, median in enumerate(boxplot['medians']):
         group = groups[idx]
-        median.set_color(mediancolor)
-        median.set_linewidth(1.2)
-        median.set_linestyle(group.linestyle)
+        median.set_color(group.edgecolor)
+        median.set_linewidth(medianwidth + .4)
+        median.set_linestyle("solid")
 
     for idx, whisker in enumerate(boxplot['whiskers']):
         group = groups[idx//2]
         whisker.set_color(group.edgecolor)
-        whisker.set_linewidth(medianwidth)
+        whisker.set_linewidth(medianwidth + .2)
 
     for idx, cap in enumerate(boxplot['caps']):
         group = groups[idx//2]
         cap.set_color(group.edgecolor)
-        cap.set_linewidth(1.2)
+        cap.set_linewidth(medianwidth + .2)
         cap.set_xdata(cap.get_xdata() + np.array([-.05, .05]))
 
 
@@ -366,7 +370,6 @@ def lending_nvme():
     save_figure("lending-nvme")
 
 
-
 def smartio_driver_sq_figure():
     local = parse_latency_bench('results/nvme-sq/ssd-queue=local-gpu=local.txt')
     remote = parse_latency_bench('results/nvme-sq/ssd-queue=remote-gpu=local.txt')
@@ -412,49 +415,42 @@ def lending_gpu():
     remote2_fname = 'results/zero-overhead/local-vs-remote/bw-topo=1L-gpu0=P4000-gpu1=P4000-switch=yes-borrower=petty-borrower_iommu=yes-lender_a=betty-lender_b=-lender_a_iommu=no-lender_b_iommu=no-p2p=no-dtoh=yes-htod=yes.txt'
 
     local_htod1, local_dtoh1 = parse_gpu_bench(local1_fname, gpu=0)
-    local_htod2, local_dtoh2 = parse_gpu_bench(local2_fname, gpu=1)
+    #local_htod2, local_dtoh2 = parse_gpu_bench(local2_fname, gpu=1)
     remote_htod1, remote_dtoh1 = parse_gpu_bench(remote1_fname, gpu=0)
-    remote_htod2, remote_dtoh2 = parse_gpu_bench(remote2_fname, gpu=1)
+    #remote_htod2, remote_dtoh2 = parse_gpu_bench(remote2_fname, gpu=1)
 
     keys = [(1 << n) for n in range(12, 28)]
 
     grouping = [groups['local'], groups['remote']]
     labels = ["Local Baseline", "Device Lending"]
 
-    fig = plt.figure(figsize=(maxwidth, pt2in(350)))
+    fig = plt.figure(figsize=(maxwidth, pt2in(175)))
 
-    dtoh, htod = fig.subplots(2, 1, sharey=True)
+    ax = fig.subplots(1, 1)
 
-    for ax in dtoh, htod:
-        prepare_axis(ax)
+    prepare_axis(ax)
 
-        ax.set_xscale('log', base=2)
-        ax.set_xlim(keys[0] - (keys[0] >> 2), keys[-1] + keys[-2])
-        ax.set_xticks(keys)
-        ax.set_xticklabels((unit(size) for size in keys), rotation=47)
-        ax.set_xlabel("Transfer size (B)")
+    ax.set_xscale('log', base=2)
+    ax.set_xlim(keys[0] - (keys[0] >> 2), keys[-1] + keys[-2])
+    ax.set_xticks(keys)
+    ax.set_xticklabels((unit(size) for size in keys), rotation=47)
+    ax.set_xlabel("Transfer size (B)")
 
-        ax.set_ylabel("DMA throughput (GB/s)")
+    ax.set_ylabel("DMA throughput (GB/s)")
 
-        ax.set_ylim(0, 13 * 1024)
-        yticks = range(0, 14 * 1024, 2048)
-        ax.set_yticks(yticks)
-        ax.set_yticklabels((int(i // 1024) for i in yticks))
+    ax.set_ylim(0, 13 * 1024)
+    yticks = range(0, 14 * 1024, 2048)
+    ax.set_yticks(yticks)
+    ax.set_yticklabels((int(i // 1024) for i in yticks))
 
-
-    dtoh.set_title("Device to Host (DMA write)", fontsize=7, weight='medium', family='sans', pad=3)
-
-    plot_median_line(dtoh, [local_dtoh1, remote_dtoh1], grouping, labels)
-
-    htod.set_title("Host to Device (DMA read)", fontsize=7, weight='medium', family='sans', pad=3)
-
-    plot_median_line(htod, [local_htod2, remote_htod2], grouping, labels)
+    plot_median_line(ax, [local_dtoh1, remote_dtoh1], grouping, labels)
 
     fig.tight_layout()
     fig.subplots_adjust(hspace=0.4)
     save_figure("lending-gpu")
 
-#lending_nvme()
-#smartio_driver_sq_figure()
+
+lending_nvme()
+smartio_driver_sq_figure()
 lending_gpu()
 plt.show()
