@@ -88,9 +88,10 @@ palette = {'orange': Palette('#ffccaa', '#d45500', '#ff7f2a'),
 
 groups = {}
 groups['local'] = DataGroup(palette['orange'], "solid", 'D', '////')
+groups['local-alt'] = DataGroup(palette['yellow'], "densely dashdotted", 'D', '////')
 groups['remote'] = DataGroup(palette['blue'], "dashed", 'x', '\\\\\\\\')
-groups['gpu'] = DataGroup(palette['green'], "densely dotted", 'o', '++++')
-groups['local-alt'] = DataGroup(palette['purple'], "densely dashdotted", 'D', '////')
+groups['remote-alt'] = DataGroup(palette['purple'], "dashed", 'x', '\\\\\\\\')
+groups['gpu'] = DataGroup(palette['green'], "densely dotted", 'o', '+++')
 
 maxwidth = pt2in(345)
 
@@ -119,8 +120,8 @@ def prepare_axis(ax, grid_axis='both'):
         axis.label.set_weight('medium')
         axis.label.set_family('sans')
 
-    on = 2 * width
-    off = 4 * width
+    on = 1 * width
+    off = 1 * width
     ax.grid(axis=grid_axis, ls='--', lw=width, c=gridcolor, dashes=(on,off,on,off), zorder=0)
 
     ax.minorticks_off()
@@ -153,10 +154,10 @@ def plot_median_line(ax, datasets, groups, labels):
         marker = group.marker
         marker_ec = group.edgecolor
         marker_fc = group.fillcolor
-        marker_ew = medianwidth + .2
+        marker_ew = medianwidth + .4
 
         ax.plot(x, y, group.marker, linestyle=group.linestyle, linewidth=medianwidth, color=group.color, label=label,
-                path_effects=[pe.Stroke(linewidth=medianwidth+.4, foreground=group.edgecolor), pe.Normal()],
+                path_effects=[pe.Stroke(linewidth=medianwidth+.6, foreground=group.edgecolor), pe.Normal()],
                 markersize=5, markeredgecolor=marker_ec, markerfacecolor=marker_fc, markeredgewidth=marker_ew)
 
         ax.legend(loc='lower right', fontsize=7, framealpha=1, handlelength=4.5)
@@ -375,7 +376,7 @@ def smartio_driver_sq_figure():
     remote = parse_latency_bench('results/nvme-sq/ssd-queue=remote-gpu=local.txt')
     gpu = parse_latency_bench('results/nvme-sq/ssd-queue=c0e00-gpu=local.txt')
 
-    grouping = [groups['local-alt'], groups['remote'], groups['gpu']]
+    grouping = [groups['local-alt'], groups['remote-alt'], groups['gpu']]
     labels = ["Local RAM", "Remote RAM", "Remote GPU"]
     datasets = [local, remote, gpu]
 
