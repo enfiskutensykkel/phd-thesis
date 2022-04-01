@@ -453,12 +453,13 @@ The \gls{borrower}'s \gls{iommu} is used to provide continuous address ranges th
 The \gls{iommu} on the \gls{lender} is used to map the device to a virtual \gls{io} address space that mirrors the \gls{vmguest}'s, allowing a device driver running in the \gls{vmguest} to initiate \gls{dma} transfers using \gls{guestphys} addresses.
 
 
-
 \paperref{tocs:mdev} provides more information about the \gls{mdev} implementation, including a more detailed description of the mediated device driver interface and the functionality it provides. 
 %
 In the same section, we also explain a workaround for interrupts, by relaying them from the \gls{lender} to the \gls{borrower}.
 %
-Finally, a method of probing the \gls{kvm} using well-defined starting addresses for high and low memory is outlined, in order to pinpoint the \gls{guestphys} memory layout and conserving \gls{ntb} maps.
+A method of probing the \gls{kvm} using well-defined starting addresses for high and low memory is outlined, in order to pinpoint the \gls{guestphys} memory layout and conserving \gls{ntb} maps.
+%
+Finally, we also discuss some security implications of our \gls{passthrough} approach in \paperref{tocs:disc-security}.
 
 
 
@@ -888,41 +889,69 @@ However, their focus seem to be enabling \gls{pgas}-style shared memory function
 It should also be noted that the underlying memory-mapping functionality provided by their solution is very similar to functionality already existing in the \gls{sisciapi}.
 
 
-
-The Ladon system~\cite{Tu2013} is a solution that is very similar to our own \gls{mdev} implementation.
+The Ladon system~\cite{Tu2013} facilitates access to the same \gls{sriov} device from multiple \glspl{vmguest}.
 %
-By using a top-of-rack \gls{pcie} switch with \gls{ntb}-capable ports, Ladon facilitates access to the same \gls{sriov} device from multiple \glspl{vmguest}. 
+Several machines and a \gls{sriov} device is connected to a top-of-rack \gls{pcie} switch with \gls{ntb}-capable ports.
 %
-The device and a dedicated ``management host'' is connected to the switch in \emph{transparent} mode, and the management host enumerates the \gls{pcie} fabric and configures the device.
-%
-In that regard, the management host is conceptually similar to our \gls{lender}.
+The device and a dedicated ``management host'' is connected to the switch in \emph{transparent} mode, so that the management host may enumerate the \gls{pcie} bus and configures the device.
 %
 Multiple ``compute hosts'' are connected to the same switch through \emph{non-transparent} switch ports,~i.e., \glspl{ntb}.
 %
-The management host maps the entire memory of each compute host for the device, and assists the compute hosts in setting up mappings to individual \glspl{vf}, in order to pass them through to \glspl{vmguest} running on the compute hosts.
+The management host maps the entire memory of each compute host for the device, and assists the \gls{hypervisor} on each compute hosts in mapping \glspl{devicebar}, in order to \gls{passthrough} individual \glspl{vf} to \glspl{vm} running on the compute hosts.
 %
-The \glspl{hypervisor} on the compute hosts are modified in order to route interrupts directly into the \glspl{vm}.
+It is also possible to map interrupts directly into the \glspl{vmguest}~\cite{Tu2014phd,Tu2015}.
 
 
-% TODO: make this bullet points
 
-The main difference between Ladon and our own SmartIO framework is that while a single host owns the device in Ladon, SmartIO is truly distributed by allowing multiple machines to act as \glspl{lender}.
+The Ladon system is very similar to our own \gls{mdev} implementation.
 %
-Machines may even act as both \gls{lender} and \gls{borrower} at the same time.
+For example, the management host is comparable to our \gls{lender}, and the compute hosts would be the equivalent to \glspl{hostmachine} that run \gls{vm} \glspl{borrower} in SmartIO.
 %
-Moreover, in Ladon, the management host becomes a single point of failure.
-%
-Ladon has since been extended with fail-over support, allowing a back-up management host to replicate the \gls{pcie} fabric enumeration of the first host, and seamlessly take ownership of the device in case the first management host fails~\cite{Tu2018}.
-%
-However, we argue that this still does not make Ladon distributed in the same sense as our SmartIO solution.
-%
-For example, it is not possible for a compute host to use devices from \emph{different} management hosts.
-%
-In contrast, SmartIO supports scaling out and using devices from several machines across an entire cluster.
-%
-Finally, the Ladon system appears to only work for \glspl{vm} unless device specific host-drivers are implemented.
-%
-Our SmartIO framework on the other hand, supports both physical \glspl{host} and \glspl{vm} alike by through the \gls{dl} and \gls{mdev} sharing methods. 
-%
-With \gls{dl}, devices can be used by bare-metal \glspl{hostmachine} without requiring any modifications to driver software.
+However, Ladon and our own SmartIO framework differ in some areas:
+\begin{itemize}
+    \item 
+        Only \gls{vmpassthrough} appears to be have been considered for the Ladon system.
+        %
+        SmartIO, on the other hand, supports sharing with both physical \glspl{hostmachine} and \glspl{vmguest}, through the \gls{dl} and \gls{mdev} sharing methods respectively.
+        %
+        Because the management host maps the \emph{entire} \gls{ram} of each compute host, it could in theory be possible to extend Ladon with support for physical machines. 
+        %
+        However, such an extension would likely require that device drivers are adapted to interact with the management host to set up mappings.
+        %
+        In contrast, our own \gls{dl} sharing method makes it possible for bare-metal hosts to use devices without requiring modifications to existing device driver software.
 
+    \item
+        Perhaps the main difference between Ladon and SmartIO is that while a single host,~i.e., the management host, owns the device in Ladon, our SmartIO system is truly distributed by supporting multiple machines acting as \glspl{lender}.
+        %
+        Machines may even act as both \gls{lender} and \gls{borrower} at the same time.
+        %
+        Moreover, in Ladon, the management host becomes a single point of failure.
+        %
+        Ladon has since been extended with fail-over support, allowing a back-up management host to replicate the \gls{pcie} fabric enumeration of the first host, and seamlessly take ownership of the device in case the first management host fails~\cite{Tu2018}.
+        %
+        However, we argue that this still does not make Ladon distributed in the same sense as our SmartIO solution.
+        %
+        For example, it is not possible for a compute host to use devices from \emph{different} management hosts.
+        %
+        In contrast, SmartIO supports scaling out and using devices from several machines across an entire cluster.
+
+    \item
+        The Ladon implementation relies on mapping the entire memory of all compute hosts for the device.
+        %
+        Because of this, the number of compute hosts that can be supported in the Ladon setup will be limited to a handful of hosts due to the combined \gls{bar} size requirements of the \glspl{ntb}.
+        %
+        This differs from our own \gls{mdev} implementation, where only the \gls{vm} memory is mapped for the device.
+        %
+        Additionally, should the \gls{ntb}'s \gls{bar} size become a limitation, it is possible to scale out and distribute devices over multiple lender systems.
+        
+\end{itemize}
+
+
+
+Compared to other solutions implemented using \glspl{ntb}, SmartIO is a more comprehensive framework for sharing devices and memory resources in a \gls{pcie} network.
+%
+Our solution make it possible to share devices to remote machines, both bare-metal \glspl{hostmachine} and \glspl{vm}.
+%
+Through the SmartIO abstraction layer, the hard distinction between local and remote is blurred out not only for native device drivers, but we are also able to combine our device sharing capabilities with shared-memory functionality through the \gls{sisciapiext}.
+%
+This unlocks a new potential for machines connected over \gls{pcie}, as it not only becomes easier to scale out and use remote \gls{io} resources, but traditional \gls{io} may even be combined with distributed, shared-memory functionality.
