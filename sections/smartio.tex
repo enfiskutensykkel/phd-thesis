@@ -707,35 +707,60 @@ More details on how it is possible to run the \gls{nvme} driver as part of a \gl
 
 
 \section{Performance measurements}\label{sec:eval}
+
+\subsection{Device Lending: Latency experiment}
 \begin{figure}
     \centering
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[width=.99\textwidth]{lending-experiments-remote-nvme}
-        \caption{results}
+        \includegraphics[width=.99\textwidth]{lending-experiments-local-nvme}
+        \caption{Local Baseline}
     \end{subfigure}
     \par\vspace{5mm}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[width=.99\textwidth]{lending-nvme}
-        \caption{results}
+        \includegraphics[width=.99\textwidth]{lending-experiments-remote-nvme}
+        \caption{Device Lending}
     \end{subfigure}
-    \caption{test}
+    \caption{NVMe experiments topology}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=.99\textwidth]{lending-nvme}
+    \caption{results}
+\end{figure}
+
+\subsection{Device Lending: Throughput experiment}
+\begin{figure}
+    \centering
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=.99\textwidth]{lending-experiments-local-gpu}
+        \caption{Local Baseline}
+    \end{subfigure}
+    \par\vspace{5mm}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=.99\textwidth]{lending-experiments-remote-gpu}
+        \caption{Device Lending}
+    \end{subfigure}
+    \caption{GPU experiments topology}
+\end{figure}
 \begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{lending-gpu}
     \caption{test}
 \end{figure}
 
+
+\subsection{Proof-of-concept NVMe driver: SQ experiment}
 \begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{nvme-sq}
     \caption{test}
 \end{figure}
 
-Some selected performance graphs here, demonstrating zero-overhead :)
 
 
 
