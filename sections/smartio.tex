@@ -707,8 +707,55 @@ More details on how it is possible to run the \gls{nvme} driver as part of a \gl
 
 
 \section{Performance measurements}\label{sec:eval}
+Our SmartIO framework makes it possible to share \gls{pcie} devices and memory resources in a \gls{pcie}-interconnected cluster.
+%
+Machines may use remote resources in a manner that is indistinguishable from using local resources, with regard to both functionality and performance.
+%
+In a comprehensive performance evaluation of all parts of the implementation proving
 
-\subsection{Device Lending: Latency experiment}
+can be found in \paperref{tocs:eval}, demonstrating that it is possible to use remote resources without any performance penalty compared to using when conditions are similar.
+As our implementation relies on several software and hardware components in order to enable this,
+%
+
+with \crefrange{nossdav}{cc}.
+
+TODO intro saying that a comprehensive performance evaluation can be found in \paperref{tocs:eval,cc:eval}, with \paperref{mmsys} serving as a realistic workload.
+TODO motivation for pcie = minimal, if any overhead
+
+
+
+\subsection{Device Lending experiments}
+In order to determine whether 
+
+Since \gls{dl} makes it possible to use remote devices without requiring any modifications to either application software or device drivers, it is possible to establish a ``local baseline'' for expected performance
+
+we can compare the performance of a workload running on a local machine to the exact same workload running on a remote system. 
+%
+
+%
+%This establishes a ``local baseline'' that we compare the performance to, as all other conditions being similar---even the devices being used by the workload.
+
+
+All other conditions are similar, even the devices being used.
+
+using the same devices borrowed with \gls{dl}.
+%
+We can establish a ``local baseline'' that 
+%
+
+Comparing the performance 
+of using remote devices to a local baseline can be done by creating local PCIe device trees that are as
+similar to to the Device~Lending scenarios as possible, since all other conditions are the same.
+%
+We have performed a series of new experiments comparing Device~Lending scenarios to local performance
+using a BP-457-ATX PCIe expansion chassis, in order to create PCIe paths with the same number of switch chips (or
+``hops'') for both local and remote topologies.
+In order 
+By comparing the performance of using remote devices to using devices attached to a local PCIe bus, thus
+establishing a ``local baseline'' for comparison, any overhead caused by our implementation should be 
+revealed. 
+
+
 \begin{figure}
     \centering
     \begin{subfigure}{\linewidth}
@@ -731,7 +778,6 @@ More details on how it is possible to run the \gls{nvme} driver as part of a \gl
     \caption{results}
 \end{figure}
 
-\subsection{Device Lending: Throughput experiment}
 \begin{figure}
     \centering
     \begin{subfigure}{\linewidth}
@@ -973,10 +1019,10 @@ However, Ladon and our own SmartIO framework differ in some areas:
 
 
 
-Compared to other solutions implemented using \glspl{ntb}, SmartIO is a more comprehensive framework for sharing devices and memory resources in a \gls{pcie} network.
+Compared to other solutions implemented using \glspl{ntb}, SmartIO is a more comprehensive framework for sharing devices and memory resources:
 %
-Our solution make it possible to share devices to remote machines, both bare-metal \glspl{hostmachine} and \glspl{vm}.
+our solution makes it possible to share devices to remote machines (both bare-metal \glspl{hostmachine} and \glspl{vm}), as well as and \gls{disaggregating} memory resources. 
 %
-Through the SmartIO abstraction layer, the hard distinction between local and remote is blurred out not only for native device drivers, but we are also able to combine our device sharing capabilities with shared-memory functionality through the \gls{sisciapiext}.
+Through the SmartIO abstraction layer, the hard distinction between local and remote is blurred out, making it easier to scale out and use remote resources.
 %
-This unlocks a new potential for machines connected over \gls{pcie}, as it not only becomes easier to scale out and use remote \gls{io} resources, but traditional \gls{io} may even be combined with distributed, shared-memory functionality.
+Using SmartIO, it is even possible to combine sharing capabilities with shared-memory functionality, allowing devices to become part of the same global address space as distributed, shared-memory applications.
