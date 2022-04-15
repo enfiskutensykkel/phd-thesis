@@ -707,53 +707,46 @@ More details on how it is possible to run the \gls{nvme} driver as part of a \gl
 
 
 \section{Performance measurements}\label{sec:eval}
-Our SmartIO framework makes it possible to share \gls{pcie} devices and memory resources in a \gls{pcie}-interconnected cluster.
+Our SmartIO framework makes it possible for machines to use remote \gls{pcie} devices in a manner that is indistinguishable from using local resources, both functionally and performance wise.
 %
-Machines may use remote resources in a manner that is indistinguishable from using local resources, with regard to both functionality and performance.
+In this section, we present the performance measurements for a few, selected benchmarks, showing that our SmartIO framework is able to facilitate the use of remote \gls{pcie} devices with the same performance as if these devices were locally installed.
 %
-In a comprehensive performance evaluation of all parts of the implementation proving
-
-can be found in \paperref{tocs:eval}, demonstrating that it is possible to use remote resources without any performance penalty compared to using when conditions are similar.
-As our implementation relies on several software and hardware components in order to enable this,
+More comprehensive performance evaluations can be found in the published papers:
 %
+\begin{itemize}
+    \item In \paperref{nossdav:eval}, the initial \gls{dl} implementation is evaluated using \gls{dma} transfer experiments using an Nvidia \gls{gpu}, comparing the performance to a \gls{pcie}-based \gls{rdma} implementation.
 
-with \crefrange{nossdav}{cc}.
+    \item A \gls{gpu}-based video processing workload is presented in \cref{mmsys}. \Gls{dl} is used to scale up the number of available \glspl{gpu} for the workload, in order to meet a real-time deadline.
 
-TODO intro saying that a comprehensive performance evaluation can be found in \paperref{tocs:eval,cc:eval}, with \paperref{mmsys} serving as a realistic workload.
-TODO motivation for pcie = minimal, if any overhead
+    \item We perform \gls{p2p} experiments with \glspl{gpu} in several network topologies in \paperref{srmpds:eval}, evaluating the effect longer \gls{pcie} paths have on \gls{dma} performance. These tests are extended in \paperref{cc:eval} with additional network topologies and test scenarios.
+        %
+        We also evaluate the \gls{mdev} implementation using a \lgls{passthrough}{passed-through} \gls{nvme}, and show the impact \glspl{iommu} have on on \gls{dma} transfers. 
+        %
+        In order to demonstrate \gls{dl} and \gls{mdev} for real-world applications, we also evaluate the run-time performance of a machine~learning workload using borrowed \glspl{gpu} and an borrowed \gls{nvme} in \paperref{cc:eval-ml}.
+
+    \item Finally, an exhaustive performance evaluation covering \emph{all} parts of the final implementation of SmartIO is presented in \paperref{tocs:eval}, including experiments using our proof-of-concept \gls{nvme} driver. Here, we demonstrate that when conditions are similar, our SmartIO sharing methods \textbf{do not add any performance overhead} compared to using local resources.
+\end{itemize}
 
 
 
-\subsection{Device Lending experiments}
-In order to determine whether 
-
-Since \gls{dl} makes it possible to use remote devices without requiring any modifications to either application software or device drivers, it is possible to establish a ``local baseline'' for expected performance
-
-we can compare the performance of a workload running on a local machine to the exact same workload running on a remote system. 
+\subsection{Comparison experiments}
+Using our SmartIO framework, machines may use remote resources in a manner that is indistinguishable from using local resources, with regard to both functionality and performance.
 %
-
+Remote devices can be used without requiring any modifications to either application software or device drivers.
 %
-%This establishes a ``local baseline'' that we compare the performance to, as all other conditions being similar---even the devices being used by the workload.
-
-
-All other conditions are similar, even the devices being used.
-
-using the same devices borrowed with \gls{dl}.
+This makes it possible to run an \gls{io}-heavy workload locally first, establishing a ``baseline'' for expected performance measurements.
 %
-We can establish a ``local baseline'' that 
-%
+The same workload can then be repeated on a remote system using borrowed devices, allowing us to compare performance measurements to the local baseline.
 
-Comparing the performance 
-of using remote devices to a local baseline can be done by creating local PCIe device trees that are as
-similar to to the Device~Lending scenarios as possible, since all other conditions are the same.
+
+
+In order to create a \gls{pcie} topology that is similar for local and remote runs, we have used a BP-457-ATX \gls{pcie} expansion chassis from One~Stop~Systems. 
 %
-We have performed a series of new experiments comparing Device~Lending scenarios to local performance
-using a BP-457-ATX PCIe expansion chassis, in order to create PCIe paths with the same number of switch chips (or
-``hops'') for both local and remote topologies.
-In order 
-By comparing the performance of using remote devices to using devices attached to a local PCIe bus, thus
-establishing a ``local baseline'' for comparison, any overhead caused by our implementation should be 
-revealed. 
+This adds the same number of \gls{pcie} switch chips (or ``hops'') in the path between the \gls{cpu} and the device in both the local and remote scenarios.
+%
+With all conditions being the same, from the software to the devices being used, a comparison between the measurements for both the local run and remote run should reveal any performance overhead introduced by SmartIO.
+
+
 
 
 \begin{figure}
