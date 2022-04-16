@@ -709,12 +709,14 @@ More details on how it is possible to run the \gls{nvme} driver as part of a \gl
 \section{Performance measurements}\label{sec:eval}
 Our SmartIO framework makes it possible for machines to use remote \gls{pcie} devices in a manner that is indistinguishable from using local resources, both functionally and performance wise.
 %
-In this section, we present the performance measurements for a few, selected benchmarks, showing that our SmartIO framework is able to facilitate the use of remote \gls{pcie} devices with the same performance as if these devices were locally installed.
+Since remote devices can be used without requiring any modifications to either application software or device drivers, it is possible to use standard benchmarking tools and existing application to evaluate SmartIO.
 %
-More comprehensive performance evaluations can be found in the published papers:
+A complete evaluation of SmartIO in the form of a comprehensive collection of performance tests can be found in the published papers, ranging from microbenchmarks aimed at evaluating a specific component to realistic, large-scale workloads:
 %
 \begin{itemize}
-    \item In \paperref{nossdav:eval}, the initial \gls{dl} implementation is evaluated using \gls{dma} transfer experiments using an Nvidia \gls{gpu}, comparing the performance to a \gls{pcie}-based \gls{rdma} implementation.
+    \item In \paperref{nossdav:eval}, the initial \gls{dl} implementation is evaluated using an Nvidia \gls{gpu}, comparing the performance of \gls{dma} transfers of a borrowed (remote) \gls{gpu} to a local \gls{gpu}.
+        %
+        We also compare the performance of native \gls{dma} to a \gls{pcie}-based \gls{rdma} implementation, to demonstrate the performance benefit of native \gls{dma} transfers to remote memory.
 
     \item A \gls{gpu}-based video processing workload is presented in \cref{mmsys}. \Gls{dl} is used to scale up the number of available \glspl{gpu} for the workload, in order to meet a real-time deadline.
 
@@ -724,28 +726,57 @@ More comprehensive performance evaluations can be found in the published papers:
         %
         In order to demonstrate \gls{dl} and \gls{mdev} for real-world applications, we also evaluate the run-time performance of a machine~learning workload using borrowed \glspl{gpu} and an borrowed \gls{nvme} in \paperref{cc:eval-ml}.
 
-    \item Finally, an exhaustive performance evaluation covering \emph{all} parts of the final implementation of SmartIO is presented in \paperref{tocs:eval}, including experiments using our proof-of-concept \gls{nvme} driver. Here, we demonstrate that when conditions are similar, our SmartIO sharing methods \textbf{do not add any performance overhead} compared to using local resources.
+    \item An exhaustive performance evaluation covering \emph{all} parts of the final implementation of SmartIO is presented in \paperref{tocs:eval}.
+        %
+        Here, we evaluate SmartIO from all angles using multiple hardware configurations and devices, in order to prove that when conditions are similar, our SmartIO sharing methods \textbf{do not add any performance overhead} compared to using local resources.
+        %
+        Additionally, \paperref{tocs:eval-nvme} also present several tests of our proof-of-concept \gls{nvme} driver, including an experiment with 30 cluster nodes sharing a single-function \gls{nvme} simultaneously.
 \end{itemize}
 
 
-
-\subsection{Comparison experiments}
-Using our SmartIO framework, machines may use remote resources in a manner that is indistinguishable from using local resources, with regard to both functionality and performance.
+In this section, we present the performance measurements for three selected benchmarks, showing that our SmartIO framework is able to facilitate the use of remote \gls{pcie} devices with the same performance as if these devices were locally installed.
 %
-Remote devices can be used without requiring any modifications to either application software or device drivers.
-%
-This makes it possible to run an \gls{io}-heavy workload locally first, establishing a ``baseline'' for expected performance measurements.
-%
-The same workload can then be repeated on a remote system using borrowed devices, allowing us to compare performance measurements to the local baseline.
-
-
-
-In order to create a \gls{pcie} topology that is similar for local and remote runs, we have used a BP-457-ATX \gls{pcie} expansion chassis from One~Stop~Systems. 
-%
-This adds the same number of \gls{pcie} switch chips (or ``hops'') in the path between the \gls{cpu} and the device in both the local and remote scenarios.
+The first two tests are comparison tests, where we compare the performance of an \gls{io}-heavy workload running on a local system using a local \gls{io} resource, to the same workload running on a remote machine using the same resource borrowed through \gls{dl}.
 %
 With all conditions being the same, from the software to the devices being used, a comparison between the measurements for both the local run and remote run should reveal any performance overhead introduced by SmartIO.
+%
+The third test is intended to demonstrate memory optimization functionality in our proof-of-concept \gls{nvme} driver enabled by the \gls{apiext}, by making it possible to allocate \glspl{sq} in different kinds of memory (both locally and remote).
 
+
+
+All three tests involve two Intel~Xeon machines, and PXH830 \gls{ntb} adapter cards from Dolphin~\cite{pxh830}.\footnote{Additional \gls{pcie} network topologies are evaluated in \crefrange{nossdav}{tocs}, including larger clusters.}
+%
+Additionally, all three tests use a BP-457-ATX \gls{pcie} expansion chassis from One~Stop~Systems in order to create a \gls{pcie} topology that is similar for local and remote test runs.
+%
+The expansion chassis adds the same number of \gls{pcie} switch chips (or ``hops'') in the path between the \gls{cpu} and the device in both the local and remote scenarios.\footnote{We show how longer \gls{pcie} paths affects \gls{dma} performance in \paperref{cc:eval-native-p2p}.}
+%
+Moreover, these switch chips are the same Broadcom PEX8733~\cite{pex8733} switch chips used to implement the \gls{ntb} adapter cards.
+%
+Note that while the hardware configuration is similar for all three tests, we have used different Linux distributions.
+%
+This is to demonstrate that our SmartIO framework is not limited to a specific Linux version, but works for a wide variety of distributions and software versions, including older kernels.
+%
+We make a point of using standard and unmodified benchmarking software for our tests.
+
+
+
+\subsection{NVMe latency comparison}
+Using our SmartIO framework, machines may use remote resources in a manner that is indistinguishable from using local resources, with regard to both functionality and performance.
+%
+
+%
+%consisting of both synthetic microbenchmarks that and realistic, large-scale workloads:
+%%
+%
+%First, we 
+establishing a local ``baseline'' for expected performance.
+%%
+%This makes it possible to run an \gls{io}-heavy workload locally first, establishing a ``baseline'' for expected performance measurements.
+
+%The same workload can then be repeated on a remote system using borrowed devices, allowing us to compare performance measurements to the local baseline.
+%
+%
+With all conditions being the same, from the software to the devices being used, a comparison between the measurements for both the local run and remote run should reveal any performance overhead introduced by SmartIO.
 
 
 
@@ -754,7 +785,7 @@ With all conditions being the same, from the software to the devices being used,
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=.99\textwidth]{lending-experiments-local-nvme}
-        \caption{Local Baseline}
+        \caption{\textbf{Local Baseline}: aa}
     \end{subfigure}
     \par\vspace{5mm}
     \begin{subfigure}{\linewidth}
@@ -771,6 +802,7 @@ With all conditions being the same, from the software to the devices being used,
     \caption{results}
 \end{figure}
 
+\subsection{GPU throughput comparison}
 \begin{figure}
     \centering
     \begin{subfigure}{\linewidth}
