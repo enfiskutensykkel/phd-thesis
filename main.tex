@@ -81,7 +81,7 @@
 {%
     \IfStrEq{#2}{NOSECT}%
     {%
-        \cref{#1}%
+        \cref{#1}\papersectpageref{#1}%
     }%
     {%
         \StrCount{#2}{,}[\papersectrefcount]%

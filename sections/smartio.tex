@@ -714,23 +714,26 @@ Since remote devices can be used without requiring any modifications to either a
 A complete evaluation of SmartIO in the form of a comprehensive collection of performance tests can be found in the published papers, ranging from microbenchmarks aimed at evaluating a specific component to realistic, large-scale workloads:
 %
 \begin{itemize}
+
     \item In \paperref{nossdav:eval}, the initial \gls{dl} implementation is evaluated using an Nvidia \gls{gpu}, comparing the performance of \gls{dma} transfers of a borrowed (remote) \gls{gpu} to a local \gls{gpu}.
         %
         We also compare the performance of native \gls{dma} to a \gls{pcie}-based \gls{rdma} implementation, to demonstrate the performance benefit of native \gls{dma} transfers to remote memory.
 
-    \item A \gls{gpu}-based video processing workload is presented in \cref{mmsys}. \Gls{dl} is used to scale up the number of available \glspl{gpu} for the workload, in order to meet a real-time deadline.
+    \item A \gls{gpu}-based video processing workload is presented in \paperref{mmsys}. \Gls{dl} is used to scale up the number of available \glspl{gpu} for the workload, in order to meet a real-time deadline.
+        %
+        To demonstrate \gls{dl} and \gls{mdev} being used for real-world applications, we also evaluate the run-time performance of a machine~learning workload using borrowed \glspl{gpu} and an borrowed \gls{nvme} in \paperref{cc:eval-ml}.
 
     \item We perform \gls{p2p} experiments with \glspl{gpu} in several network topologies in \paperref{srmpds:eval}, evaluating the effect longer \gls{pcie} paths have on \gls{dma} performance. These tests are extended in \paperref{cc:eval} with additional network topologies and test scenarios.
         %
         We also evaluate the \gls{mdev} implementation using a \lgls{passthrough}{passed-through} \gls{nvme}, and show the impact \glspl{iommu} have on on \gls{dma} transfers. 
-        %
-        In order to demonstrate \gls{dl} and \gls{mdev} for real-world applications, we also evaluate the run-time performance of a machine~learning workload using borrowed \glspl{gpu} and an borrowed \gls{nvme} in \paperref{cc:eval-ml}.
 
-    \item An exhaustive performance evaluation covering \emph{all} parts of the final implementation of SmartIO is presented in \paperref{tocs:eval}.
+    \item An exhaustive performance evaluation of the final implementation of SmartIO is presented in \paperref{tocs:eval}, evaluating all parts of the implementation from multiple angles.
         %
-        Here, we evaluate SmartIO from all angles using multiple hardware configurations and devices, in order to prove that when conditions are similar, our SmartIO sharing methods \textbf{do not add any performance overhead} compared to using local resources.
+        We prove that, when conditions are similar, our SmartIO sharing methods \textbf{do not add any performance overhead} compared to using local resources.
         %
-        Additionally, \paperref{tocs:eval-nvme} also present several tests of our proof-of-concept \gls{nvme} driver, including an experiment with 30 cluster nodes sharing a single-function \gls{nvme} simultaneously.
+        Additionally, \paperref{tocs:eval-nvme} also present several experiments using our our proof-of-concept \gls{nvme} driver.
+        %
+        Several capabilities made possible through the \gls{sisciapiext} are demonstrated, such as an experiment with 30~cluster~nodes sharing a single-function \gls{nvme} simultaneously, how data stored on the \gls{nvme} can be \lgls{multicasting}{multicasted} an replicated across 60~nodes in a single operation, as well as interoperability with both local and remote \glspl{gpu}.
 \end{itemize}
 
 
@@ -740,43 +743,46 @@ The first two tests are comparison tests, where we compare the performance of an
 %
 With all conditions being the same, from the software to the devices being used, a comparison between the measurements for both the local run and remote run should reveal any performance overhead introduced by SmartIO.
 %
-The third test is intended to demonstrate memory optimization functionality in our proof-of-concept \gls{nvme} driver enabled by the \gls{apiext}, by making it possible to allocate \glspl{sq} in different kinds of memory (both locally and remote).
+The third test is intended to demonstrate memory optimization functionality in our proof-of-concept \gls{nvme} driver enabled by the \gls{apiext}, by making it possible to allocate \glspl{sq} in different kinds of memory.
 
 
 
-All three tests involve two Intel~Xeon machines, and PXH830 \gls{ntb} adapter cards from Dolphin~\cite{pxh830}.\footnote{Additional \gls{pcie} network topologies are evaluated in \crefrange{nossdav}{tocs}, including larger clusters.}
+All three tests involve two Intel~Xeon machines, and PXH830 \gls{ntb} adapter cards from Dolphin~\cite{pxh830}.
 %
-Additionally, all three tests use a BP-457-ATX \gls{pcie} expansion chassis from One~Stop~Systems in order to create a \gls{pcie} topology that is similar for local and remote test runs.
+Additional \gls{pcie} network topologies are evaluated in the published papers, including larger clusters.
 %
-The expansion chassis adds the same number of \gls{pcie} switch chips (or ``hops'') in the path between the \gls{cpu} and the device in both the local and remote scenarios.\footnote{We show how longer \gls{pcie} paths affects \gls{dma} performance in \paperref{cc:eval-native-p2p}.}
+In order to create a \gls{pcie} topology that is similar for local and remote test runs, we have used a BP-457-ATX \gls{pcie} expansion chassis from One~Stop~Systems.
 %
-Moreover, these switch chips are the same Broadcom PEX8733~\cite{pex8733} switch chips used to implement the \gls{ntb} adapter cards.
+By using an expansion chassis, there are the same number of \gls{pcie} switch chips (or ``hops'') in the path between the \gls{cpu} and the device in both the local and remote scenarios.%
+\footnote{We show how longer \gls{pcie} paths affects \gls{dma} performance in \paperref{cc:eval-native-p2p}.}
 %
-Note that while the hardware configuration is similar for all three tests, we have used different Linux distributions.
+Moreover, the switch chips are the same  Broadcom~PEX8733~\cite{pex8733} chips used in the implementation of the Dolphin \gls{ntb} adapter cards.
 %
-This is to demonstrate that our SmartIO framework is not limited to a specific Linux version, but works for a wide variety of distributions and software versions, including older kernels.
+It should be noted that while the hardware configuration is similar for all three tests, we have used different Linux distributions to to demonstrate that our SmartIO framework is not limited to a specific Linux version, but works for a wide variety of distributions and software versions (including older kernels).
 %
-We make a point of using standard and unmodified benchmarking software for our tests.
+Standard and unmodified benchmarking software are used for our tests, and for first two \gls{dl} tests we have used standard device drivers.
 
 
 
-\subsection{NVMe latency comparison}
-Using our SmartIO framework, machines may use remote resources in a manner that is indistinguishable from using local resources, with regard to both functionality and performance.
+\subsection{Device Lending: latency comparison}
 %
+Using the \gls{dl} sharing method, machines may use remote resources in the same way it would use local resources.
+%
+Consequently, it possible to run a workload locally first, establishing a ``baseline'' for expected performance measurements.
+%
+The same workload can then be repeated on a remote system using borrowed devices, allowing us to compare performance measurements to this ``local baseline''.
+%
+Any difference in the measured performance will reveal whether or not \gls{dl} adds any performance overhead compared to local access.
 
-%
-%consisting of both synthetic microbenchmarks that and realistic, large-scale workloads:
-%%
-%
-%First, we 
-establishing a local ``baseline'' for expected performance.
-%%
-%This makes it possible to run an \gls{io}-heavy workload locally first, establishing a ``baseline'' for expected performance measurements.
 
-%The same workload can then be repeated on a remote system using borrowed devices, allowing us to compare performance measurements to the local baseline.
+
+We have used the \gls{fio}~\cite{url:fio} to create a synthetic storage workload and measure the latency of reading from disk.
 %
+\Gls{fio} is a widely used \gls{userspace} application for benchmarking the performance of storage devices, such as \glspl{nvme}.
 %
-With all conditions being the same, from the software to the devices being used, a comparison between the measurements for both the local run and remote run should reveal any performance overhead introduced by SmartIO.
+However, as the purpose of the test is \emph{not} to benchmark the \gls{nvme} itself, but rather any potential overhead of our \gls{dl} sharing method, we used a prototype \gls{ram} disk with an \gls{nvme} controller from PMC-Sierra.
+%
+This is to avoid any effects caused by prefetching and caching, that modern \glspl{ssd} are capable of.
 
 
 
@@ -785,24 +791,68 @@ With all conditions being the same, from the software to the devices being used,
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=.99\textwidth]{lending-experiments-local-nvme}
-        \caption{\textbf{Local Baseline}: aa}
+        \caption{\textbf{Local Baseline}: an \glsxtrshort{nvme} in an expansion chassis attached to the local \glsxtrshort{pcie} bus.}
+        \label{fig:eval-lending-nvme-local}
     \end{subfigure}
-    \par\vspace{5mm}
+    \par\vspace{10mm}
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=.99\textwidth]{lending-experiments-remote-nvme}
-        \caption{Device Lending}
+        \caption{\textbf{Device Lending}: a borrowed \glsxtrshort{nvme}, appearing local to the remote system.}
+        \label{fig:eval-lending-nvme-remote}
     \end{subfigure}
-    \caption{NVMe experiments topology}
+    \par\vspace{5mm}
+    \caption[Hardware configuration for the two scenarios in our latency comparison experiment. By using an expansion chassis, the \glsfmtshort{nvme} is the same number of ``hops'' away from the \glsfmtshort{cpu} using the device for both scenarios]
+    {Hardware configuration for the two scenarios in our latency comparison experiment. By using an expansion chassis, the \glsxtrshort{nvme} is the same number of ``hops'' away from the \glsxtrshort{cpu} using the device for both the Local~Baseline and \gls{dl} scenarios. The only difference is whether the switch chips are configured in transparent mode or \glsxtrshort{ntb} mode. The data path is illustrated for both scenarios.}
+    \label{fig:eval-lending-nvme-topo}
 \end{figure}
+%
+\Cref{fig:eval-lending-nvme-topo} shows the topologies for our test scenarios:
+\begin{description}
+    \item[Local Baseline] (shown in \cref{fig:eval-lending-nvme-local}):%
+        An external expansion chassis with the \gls{nvme} installed, connected to a local machine. 
+        %
+        The expansion chassis is connected upstream using One Stop System's HIB68-x16 target adapter cards and external \gls{pcie} cables. 
+        %
+        These adapters use the same Broadcom~PEX8733 \gls{pcie} switch chip used in the Dolphin PXH830 \gls{ntb} adapters.
+        %
+        The \gls{iommu} is disabled, in order to make the configuration comparable to the \gls{dl} scenario described below.
+        
+    \item[\Gls{dl}] (shown in \cref{fig:eval-lending-nvme-remote}):
+        %
+        Two machines connected together in a back-to-back topology, using Dolphin~PXH830 adapter cards and external \gls{pcie} cables.
+        %
+        The remote \gls{nvme} is borrowed using \gls{dl}.
+        %
+        The \gls{iommu} is disabled on both the \gls{lender} and \gls{borrower}.
+        %
+        The same expansion chassis configuration as in the local baseline scenario is used, and since the \gls{lender}'s \gls{iommu} is disabled, \gls{pcie} transationcs are routed peer-to-peer as illustrated in the figure.
+\end{description}
+%
+In both scenarios, the machines run CentOS~7 with a 3.10 kernel, and version~3.7 of \gls{fio} (as available from the CentOS~7 software repositories).
+%
+Additionally, the standard in-kernel \gls{nvme} driver is used in both scenarios.
+%
+We configured \gls{fio} to perform 8192 reads per run, and ran \gls{fio} 80~times per scenario and concatenated the results.
+%
+Each read is a page-sized block~(4~kB) at a random offset.
 
 \begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{lending-nvme}
-    \caption{results}
+    \caption
+    [Histogram of the latency distributions for reads from storage for both the Local~Baseline and Device~Lending scenarios. The distributions overlap, demonstrating that our implementation does not add any overhead in the critical \glsfmtshort{io} path]
+    {Histogram of the latency distributions for reads from storage for both the Local~Baseline and \gls{dl} scenarios. Each data point is the latency for a full 4~kB read operation. The distribution for both scenarios overlap, demonstrating that our implementation does not add any overhead in the critical \glsxtrshort{io} path.}
+    \label{fig:eval-lending-nvme-results}
 \end{figure}
 
-\subsection{GPU throughput comparison}
+
+
+
+
+
+
+\subsection{Device Lending: throughput comparison}
 \begin{figure}
     \centering
     \begin{subfigure}{\linewidth}
