@@ -721,21 +721,21 @@ A complete evaluation of SmartIO in the form of a comprehensive collection of pe
 
     \item A \gls{gpu}-based video processing workload is presented in \paperref{mmsys}. \Gls{dl} is used to scale up the number of available \glspl{gpu} for the workload, in order to meet a real-time deadline.
         %
-        To demonstrate \gls{dl} and \gls{mdev} being used for real-world applications, we also evaluate the run-time performance of a machine~learning workload using borrowed \glspl{gpu} and an borrowed \gls{nvme} in \paperref{cc:eval-ml}.
+        To demonstrate \gls{dl} and \gls{mdev} being used for real-world applications, we also evaluate the run-time performance of a machine~learning workload using borrowed \glspl{gpu} and a borrowed \gls{nvme} in \paperref{cc:eval-ml}.
 
     \item We perform \gls{p2p} experiments with \glspl{gpu} in several network topologies in \paperref{srmpds:eval}, evaluating the effect longer \gls{pcie} paths have on \gls{dma} performance. These tests are extended in \paperref{cc:eval} with additional network topologies and test scenarios.
         %
-        We also evaluate the \gls{mdev} implementation using a \lgls{passthrough}{passed-through} \gls{nvme}, and show the impact \glspl{iommu} have on on \gls{dma} transfers. 
+        We also evaluate the \gls{mdev} implementation using a \lgls{passthrough}{passed-through} \gls{nvme}, and show the impact \glspl{iommu} have on \gls{dma} transfers. 
 
     \item An exhaustive performance evaluation of the final implementation of SmartIO is presented in \paperref{tocs:eval}, evaluating all parts of the implementation from multiple angles.
         %
-        This evaluation also use a wide variety of different Linux distributions, benchmarking software, and different \gls{pcie} devices, in order to demonstrate that our SmartIO framework is not limited to a specific Linux version or any specific device, but works for a wide variety of different software versions and devices.
+        This evaluation also uses a wide variety of different Linux distributions, benchmarking software, and different \gls{pcie} devices, in order to demonstrate that our SmartIO framework is not limited to a specific Linux version or any specific device, but works for a wide variety of different software versions and devices.
         %
-        We prove that, when conditions are similar, our SmartIO sharing methods \textbf{do not add any performance overhead} compared to using local resources.
+        We prove that, when conditions are similar, our SmartIO sharing methods \textbf{does not add any performance overhead} compared to using local resources.
         %
-        Additionally, \paperref{tocs:eval-nvme} also present several experiments using our our proof-of-concept \gls{nvme} driver.
+        Additionally, \paperref{tocs:eval-nvme} also presents several experiments using our our proof-of-concept \gls{nvme} driver.
         %
-        Several capabilities made possible through the \gls{sisciapiext} are demonstrated, such as an experiment with 30~cluster~nodes sharing a single-function \gls{nvme} simultaneously, how data stored on the \gls{nvme} can be \lgls{multicasting}{multicasted} an replicated across 60~nodes in a single operation, as well as interoperability with both local and remote \glspl{gpu}.
+        Several capabilities made possible through the \gls{sisciapiext} are demonstrated, such as an experiment with 30~cluster~nodes sharing a single-function \gls{nvme} simultaneously, how data stored on the \gls{nvme} can be \lgls{multicasting}{multicasted} and replicated across 60~nodes in a single operation, as well as interoperability with both local and remote \glspl{gpu}.
 \end{itemize}
 
 
@@ -761,7 +761,7 @@ By using an expansion chassis, there are the same number of \gls{pcie} switch ch
 %
 Moreover, the switch chips are the same  Broadcom~PEX8733~\cite{pex8733} chips used in the implementation of the Dolphin \gls{ntb} adapter cards.
 %
-Standard and unmodified benchmarking software are used for our tests, and for first two \gls{dl} tests we have used standard device drivers.
+Standard and unmodified benchmarking software are used for our tests, and for the first two \gls{dl} tests, we have used standard device drivers.
 
 
 
@@ -789,9 +789,9 @@ Standard and unmodified benchmarking software are used for our tests, and for fi
 
 
 
-Using the \gls{dl} sharing method, machines may use remote resources in the same way it would use local resources.
+Using the \gls{dl} sharing method, machines may use remote resources in the same way they would use local resources.
 %
-Consequently, it possible to run a workload locally first, establishing a ``baseline'' for expected performance measurements.
+Consequently, it is possible to run a workload locally first, establishing a ``baseline'' for expected performance measurements.
 %
 The same workload can then be repeated on a remote system using borrowed devices, allowing us to compare performance measurements to this ``local baseline''.
 %
