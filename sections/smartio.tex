@@ -740,9 +740,9 @@ An evaluation of SmartIO in the form of a comprehensive collection of performanc
         
 
 
-    \item To prove that \gls{dl} and \gls{mdev} can be used for real-world applications, we evaluate the run-time performance of a machine~learning workload using borrowed \glspl{gpu} and a borrowed \gls{nvme} in \paperref{cc:eval-ml,tocs:eval-ml}.
+    \item To prove that \gls{dl} and \gls{mdev} can be used for real-world applications, we evaluate the run-time performance of a machine~learning workload using borrowed \glspl{gpu} and a borrowed \gls{nvme} in \paperref{tocs:eval-ml,cc:eval-ml}.
         %
-        To further demonstrate \gls{dl} and \gls{mdev} being used for realistic applications, we present a \gls{gpu}-based video processing workload in \paperref{mmsys}, and use \gls{dl} to scale up the number of available \glspl{gpu} for the workload, in order to meet a real-time deadline.
+        To further demonstrate SmartIO being used for realistic applications, we present a \gls{gpu}-based video processing workload in \paperref{mmsys}, and use \gls{dl} to scale up the number of available \glspl{gpu} for the workload, in order to meet a real-time deadline.
 
     \item Several experiments using our our proof-of-concept \gls{nvme} driver are presented in \paperref{tocs:eval-nvme}, demonstrating capabilities made possible through the \gls{sisciapiext}.
         %
@@ -771,7 +771,7 @@ They prove that our SmartIO framework is able to facilitate the use of remote \g
 %
 The third test, presented in \cref{sec:eval-nvme}, demonstrates memory optimization capabilities of our proof-of-concept \gls{nvme} driver.
 %
-This is an exploratory test, highlighting device driver functionality enabled by the \gls{sisciapiext}n on.
+This is an exploratory test, highlighting device driver functionality enabled by the \gls{sisciapiext}.
 
 
 
@@ -823,16 +823,6 @@ With all conditions being the same, from the software to the devices being used,
 
 
 
-We have used the \gls{fio}~\cite{url:fio} to create a synthetic storage workload and measure the latency of reading from disk.
-%
-\Gls{fio} is a widely used \gls{userspace} application for benchmarking the performance of storage devices, such as \glspl{nvme}.
-%
-However, as the purpose of the test is \emph{not} to benchmark the \gls{nvme} itself, but rather any potential overhead of our \gls{dl} sharing method, we used a prototype \gls{ram} disk with an \gls{nvme} controller from Microsemi.
-%
-This is to avoid any effects caused by prefetching and caching, that modern \glspl{ssd} are capable of.
-
-
-
 
 \begin{figure}
     \centering
@@ -843,9 +833,10 @@ This is to avoid any effects caused by prefetching and caching, that modern \gls
     \label{fig:eval-lending-nvme-results}
 \end{figure}
 %
-\Cref{fig:eval-lending-nvme-topo} shows the topologies for our test scenarios:
+\Cref{fig:eval-lending-nvme-topo} shows the hardware configurations for the two test scenarios:
 \begin{description}
-    \item[Local Baseline] (shown in \cref{fig:eval-lending-nvme-local}):%
+    \item[Local Baseline] (shown in \cref{fig:eval-lending-nvme-local}):
+        %
         An external expansion chassis with the \gls{nvme} installed, connected to a local machine. 
         %
         The expansion chassis is connected upstream using One Stop System's HIB68-x16 target adapter cards and external \gls{pcie} cables. 
@@ -862,18 +853,25 @@ This is to avoid any effects caused by prefetching and caching, that modern \gls
         %
         The \gls{iommu} is disabled on both the \gls{lender} and \gls{borrower}.
         %
-        The same expansion chassis configuration as in the local baseline scenario is used, and since the \gls{lender}'s \gls{iommu} is disabled, \gls{pcie} transationcs are routed peer-to-peer as illustrated in the figure.
+        The same expansion chassis configuration as in the local baseline scenario is used, and since the \gls{lender}'s \gls{iommu} is disabled, \gls{pcie} transactions are routed peer-to-peer as illustrated in the figure.
 \end{description}
-
-
-
+%
+We used the \gls{fio}~\cite{url:fio} to create a synthetic storage workload and measure the latency of reading from disk.
+%
+\Gls{fio} is a widely used \gls{userspace} application for benchmarking the performance of storage devices, such as \glspl{nvme}.
+%
 In both scenarios, the machines run CentOS~7 with a 3.10 kernel, and version~3.7 of \gls{fio} (as available from the CentOS~7 software repositories).
 %
 Additionally, the standard in-kernel \gls{nvme} driver is used in both scenarios.
+
+
+
+We configured \gls{fio} to perform 655360 reads, where each read is a page-sized block~(4~kB) at a random offset on disk, also known as a ``random read'' pattern.
 %
-We configured \gls{fio} to perform 8192 reads per run, and ran \gls{fio} 80~times per scenario and concatenated the results.
+Additionally, as the purpose of the test is \emph{not} to benchmark the \gls{nvme} itself, but rather any potential overhead of our \gls{dl} sharing method, the disk used in our experiment is a prototype \gls{ram} disk with an \gls{nvme} controller from Microsemi.
 %
-Each read is a page-sized block~(4~kB) at a random offset.
+We used a \gls{ram} disk to avoid any effects caused by prefetching and caching that modern \glspl{ssd} are capable of.
+
 
 
 
@@ -905,16 +903,63 @@ A more in-depth explanation of this experiment can be found in \paperref{tocs:ev
     \end{subfigure}
     \par\vspace{5mm}
     \caption
-    {Hardware configuration for the two scenarios in our \glsxtrshort{dma} throughput comparison experiment. Similar to the}
+    [Hardware configuration for the two scenarios in our \glsfmtshort{dma} throughput comparison experiment. The expansion chassis adds the same number of ``hops'' between the \glsfmtshort{cpu} and the \glsfmtshort{gpu} in both scenarios]
+    {Hardware configuration for the two scenarios in our \glsxtrshort{dma} throughput comparison experiment. The expansion chassis adds the same number of ``hops'' between the \glsxtrshort{cpu} and the \glsxtrshort{gpu} in both scenarios.}
     \label{fig:eval-lending-gpu-topo}
 \end{figure}
 
 
+Another performance metric is throughput, particularly the throughput for transferring from a device to \gls{ram}.
+%
+By performing large \gls{dma} transfers, the \gls{pcie} links are saturated with transactions and we also stress system memory.
+%
+This would reveal any overhead caused by our \gls{dl} implementation that is only visible under high load.
+
+
+\Cref{fig:eval-lending-gpu-topo} illustrates the hardware configuration used in our throughput test scenarios:
+\begin{description}
+    \item[Local Baseline] (shown in \cref{fig:eval-lending-gpu-local}):
+        %
+        A local machine using a local Nvidia Quadro P4000 \gls{gpu} (installed in an expansion chassis).
+        %
+        As with the latency test, we use an expansion chassis to make the \gls{pcie} path similar to the \gls{dl} scenario described below.
+        %
+        The \gls{iommu} is enabled.
+
+    \item[\gls{dl}]: (shown in \cref{fig:eval-lending-gpu-remote}): 
+        %
+        Two machines connected back-to-back using Dolphin~PXH830 \gls{ntb} adapter cards.
+        %
+        One machine is borrowing the Quadro P4000 \gls{gpu}.
+        %
+        The \gls{iommu} on the \gls{lender} is disabled, in order to allow \gls{p2p} \gls{dma} transfers as depicted in the figure, while the \gls{borrower}'s \gls{iommu} is enabled.
+\end{description}
+%
+Both machines are running Ubuntu~18.04.02 with the 4.15 version of the kernel, and we used \gls{cuda}~10.1 (with the 418.39 version of the Nvidia driver).
+%
+In order to create a workload for the \gls{gpu}, we used the \emph{bandwidthTest} program included in the CUDA Toolkit sample programs~\cite{url:cuda}.
+%
+This \gls{cuda} program uses the \gls{gpu}'s on-board \gls{dma} engine to copy data from the \gls{gpu} to system memory.
+%
+For both scenarios, we configured bandwidthTest to initiate 1000 \gls{dma} writes to \gls{ram}, and repeated this for sizes from 4~kB up to 128~MB in order to reveal any trends that emerge when the transfer size increases.
+
 \begin{figure}
     \centering
     \includegraphics[width=.99\textwidth]{lending-gpu}
-    \caption{test}
+    \caption
+    [The median \glsfmtshort{dma} write throughput of different transfer sizes for the Local Baseline and Device Lending scenarios. The measured performance is the same for both scenarios, demonstrating that our implementation does not add any overhead]
+    {The median \glsxtrshort{dma} write throughput of different transfer sizes for the Local Baseline and \gls{dl} scenarios. The measured performance is the same for both scenarios, demonstrating that our implementation does not add any overhead.}
+    \label{fig:eval-lending-gpu-results}
 \end{figure}
+
+
+\Cref{fig:eval-lending-gpu-results} depicts the results of our test.
+%
+The transfer sizes are plotted along the X-axis, and for each transfer size we plotted the median of the 1000 transfers.
+%
+The achieved throughput for \gls{dma} writes to system memory is almost identical for the Local~Baseline and \gls{dl} scenarios, demonstrating that our \gls{dl} implementation does not introduce any overhead in the performance-critical path.
+%
+This experiment is described in further detail in \paperref{tocs:eval-lending-bw}.
 
 
 \subsection{Proof-of-concept NVMe driver: SQ experiment}\label{sec:eval-nvme}
