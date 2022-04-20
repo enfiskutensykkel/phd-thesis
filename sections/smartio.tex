@@ -711,7 +711,7 @@ Our SmartIO framework makes it possible for machines to use remote \gls{pcie} de
 %
 Since remote devices can be used without requiring any modifications to either application software or device drivers, it is possible to use standard benchmarking tools and existing application to evaluate SmartIO.
 %
-An evaluation of SmartIO in the form of a comprehensive collection of performance tests can be found in the published papers, ranging from microbenchmarks aimed at evaluating a specific component to realistic, large-scale workloads:
+An evaluation of SmartIO in the form of a comprehensive collection of performance tests can be found in the published papers, ranging from microbenchmarks aimed at evaluating specific components to large-scale, realistic workloads:
 %
 \begin{itemize}
 
@@ -724,14 +724,17 @@ An evaluation of SmartIO in the form of a comprehensive collection of performanc
         %
         These tests are extended in \paperref{cc:eval-native-p2p} with additional network topologies and test scenarios.
         %
-        We also show a \gls{sriov}-capable \gls{nic} being shared with multiple machines at the same time in \paperref{tocs:eval-sriov}.
+        We also show the performance a \gls{sriov}-capable \gls{nic} being shared with multiple machines at the same time in \paperref{tocs:eval-sriov}.
 
 
-    \item Our \gls{mdev} implementation is evaluated in \paperref{srmpds:eval-mdev}, measuring the performance of a \gls{vm} using a \lgls{passthrough}{passed-through}.
+
+    \item Our \gls{mdev} implementation is evaluated in \paperref{srmpds:eval-mdev}, where the performance of a \gls{vm} using a \lgls{passthrough}{passed-through} is measured.
         %
         The impact of \glspl{iommu} on \gls{dma} transfers is demonstrated in \paperref{tocs:eval-iommu}.
         %
-        In \paperref{tocs:eval-mdev-vfio}, we compare the performance of our \gls{mdev} implementation to ``regular'' \gls{passthrough} (of a local device) as well as bare-metal \gls{dl} (with the \gls{iommu} enabled).
+        In \paperref{tocs:eval-mdev-vfio}, we extend our \gls{mdev} evaluation and compare the performance of our \gls{mdev} implementation to ``regular'' \gls{passthrough} (of a local device) as well as bare-metal \gls{dl}.
+        %
+        We prove that although the use of an \gls{iommu} comes with an unavoidable performance penalty, our \gls{mdev} implementation does not add any performance overhead compared to bare-metal performance (with the \gls{iommu} enabled).
         %
         Additional \gls{p2p} experiments using \gls{mdev} are also presented in \paperref{cc:eval-mdev-p2p}.
         
@@ -745,24 +748,26 @@ An evaluation of SmartIO in the form of a comprehensive collection of performanc
         %
         We show how 30~cluster~nodes can share a single-function \gls{nvme} simultaneously, how data stored on the \gls{nvme} can be \lgls{multicasting}{multicasted} and replicated across 60~nodes in a single operation, as well as interoperability with both local and remote \glspl{gpu}.
         %
-        A comparison of our proof-of-concept \gls{nvme} driver and a state of the art \gls{nvmeof} solution is presented in \paperref{tocs:eval-nvmeof}.
+        A comparison of our proof-of-concept \gls{nvme} driver and a state of the art \gls{nvmeof} solution is presented in \paperref{tocs:eval-nvmeof}, showing that our \gls{nvme} driver outperforms \gls{rdma}.
+
+
+    \item A complete performance evaluation of SmartIO in its entirety is presented in \paperref{tocs:eval}. 
+        %
+        Here, all parts of the implementation is evaluated from multiple angles, including exhaustive tests of the three sharing methods.
+        %
+        Through exhaustive comparison testing, we prove that our SmartIO sharing methods \textbf{do not add any performance overhead} compared to using local resources.
+        %
+        In addition, we show that our SmartIO framework is not limited to a specific Linux version or any specific device, but works for a wide variety of different software versions and devices, by including tests for different Linux distributions, using several benchmarking tools and different kinds of workloads (both synthetic and realistic), and by using different types of \gls{pcie} devices.
+
 \end{itemize}
-%
-A complete performance evaluation of SmartIO in its entirety is presented in \paperref{tocs:eval}. 
-%
-Here, all parts of the implementation is evaluated from multiple angles, as well as the three sharing methods.
-%
-This evaluation also uses a wide variety of different Linux distributions, benchmarking software, and different \gls{pcie} devices, in order to demonstrate that our SmartIO framework is not limited to a specific Linux version or any specific device, but works for a wide variety of different software versions and devices.
-%
-We prove that, when conditions are similar, our SmartIO sharing methods \textbf{do not add any performance overhead} compared to using local resources.
 
 
 
-In this section, we present shortened versions of three selected performance tests from this evaluation.
+In this section, we present shortened versions of three selected performance tests from \cref{tocs}.
 %
 The first two tests, presented in \cref{sec:eval-lat,sec:eval-bw} respectively, are comparison tests.
 %
-To prove that our SmartIO framework is able to facilitate the use of remote \gls{pcie} devices with the same performance as if these devices were locally installed, we compare the performance of an \gls{io}-heavy workload running on a local system using a local device, to the same workload running on a remote machine using the same device borrowed through \gls{dl}.
+They prove that our SmartIO framework is able to facilitate the use of remote \gls{pcie} devices with the same performance as if these devices were locally installed, by comparing the performance of an \gls{io}-heavy workload running on a local system using a local device, to the same workload running on a remote machine using the same device borrowed through \gls{dl}.
 %
 The third test, presented in \cref{sec:eval-nvme}, demonstrates memory optimization capabilities of our proof-of-concept \gls{nvme} driver.
 %
@@ -781,7 +786,7 @@ By using an expansion chassis, there are the same number of \gls{pcie} switch ch
 %
 Moreover, the switch chips are the same  Broadcom~PEX8733~\cite{pex8733} chips used in the implementation of the Dolphin \gls{ntb} adapter cards.
 %
-Standard and unmodified benchmarking software are used for our tests.
+Standard and unmodified benchmarking software are used for all three tests.
 
 
 \subsection{Device Lending: latency comparison}\label{sec:eval-lat}
@@ -822,7 +827,7 @@ We have used the \gls{fio}~\cite{url:fio} to create a synthetic storage workload
 %
 \Gls{fio} is a widely used \gls{userspace} application for benchmarking the performance of storage devices, such as \glspl{nvme}.
 %
-However, as the purpose of the test is \emph{not} to benchmark the \gls{nvme} itself, but rather any potential overhead of our \gls{dl} sharing method, we used a prototype \gls{ram} disk with an \gls{nvme} controller from PMC-Sierra.
+However, as the purpose of the test is \emph{not} to benchmark the \gls{nvme} itself, but rather any potential overhead of our \gls{dl} sharing method, we used a prototype \gls{ram} disk with an \gls{nvme} controller from Microsemi.
 %
 This is to avoid any effects caused by prefetching and caching, that modern \glspl{ssd} are capable of.
 
