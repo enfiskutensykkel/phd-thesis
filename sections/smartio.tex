@@ -962,22 +962,69 @@ The achieved throughput for \gls{dma} writes to system memory is almost identica
 This experiment is described in further detail in \paperref{tocs:eval-lending-bw}.
 
 
+
 \subsection{Proof-of-concept NVMe driver: SQ experiment}\label{sec:eval-nvme}
+Our \gls{dl} and \gls{mdev} sharing methods make it possible for remote devices anywhere in the cluster network to be operated by native device drivers.
+%
+However, as most device drivers are written in a way that assumes exclusive control of a device, devices shared with these methods may generally only be used by a single \gls{borrower} at the time.
+%
+Although \gls{dl} and \gls{mdev} provide a transparent mechanism for using remote devices, they do not fully \gls{disaggregate} devices on their own.
+
+
+
+At the other extreme is the \gls{sisciapi} for writing distributed applications and implementing shared-memory communication.
+%
+Application memory can be exported as \glspl{sharedsegment}.
+%
+Similarly, remote \glspl{memorysegment} can be mapped into the local application process' virtual address space.
+%
+However, workloads that require \gls{io}, for example accessing data on a storage device or offloading computation onto a \gls{gpu}, must interact with a device driver.
+%
+If the driver is running on a different machine, then the application must synchronize with this machine in some way.
+%
+Additionally, \gls{dma} buffers are allocated at the discretion of the device driver, and are outside our control.
+%
+Data can potentially be copied by the device driver from application memory to internal \gls{dma} buffers, which results in poor performance if the data resides in a remote \gls{segment}.
+
+
+
+Our \gls{exttosisciapi} solves these issues by being the ``best of both worlds''.
+%
+The \lgls{apiext}{extension} makes it possible for a device driver implementation to use all the shared-memory functionality provided by the \gls{sisciapi}, while at the same time making device \gls{io} seamless to the application.
+%
+The implementation can remain agnostic about the underlying \gls{pcie} network topology by relying on SmartIO to abstract away resource locations and resolve addresses between different address spaces.
+%
+Using our \gls{apiext}, devices may \gls{dma} directly to \glspl{sharedsegment}, regardless of whether they are local or reside in remote machines.
+%
+It is even possible to exploit \gls{pcie} capabilities, such as using \gls{multicasting} to efficiently replicate data across several machines or \gls{disaggregate} device memory, should the workload require such capabilities.
+
+
+
+To demonstrate some of these capabilities, we have designed an experiment for our proof-of-concept \gls{nvme} driver.
+%
+In \paperref{tocs:eval-lending-path}, we show that particularly \gls{dma} reads are affected by long \gls{pcie} paths.
+%
+It is preferable to move data around in the cluster by using a ``push'' strategy instead, in order to avoid reading over long distances in the \gls{pcie} network.
+%
+As described in \cref{sec:nvme-driver}, our \gls{nvme} driver implementation relies on access pattern hints
+
+
 \begin{figure}
     \centering
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=.99\textwidth]{sq-experiments}
-        \caption{test}
+        \caption{The three scenarios for our \gls{sq} placement experiment. The \gls{gpu} in the lender is borrowed using \gls{dl} (and operated by the native \gls{gpu} driver), while the \gls{nvme} is operated using our \gls{nvme} driver. We move the \gls{sq} closer to the \gls{nvme} to reduce the distance of \gls{dma} reads for the \gls{nvme}. Also note that in all three scenarios, data is loaded from storage into memory of the local \gls{gpu} on the borrower.}
     \end{subfigure}
     \par\vspace{5mm}
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=.99\textwidth]{nvme-sq}
-        \caption{test}
+        \caption{Latency distribution for reads from storage as a histogram (left) and as a boxplot (right). The median for all three scenarios are marked with horizontal lines. The closer the \gls{sq} is to the \gls{nvme}, the lower the latency is.}
     \end{subfigure}
-    \caption{test}
-
+    \caption
+    [The latency of \glsfmtshort{io} operations is reduced by reducing the distance the \glsfmtshort{nvme} has to read in order to fetch \glsfmtshort{io} commands]
+    {The latency of \glsxtrshort{io} operations is reduced by reducing the distance the \glsxtrshort{nvme} has to read in order to fetch \glsxtrshort{io} commands.}
 \end{figure}
 
 
