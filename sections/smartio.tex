@@ -677,7 +677,7 @@ Our \gls{nvme} driver demonstrates some of the possibilities created by the \gls
     \item[Initiating \gls{io} directly from the \gls{gpu}] (\cref{fig:nvme-gpu-offloading}):
 \begin{figure}
     \centering
-    \includegraphics{nvme-gpu-offloading}
+    \includegraphics[width=.99\textwidth]{nvme-gpu-offloading}
     \caption
     [Our \glsfmtshort{nvme} driver can run on a \glsfmtshort{gpu} independently of the \glsfmtshort{cpu}]
     {Our \gls{nvme} driver can also run on a \gls{gpu}. \Gls{gpu} threads can submit \gls{io} commands and wait for completions independent of the \gls{cpu}.}
@@ -965,8 +965,19 @@ This experiment is described in further detail in \paperref{tocs:eval-lending-bw
 \subsection{Proof-of-concept NVMe driver: SQ experiment}\label{sec:eval-nvme}
 \begin{figure}
     \centering
-    \includegraphics[width=.99\textwidth]{nvme-sq}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=.99\textwidth]{sq-experiments}
+        \caption{test}
+    \end{subfigure}
+    \par\vspace{5mm}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=.99\textwidth]{nvme-sq}
+        \caption{test}
+    \end{subfigure}
     \caption{test}
+
 \end{figure}
 
 

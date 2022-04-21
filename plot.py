@@ -183,14 +183,14 @@ def plot_histograms(ax, datasets, groups, labels, range, bins=1000, orientation=
             draw_line(ax, median, group.linestyle, orientation == "vertical")
 
 
-def plot_boxes(ax, datasets, groups, labels, show_median=False):
+def plot_boxes(ax, datasets, groups, labels, show_median=False, show_outliers=False):
     if show_median:
         for idx, group in enumerate(groups):
             dataset = datasets[idx]
             median = np.median(dataset)
             draw_line(ax, median, group.linestyle, False)
 
-    boxplot = ax.boxplot(datasets, showfliers=False, labels=labels, notch=False, patch_artist=True, zorder=1000)
+    boxplot = ax.boxplot(datasets, showfliers=show_outliers, labels=labels, notch=False, patch_artist=True, zorder=1000)
 
     for idx, box in enumerate(boxplot['boxes']):
         group = groups[idx]
@@ -375,9 +375,10 @@ def smartio_driver_sq_figure():
     local = parse_latency_bench('results/nvme-sq/ssd-queue=local-gpu=local.txt')
     remote = parse_latency_bench('results/nvme-sq/ssd-queue=remote-gpu=local.txt')
     gpu = parse_latency_bench('results/nvme-sq/ssd-queue=c0e00-gpu=local.txt')
+    #altgpu = parse_latency_bench('results/nvme-sq/ssd-queue=80e00-gpu=local.txt')
 
     grouping = [groups['local-alt'], groups['remote-alt'], groups['gpu']]
-    labels = ["Local RAM", "Remote RAM", "Remote GPU"]
+    labels = ["Borrower RAM", "Lender RAM", "Borrowed GPU"]
     datasets = [local, remote, gpu]
 
     fig = plt.figure(figsize=(maxwidth, pt2in(200)))
@@ -401,7 +402,8 @@ def smartio_driver_sq_figure():
     plot_boxes(box, datasets[::-1], grouping[::-1], [l.replace(" ", "\n") for l in labels[::-1]], show_median=True)
 
     for tick in box.xaxis.get_major_ticks():
-        tick.label.set_weight('bold')
+        #tick.label.set_weight('bold')
+        tick.label.set_weight('normal')
 
     fig.tight_layout()
     fig.subplots_adjust(wspace=0.05)
@@ -451,7 +453,8 @@ def lending_gpu():
     save_figure("lending-gpu")
 
 
-lending_nvme()
+
+#lending_nvme()
 smartio_driver_sq_figure()
-lending_gpu()
+#lending_gpu()
 plt.show()
