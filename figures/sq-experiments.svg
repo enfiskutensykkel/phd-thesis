@@ -26,7 +26,7 @@
      showgrid="true"
      inkscape:zoom="2.828427"
      inkscape:cx="189.32785"
-     inkscape:cy="161.22035"
+     inkscape:cy="189.50463"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
@@ -544,10 +544,10 @@
        id="text4088"><tspan
          x="66.647095"
          y="-4.7077231"
-         id="tspan310143"><tspan
+         id="tspan317737"><tspan
            dx="0 1.4521099 1.2950133 0.83302546 0.82372332 1.2950134 1.731163 1.3022485"
            style="font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
-           id="tspan310141">Borrower</tspan></tspan></text>
+           id="tspan317735">Borrower</tspan></tspan></text>
     <rect
        style="display:inline;fill:#f9f9f9;fill-opacity:1;stroke:#333333;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect67149"
@@ -1960,7 +1960,7 @@
          id="tspan45585"
          x="21.292757"
          y="70.372963"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229392px">Lender</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229392px">Lender (Remote)</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:3.52778px;line-height:125%;font-family:teletype;-inkscape-font-specification:teletype;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;display:inline;fill:#ff8737;fill-opacity:1;stroke:#000000;stroke-width:0.15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -2030,7 +2030,7 @@
          id="tspan23360"
          x="104.85346"
          y="49.059898"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229;stroke-miterlimit:4;stroke-dasharray:none">Borrower</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke-width:0.229;stroke-miterlimit:4;stroke-dasharray:none">Borrower (Local)</tspan></text>
     <g
        id="g3382"
        transform="matrix(-1,0,0,1,202.39458,-17.197917)"
