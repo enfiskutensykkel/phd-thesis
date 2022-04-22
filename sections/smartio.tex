@@ -984,7 +984,6 @@ This can result in poor performance, particularly if the data resides in a remot
 
 
 
-
 Our \gls{exttosisciapi} attempts to solve this issue by combining the ``best of both worlds''.
 %
 Using the \gls{sisciapi}, application memory can be exported as \glspl{sharedsegment}, and \glspl{segment} in remote machines can be mapped into a local application process' virtual address space.
@@ -1024,25 +1023,71 @@ To demonstrate how these capabilities can be used to optimize data flow in the c
 %
 our \gls{nvme} driver is being ran locally on the borrower machine, operating a remote Intel Optane P4800X DC \gls{nvme}.
 %
-It is reading data from storage directly into a memory buffer on the local Nvidia P600 \gls{gpu}, using a random read access pattern and a block size of 4~kB. 
+It is reading data from storage directly into a memory buffer on the local Nvidia P600 \gls{gpu}.
 %
 The local P600 \gls{gpu} is managed by the native \gls{cuda} driver (\gls{cuda} version~10.2 with the included driver).
 %
-The \gls{nvme} driver is configured to use a single \gls{cq} (allocated in local \gls{ram} on the borrower), and a single \gls{sq} (of queue depth~1) that is allocated in different memory locations for the following three scenarios:
+The \gls{nvme} driver is configured to use a single \gls{cq}, which allocated in local \gls{ram} on the borrower.
+
+
+
+As depicted in \cref{fig:eval-nvme-topo}, a corresponding \gls{sq} is allocated in different memory locations, depending on the experiment scenario:
+%
 \begin{description}
     \item[Borrower~\gls{ram}]
+        %
+        The \gls{sq} is allocated in local memory on the same machine where the driver is running (the \gls{borrower}).
+        %
+        In order to fetch commands, the \gls{nvme} has to read across the internal switch chip in the expansion chassis, the lender's \gls{ntb} adapter, the cluster switch, and the borrower's \gls{ntb} adapter (4~``hops'').
+
     \item[Lender~\gls{ram}]
+        %
+        By using access pattern hinting indicating that the \gls{nvme} will read from queue memory and the borrower's \gls{cpu} will only write to the same memory, SmartIO allocates memory for the \gls{sq} in \gls{lender}'s \gls{ram}.
+        %
+        The \gls{nvme} has to read across the internal switch chip in the expansion chassis, and both the downstream and upstream switches in order to fetch commands (3~``hops'').
+
+
     \item[Borrowed~\gls{gpu}]
+        %
+        The Nvidia P4000 \gls{gpu} is borrowed using \gls{dl} (and operated by the native \gls{cuda} driver).
+        %
+        Our \gls{nvme} driver allocates the \gls{sq} in \gls{gpu} memory on the borrowed \gls{gpu}.
+        %
+        This \gls{gpu} is installed alongside the \gls{nvme} in the same expansion chassis, so the \gls{nvme} only has to read through the internal switch chip in order to fetch commands (1~``hop'').
 \end{description}
+%
+For all three scenarios, the experiment workload executes 327,680 \gls{io} operations \gls{nvme}, using a random read access pattern and a block size of 4~kB. 
+%
+The \emph{command completion latency} for each operation is measured, and we used a queue depth of just 1~entry in order to avoid aggregated measurements.
+%
+We define this command completion latency as the time elapsed between the driver writing a command to \gls{sq} memory (followed by a write to the \gls{sq} \gls{db}) and until the corresponding completion entry shows up in \gls{cq} memory.
+%
+Note that the timer is started \emph{before} writing the command to (remote) memory, so the recorded latency value includes this delay.
+%
+As mentioned previously, the actual data payload is written directly into \gls{gpu} memory on the local P600 \gls{gpu}.
+%
+Both the \gls{lender} and the \gls{borrower} are running Ubuntu~18.04.4 with the 4.15 version of the Linux kernel.
+%
+The \gls{iommu} is enabled on the \gls{borrower}, while it is disabled on the \gls{lender}.
 
 
-
-% repeated three times for the following three scenarios
-
-%We configured the workload to do 327,680 read operations per run.
-%327,680 read operations
-% both hosts  running ubuntu, iommu
-
+\Cref{fig:eval-nvme-results} depicts the distributions of recorded latency values of all read operations, for all three scenarios.
+%
+The same datasets are show as a histogram (on the left) and as a boxplot (on the right).
+%
+Note that we have adjusted the Y-axis, so suspected outlier measurements are not shown.
+%
+The results demonstrate that by moving \gls{sq} memory closer to the \gls{nvme} reduces the \gls{io} latency.
+%
+This is because the distance the \gls{nvme} has to read across shrinks.
+%
+Even though the driver has to write to remote memory, this still has a performance benefit.
+%
+We argue that this proves that, while there is an associated development cost of implementing device drivers using the SmartIO \gls{apiext}, the reward of is improved performance over using \gls{dl} and native device drivers.
+%
+There is also the added benefit of being able to fully utilize \gls{pcie} shared-memory capabilities, such as streaming data directly into \gls{gpu} memory.
+%
+This experiment is explained in further detail in \paperref{tocs:eval-nvme-sq}.
 
 
 
