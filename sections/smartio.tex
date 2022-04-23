@@ -964,35 +964,21 @@ This experiment is described in further detail in \paperref{tocs:eval-lending-bw
 
 
 \subsection{Proof-of-concept NVMe driver experiment}\label{sec:eval-nvme}
-Our \gls{dl} and \gls{mdev} sharing methods make it possible for remote devices anywhere in the cluster network to be operated by native device drivers.
+Both the \gls{dl} and \gls{mdev} sharing methods make it possible for remote devices anywhere in the cluster network to be operated by native device drivers.
 %
-However, although \gls{dl} and \gls{mdev} both provide a transparent mechanism for using remote devices, it is not possible to \emph{fully} \gls{disaggregate} devices using these sharing methods alone;
+Since most device drivers are written in a way that assumes exclusive control of a device, devices shared with these methods may (in most cases) only be used by a single \gls{borrower} at the time.
 %
-most device drivers are written in a way that assumes exclusive control of a device, so devices shared with these methods may (in most cases) only be used by a single \gls{borrower} at the time.
-
-
-
 For distributed cluster applications, this poses a challenge.
 %
-For example, if the workload needs to access data on a storage device or offload computation onto a \gls{gpu}, the application must interact with the device driver.
+For example, if a workload needs to access data on a storage device or perform computation on a \gls{gpu}, the application process must interact with the device driver.
 %
 If the driver is running on a different machine, the application must synchronize with this machine in some way.
 %
-Furthermore, as \gls{dma} buffers are allocated at the discretion of the device driver, data may be copied by the device driver from application memory to internal \gls{dma} buffers used by the driver, before it can initiate \gls{dma} transfers.
+To further complicate matters, \gls{dma} buffers are allocated at the discretion of a device driver, and how these buffers are used is outside our control.
 %
-This can result in poor performance, particularly if the data resides in a remote \gls{memorysegment}.
-
-
-
-Our \gls{exttosisciapi} attempts to solve this issue by combining the ``best of both worlds''.
+Potentially, a device driver may copy data from application memory to internal \gls{dma} buffers before it initiates \gls{dma} transfers.
 %
-Using the \gls{sisciapi}, application memory can be exported as \glspl{sharedsegment}, and \glspl{segment} in remote machines can be mapped into a local application process' virtual address space.
-%
-By building on these concepts, our \lgls{apiext}{extension} makes it possible for a device driver implementation to use all the memory \gls{disaggregation} capabilities of \gls{sisci}, while also providing functionality for abstracting away the location of memory resources and resolving addresses between different address spaces.
-%
-A device driver implemented using our \gls{apiext} can be agnostic about the underlying \gls{pcie} network topology, as devices may \gls{dma} directly to \glspl{sharedsegment}, regardless of whether they are local or remote.
-%
-It is even possible to map device memory of other devices registered with SmartIO, either borrowed using \gls{dl} or \gls{mdev}, or operated by another driver implemented using the \gls{apiext}.
+This can result in poor performance, particularly in the case where the data resides in a \gls{memorysegment} and may be copied between different memory buffers in different machines.
 
 
 
@@ -1000,95 +986,127 @@ It is even possible to map device memory of other devices registered with SmartI
     \centering
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[width=.99\textwidth]{sq-experiments}
-        \caption{The three scenarios for our \gls{sq} placement experiment. The \gls{gpu} in the lender is borrowed using \gls{dl} (and operated by the native \gls{gpu} driver), while the \gls{nvme} is operated using our \gls{nvme} driver. We move the \gls{sq} closer to the \gls{nvme} to reduce the distance of \gls{dma} reads for the \gls{nvme}. Also note that in all three scenarios, data is loaded from storage into memory of the local \gls{gpu} on the borrower.}
-        \label{fig:eval-nvme-topo}
+        \includegraphics[width=.99\textwidth]{sq-experiments-buffers}
+        \caption%
+        {Our proof-of-concept \glsfmtshort{nvme} driver is running on the borrower's \glsxtrshort{cpu}, operating a remote \glsxtrshort{nvme}. The remote \glsxtrshort{gpu} is borrowed using \gls{dl}, and both \glsxtrshortpl{gpu} are operated using the native \gls{cuda} driver. Data is loaded from storage directly into \glsxtrshort{gpu} memory using a random read access pattern.}
+        \label{fig:eval-nvme-workload}
     \end{subfigure}
-    \par\vspace{5mm}
+    %
+    \par\vspace{10mm}
+    %
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[width=.99\textwidth]{nvme-sq}
-        \caption{Latency distribution for reads from storage as a histogram on the left and as a boxplot on the right. The median for all three scenarios are marked with horizontal lines. The closer the \gls{sq} is to the \gls{nvme}, the lower the latency is.}
-        \label{fig:eval-nvme-results}
+        \includegraphics[width=.99\textwidth]{sq-experiments-queues}
+        \caption%
+        {We measure the latency effect of moving the \gls{sq} closer to the \gls{nvme}. This reduces the distance the \gls{nvme} needs to read across in order to fetch \gls{io} commands.}
+        \label{fig:eval-nvme-scenarios}
     \end{subfigure}
-    \caption
-    [The latency of \glsfmtshort{io} operations is reduced by reducing the distance the \glsfmtshort{nvme} has to read in order to fetch \glsfmtshort{io} commands]
-    {The latency of \glsxtrshort{io} operations is reduced by reducing the distance the \glsxtrshort{nvme} has to read in order to fetch \glsxtrshort{io} commands.}
-    \label{fig:eval-nvme}
+    %
+    \caption[The design of our proof-of-concept \glsfmtshort{nvme} driver experiment]
+    {The design of our proof-of-concept \glsxtrshort{nvme} driver experiment.}
+    \label{fig:eval-nvme-design}
 \end{figure}
-
-
-
-To demonstrate how these capabilities can be used to optimize data flow in the cluster, we have designed the following workload for our proof-of-concept \gls{nvme} driver (illustrated in \cref{fig:eval-nvme-topo}):
 %
-our \gls{nvme} driver is being ran locally on the borrower machine, operating a remote Intel Optane P4800X DC \gls{nvme}.
+It is possible to remedy this problem by using our \gls{exttosisciapi} to develop a device driver as part of the distributed application itself.
 %
-It is reading data from storage directly into a memory buffer on the local Nvidia P600 \gls{gpu}.
+Although developing a new device driver may not necessarily be a viable approach in all circumstances, enabling devices to use native \gls{dma} to (remote) \glspl{memorysegment} may provide performance benefits for cluster applications.
 %
-The local P600 \gls{gpu} is managed by the native \gls{cuda} driver (\gls{cuda} version~10.2 with the included driver).
+To demonstrate this, we have designed an experiment using the following workload (as illustrated in \cref{fig:eval-nvme-design}):
 %
-The \gls{nvme} driver is configured to use a single \gls{cq}, which allocated in local \gls{ram} on the borrower.
-
-
-
-As depicted in \cref{fig:eval-nvme-topo}, a corresponding \gls{sq} is allocated in different memory locations, depending on the experiment scenario:
-%
-\begin{description}
-    \item[Borrower~\gls{ram}]
+\begin{itemize}
+    \item 
         %
-        The \gls{sq} is allocated in local memory on the same machine where the driver is running (the \gls{borrower}).
+        An application process is running on the \gls{borrowermachine}, using both the local Nvidia~P600 \gls{gpu} and the remote Nvidia~P4000 \gls{gpu}, as well as a remote Intel~Optane~P4800X~DC \gls{nvme}.
         %
-        In order to fetch commands, the \gls{nvme} has to read across the internal switch chip in the expansion chassis, the lender's \gls{ntb} adapter, the cluster switch, and the borrower's \gls{ntb} adapter (4~``hops'').
-
-    \item[Lender~\gls{ram}]
+        The remote \gls{gpu} is borrowed using \gls{dl}, while the remote \gls{nvme} is operated by our proof-of-concept \gls{nvme} driver, and is implemented as part of the \gls{userspace} application process.
         %
-        By using access pattern hinting indicating that the \gls{nvme} will read from queue memory and the borrower's \gls{cpu} will only write to the same memory, SmartIO allocates memory for the \gls{sq} in \gls{lender}'s \gls{ram}.
-        %
-        The \gls{nvme} has to read across the internal switch chip in the expansion chassis, and both the downstream and upstream switches in order to fetch commands (3~``hops'').
+        The two \glspl{gpu} are managed by the native \gls{gpu} drivers (\gls{cuda} version~10.2).
 
 
-    \item[Borrowed~\gls{gpu}]
+    \item 
+        The purpose of the experiment is to measure how moving the \gls{sq} closer to the \gls{nvme} affects the latency of \gls{io} operations (as depicted in \cref{fig:eval-nvme-scenarios}).
         %
-        The Nvidia P4000 \gls{gpu} is borrowed using \gls{dl} (and operated by the native \gls{cuda} driver).
+        As such, we allocate a single \gls{cq} in local \gls{segment} in the \gls{borrower}'s \gls{ram}.
         %
-        Our \gls{nvme} driver allocates the \gls{sq} in \gls{gpu} memory on the borrowed \gls{gpu}.
+        Depending on the scenario, a corresponding \gls{sq} is also allocated in one of the following memory locations:
         %
-        This \gls{gpu} is installed alongside the \gls{nvme} in the same expansion chassis, so the \gls{nvme} only has to read through the internal switch chip in order to fetch commands (1~``hop'').
-\end{description}
-%
-For all three scenarios, the experiment workload executes 327,680 \gls{io} operations \gls{nvme}, using a random read access pattern and a block size of 4~kB. 
-%
-The \emph{command completion latency} for each operation is measured, and we used a queue depth of just 1~entry in order to avoid aggregated measurements.
-%
-We define this command completion latency as the time elapsed between the driver writing a command to \gls{sq} memory (followed by a write to the \gls{sq} \gls{db}) and until the corresponding completion entry shows up in \gls{cq} memory.
-%
-Note that the timer is started \emph{before} writing the command to (remote) memory, so the recorded latency value includes this delay.
-%
-As mentioned previously, the actual data payload is written directly into \gls{gpu} memory on the local P600 \gls{gpu}.
+        \begin{description}
+            \item[Borrower~\gls{ram}] the \gls{sq} is allocated in local \gls{memorysegment} on the same machine where our application process is running.
+            \item[Lender~\gls{ram}] the \gls{sq} is allocated in \gls{lender}'s \gls{ram}, by allowing SmartIO to choose based on access pattern hinting.
+            \item[Borrowed~\gls{gpu}] the \gls{sq} is allocated in memory on the borrowed \gls{gpu}.
+        \end{description}
+        %
+
+    \item 
+        %
+        As illustrated in \cref{fig:eval-nvme-workload}, the application process allocates a memory buffer on both \glspl{gpu}, which are exported as \glspl{sharedsegment} by our \gls{sisciapiext} and mapped for the \gls{nvme}.
+        %
+        Using the \gls{sq}, the application loads data from storage on the \gls{nvme} directly into the memory buffers on the \glspl{gpu} by issuing read commands.
+        %
+        Since the purpose is to measure the latency of individual \gls{io} operations, data is loaded into \gls{gpu} memory using a random read access pattern and a block size of 4~kB.
+        %
+        First we read data into memory of the borrowed \gls{gpu}.
+        %
+        Then this process is repeated for the local \gls{gpu}.
+        %
+        For each \gls{gpu}, we performed 327,680 reads (655,360 in total).
+        %
+        Note that since we are performing read operations,~i.e., loading data from storage, the data destination does not affect latency.
+        %
+        However, both \glspl{gpu} are included as destinations in our experiment, for the purpose of showcasing the capabilities of SmartIO.
+
+    \item 
+        %
+        The \emph{command completion latency} for each read operation is measured, and the \gls{sq} is configured to have a queue depth of just a single entry, in order to avoid aggregated measurements.
+        %
+        We define the command completion latency as the time elapsed from writing a command to \gls{sq} memory (followed by a write to the \gls{sq} \gls{db}) until the corresponding completion entry shows up in \gls{cq} memory.
+        %
+        Note that the timer is started \emph{before} writing the command to (remote) memory, so the recorded latency value also reflects the delay of writing to a remote memory location.
+        %
+\end{itemize}
 %
 Both the \gls{lender} and the \gls{borrower} are running Ubuntu~18.04.4 with the 4.15 version of the Linux kernel.
 %
 The \gls{iommu} is enabled on the \gls{borrower}, while it is disabled on the \gls{lender}.
 
 
-\Cref{fig:eval-nvme-results} depicts the distributions of recorded latency values of all read operations, for all three scenarios.
+\begin{figure}
+    \centering
+    \includegraphics[width=.99\textwidth]{nvme-sq}
+    \caption{Distribution of recorded command completion latencies as a histogram (left) and as a boxplot (right). The closer the \glsfmtshort{sq} is to the \glsfmtshort{nvme}, the lower the latency is.}
+    \label{fig:eval-nvme-results}
+\end{figure}
+%
+\Cref{fig:eval-nvme-results} depicts the distributions of recorded latency values for \gls{io} read operations, for all three scenarios.
 %
 The same datasets are show as a histogram (on the left) and as a boxplot (on the right).
 %
 Note that we have adjusted the Y-axis, so suspected outlier measurements are not shown.
 %
-The results demonstrate that by moving \gls{sq} memory closer to the \gls{nvme} reduces the \gls{io} latency.
+Also note that the median for all three scenarios are marked with horizontal lines.
 %
-This is because the distance the \gls{nvme} has to read across shrinks.
+The results demonstrate that by moving \gls{sq} memory closer to the \gls{nvme} reduces the latency, because the distance the \gls{nvme} has read across shrinks:
 %
-Even though the driver has to write to remote memory, this still has a performance benefit.
-%
-We argue that this proves that, while there is an associated development cost of implementing device drivers using the SmartIO \gls{apiext}, the reward of is improved performance over using \gls{dl} and native device drivers.
-%
-There is also the added benefit of being able to fully utilize \gls{pcie} shared-memory capabilities, such as streaming data directly into \gls{gpu} memory.
-%
-This experiment is explained in further detail in \paperref{tocs:eval-nvme-sq}.
+\begin{itemize}
+    \item For the \textbf{Borrower~\gls{ram}} scenario, the \gls{nvme} has to read across the internal switch chip in the expansion chassis, the lender's \gls{ntb} adapter, the cluster switch, and the borrower's \gls{ntb} adapter (4~``hops'').
+        %
+    \item In the \textbf{Lender~\gls{ram}} scenario, the \gls{nvme} reads across the internal switch chip, and both the downstream and upstream transparent switches, in order to fetch commands (3~``hops'').
+        %
+    \item By using the \gls{gpu} installed alongside the \gls{nvme} in the same expansion chassis in the \textbf{Borrwed~\gls{gpu}} scenario, the \gls{nvme} only has to read through the internal switch chip in order to fetch commands (1~``hop'').
+\end{itemize}
 
+
+
+
+While there is an associated development cost of implementing device drivers using the SmartIO \gls{apiext}, we argue that this experiment proves that there is a clear reward in the improved performance over using native device drivers.
+%
+There is also the added benefit of being able to fully utilize \gls{pcie} shared-memory capabilities, like streaming data directly into \gls{gpu} memory as shown in this experiment.
+%
+Furthermore, by integrating driver operation with the \gls{sisciapi}, additional capabilities also become available, such using \gls{pcie} \gls{multicasting} to replicate data across several cluster machines in a single operation.
+
+
+
+A similar experiment is presented in \paperref{tocs:eval-nvme-sq}.
 
 
 
@@ -1308,3 +1326,12 @@ our solution makes it possible to share devices to remote machines (both bare-me
 Through the SmartIO abstraction layer, the hard distinction between local and remote is blurred out, making it easier to scale out and use remote resources.
 %
 Using SmartIO, it is even possible to combine sharing capabilities with shared-memory functionality, allowing devices to become part of the same global address space as distributed, shared-memory applications.
+
+
+
+%Using the \gls{sisciapi}, application memory can be exported as \glspl{sharedsegment}, and \glspl{segment} in remote machines can be mapped into a local application process' virtual address space.
+%By building on these concepts, our \lgls{apiext}{extension} makes it possible for a device driver implementation to use all the memory \gls{disaggregation} capabilities of \gls{sisci}, while also providing functionality for abstracting away the location of memory resources and resolving addresses between different address spaces.
+%
+%A device driver implemented using our \gls{apiext} can be agnostic about the underlying \gls{pcie} network topology, as devices may \gls{dma} directly to \glspl{sharedsegment}, regardless of whether they are local or remote.
+%
+%It is even possible to map device memory of other devices registered with SmartIO, for example devices borrowed using \gls{dl}.

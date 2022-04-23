@@ -372,10 +372,17 @@ def lending_nvme():
 
 
 def smartio_driver_sq_figure():
-    local = parse_latency_bench('results/nvme-sq/ssd-queue=local-gpu=local.txt')
-    remote = parse_latency_bench('results/nvme-sq/ssd-queue=remote-gpu=local.txt')
-    gpu = parse_latency_bench('results/nvme-sq/ssd-queue=c0e00-gpu=local.txt')
-    #altgpu = parse_latency_bench('results/nvme-sq/ssd-queue=80e00-gpu=local.txt')
+    local = []
+    remote = []
+    gpu = []
+    for buffer_gpu in "local", "peer":
+        local.append(parse_latency_bench(f'results/nvme-sq/ssd-queue=local-gpu={buffer_gpu}.txt'))
+        remote.append(parse_latency_bench(f'results/nvme-sq/ssd-queue=remote-gpu={buffer_gpu}.txt'))
+        gpu.append(parse_latency_bench(f'results/nvme-sq/ssd-queue=c0e00-gpu={buffer_gpu}.txt'))
+
+    local = np.concatenate(local)
+    remote = np.concatenate(remote)
+    gpu = np.concatenate(gpu)
 
     grouping = [groups['local-alt'], groups['remote-alt'], groups['gpu']]
     labels = ["Borrower RAM", "Lender RAM", "Borrowed GPU"]
