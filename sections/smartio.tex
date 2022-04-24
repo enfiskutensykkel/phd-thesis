@@ -1006,7 +1006,11 @@ This can result in poor performance, particularly in the case where the data res
     {The design of our proof-of-concept \glsxtrshort{nvme} driver experiment.}
     \label{fig:eval-nvme-design}
 \end{figure}
-%
+
+
+
+
+
 It is possible to remedy this problem by using our \gls{exttosisciapi} to develop a device driver as part of the distributed application itself.
 %
 Although developing a new device driver may not necessarily be a viable approach in all circumstances, enabling devices to use native \gls{dma} to (remote) \glspl{memorysegment} may provide performance benefits for cluster applications.
@@ -1037,6 +1041,7 @@ To demonstrate this, we have designed the following experiment (as illustrated i
             \item[Borrowed~GPU] the \gls{sq} is allocated in memory on the borrowed \gls{gpu}.
         \end{description}
         %
+        For more context on why \gls{dma} reads are affected by longer distances, please refer to \paperref{tocs:eval-lending-path}.
 
     \item 
         %
@@ -1054,7 +1059,7 @@ To demonstrate this, we have designed the following experiment (as illustrated i
         %
         Note that since we are performing read operations,~i.e., loading data from storage, the data destination does not affect latency.
         %
-        However, both \glspl{gpu} are included as destinations in our experiment, for the purpose of showcasing the capabilities of SmartIO.
+        However, both \glspl{gpu} are included as destinations in our experiment, for the purpose of showcasing the capabilities of SmartIO.\footnote{A similar experiment is also presented in \paperref{tocs:eval-nvme-sq}, but here only the local \gls{gpu} is used as a data destination.}
 
     \item 
         %
@@ -1071,48 +1076,55 @@ Both the \gls{lender} and the \gls{borrower} are running Ubuntu~18.04.4 with the
 The \gls{iommu} is enabled on the \gls{borrower}, while it is disabled on the \gls{lender}.
 
 
-\begin{figure}
+\begin{figure}[!h]
     \centering
     \includegraphics[width=.99\textwidth]{nvme-sq}
     \caption{Distribution of recorded command completion latencies as a histogram (left) and as a boxplot (right). The closer the \glsfmtshort{sq} is to the \glsfmtshort{nvme}, the lower the latency is.}
     \label{fig:eval-nvme-results}
 \end{figure}
-%
+
+
+
 \Cref{fig:eval-nvme-results} depicts the distributions of recorded latency values for \gls{io} read operations, for all three scenarios.
 %
-The same datasets are show as a histogram (on the left) and as a boxplot (on the right).
+The same datasets are show as a histogram and as a boxplot.
 %
 Note that we have adjusted the Y-axis, so suspected outlier measurements are not shown.
 %
-Also note that the median for all three scenarios are marked with horizontal lines.
+The median for all three scenarios are marked with horizontal lines.
 %
-The results demonstrate that by moving \gls{sq} memory closer to the \gls{nvme} reduces the latency, because the distance the \gls{nvme} has read across shrinks (see \cref{fig:eval-nvme-scenarios} for reference):
+Our results demonstrate that moving \gls{sq} memory closer to the \gls{nvme} reduces the latency, as the distance the \gls{nvme} has read across shrinks (see \cref{fig:eval-nvme-scenarios} for reference):
 %
 \begin{description}
     \item[Borrower~RAM]
         %
         The \gls{nvme} has to read across the internal switch chip in the expansion chassis, the lender's \gls{ntb} adapter, the cluster switch, and the borrower's \gls{ntb} adapter (4~``hops'').
         %
+        The measurements for this scenario has the highest command completion latency values.
+        
+
     \item[Lender~RAM] 
         %
         The \gls{nvme} reads across the internal switch chip, and both the downstream and upstream transparent switches, in order to fetch commands (3~``hops'').
         %
+        It is interesting to note that even though the borrower has to write the longest distance in order to submit \gls{io} commands (6~``hops''), this scenario still has a performance benefit because the distance for the \gls{nvme} is reduced.
+
     \item[Borrowed~GPU]
         %
         By using the \gls{gpu} installed alongside the \gls{nvme} in the same expansion chassis, the \gls{nvme} only has to read through the internal switch chip in order to fetch commands (1~``hop'').
+        %
+        Although \gls{gpu} memory has different latency characteristics than \gls{ram}, our measurements show that this scenario has the lowest command completion latency values.
 \end{description}
-%
-This experiment is also presented in \paperref{tocs:eval-nvme-sq}, showing the same performance benefit of moving the \gls{sq} closer to the \gls{nvme}.
-%
-For more context on why \gls{dma} reads are affected by longer distances, please refer to \paperref{tocs:eval-lending-path}.
 
 
 
-While there is an associated development cost of implementing device drivers using the SmartIO \gls{apiext}, we argue that this experiment proves that there is a clear reward in the improved performance over using native device drivers.
+Our performance results show that while there is an associated development cost of implementing device drivers using the SmartIO \gls{apiext} (and building them into the application), there is a performance advantage compared to using \gls{dl} and native device drivers.
 %
-There is also the added benefit of being able to fully utilize \gls{pcie} shared-memory capabilities, like streaming data directly into \gls{gpu} memory as shown in this experiment.
+Our SmartIO \gls{apiext} makes it possible to optimize data flow through the cluster network, for example by streaming data directly into \gls{gpu} memory as shown in this experiment.
 %
-Furthermore, by integrating driver operation with the \gls{sisciapi}, additional capabilities also become available, such using \gls{pcie} \gls{multicasting} to replicate data across several cluster machines in a single operation.
+By integrating driver operation with the \gls{sisciapi}, additional functionality also become possible, like using \gls{pcie} \gls{multicasting} to replicate data across several cluster machines in a single operation.
+%
+Replicating \gls{nvme} data across 60~machines using \gls{multicasting} is demonstrated in \paperref{tocs:eval-nvme-sharing}.
 
 
 
