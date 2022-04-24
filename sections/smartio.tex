@@ -926,7 +926,7 @@ This would reveal any overhead caused by our \gls{dl} implementation that is onl
         %
         The \gls{iommu} is enabled.
 
-    \item[\gls{dl}]: (shown in \cref{fig:eval-lending-gpu-remote}): 
+    \item[\gls{dl}] (shown in \cref{fig:eval-lending-gpu-remote}): 
         %
         Two machines connected back-to-back using Dolphin~PXH830 \gls{ntb} adapter cards.
         %
@@ -1036,9 +1036,9 @@ To demonstrate this, we have designed the following experiment (as illustrated i
         Depending on the scenario, a corresponding \gls{sq} is also allocated in one of the following memory locations:
         %
         \begin{description}
-            \item[Borrower~RAM] the \gls{sq} is allocated in local \gls{memorysegment} on the same machine where our application process is running.
-            \item[Lender~RAM] the \gls{sq} is allocated in \gls{lender}'s \gls{ram}, by allowing SmartIO to choose based on access pattern hinting.
-            \item[Borrowed~GPU] the \gls{sq} is allocated in memory on the borrowed \gls{gpu}.
+            \item[Borrower~RAM:] the \gls{sq} is allocated in local \gls{memorysegment} on the same machine where our application process is running.
+            \item[Lender~RAM:] the \gls{sq} is allocated in \gls{lender}'s \gls{ram}, by allowing SmartIO to choose based on access pattern hinting.
+            \item[Borrowed~GPU:] the \gls{sq} is allocated in memory on the borrowed \gls{gpu}.
         \end{description}
         %
         For more context on why \gls{dma} reads are affected by longer distances, please refer to \paperref{tocs:eval-lending-path}.
@@ -1096,20 +1096,20 @@ The median for all three scenarios are marked with horizontal lines.
 Our results demonstrate that moving \gls{sq} memory closer to the \gls{nvme} reduces the latency, as the distance the \gls{nvme} has read across shrinks (see \cref{fig:eval-nvme-scenarios} for reference):
 %
 \begin{description}
-    \item[Borrower~RAM]
+    \item[Borrower~RAM:]
         %
         The \gls{nvme} has to read across the internal switch chip in the expansion chassis, the lender's \gls{ntb} adapter, the cluster switch, and the borrower's \gls{ntb} adapter (4~``hops'').
         %
         The measurements for this scenario has the highest command completion latency values.
         
 
-    \item[Lender~RAM] 
+    \item[Lender~RAM:] 
         %
         The \gls{nvme} reads across the internal switch chip, and both the downstream and upstream transparent switches, in order to fetch commands (3~``hops'').
         %
         It is interesting to note that even though the borrower has to write the longest distance in order to submit \gls{io} commands (6~``hops''), this scenario still has a performance benefit because the distance for the \gls{nvme} is reduced.
 
-    \item[Borrowed~GPU]
+    \item[Borrowed~GPU:]
         %
         By using the \gls{gpu} installed alongside the \gls{nvme} in the same expansion chassis, the \gls{nvme} only has to read through the internal switch chip in order to fetch commands (1~``hop'').
         %
