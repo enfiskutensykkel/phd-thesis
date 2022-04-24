@@ -966,11 +966,11 @@ This experiment is described in further detail in \paperref{tocs:eval-lending-bw
 \subsection{Proof-of-concept NVMe driver experiment}\label{sec:eval-nvme}
 Both the \gls{dl} and \gls{mdev} sharing methods make it possible for remote devices anywhere in the cluster network to be operated by native device drivers.
 %
-Since most device drivers are written in a way that assumes exclusive control of a device, devices shared with these methods may (in most cases) only be used by a single \gls{borrower} at the time.
+Since most device drivers are written in a way that assumes exclusive control of a device, devices shared with these methods may only be used by a single \gls{borrower} at the time.
 %
 For distributed cluster applications, this poses a challenge.
 %
-For example, if a workload needs to access data on a storage device or perform computation on a \gls{gpu}, the application process must interact with the device driver.
+For example, if a workload needs to access data on a storage device or to perform computations on a \gls{gpu}, the application process must interact with the device driver.
 %
 If the driver is running on a different machine, the application must synchronize with this machine in some way.
 %
@@ -1011,7 +1011,7 @@ It is possible to remedy this problem by using our \gls{exttosisciapi} to develo
 %
 Although developing a new device driver may not necessarily be a viable approach in all circumstances, enabling devices to use native \gls{dma} to (remote) \glspl{memorysegment} may provide performance benefits for cluster applications.
 %
-To demonstrate this, we have designed an experiment using the following workload (as illustrated in \cref{fig:eval-nvme-design}):
+To demonstrate this, we have designed an experiment using our SmartIO \gls{nvme} driver to implement the following workload (as illustrated in \cref{fig:eval-nvme-design}):
 %
 \begin{itemize}
     \item 
@@ -1045,11 +1045,11 @@ To demonstrate this, we have designed an experiment using the following workload
         %
         Since the purpose is to measure the latency of individual \gls{io} operations, data is loaded into \gls{gpu} memory using a random read access pattern and a block size of 4~kB.
         %
-        First we read data into memory of the borrowed \gls{gpu}.
+        First, we read data into memory of the borrowed \gls{gpu}.
         %
         Then this process is repeated for the local \gls{gpu}.
         %
-        For each \gls{gpu}, we performed 327,680 reads (655,360 in total).
+        For each \gls{gpu}, we performed 327,680 reads (655,360 in total on both).
         %
         Note that since we are performing read operations,~i.e., loading data from storage, the data destination does not affect latency.
         %
@@ -1094,7 +1094,10 @@ The results demonstrate that by moving \gls{sq} memory closer to the \gls{nvme} 
         %
     \item By using the \gls{gpu} installed alongside the \gls{nvme} in the same expansion chassis in the \textbf{Borrwed~\gls{gpu}} scenario, the \gls{nvme} only has to read through the internal switch chip in order to fetch commands (1~``hop'').
 \end{itemize}
-
+%
+This experiment is also presented in \paperref{tocs:eval-nvme-sq}, showing the same performance benefit of moving the \gls{sq} closer to the \gls{nvme}.
+%
+More context on why \gls{dma} reads are affected by longer distances can be found in \paperref{tocs:eval-lending-path}.
 
 
 
@@ -1106,7 +1109,6 @@ Furthermore, by integrating driver operation with the \gls{sisciapi}, additional
 
 
 
-A similar experiment is presented in \paperref{tocs:eval-nvme-sq}.
 
 
 
