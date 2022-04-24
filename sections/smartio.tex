@@ -988,7 +988,7 @@ This can result in poor performance, particularly in the case where the data res
         \centering
         \includegraphics[width=.99\textwidth]{sq-experiments-buffers}
         \caption%
-        {Our proof-of-concept \glsfmtshort{nvme} driver is running on the borrower's \glsxtrshort{cpu}, operating a remote \glsxtrshort{nvme}. The remote \glsxtrshort{gpu} is borrowed using \gls{dl}, and both \glsxtrshortpl{gpu} are operated using the native \gls{cuda} driver. Data is loaded from storage directly into \glsxtrshort{gpu} memory using a random read access pattern.}
+        {Our proof-of-concept \glsfmtshort{nvme} driver is implemented as part of the application process, running on the borrower's \glsxtrshort{cpu} and operating the remote \glsxtrshort{nvme}. The remote \glsxtrshort{gpu} is borrowed using \gls{dl}, and both \glsxtrshortpl{gpu} are operated using the native \gls{cuda} driver. Data is loaded from storage directly into \glsxtrshort{gpu} memory using a random read access pattern.}
         \label{fig:eval-nvme-workload}
     \end{subfigure}
     %
@@ -1011,17 +1011,18 @@ It is possible to remedy this problem by using our \gls{exttosisciapi} to develo
 %
 Although developing a new device driver may not necessarily be a viable approach in all circumstances, enabling devices to use native \gls{dma} to (remote) \glspl{memorysegment} may provide performance benefits for cluster applications.
 %
-To demonstrate this, we have designed an experiment using our SmartIO \gls{nvme} driver to implement the following workload (as illustrated in \cref{fig:eval-nvme-design}):
+To demonstrate this, we have designed the following experiment (as illustrated in \cref{fig:eval-nvme-design}):
 %
 \begin{itemize}
     \item 
         %
-        An application process is running on the \gls{borrowermachine}, using both the local Nvidia~P600 \gls{gpu} and the remote Nvidia~P4000 \gls{gpu}, as well as a remote Intel~Optane~P4800X~DC \gls{nvme}.
+        We developed a \gls{userspace} \gls{cuda} application and included our proof-of-concept \gls{nvme} driver as part of this application.
         %
-        The remote \gls{gpu} is borrowed using \gls{dl}, while the remote \gls{nvme} is operated by our proof-of-concept \gls{nvme} driver, and is implemented as part of the \gls{userspace} application process.
+        The application process is running on the \gls{borrowermachine}, using both the local Nvidia~P600 \gls{gpu} and the remote Nvidia~P4000 \gls{gpu}, as well as a remote Intel~Optane~P4800X~DC \gls{nvme}.
         %
-        The two \glspl{gpu} are managed by the native \gls{gpu} drivers (\gls{cuda} version~10.2).
-
+        The remote \gls{gpu} is borrowed using \gls{dl}, and both \glspl{gpu} are managed by the native \gls{cuda} drivers (\gls{cuda} version~10.2).
+        %
+        The \gls{nvme} is operated by our application process.
 
     \item 
         The purpose of the experiment is to measure how moving the \gls{sq} closer to the \gls{nvme} affects the latency of \gls{io} operations (as depicted in \cref{fig:eval-nvme-scenarios}).
@@ -1031,9 +1032,9 @@ To demonstrate this, we have designed an experiment using our SmartIO \gls{nvme}
         Depending on the scenario, a corresponding \gls{sq} is also allocated in one of the following memory locations:
         %
         \begin{description}
-            \item[Borrower~\gls{ram}] the \gls{sq} is allocated in local \gls{memorysegment} on the same machine where our application process is running.
-            \item[Lender~\gls{ram}] the \gls{sq} is allocated in \gls{lender}'s \gls{ram}, by allowing SmartIO to choose based on access pattern hinting.
-            \item[Borrowed~\gls{gpu}] the \gls{sq} is allocated in memory on the borrowed \gls{gpu}.
+            \item[Borrower~RAM] the \gls{sq} is allocated in local \gls{memorysegment} on the same machine where our application process is running.
+            \item[Lender~RAM] the \gls{sq} is allocated in \gls{lender}'s \gls{ram}, by allowing SmartIO to choose based on access pattern hinting.
+            \item[Borrowed~GPU] the \gls{sq} is allocated in memory on the borrowed \gls{gpu}.
         \end{description}
         %
 
@@ -1087,17 +1088,23 @@ Also note that the median for all three scenarios are marked with horizontal lin
 %
 The results demonstrate that by moving \gls{sq} memory closer to the \gls{nvme} reduces the latency, because the distance the \gls{nvme} has read across shrinks (see \cref{fig:eval-nvme-scenarios} for reference):
 %
-\begin{itemize}
-    \item For the \textbf{Borrower~\gls{ram}} scenario, the \gls{nvme} has to read across the internal switch chip in the expansion chassis, the lender's \gls{ntb} adapter, the cluster switch, and the borrower's \gls{ntb} adapter (4~``hops'').
+\begin{description}
+    \item[Borrower~RAM]
         %
-    \item In the \textbf{Lender~\gls{ram}} scenario, the \gls{nvme} reads across the internal switch chip, and both the downstream and upstream transparent switches, in order to fetch commands (3~``hops'').
+        The \gls{nvme} has to read across the internal switch chip in the expansion chassis, the lender's \gls{ntb} adapter, the cluster switch, and the borrower's \gls{ntb} adapter (4~``hops'').
         %
-    \item By using the \gls{gpu} installed alongside the \gls{nvme} in the same expansion chassis in the \textbf{Borrwed~\gls{gpu}} scenario, the \gls{nvme} only has to read through the internal switch chip in order to fetch commands (1~``hop'').
-\end{itemize}
+    \item[Lender~RAM] 
+        %
+        The \gls{nvme} reads across the internal switch chip, and both the downstream and upstream transparent switches, in order to fetch commands (3~``hops'').
+        %
+    \item[Borrowed~GPU]
+        %
+        By using the \gls{gpu} installed alongside the \gls{nvme} in the same expansion chassis, the \gls{nvme} only has to read through the internal switch chip in order to fetch commands (1~``hop'').
+\end{description}
 %
 This experiment is also presented in \paperref{tocs:eval-nvme-sq}, showing the same performance benefit of moving the \gls{sq} closer to the \gls{nvme}.
 %
-More context on why \gls{dma} reads are affected by longer distances can be found in \paperref{tocs:eval-lending-path}.
+For more context on why \gls{dma} reads are affected by longer distances, please refer to \paperref{tocs:eval-lending-path}.
 
 
 

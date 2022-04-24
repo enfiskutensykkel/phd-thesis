@@ -25,14 +25,14 @@
      inkscape:document-units="mm"
      showgrid="true"
      inkscape:zoom="1.9999999"
-     inkscape:cx="177.25001"
-     inkscape:cy="165.50001"
+     inkscape:cx="273.25001"
+     inkscape:cy="149.00001"
      inkscape:window-width="2558"
      inkscape:window-height="1378"
      inkscape:window-x="0"
      inkscape:window-y="31"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer3"
      units="pt"
      showguides="false"
      inkscape:guide-bbox="true"
@@ -42,7 +42,7 @@
      inkscape:snap-grids="true"
      inkscape:snap-to-guides="true"
      inkscape:bbox-nodes="false"
-     inkscape:snap-global="false">
+     inkscape:snap-global="true">
     <inkscape:grid
        type="xygrid"
        id="grid1803" />
@@ -544,10 +544,10 @@
        id="text4088"><tspan
          x="66.647095"
          y="-4.7077231"
-         id="tspan203658"><tspan
+         id="tspan231252"><tspan
            dx="0 1.4521099 1.2950133 0.83302546 0.82372332 1.2950134 1.731163 1.3022485"
            style="font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
-           id="tspan203656">Borrower</tspan></tspan></text>
+           id="tspan231250">Borrower</tspan></tspan></text>
     <rect
        style="display:inline;fill:#f9f9f9;fill-opacity:1;stroke:#333333;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect67149"
@@ -4619,26 +4619,26 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="63.033791"
+       x="62.504623"
        y="47.002213"
        id="text354563"><tspan
          sodipodi:role="line"
-         x="63.033791"
+         x="62.504623"
          y="47.002213"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
          id="tspan262530">Operated by our</tspan><tspan
          sodipodi:role="line"
-         x="63.033791"
+         x="62.504623"
          y="50.089012"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
          id="tspan65877">NVMe driver</tspan><tspan
          sodipodi:role="line"
-         x="63.033791"
+         x="62.504623"
          y="53.175812"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
-         id="tspan200884">(part of</tspan><tspan
+         id="tspan200884">(as part of the</tspan><tspan
          sodipodi:role="line"
-         x="63.033791"
+         x="62.504623"
          y="56.262611"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
          id="tspan200886">application)</tspan></text>
@@ -5207,6 +5207,48 @@
          x="98.459206"
          y="36.525562"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.2449px">P600</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="44.92347"
+       y="19.882767"
+       id="text204480"><tspan
+         sodipodi:role="line"
+         x="44.92347"
+         y="19.882767"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
+         id="tspan209152">Data buffer in</tspan><tspan
+         sodipodi:role="line"
+         x="44.92347"
+         y="22.969566"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
+         id="tspan212974">GPU memory</tspan></text>
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker2998)"
+       d="m 38.432133,24.189164 -1.630778,5.186674"
+       id="path204482"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.46944px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.229392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="77.330086"
+       y="39.551994"
+       id="text218024"><tspan
+         sodipodi:role="line"
+         x="77.330086"
+         y="39.551994"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
+         id="tspan218020">Data buffer in</tspan><tspan
+         sodipodi:role="line"
+         x="77.330086"
+         y="42.638794"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.229392px"
+         id="tspan218022">GPU memory</tspan></text>
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker2998)"
+       d="m 78.58125,37.041667 2.38125,-2.645834 h 8.334375"
+       id="path218026"
+       sodipodi:nodetypes="ccc" />
   </g>
   <script
      id="mesh_polyfill"
