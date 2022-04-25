@@ -1347,11 +1347,3 @@ Through the SmartIO abstraction layer, the hard distinction between local and re
 %
 Using SmartIO, it is even possible to combine sharing capabilities with shared-memory functionality, allowing devices to become part of the same global address space as distributed, shared-memory applications.
 
-
-
-%Using the \gls{sisciapi}, application memory can be exported as \glspl{sharedsegment}, and \glspl{segment} in remote machines can be mapped into a local application process' virtual address space.
-%By building on these concepts, our \lgls{apiext}{extension} makes it possible for a device driver implementation to use all the memory \gls{disaggregation} capabilities of \gls{sisci}, while also providing functionality for abstracting away the location of memory resources and resolving addresses between different address spaces.
-%
-%A device driver implemented using our \gls{apiext} can be agnostic about the underlying \gls{pcie} network topology, as devices may \gls{dma} directly to \glspl{sharedsegment}, regardless of whether they are local or remote.
-%
-%It is even possible to map device memory of other devices registered with SmartIO, for example devices borrowed using \gls{dl}.
