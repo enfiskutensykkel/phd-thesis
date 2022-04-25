@@ -1,4 +1,23 @@
 \chapter{Abstract}
+% TODO slightly rewrite this and use different phrases and terms consistent with rest of dissertation
+% For example, use "machine" instead of "host"
+
+The large variety of compute-heavy and data-driven applications accelerate the need for a distributed \glsfmtshort{nolist-io} solution that enables cost-effective scaling of resources between networked hosts. 
+%
+For example, in a cluster network, different machines may have various devices available at different times, but moving workloads to remote units over the network is often costly and introduce large overheads compared to accessing local resources. 
+%
+To facilitate \glsfmtshort{nolist-io} \glsfmttext{disaggregation} and device sharing among hosts connected using \glsfmtshort{pcie} \glsfmtshortpl{nolist-ntb}, we present SmartIO.
+%
+\Glsfmtshortpl{nvme}, \glsfmtshortpl{gpu}, network adapters, or any other standard \glsfmtshort{pcie} device may be borrowed and accessed directly, as if they were local to the remote machines. %FPGAs? NIC instead of network adapter?
+%
+We provide capabilities beyond existing \glsfmttext{disaggregation} solutions by combining traditional \glsfmtshort{nolist-io} with distributed shared-memory functionality, allowing devices to become part of the same global address space as cluster applications. 
+%This unlocks a new potential in PCIe-connected cluster systems, as application software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
+Software is entirely removed from the data path, and simultaneous sharing of a device among application processes running on remote hosts is enabled.
+%
+Our experimental results show that \glsfmtshort{nolist-io} devices can be shared with remote hosts, achieving native \glsfmtshort{pcie} performance.
+%
+Thus, compared to existing device distribution mechanisms, SmartIO provides more efficient, low-cost resource sharing, increasing the overall system performance.
+
 %Remote resources can be accessed directly over native \gls{pcie}, without requiring any software in the critical path or network protocol translation.
 %%
 %SmartIO seamlessly combines traditional \gls{io} with distributed shared-memory functionality, and is able to provide sharing and disaggregation capabilities at multiple abstraction levels:
@@ -7,8 +26,7 @@
 %Furthermore, by using \gls{pcie} shared memory techniques, SmartIO is able to abstract away the physical location of devices and memory resources. 
 %Our implementation translates memory addresses between different address domains and resolves paths through the \gls{pcie} network in a manner that is transparent to application software, device drivers, and even the \gls{os}.
 
-This unlocks a new potential in PCIe-connected cluster systems, as application software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
-%without requiring
+%%without requiring
 
 %minimize data movement
 

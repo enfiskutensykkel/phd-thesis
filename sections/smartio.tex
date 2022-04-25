@@ -220,7 +220,7 @@ The implementation is described in full in the published papers, with \cref{pape
 
 
 
-\subsection{Low-level NTB driver}\label{sec:ntb-driver}
+\subsection{Low-level \glsfmtshort{nolist-ntb} driver}\label{sec:ntb-driver}
 SmartIO is implemented on top of the \gls{ntb} interconnection solution from Dolphin.
 %
 The low-level \gls{ntb} driver, illustrated as layer \textbf{(A)} in \cref{fig:architecture}, provides the fundamental \gls{pcie} networking infrastructure and memory mapping functionality which SmartIO builds on.
@@ -289,7 +289,7 @@ Instead, the description of its functionality is interleaved with the implementa
 
 
 
-\subsection{Device Lending}\label{sec:lending}
+\subsection{\Glsfmttext{dl}}\label{sec:lending}
 \Gls{dl}, illustrated as arrow \textbf{(1)} in \cref{fig:architecture}, makes it possible to share and distribute devices to remote \glspl{hostmachine}.
 %
 The devices become part of the system they are shared with, allowing application software, device drivers, and even the \gls{os} to use them as if they were locally installed.
@@ -382,7 +382,7 @@ In addition, \paperref{tocs:lending-dma,tocs:disc-devs} explain how we can use t
 
 
 
-\subsection{MDEV}\label{sec:mdev}
+\subsection{\Glsfmtshort{nolist-mdev}}\label{sec:mdev}
 Our \gls{mdev} implementation, shown as arrow \textbf{(2)} in \cref{fig:architecture}, enables the Linux~\gls{kvm} to \emph{\lgls{passthrough}{pass through}} borrowed devices to \glspl{vm}.
 %
 This \gls{passthrough} allows software running in a \gls{vmguest} to use the physical device directly, without compromising the memory isolation provided by the virtualization.
@@ -463,7 +463,7 @@ Finally, we also discuss some security implications of our \gls{passthrough} app
 
 
 
-\subsection{API extension}\label{sec:api}
+\subsection{\Glsfmtshort{api} extension}\label{sec:api}
 As mentioned in \cref{sec:ntb-driver}, a \gls{userspace} application may memory-map \glspl{sharedsegment} into its own local address space using the \gls{sisciapi}.
 %
 Application processes running on different machines may read and write to remote memory, as if it was reading or writing to local \gls{ram}.
@@ -524,7 +524,7 @@ A more specific description of the functionality added to \gls{sisci} by our \gl
 
 
 
-\subsection{Proof-of-concept NVMe driver}\label{sec:nvme-driver}
+\subsection{Proof-of-concept \glsfmtshort{nvme} driver}\label{sec:nvme-driver}
 Most device drivers are written in a way that assumes exclusive control over the device.
 %
 In most cases, a device can only be distributed to a single \gls{borrowermachine} at the time, preventing others from using it while it is used.
@@ -789,7 +789,7 @@ Moreover, the switch chips are the same  Broadcom~PEX8733~\cite{pex8733} chips u
 Standard and unmodified benchmarking software are used for all three tests.
 
 
-\subsection{Device Lending: latency comparison}\label{sec:eval-lat}
+\subsection{\Glsfmttext{dl}: latency comparison}\label{sec:eval-lat}
 \begin{figure}
     \centering
     \begin{subfigure}{\linewidth}
@@ -885,7 +885,7 @@ A more in-depth explanation of this experiment can be found in \paperref{tocs:ev
 
 
 
-\subsection{Device Lending: throughput comparison}\label{sec:eval-bw}
+\subsection{\Glsfmttext{dl}: throughput comparison}\label{sec:eval-bw}
 \begin{figure}
     \centering
     \begin{subfigure}{\linewidth}
@@ -963,7 +963,7 @@ This experiment is described in further detail in \paperref{tocs:eval-lending-bw
 
 
 
-\subsection{Proof-of-concept NVMe driver experiment}\label{sec:eval-nvme}
+\subsection{Proof-of-concept \glsfmtshort{nvme} driver experiment}\label{sec:eval-nvme}
 Both the \gls{dl} and \gls{mdev} sharing methods make it possible for remote devices anywhere in the cluster network to be operated by native device drivers.
 %
 Since most device drivers are written in a way that assumes exclusive control of a device, devices shared with these methods may only be used by a single \gls{borrower} at the time.
@@ -1144,7 +1144,7 @@ A more detailed presentation of related work can be found in \paperref{tocs:rw}.
 Background for the ideas behind our proof-of-concept \gls{nvme} driver is summarized in \paperref{tocs:rw-nvme}.
 
 
-\subsection{Solutions not using NTBs}
+\subsection{Solutions not using \glsfmtshortpl{nolist-ntb}}
 State of the art within \gls{disaggregation} and resource sharing can broadly be divided into three categories:
 %
 \begin{itemize}
@@ -1268,7 +1268,7 @@ However, by being implemented on top of \gls{pcie} cluster networking, SmartIO i
 We present a more technically detailed comparison between specific solutions and our own SmartIO implementation in the published papers, particularly in \paperref{tocs:rw}.
 
 
-\subsection{Solutions using NTBs}
+\subsection{Solutions using \glsfmtshortpl{nolist-ntb}}
 Solutions that enable \gls{disaggregation} using \glspl{ntb} are particularly interesting to us, due to the similarities with our own work.
 %
 By using the same Broadcom~8733~\cite{pex8733} \gls{pcie} switch chips used in the Dolphin~PXH830 adapter cards used in our own evaluation (\cref{sec:eval}), Shim~et~al.~\cite{Shim2018} and Lim~et~al.~\cite{Lim2019} have implemented \gls{ntb} host adapter cards and connected three machines in a cluster.
