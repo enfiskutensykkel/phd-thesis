@@ -1059,7 +1059,7 @@ To demonstrate this, we have designed the following experiment (as illustrated i
         %
         Note that since we are performing read operations,~i.e., loading data from storage, the data destination does not affect latency.
         %
-        However, both \glspl{gpu} are included as destinations in our experiment, for the purpose of showcasing the capabilities of SmartIO.\footnote{A similar experiment is also presented in \paperref{tocs:eval-nvme-sq}, but here only the local \gls{gpu} is used as a data destination.}
+        However, both \glspl{gpu} are included as destinations in our experiment, for the purpose of showcasing the capabilities of SmartIO.\footnote{A similar experiment is also presented in \paperref{tocs:eval-nvme-sq}, where only the local \gls{gpu} is used as a data destination.}
 
     \item 
         %
@@ -1118,16 +1118,22 @@ Our results demonstrate that moving \gls{sq} memory closer to the \gls{nvme} red
 
 
 
-Our performance results show that while there is an associated development cost of implementing device drivers using the SmartIO \gls{apiext} (and building them into the application), there is a performance advantage compared to using \gls{dl} and native device drivers.
+This experiment shows that there may be performance advantage of building device driver functionality into the application, compared to using \gls{dl} and native device drivers.
 %
-Our SmartIO \gls{apiext} makes it possible to optimize data flow through the cluster network, for example by streaming data directly into \gls{gpu} memory as shown in this experiment.
+While there is an associated development cost of implementing new device drivers using the SmartIO \gls{apiext}, it becomes possible to control memory locations using access pattern hinting and optimize data flow through the cluster network, for example by streaming data directly into \gls{gpu} memory as shown in this experiment.
 %
-By integrating driver operation with the \gls{sisciapi}, additional functionality also become possible, like using \gls{pcie} \gls{multicasting} to replicate data across several cluster machines in a single operation.
+Additional functionality also becomes available through the use of the \gls{sisciapi}, such as relying on \gls{pcie} \gls{multicasting} to replicate data across several cluster machines in a single operation.
 %
 Replicating \gls{nvme} data across 60~machines using \gls{multicasting} is demonstrated in \paperref{tocs:eval-nvme-sharing}.
 
 
-% TODO: Conclude experiments section with a paragraph that summarizes both zero overhead ("remote and local performance are equal")  and API extension/NVMe driver stuff
+
+Our \gls{nvme} driver experiment also shows that the different sharing methods of SmartIO can be \emph{combined}. 
+%
+The Nvidia~P4000~\gls{gpu} is borrowed using \gls{dl} (and operated by the native \gls{cuda} driver), but using our \gls{apiext} its memory is \gls{disaggregated}, allowing the \gls{nvme} to access buffers allocated in \gls{gpu} memory directly.
+%
+We argue that this demonstrate the strength of our SmartIO framework, as we are able to combine the traditional \gls{io} model with distributed, shared-memory functionality.
+
 
 
 \section{Related work}\label{sec:rw}
