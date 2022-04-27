@@ -988,7 +988,7 @@ This can result in poor performance, particularly in the case where the data res
         \centering
         \includegraphics[width=.99\textwidth]{sq-experiments-buffers}
         \caption%
-        {Our proof-of-concept \glsfmtshort{nvme} driver is implemented as part of the application process, running on the borrower's \glsxtrshort{cpu} and operating the remote \glsxtrshort{nvme}. The remote \glsxtrshort{gpu} is borrowed using \gls{dl}, and both \glsxtrshortpl{gpu} are operated using the native \gls{cuda} driver. Data is loaded from storage directly into \glsxtrshort{gpu} memory using a random read access pattern.}
+        {Our proof-of-concept \glsfmtshort{nvme} driver is implemented as part of the application process, running on the borrower's \glsxtrshort{cpu} and operating the remote \glsxtrshort{nvme}. The remote \glsxtrshort{gpu} is borrowed using \gls{dl}, and both \glsxtrshortpl{gpu} are operated using the native \gls{cuda} driver (also running on the borrower). Data is loaded from storage directly into buffers in \glsxtrshort{gpu} memory.}
         \label{fig:eval-nvme-workload}
     \end{subfigure}
     %
