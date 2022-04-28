@@ -7,7 +7,7 @@ FIGURES := $(wildcard figures/*.pdf)
 # Name of the PDF to create
 MAIN = $(firstword $(TEXFILES:%.tex=%))
 
-.PHONY: default clean distclean
+.PHONY: default clean distclean fast
 
 
 default: $(MAIN).pdf
@@ -20,6 +20,10 @@ $(MAIN).pdf: $(TEXFILES) bibliography.bib $(FIGURES)
 	makeglossaries $(MAIN)
 	pdflatex -synctex=1 $(MAIN)
 	makeglossaries $(MAIN)
+	pdflatex -synctex=1 $(MAIN)
+
+
+fast: $(TEXFILES) $(FIGURES)
 	pdflatex -synctex=1 $(MAIN)
 
 

@@ -1,21 +1,46 @@
 \chapter{Conclusion}\label{chapter:conclusion}
-For the last two decades, we have seen that both machine~learning applications and distributed and parallel computing applications have become simultaneously more compute-intensive and data-driven.
+As distributed and parallel computing applications are becoming increasingly compute-intensive and data-driven, \gls{io} performance demands are ever growing.
 %
-Computing accelerators (such as \glspl{fpga} and \glspl{gpu}), \glspl{nic} capable of \gls{rdma}, and fast storage devices (like \glspl{nvme}) are now commonplace in most modern computer systems, ranging from embedded systems to distributed computing clusters.
+Computing accelerators (such as \glspl{fpga} and \glspl{gpu}), high-throughput \glspl{nic}, and fast storage devices like \glspl{nvme}, are now commonplace in most modern computer systems.
 %
-This has led to increased demands to \gls{io} performance, as well as new challenges with regard to resource utilization.
+For distributed computing clusters, distributing such \gls{io} resources in a way that maximizes both performance and resource utilization is a challenge.
 %
-In this dissertation, we have presented our SmartIO solution for allowing machines in a heterogeneous, \gls{pcie}-networked cluster to efficiently share their internal \gls{io} resources.
+In this dissertation, we have addressed this challenge and present our SmartIO framework for sharing resources between machines connected over \gls{pcie}.
+%
+SmartIO makes it possible to scale out and use more hardware resources than there are available in a single machine, as  machines can dynamically share their internal \gls{io} resources with other machines in a heterogeneous \gls{pcie} network.
+%
+Resources in remote machines can be used as if they were locally installed, without requiring any adaption to device drivers or application software and with native \gls{pcie} performance
+%
+Moreover, SmartIO is also able to combine traditional device \gls{io} with shared-memory capabilities, unlocking a potential by allowing devices to become part of the same global address space as distributed, cluster applications.
+
 
 
 
 \section{Summary}
-Short - what was the target problem?
+% - What was the target problem?
+Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate.
+%
+For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity that leads to a disparity in performance, compared to a local machine using local resources.
+%
+\Gls{disaggregation} solutions based on \gls{pcie}  where the resources that can shared are limited to devices installed in dedicated servers, as these solutions lack the shared-memory capabilities necessary for sharing the inner resources of individual machines.
 
 
-What did you develop?
+Connecting two or more independent computer systems over \gls{pcie} is possible by using \glspl{pcientb}.
+%
+\Glspl{ntb} have memory address translation capabilities that allow machines to map (parts of) the address space of remote systems, including \gls{ram} and device memory.
+%
 
-What were the results?
+
+
+\glspl{ntb} to share the internal
+Leveraging \glspl{ntb} to allow the internal memory and devices of individual computers to be shared with (and used by) remote machines is a challenge, as mapping remote memory resources 
+%
+However, in order for \glspl{ntb} to be a viable solution for sharing resources among machines connected over \gls{pcie}
+% - What did you develop?
+
+
+% - What were the results?
+
 
 
 \section{Contributions}\label{sec:concl}
