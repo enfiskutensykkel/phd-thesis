@@ -3,15 +3,15 @@ As distributed and parallel computing applications are becoming increasingly com
 %
 Computing accelerators (such as \glspl{fpga} and \glspl{gpu}), high-throughput \glspl{nic}, and fast storage devices like \glspl{nvme}, are now commonplace in most modern computer systems.
 %
-For distributed computing clusters, distributing such \gls{io} resources in a way that maximizes both performance and resource utilization is a challenge.
+However, distributing and sharing such \gls{io} resources in a way that maximizes both performance and resource utilization is a challenge for heterogeneous computing clusters.
 %
-In this dissertation, we have addressed this challenge and present our SmartIO framework for sharing resources between machines connected over \gls{pcie}.
+In this dissertation, we have addressed this challenge and present our SmartIO framework for efficiently sharing resources between machines connected over \gls{pcie}.
 %
-SmartIO makes it possible to scale out and use more hardware resources than there are available in a single machine, as  machines can dynamically share their internal \gls{io} resources with other machines in a heterogeneous \gls{pcie} network.
+SmartIO makes it possible to scale out and use more hardware resources than there are available in a single machine, as machines can dynamically share their internal devices and memory resources with other machines in a \gls{pcie} network without any performance degradation compared to using local resources.
 %
-Resources in remote machines can be used as if they were locally installed, without requiring any adaption to device drivers or application software and with native \gls{pcie} performance
+Using SmartIO, remote resources can be used as if they were installed in the local machine, without requiring any adaption to device drivers or application software.
 %
-Moreover, SmartIO is also able to combine traditional device \gls{io} with shared-memory capabilities, unlocking a potential by allowing devices to become part of the same global address space as distributed, cluster applications.
+Furthermore, our solution seamlessly combines traditional device \gls{io} with shared-memory capabilities, unlocking a new potential for \gls{pcie} clusters as \gls{io} resources become part of the same shared-memory space as distributed, cluster applications.
 
 
 
