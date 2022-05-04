@@ -4,7 +4,9 @@ As distributed and parallel computing applications are becoming increasingly com
 Computing accelerators (such as \glspl{fpga} and \glspl{gpu}), high-throughput \glspl{nic}, and fast storage devices like \glspl{nvme}, are now commonplace in most modern computer systems.
 %
 However, distributing and sharing such \gls{io} resources in a way that maximizes both performance and resource utilization is a challenge for heterogeneous computing clusters.
-%
+
+
+
 In this dissertation, we have addressed this challenge and present our SmartIO framework for efficiently sharing resources between machines connected over \gls{pcie}.
 %
 SmartIO makes it possible to scale out and use more hardware resources than there are available in a single machine, as machines can dynamically share their internal devices and memory resources with other machines in a \gls{pcie} network without any performance degradation compared to using local resources.
