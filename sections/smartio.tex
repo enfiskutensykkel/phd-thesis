@@ -909,7 +909,7 @@ A more in-depth explanation of this experiment can be found in \paperref{tocs:ev
 \end{figure}
 
 
-Another performance metric is throughput, particularly the throughput for transferring from a device to \gls{ram}.
+Another performance metric is throughput, particularly the throughput for transferring data between a device and \gls{ram}.
 %
 By performing large \gls{dma} transfers, the \gls{pcie} links are saturated with transactions and we also stress system memory.
 %
@@ -1015,12 +1015,12 @@ It is possible to remedy this problem by using our \gls{exttosisciapi} to develo
 %
 Although developing a new device driver may not necessarily be a viable approach in all circumstances, enabling devices to use native \gls{dma} to (remote) \glspl{memorysegment} may provide performance benefits for cluster applications.
 %
-To demonstrate this, we have designed the following experiment (as illustrated in \cref{fig:eval-nvme-design}):
+To demonstrate this, we have designed the following experiment for our proof-of-concept \gls{nvme} driver (as illustrated in \cref{fig:eval-nvme-design}):
 %
 \begin{itemize}
     \item 
         %
-        We developed a \gls{userspace} \gls{cuda} application and included our proof-of-concept \gls{nvme} driver as part of this application.
+        We developed a \gls{userspace} \gls{cuda} application, integrating our proof-of-concept \gls{nvme} driver as part of this application.
         %
         The application process is running on the \gls{borrowermachine}, using both the local Nvidia~P600 \gls{gpu} and the remote Nvidia~P4000 \gls{gpu}, as well as a remote Intel~Optane~P4800X~DC \gls{nvme}.
         %
