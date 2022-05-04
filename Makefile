@@ -7,24 +7,32 @@ FIGURES := $(wildcard figures/*.pdf)
 # Name of the PDF to create
 MAIN = $(firstword $(TEXFILES:%.tex=%))
 
-.PHONY: default clean distclean fast
+# How to invoke pdflatex
+OPTIONS := -halt-on-error -synctex=1 -interaction=batchmode
+
+.PHONY: default clean distclean 
 
 
-default: $(MAIN).pdf
+default: $(MAIN).pdf 
+	
+
+$(MAIN).pdf: $(MAIN).bbl $(MAIN).gls $(TEXFILES) $(FIGURES)
+	$(info **** MAIN DOCUMENT ****)
+	pdflatex $(OPTIONS) $(MAIN)
 
 
-$(MAIN).pdf: $(TEXFILES) bibliography.bib $(FIGURES)
-	pdflatex -synctex=1 $(MAIN)
-	pdflatex -synctex=1 $(MAIN)
+$(MAIN).gls: glossary.tex
+	$(info **** GLOSSARY ****)
+	pdflatex $(OPTIONS) $(MAIN)
+	makeglossaries -q $(MAIN)
+	pdflatex $(OPTIONS) $(MAIN)
+	makeglossaries -q $(MAIN)
+
+
+$(MAIN).bbl: bibliography.bib papers.bib
+	$(info **** BIBLIOGRAPHY ****)
+	pdflatex $(OPTIONS) $(MAIN)
 	biber $(MAIN)
-	makeglossaries $(MAIN)
-	pdflatex -synctex=1 $(MAIN)
-	makeglossaries $(MAIN)
-	pdflatex -synctex=1 $(MAIN)
-
-
-fast: $(TEXFILES) $(FIGURES)
-	pdflatex -synctex=1 $(MAIN)
 
 
 clean:
