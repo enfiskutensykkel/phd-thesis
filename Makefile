@@ -8,7 +8,11 @@ FIGURES := $(wildcard figures/*.pdf)
 MAIN = $(firstword $(TEXFILES:%.tex=%))
 
 # How to invoke pdflatex
-OPTIONS := -halt-on-error -synctex=1 -interaction=batchmode
+OPTIONS := -halt-on-error -synctex=1
+
+ifndef VERBOSE
+OPTIONS += -interaction=batchmode
+endif
 
 .PHONY: default clean distclean 
 

@@ -205,7 +205,7 @@ Moreover, as centralized servers can be avoided, the risks of individual machine
 
 
 
-However, setting up such \gls{ntb} mappings requires awareness of the address space on the remote system.
+However, using an \gls{ntb} to map remote resources requires awareness of the address space on the remote system.
 %
 For example, a device driver must use addresses that correspond to the remote device's address space when initiating \gls{dma} transfers.
 %
@@ -284,7 +284,7 @@ Remote resources should be accessed directly over \emph{native} \gls{pcie}, whic
     Shared resources should be distributed \emph{dynamically}, and direct access to device memory and system memory should be configured at run-time, also between multiple devices residing in different hosts.
 \end{objective}
 As stated in \cref{obj:transparent}, the solution should work for physical hosts, and not only \glspl{vm}. Therefore, it must be possible to assign and reassign resources while all machines in the cluster are running, without requiring rebooting hosts or changing settings in the \gls{bios}.
-For devices, this introduces the requirement that the \gls{os} supports hot-adding devices to the system (which most modern \gls{os} implementations do).
+For devices, this introduces the requirement that the \gls{os} supports \gls{hotadding} devices to the system (which most modern \gls{os} implementations do).
 Not only would this would allow systems to dynamically scale up or down their \gls{io} resources based on immediate workload requirements, but devices could be more efficiently partitioned between machines in the cluster, increasing the overall resource utilization. 
 Furthermore, the solution should also be able to automatically discover resource location, without requiring that the user knows anything about the underlying \gls{pcie} network topology, and dynamically set up memory mappings between devices, \glspl{cpu}, and memory resources. An example would be enabling \gls{pciep2p} between two or more \gls{dma}-capable devices that are physically installed in different machines.
 
@@ -334,7 +334,7 @@ The goal of this project was to develop a new framework for sharing devices and 
 %
 The scope of this dissertation is the implementation and performance evaluation of the fundamental mechanisms that make this framework possible: \textbf{the discovery, addressing, access, and use of remote \gls{pcie}-attached resources}.
 %
-We aim to support this for three different abstraction levels:
+We aim to support this for three different levels of sharing:
 \begin{enumerate}
     \item Dynamically distributing devices to remote machines.
     \item Dynamically distributing (physical) devices to \glspl{vm} running on remote machines.
@@ -520,7 +520,7 @@ In particular, the main contributions of this dissertation are listed as follows
         %
         using \gls{dl}, any standard \gls{pcie} device, such as \glspl{nvme}, \glspl{gpu}, \glspl{nic}, and \glspl{fpga}, may be assigned to a remote system. 
         %
-        The device appears to the remote system as if it has been dynamically hot-added to the system, allowing existing device drivers to use the device without requiring any modifications to software.
+        The device appears to the remote system as if it has been dynamically \gls{hotadded} to the system, allowing existing device drivers to use the device without requiring any modifications to software.
 
     \item Implementation of a \textbf{new method for distributing devices to \glspl{vm}} running on any host machine in the cluster (see \cref{paper:srmpds,paper:cc}): 
         %

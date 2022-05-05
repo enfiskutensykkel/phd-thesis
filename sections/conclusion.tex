@@ -3,38 +3,82 @@ As distributed and parallel computing applications are becoming increasingly com
 %
 Computing accelerators (such as \glspl{fpga} and \glspl{gpu}), high-throughput \glspl{nic}, and fast storage devices like \glspl{nvme}, are now commonplace in most modern computer systems.
 %
-However, distributing and sharing such \gls{io} resources in a way that maximizes both performance and resource utilization is a challenge for heterogeneous computing clusters.
+Nevertheless, distributing such \gls{io} resources in a way that maximizes both performance and resource utilization is a challenge for heterogeneous computing clusters. 
+%
+To avoid that individual machines becoming performance bottlenecks, resources must be shared efficiently between machines in the cluster.
 
 
 
-In this dissertation, we have addressed this challenge and present our SmartIO framework for efficiently sharing resources between machines connected over \gls{pcie}.
+In this dissertation, we have addressed this challenge and presented our SmartIO framework for sharing \gls{io} resources between machines connected over \gls{pcie}.
 %
-SmartIO makes it possible to scale out and use more hardware resources than there are available in a single machine, as machines can dynamically share their internal devices and memory resources with other machines in a \gls{pcie} network without any performance degradation compared to using local resources.
+SmartIO makes it possible to scale out and use more hardware resources than there are available in a single machine, as machines can dynamically share their internal devices and memory resources with other machines in a \gls{pcie} network. 
 %
-Using SmartIO, remote resources can be used as if they were installed in the local machine, without requiring any adaption to device drivers or application software.
+Using SmartIO, remote resources can be used as if they were installed in the local machine, without requiring adaptions to device drivers or application software.
 %
-Furthermore, our solution seamlessly combines traditional device \gls{io} with shared-memory capabilities, unlocking a new potential for \gls{pcie} clusters as \gls{io} resources become part of the same shared-memory space as distributed, cluster applications.
+Moreover, remote resources may also be used without any performance degradation compared to local access, as SmartIO is built on top of standard \gls{pcie}.
+%
+Additionally, our solution combines traditional device \gls{io} with shared-memory capabilities, allowing \gls{io} resources to become part of the same shared-memory space as distributed, cluster applications.
 
 
 
 
 \section{Summary}
 % - What was the target problem?
-Connecting two or more independent computer systems over \gls{pcie} is possible by using \glspl{pcientb}.
+Connecting two or more computer systems over \gls{pcie} is possible by using \glspl{pcientb}.
 %
-\Glspl{ntb} have memory address translation capabilities that allow machines to map (parts of) the address space of remote systems, including \gls{ram} and device memory.
+\Glspl{ntb} have memory address translation capabilities that makes it possible for a machine to map \glspl{segment} of remote memory directly into local address space.
 %
+However, leveraging \glspl{ntb} to share the internal devices and memory of a machine with other, remote machines is a challenge, as the use of a remote resource requires software to be aware of the fact that the resource is on the other side of an \gls{ntb}.
+%
+For example, a device driver operating a remote device must use addresses that correspond to the remote device's address space when initiating \gls{dma} transfers or configuring interrupts.
+%
+This additional complexity makes it infeasible to rely only on \glspl{ntb} alone to implement a resource sharing solution, as it would require extensive modifications to existing software.
 
 
 
-\glspl{ntb} to share the internal
-Leveraging \glspl{ntb} to allow the internal memory and devices of individual computers to be shared with (and used by) remote machines is a challenge, as mapping remote memory resources 
-%
-However, in order for \glspl{ntb} to be a viable solution for sharing resources among machines connected over \gls{pcie}
 % - What did you develop?
+To solve this, we have developed our SmartIO framework for sharing devices and memory resources between machines connected with \glspl{ntb}.
+%
+Our solution consists of ``\glspl{lender}'', machines lending out one or more of its internal devices, and ``\glspl{borrower}'', machines using such a device.
+%
+Machines can act as \gls{lender} and \gls{borrower} at the same time, making SmartIO fully distributed.
+%
+Any type of \gls{pcie} device may be shared, as SmartIO is built on standard \gls{pcie}.
+%
+SmartIO keeps track which machines devices and \glspl{memorysegment} reside in, and is able to map resources on behalf of devices and resolve memory addresses as they are seen by devices.
+%
+As such, SmartIO provides a logical decoupling of devices and which \glspl{lendermachine} they are installed in, solving the challenge of managing multiple address spaces.
+
+
+
+Our SmartIO framework supports three different methods of resource sharing:
+%
+\begin{itemize}
+    \item Our \textbf{\gls{dl}} sharing method makes it possible to dynamically assign a \gls{pcie} device to a remote \gls{borrowermachine}.
+        %
+        By using a \gls{shadowdev}, the device appears \gls{hotadded} to the local device tree on the \gls{borrower}.
+        %
+        The fact that the device is remote is made transparent to the system, allowing the device to be used by native device drivers and application software as if it was locally installed.
+
+
+    \item Our \textbf{\gls{mdev}} extension to the \gls{kvm} makes it possible to distribute devices to \glspl{vm} running on remote machines, by facilitating \emph{\gls{passthrough}} of a device to the \gls{vmguest}.
+        %
+        Application software and device drivers running inside the \gls{vmguest} can directly interact the physical device, without compromising the isolation of the virtualized environment.
+
+
+    \item Our \textbf{\gls{sisciapiext}} makes it possible to \gls{disaggregate} devices and memory resources in software.
+        %
+        We have extended the \gls{sisciapi} with device-oriented programming semantics and device driver support functionality, making core SmartIO capabilities available through the same shared-memory \gls{api} used to write cluster applications.
+        %
+        Using this \gls{apiext}, we have also implemented a \textbf{proof-of-concept \gls{nvme} driver} that demonstrates how devices can be \gls{disaggregated} and shared with multiple machines at the same time.
+\end{itemize}
+
 
 
 % - What were the results?
+Something something mapping in advance?
+
+
 
 
 
@@ -48,13 +92,20 @@ Also, objectives should be linked to contributions list in 1.5
 How does this move the world forward?
 
 
-% below: how does this move the world forward
-%Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate. %% compared to SmartIO
-%%
-%For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity that leads to a disparity in performance, compared to a local machine using local resources. %%% compared to smartio, ....
-%%
-%\Gls{disaggregation} solutions based on \gls{pcie}  where the resources that can shared are limited to devices installed in dedicated servers, as these solutions lack the shared-memory capabilities necessary for sharing the inner resources of individual machines.
+
+
+%%% contrast the below to smartio
+%%%% something state of the art?
+%%%% fully distributed
+Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate. 
 %
+For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity that leads to a disparity in performance, compared to a local machine using local resources. 
+%
+\Gls{pcie}-based \gls{disaggregation} solutions do not have performance issues, as they facilitate the use of remote resources with native \gls{pcie} performance.
+%
+However, as these solutions lack the shared-memory capabilities necessary for sharing the inner resources of individual machines, sharing is limited to devices installed in dedicated servers.
+
+
 
 \section{Future work}\label{sec:fw}
 
