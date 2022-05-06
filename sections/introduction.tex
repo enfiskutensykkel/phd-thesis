@@ -239,7 +239,7 @@ More specifically, as it is desirable to avoid modifications to existing device 
 %
 Additionally, the solution must also allow remote resources to be used with the same performance expected for native \gls{pcie},~i.e., with the same performance as if they were attached to the local \gls{pcie} bus.
 %
-Hence, the goal of this dissertation is to develop a framework for sharing and distributing \gls{io}~resources (devices and memory) in a way that eliminates the distinction between local and remote access of a resource. 
+Hence, the goal of this dissertation is to develop a framework for sharing and distributing \gls{io}~resources (devices and memory) in a way that makes it indistinguishable if a resource is remote or local.
 %
 The challenges of this goal are addressed under the following research question: 
 \begin{restatable}{question}{researchquestion}\label{question}
@@ -376,7 +376,7 @@ For the same reason, we have also extended the \gls{kvm} in order to support sha
 %
 Regardless, we do not limit our work to a specific Linux distribution, as it is possible to support several different versions of the Linux kernel.
 %
-Note that for \glspl{vm}, there are no limitations for which \gls{os} may run in the \gls{guest}.
+It should also be noted that for \glspl{vm}, there are no limitations for which \gls{os} may run in the \gls{guest}.
 
 
 
@@ -448,7 +448,7 @@ Similarly, the process of gathering data with the goal of understanding the beha
 
 
 
-As many solutions for distributed \gls{io} already exist, the motivation for this dissertation is not simply to make it easier for machines to share resources efficiently, but to do so by using a new approach altogether:
+As many \gls{disaggregation} solutions already exist, the motivation for this dissertation is not simply to make it easier for machines to share resources efficiently, but to do so by using a new approach altogether:
 %
 we attempt to unify traditional device \gls{io} with distributed, shared-memory computing by utilizing the inherent memory mapping capabilities of \glspl{ntb}.
 %

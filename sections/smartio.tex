@@ -1326,7 +1326,7 @@ However, Ladon and our own SmartIO framework differ in some areas:
         %
         Ladon has since been extended with fail-over support, allowing a back-up management host to replicate the \gls{pcie} fabric enumeration of the first host, and seamlessly take ownership of the device in case the first management host fails~\cite{Tu2018}.
         %
-        However, we argue that this still does not make Ladon distributed in the same sense as our SmartIO solution.
+        However, we argue that this still does not make Ladon distributed in the same sense as SmartIO.
         %
         For example, it is not possible for a compute host to use devices from \emph{different} management hosts.
         %
@@ -1339,7 +1339,7 @@ However, Ladon and our own SmartIO framework differ in some areas:
         %
         This differs from our own \gls{mdev} implementation, where only the \gls{vm} memory is mapped for the device.
         %
-        Additionally, should the \gls{ntb}'s \gls{bar} size become a limitation, it is possible to scale out and distribute devices over multiple lender systems.
+        Additionally, should the \gls{ntb}'s \gls{bar} size become a limitation, it is possible to add more \glspl{lendermachine} and borrow devices from multiple \glspl{lender}.
         
 \end{itemize}
 
