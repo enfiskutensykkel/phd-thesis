@@ -32,7 +32,7 @@ However, leveraging \glspl{ntb} to share the internal devices and memory of a ma
 %
 For example, a device driver operating a remote device must use addresses that correspond to the remote device's address space when initiating \gls{dma} transfers or configuring interrupts.
 %
-This additional complexity makes it infeasible to rely only on \glspl{ntb} alone to implement a resource sharing solution, as it would require extensive modifications to existing software.
+This additional complexity makes it infeasible to rely on \glspl{ntb} alone to implement a resource sharing solution, as it would require extensive modifications to existing software.
 
 
 
@@ -47,11 +47,12 @@ Any type of \gls{pcie} device may be shared, as SmartIO is built on standard \gl
 %
 SmartIO keeps track which machines devices and \glspl{memorysegment} reside in, and is able to map resources on behalf of devices and resolve memory addresses as they are seen by devices.
 %
-As such, SmartIO provides a logical decoupling of devices and which \glspl{lendermachine} they are installed in, solving the challenge of managing multiple address spaces.
+As such, SmartIO provides a logical decoupling of devices and which \glspl{lendermachine} they are installed in, solving the challenge of managing multiple address spaces and making remote resources appear and behave as if they are local.
 
 
 
-Our SmartIO framework supports three different methods of resource sharing:
+
+Our SmartIO framework supports three different methods of device sharing:
 %
 \begin{itemize}
     \item Our \textbf{\gls{dl}} sharing method makes it possible to dynamically assign a \gls{pcie} device to a remote \gls{borrowermachine}.
@@ -71,12 +72,24 @@ Our SmartIO framework supports three different methods of resource sharing:
         We have extended the \gls{sisciapi} with device-oriented programming semantics and device driver support functionality, making core SmartIO capabilities available through the same shared-memory \gls{api} used to write cluster applications.
         %
         Using this \gls{apiext}, we have also implemented a \textbf{proof-of-concept \gls{nvme} driver} that demonstrates how devices can be \gls{disaggregated} and shared with multiple machines at the same time.
+        
 \end{itemize}
 
 
 
 % - What were the results?
-Something something mapping in advance?
+We have performed an extensive performance evaluation, consisting of a comprehensive collection of synthetic performance benchmarking and realistic workloads.
+%
+We have made a point out of using standard benchmarking software and device drivers, as well as a wide variety of \gls{pcie} devices, in order to demonstrate the completeness of our SmartIO framework.
+%
+Particularly, we have performed comparison tests where we compare the performance of a workload using remote resources to the same workload running only on a local system.
+%
+The results prove that, when conditions are similar, the SmartIO sharing methods \textbf{do not add \emph{any} performance overhead} compared to using local resources.
+%
+Furthermore, we have also explored how different network topologies affect the performance, and have identified situations where the \gls{iommu} can become a potential performance bottleneck.
+%
+Finally, our exhaustive performance test suite also includes tests using our proof-of-concept \gls{nvme} driver that highlights possibilities that are enabled by our shared-memory approach to device sharing.
+
 
 
 
