@@ -13,16 +13,12 @@ In this dissertation, we have addressed this challenge and presented our SmartIO
 %
 SmartIO makes it possible to scale out and use more hardware resources than there are available in a single machine, as machines can dynamically share their internal devices and memory resources with other machines in a \gls{pcie} network. 
 %
-Using SmartIO, remote resources can be used as if they were installed in the local machine, without requiring adaptions to device drivers or application software.
-%
-Moreover, remote resources may also be used without any performance degradation compared to local access, as SmartIO is built on top of standard \gls{pcie}.
-%
-Additionally, our solution combines traditional device \gls{io} with shared-memory capabilities, allowing \gls{io} resources to become part of the same shared-memory space as distributed, cluster applications.
+Using SmartIO, remote resources can be used as if they were installed in the local machine, without any performance degradation compared to local access and without requiring adaptions to device drivers or application software.
 
 
 
 
-\section{Summary}
+\section{Summary}\label{sec:summary}
 % - What was the target problem?
 Connecting two or more computer systems over \gls{pcie} is possible by using \glspl{pcientb}.
 %
@@ -95,15 +91,61 @@ Finally, our exhaustive performance test suite also includes tests using our pro
 
 
 
-\section{Contributions}\label{sec:concl}
-The main goal of this dissertation was to develop a framework for sharing and distributing \gls{io} resources,~i.e., devices and memory, in a way that eliminates the distinction between local and remote access.
+\section{Research contributions}\label{sec:discussion}
+Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate as discussed in \cref{sec:rw}. 
+%%
+For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that leads to a disparity in performance, compared to a local machine using local resources. 
+%%
+\Gls{pcie}-based \gls{disaggregation} solutions do not have such performance issues, since they facilitate the use of resources using native \gls{pcie}.
+%%
+However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines. 
+
+
+
+Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but to do so using a new approach altogether: 
 %
-We stated the following research question: \researchquestion
+unifying traditional device \gls{io} with distributed, shared-memory computing by leveraging the memory mapping capabilities of \glspl{ntb}. 
+%
+A solution should allow the inner devices and memory of machines to be shared with, and used by, remote machines in a cluster, as if these resources were local to the remote machines using them.
+%
+In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange{obj:distributed}{obj:experiments}.
+
+
+
+In the following, we review these objectives and evaluate how our solution contributes to each of them:
+
+
 
 % How did we answer objectives 1-6? 
-% For each objective, state clearly how it was solved and how it helps solve the overall research question as well.
-% We should also link each objective to the list of contributions in 1.5
+% For each objective, state clearly how it was solved and the contribution of it (refer back to contributions in 1.5)
+% Also make it clear how the contribution helps solve the overall research question as well.
 
+
+\objdistributed*{}%
+%
+Using SmartIO, machines act as ``\glspl{lender}'' and ``\glspl{borrower}''. 
+%
+\Gls{lender} registers one or more of its devices with SmartIO, allowing these devices to be used by remote machines.
+%
+A \gls{borrower} is a system that is currently using such a device.
+%
+Any \gls{pcie} device may be registered with SmartIO and shared, as demonstrated particularly by our extensive performance evaluation in \paperref{tocs:eval}.
+%
+We implemented three different sharing methods for our solution, namely \gls{dl}, \gls{mdev}, and the \gls{exttosisciapi}.
+%
+SmartIO is fully distributed, allowing any machine to act as \gls{lender} or \gls{borrower}, or even acting as both at the same time.
+
+
+
+\objtransparent*{}%
+t
+
+
+% fully distrubted, act as lender and
+
+
+% Refer back to the main research question
+%However, there are some caveats performance considerations regarding \gls{pcie} paths and \glspl{iommu}.
 
 % How does this move the world forward?
 
@@ -112,15 +154,9 @@ We stated the following research question: \researchquestion
 
 %%% contrast the below to smartio
 %%%% something state of the art?
-%%%% fully distributed
-Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate. 
-%
-For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity that leads to a disparity in performance, compared to a local machine using local resources. 
-%
-\Gls{pcie}-based \gls{disaggregation} solutions do not have performance issues, as they facilitate the use of remote resources with native \gls{pcie} performance.
-%
-However, as these solutions lack the shared-memory capabilities necessary for sharing the inner resources of individual machines, sharing is limited to devices installed in dedicated servers.
+%%%% novelty of our approach
 
+%our solution combines traditional device \gls{io} with shared-memory capabilities
 
 
 \section{Future work}\label{sec:fw}

@@ -249,9 +249,9 @@ The challenges of this goal are addressed under the following research question:
 In particular, this research~question can be broken down into the following six objectives:
 
 
-\begin{objective}\label{obj:distributed}
+\begin{restatable}{objective}{objdistributed}\label{obj:distributed}
     Ubiquitous sharing in the cluster should be supported, allowing any machine to contribute any of its internal \gls{pcie} devices, and allowing any machine to be able to use shared devices, even contributing and using devices at the same time.
-\end{objective}
+\end{restatable}
 The main motivation for our goal of building a system for \gls{io} resource sharing is to make it easier to scale out and use more resources than there are available in a single computer. 
 If any standard \gls{pcie} device inside any machine could be shared with other machines, the \gls{io} resource utilization in the cluster could be greatly increased.
 Additionally, by avoiding dedicated servers and allowing all computers in the cluster to participate in the sharing, contributing their own resources and using resources shared by others, we would effectively enable a distributed, peer-to-peer sharing model. 
@@ -259,9 +259,9 @@ This objective sets our goal apart from existing \gls{pcie}-based solutions, as 
 
 
 
-\begin{objective}\label{obj:transparent}
+\begin{restatable}{objective}{objtransparent}\label{obj:transparent}
     The fact that resources may be remote should be functionally transparent, allowing systems to use remote resources in the same way as if they were local, without requiring any modifications to device hardware, device drivers, host \gls{os}, or application software.
-\end{objective}
+\end{restatable}
 If the solution could make remote devices behave as if they were locally installed, presenting resources to the system on a level ``underneath'' the \gls{os}, it would become possible to distribute devices to \emph{physical} hosts as well, and not only \glspl{vm}. 
 In other words, remote resources should appear as if they were part of the local \gls{pcie} device tree, and application software could make use of remote devices using native interfaces in the same way it would use local devices.
 %
@@ -270,9 +270,9 @@ Avoiding any special adaptions to software would make scaling out significantly 
 
 
 
-\begin{objective}\label{obj:performance}
+\begin{restatable}{objective}{objperformance}\label{obj:performance}
     The fact that resources may be remote should be transparent with regard to performance, remote resources should be used with native \gls{pcie} performance, and as close to local access as possible.
-\end{objective}
+\end{restatable}
 Moving data to remote units over the network introduces large performance overhead compared to accessing local resources. 
 In order to further blur the hard separation between ``remote'' and ``local'', remote resources should not only behave functionally as if they were locally installed in the system using them, but also have comparable performance.
 To achieve this, any communication overhead and intermediate data copying in the critical path must be completely avoided, a requirement that rules out (most) traditional methods of sharing resources over a network. 
@@ -280,18 +280,18 @@ Remote resources should be accessed directly over \emph{native} \gls{pcie}, whic
 
 
 
-\begin{objective}\label{obj:dynamic}
+\begin{restatable}{objective}{objdynamic}\label{obj:dynamic}
     Shared resources should be distributed \emph{dynamically}, and direct access to device memory and system memory should be configured at run-time, also between multiple devices residing in different hosts.
-\end{objective}
+\end{restatable}
 As stated in \cref{obj:transparent}, the solution should work for physical hosts, and not only \glspl{vm}. Therefore, it must be possible to assign and reassign resources while all machines in the cluster are running, without requiring rebooting hosts or changing settings in the \gls{bios}.
 For devices, this introduces the requirement that the \gls{os} supports \gls{hotadding} devices to the system (which most modern \gls{os} implementations do).
 Not only would this would allow systems to dynamically scale up or down their \gls{io} resources based on immediate workload requirements, but devices could be more efficiently partitioned between machines in the cluster, increasing the overall resource utilization. 
 Furthermore, the solution should also be able to automatically discover resource location, without requiring that the user knows anything about the underlying \gls{pcie} network topology, and dynamically set up memory mappings between devices, \glspl{cpu}, and memory resources. An example would be enabling \gls{pciep2p} between two or more \gls{dma}-capable devices that are physically installed in different machines.
 
     
-\begin{objective}\label{obj:disaggregation}
+\begin{restatable}{objective}{objdisaggregation}\label{obj:disaggregation}
     \Gls{disaggregation} of system memory, device memory, and device \emph{functionality} should be supported, and the solution should be able to distribute component parts to different hosts, as well as provide software facilities for resources that do not support \gls{disaggregation} in hardware.
-\end{objective}
+\end{restatable}
 Because most device drivers are written in a way that assumes exclusive control over a device, some devices implement virtualization support in hardware,~i.e., \gls{sriov}, that makes them appear to a system as having multiple \glspl{vf}. 
 %
 The solution should be able to \gls{disaggregate} such \gls{sriov}-capable devices, and distribute their \glspl{vf} to different machines, allowing multiple computers to use the same device simultaneously.
@@ -309,9 +309,9 @@ Moreover, the \gls{api} should be designed so that a driver implementation does 
 
 
 
-\begin{objective}\label{obj:experiments}
+\begin{restatable}{objective}{objexperiments}\label{obj:experiments}
     To prove real-world deployment capabilities, the solution should be tested on realistic and relevant workloads and benchmarks.
-\end{objective}
+\end{restatable}
 In order to confirm that \gls{io} resources can be distributed to, and shared with, remote machines, a comprehensive performance evaluation covering all components of the implementation is needed.
 %
 As the solution should provide \emph{native} \gls{pcie} performance (\cref{obj:performance}), all parts should be thoroughly tested with latency and throughput in mind, in order to reveal any potential performance bottlenecks.
@@ -506,6 +506,7 @@ For the sake of convenience, functionality testing and the overall validation pr
 However, it should be mentioned that while the presented experiments primarily use Intel~Xeon as the \gls{cpu} architecture, and \glspl{nvme}, Ethernet~\glspl{nic}, and Nvidia \glspl{gpu} were used for shared resources, additional \gls{cpu} architectures and devices were also used during the development and validation phases.
 %
 This includes \gls{cpu} architectures like AMD and ARM, and other devices like \glspl{fpga}, AMD \glspl{gpu}, sound cards, and \gls{pcie}-attached cameras.
+
 
 
 \section{Contributions}
