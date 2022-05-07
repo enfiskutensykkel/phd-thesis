@@ -71,6 +71,7 @@
 \setcounter{tocdepth}{3}
 
 
+
 % Referring to sections in the papers from the main body of the dissertation
 \NewDocumentCommand{\getpaper}{m m}{#1}
 \NewDocumentCommand{\getsect}{m m}{#1:#2}
@@ -181,6 +182,14 @@
 \Crefrangeformat{objective}{Objectives~#3#1#4--#5#2#6}
 \crefname{objective}{Objective}{Objectives}
 \Crefname{objective}{Objective}{Objectives}
+
+
+% Paper contributions towards an objective
+\NewDocumentEnvironment{contribution}
+{ m m m }
+{\ignorespaces#1\ignorespacesafterend\noindent}
+{\ignorespacesafterend\noindent\newline\newline\textbf{Papers contributing to \cref*{#2}:} \cref{#3}.}
+
 
 
 % Glossary stuff
