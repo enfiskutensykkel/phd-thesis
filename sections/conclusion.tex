@@ -101,18 +101,14 @@ For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce addit
 However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines. 
 
 
-
-Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but to do so using a new approach altogether: 
+Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution with zero overhead.
 %
-unifying traditional device \gls{io} with distributed, shared-memory computing by leveraging the memory mapping capabilities of \glspl{ntb}. 
+By leveraging the memory capabilities of \glspl{ntb}, our approach unifies traditional device \gls{io} with distributed, shared-memory computing in a novel way.
 %
-A solution should allow the inner devices and memory of machines to be shared with, and used by, remote machines in a cluster, as if these resources were local to the remote machines using them.
-%
-In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange{obj:distributed}{obj:experiments}.
+Such a solution should allow the inner devices and memory of machines to be shared with, and used by, remote machines in a cluster, as if these resources were local to the remote machines using them.
 
 
-
-In the following, we review these objectives and evaluate how the work of this dissertation contributes to each of them:
+In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange{obj:distributed}{obj:experiments}:
 
 
 
