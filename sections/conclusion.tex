@@ -101,13 +101,13 @@ For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce addit
 However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines. 
 
 
-Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution with zero overhead.
+
+Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution with zero overhead by using a novel approach:
 %
-By leveraging the memory capabilities of \glspl{ntb}, our approach unifies traditional device \gls{io} with distributed, shared-memory computing in a novel way.
+unifying traditional device \gls{io} with distributed, shared-memory computing by leveraging the memory mapping capabilities of \glspl{ntb}.
 %
 Such a solution should allow the inner devices and memory of machines to be shared with, and used by, remote machines in a cluster, as if these resources were local to the remote machines using them.
-
-
+%
 In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange{obj:distributed}{obj:experiments}:
 
 
@@ -117,26 +117,27 @@ In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange
 % Also make it clear how the contribution helps solve the overall research question as well.
 
 
-\begin{contribution}{\objdistributed*}{obj:distributed}{nossdav,srmpds,cc,tocs}%
-    Using SmartIO, machines act as ``\glspl{lender}'' and ``\glspl{borrower}''. 
-    %
-    \Gls{lender} registers one or more of its devices with SmartIO, allowing these devices to be used by remote machines.
-    %
-    A \gls{borrower} is a system that is currently using such a device.
-    %
-    Any \gls{pcie} device may be registered with SmartIO and shared, as demonstrated particularly by our extensive performance evaluation in \paperref{tocs:eval}.
-    %
-    We implemented three different sharing methods for our solution, namely \gls{dl}, \gls{mdev}, and the \gls{exttosisciapi}.
-    %
-    These sharing methods are detailed in \cref{nossdav,srmpds,cc,tocs}.
-    %
-    SmartIO is fully distributed, allowing any machine to act as \gls{lender} or \gls{borrower}, or even acting as both at the same time.
-\end{contribution}
+
+\objdistributed*%
+%
+Using SmartIO, machines act as ``\glspl{lender}'' and ``\glspl{borrower}''. 
+%
+\Gls{lender} registers one or more of its devices with SmartIO, allowing these devices to be used by remote machines.
+%
+A \gls{borrower} is a system that is currently using such a device.
+%
+Any \gls{pcie} device may be registered with SmartIO and shared, as demonstrated particularly by our extensive performance evaluation in \paperref{tocs:eval}.
+%
+We implemented three different sharing methods for our solution, namely \gls{dl}, \gls{mdev}, and the \gls{exttosisciapi}.
+%
+These sharing methods are detailed in \cref{nossdav,srmpds,cc,tocs}.
+%
+SmartIO is fully distributed, allowing any machine to act as \gls{lender} or \gls{borrower}, or even acting as both at the same time.
 
 
-\begin{contribution}{\objtransparent*}{obj:transparent}{nossdav,srmpds,cc,tocs}%
-    some text here
-\end{contribution}
+
+\objtransparent*%
+%
 
 
 % fully distrubted, act as lender and
