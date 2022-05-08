@@ -102,9 +102,9 @@ However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing 
 
 
 
-Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution with zero overhead by using a novel approach:
+Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution with zero overhead by taking a novel approach:
 %
-unifying traditional device \gls{io} with distributed, shared-memory computing by leveraging the memory mapping capabilities of \glspl{ntb}.
+leveraging the memory mapping capabilities of \glspl{ntb} to unify traditional device \gls{io} with distributed, shared-memory computing.
 %
 Such a solution should allow the inner devices and memory of machines to be shared with, and used by, remote machines in a cluster, as if these resources were local to the remote machines using them.
 %
@@ -133,29 +133,77 @@ We implemented three different sharing methods for our solution, namely \gls{dl}
 These sharing methods are detailed in \cref{nossdav,srmpds,cc,tocs}.
 %
 SmartIO is fully distributed, allowing any machine to act as \gls{lender} or \gls{borrower}, or even acting as both at the same time.
+%
+As such, SmartIO enables a peer-to-peer sharing model, where all machines in the cluster can participate in the sharing through contributing their own resources and using resources shared by others.
+%
+This sets SmartIO apart from existing \gls{pcie}-based solutions (including Ladon~\cite{Tu2014}), as these are only able to share devices in dedicated servers.
 
 
 
 \objtransparent*%
 %
+As mentioned above, our SmartIO framework includes three sharing methods:
+%
+\begin{itemize}
+    \item The \gls{dl} sharing method inserts a remote device into the local device tree of the \gls{host}~\gls{os} by using a shadow device, as described in \cref{sec:lending}.
+        %
+        This allows device drivers, application software, and even the \gls{os} itself to use the remote device through \emph{native} \gls{os} interfaces, in the same way they would use a local device.
+        %
+        The initial \gls{dl} is described in \cref{nossdav}. Subsequent improvements, such as supporting borrowing devices from several \glspl{lender}, are detailed in \cref{srmpds,cc,tocs}.
+    
 
 
-% fully distrubted, act as lender and
+    \item The \gls{mdev} extension to the \gls{kvm} makes it possible to \gls{passthrough} remote devices to a \gls{vm}. 
+        %
+        Software running in the \gls{guest}, including device drivers and the \gls{guest}~\gls{os}, may interact with the physical devices directly, without escaping the virtualized environment.
+        %
+        To the \gls{vmguest}, the devices appear as locally installed devices.
+        %
+        The initial \gls{mdev} is described in \cref{srmpds}, and an improved version with a mechanism for discovering \gls{guestphys} memory layout is described in \cref{cc,tocs}.
+
+
+
+    \item The \gls{apiext} brings device-oriented programming semantics and device driver support functions to the \gls{sisciapi}.
+        %
+        Using the \gls{apiext}, \gls{userspace} device drivers can be implemented using the same \gls{api} used to implement shared-memory communication using \glspl{ntb}.
+        %
+        As the \gls{apiext} is built on top of SmartIO, the physical location of devices and \glspl{memorysegment} is abstracted away.
+        %
+        \Gls{userspace} device driver using our extension can be written as if all resources are local.
+        %
+        The \gls{apiext} is described in \cref{tocs}.
+\end{itemize}
+%
+These three sharing methods set SmartIO apart from \gls{rdma}-based \gls{disaggregation} solutions, as we do not require any \glspl{middlewareservice} and avoid any adaptations to existing software.
+%
+Scaling out becomes significantly easier, as SmartIO allows remote resources to be used natively instead.
+
+
+
+\objperformance*%
+%
+
+standard pcie
+critical data path
+mapping in advance
+contary to rdma disaggregation, smartio removes the need to interact with a remote device driver
+
+
+%However, there are some caveats performance considerations regarding \gls{pcie} paths and \glspl{iommu}.
+
+
+\objdisaggregation*%
+        %
+        Device memory regions are exported as \glspl{sharedsegment} that can be mapped directly into local address space, similar to how a local application would map device memory on a local system.
+        %
+        \Glspl{sharedsegment} can be mapped for devices, making it possible for devices to read from and write to these \glspl{segment} using native \gls{dma}.
+
+    dl mdev = more general than rdma, any pcie device shared and appear local
+mriov in software
 
 
 % Refer back to the main research question
-%However, there are some caveats performance considerations regarding \gls{pcie} paths and \glspl{iommu}.
-
 % How does this move the world forward?
-
-
-
-
-%%% contrast the below to smartio
-%%%% something state of the art?
-%%%% novelty of our approach
-
-%our solution combines traditional device \gls{io} with shared-memory capabilities
 
 
 \section{Future work}\label{sec:fw}
