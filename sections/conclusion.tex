@@ -13,9 +13,9 @@ In this dissertation, we have addressed this challenge and presented our SmartIO
 %
 Our SmartIO framework effectively makes all machines, including their internal devices and memory, part of a common \gls{pcie} domain.
 %
-The hard separation between local and remote is blurred out, as machines can dynamically share their internal devices and memory resources with other machines in a \gls{pcie} network. 
+Resources in remote machines can be used as if they were installed locally, without any performance degradation compared to local access and without requiring adaptions to device drivers or application software.
 %
-Remote resources can be used as if they were installed in the local machine, without any performance degradation compared to local access and without requiring adaptions to device drivers or application software.
+The hard separation between local and remote is blurred out, as machines can freely share their internal devices and memory resources with other machines in the cluster. 
 
 
 
@@ -96,7 +96,7 @@ Finally, our exhaustive performance test suite also includes tests using our pro
 \section{Revisiting the problem statement}\label{sec:discussion}
 Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate as discussed in \cref{sec:rw}. 
 %%
-For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that leads to a disparity in performance, compared to a local machine using local resources. 
+For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that lead to a disparity in performance, compared to a local machine using local resources. 
 %%
 \Gls{pcie}-based \gls{disaggregation} solutions do not have such performance issues, since they facilitate the use of resources using native \gls{pcie}.
 %%
@@ -155,7 +155,7 @@ As mentioned above, our SmartIO framework includes three sharing methods:
     
 
 
-    \item The \gls{mdev} extension to the \gls{kvm} makes it possible to \gls{passthrough} remote devices to a \gls{vm}. 
+    \item The \gls{mdev} extension to the \gls{kvm} makes it possible to \gls{passthrough} remote devices to a \gls{vm}, as detailed in \cref{sec:mdev}.
         %
         Software running in the \gls{guest}, including device drivers and the \gls{guest}~\gls{os}, may interact with the physical devices directly, without escaping the virtualized environment.
         %
@@ -164,19 +164,18 @@ As mentioned above, our SmartIO framework includes three sharing methods:
         The initial \gls{mdev} is described in \cref{srmpds}, and an improved version with a mechanism for discovering \gls{guestphys} memory layout is described in \cref{cc,tocs}.
 
 
-
     \item The \gls{apiext} brings device-oriented programming semantics and device driver support functions to the \gls{sisciapi}.
         %
-        Using the \gls{apiext}, \gls{userspace} device drivers can be implemented using the same \gls{api} used to implement shared-memory communication using \glspl{ntb}.
+        Using the \gls{apiext}, \gls{userspace} device drivers can be implemented using the same \gls{api} used to implement shared-memory communication using \glspl{ntb}, as explained in \cref{sec:api}.
         %
-        As the \gls{apiext} is built on top of SmartIO, the physical location of devices and \glspl{memorysegment} is abstracted away.
-        %
-        \Gls{userspace} device driver using our extension can be written as if all resources are local.
+        As the physical location of devices and \glspl{memorysegment} is abstracted away, \gls{userspace} device driver using our extension can be written as if all resources are local.
         %
         The \gls{apiext} is described in \cref{tocs}.
 \end{itemize}
 %
-These three sharing methods set SmartIO apart from \gls{rdma}-based \gls{disaggregation} solutions, as we do not require any \glspl{middlewareservice} and avoid any adaptations to existing software.
+These three sharing methods set SmartIO apart from existing \gls{disaggregation} solutions.
+%
+Contrary to \gls{rdma}-based solutions, we do not require any \glspl{middlewareservice} and avoid any adaptations to existing software.
 %
 Scaling out becomes significantly easier, as SmartIO allows remote resources to be used natively instead.
 
@@ -184,34 +183,67 @@ Scaling out becomes significantly easier, as SmartIO allows remote resources to 
 
 \objperformance*%
 %
-Contrary to \gls{rdma}-based \gls{disaggregation} solutions, with SmartIO it is not necessary to interact with a device driver running on the remote system, as remote resources can be accessed over standard \gls{pcie}.
+With SmartIO, it is not necessary to interact with a device driver running on the remote system, as remote resources can be mapped using the \gls{ntb} and accessed over standard \gls{pcie}.
 %
-However, in order to avoid communication overhead in the performance-critical path, memory-maps must be prepared ahead of time.
+However, one of the main challenges for our \gls{dl} and \gls{mdev} sharing methods is that local \gls{ram} must be mapped ahead of time in order to avoid communication overhead in the performance-critical path, yet memory used by a device driver can not be known in advance.
 %
-To accomplish this, our \gls{dl} and \gls{mdev} sharing methods use the \gls{borrower}'s \gls{iommu} to create continuous memory ranges that can be mapped as ``\glspl{dmawindow}'' through the appropriate \glspl{ntb} in advance of use.
+To overcome this, our SmartIO implementation supports using the \gls{borrower}'s \gls{iommu} to create continuous memory ranges that can be mapped as ``\glspl{dmawindow}'' through the \gls{lender}'s \glspl{ntb} in advance of use.
 %
-The \gls{dl} sharing method uses the \gls{shadowdev} to intercept when a device driver on the \gls{borrower} creates \gls{dma} buffers, and is able to dynamically add memory pages to the local \gls{iommu} ranges.
+Memory pages can then be dynamically added and removed from these \gls{iommu} ranges locally on the \gls{borrower}, and communication with a remote system in the critical path is avoided.
 %
-We describe this in \cref{srmpds,cc,tocs}.
+%As described in \cref{sec:lending}, the \gls{dl} sharing method uses the \gls{shadowdev} to intercept when a device driver on the \gls{borrower} allocates \gls{dma} buffers, in order to add pages to an \gls{iommu} range.
 %
-The \gls{mdev} sharing method additionally uses the \gls{lender}'s \gls{iommu} to map the device to the same \gls{guestphys} memory layout as the \gls{vmguest}.
-%
- this mapping naively is described in \cref{srmpds}, and in \cref{cc,tocs} we 
+%For the \gls{mdev} sharing method, SmartIO uses the \gls{lender}'s \gls{iommu} in addition to the \gls{borrower}'s, in order to map the device to the same \gls{guestphys} memory layout as the \gls{vmguest} as explained in \cref{sec:mdev}.
 
 
 
-Once mapped, remote resources are accessed over standard \gls{pcie}.
+Once mapped, remote resources are accessed with native \gls{pcie} performance, as all address translations are done in \gls{ntb} (and \gls{iommu}) hardware.
 %
-However, 
+In fact, our evaluation in \paperref{tocs:eval} prove that, when conditions are similar, SmartIO allows remote resources to be used \emph{without any performance overhead} compared to using local resources.
 %
-%However, there are some caveats performance considerations regarding \gls{pcie} paths and \glspl{iommu}.
-experiments
+Nevertheless, using remote resources may lead to a longer distance between resources.
+%
+As such, there are some caveats that must be considered:
+%
+\begin{itemize}
+    \item Longer \gls{pcie} paths affect \gls{dma} performance, particularly \gls{dma} reads, as we uncovered in \cref{srmpds,cc,tocs}.
+        %
+        This remains an unsolved challenge for \gls{dl} or \gls{mdev}, as we have no control over the memory allocated by a device driver in these instances.
+        %
+        Therefore, we recommend considering the length of \gls{pcie} paths when designing the cluster.
+        %
+        The issue of longer \gls{pcie} paths affects drivers implemented using our \gls{sisciapiext} to a lesser extent;
+        %
+        by using memory access pattern hinting when allocating \gls{dma} buffers, SmartIO will attempt to minimize the distance a device or a \gls{cpu} needs to read across.
+        %
+        The performance experiment presented in \cref{sec:eval-nvme} demonstrates this.
+
+
+    \item Our performance experiments in \cref{srmpds,cc,tocs} also revealed that an \gls{iommu} in the data path can negatively affect \gls{dma} performance, as the \gls{iommu} may split large \gls{pcie} transactions into several, smaller-sized transactions.
+        %
+        This is especially an issue for our \gls{mdev} sharing method, as SmartIO uses the \gls{lender}'s \gls{iommu} in order to map the device to the same \gls{guestphys} address space as the \gls{vm} the device is \lgls{passthrough}{passed-through} to.
+        %
+        For \gls{dl}, the use of an \gls{iommu} on the \gls{lender} is optional.
+        %
+        However, the use of an \gls{iommu} on the \gls{borrower} is necessary (except in a few scenarios where it is possible to map the entire \gls{ram} of the \gls{borrower}). 
+        %
+        Consequently, this may introduce limitations on scenarios where machines act as both \glspl{lender} and \glspl{borrower}, if maximizing \gls{dma} performance is a requirement.
+        %
+        In the case where device drivers are implemented using the \gls{apiext}, an \gls{iommu} is entirely optional on \emph{both} the \gls{lender} and the \gls{borrower}.
+\end{itemize}
+%
+Improving performance issues involving \glspl{iommu} is a candidate for future improvements, particularly implementing support for \gls{ats}~\cite{spec:ATS} which allow devices (and \gls{pcie} switch chips) to cache resolved \gls{io}~addresses.
+%
+However, as \gls{ats} requires support in both devices and \glspl{iommu}, it appears not to be widely adopted, especially for commodity hardware.
 
 
 
-\objdynamic*
+\objdynamic*%
 %
 Our SmartIO driver, described in \cref{sec:smartio-driver}, is able to locate devices and \glspl{memorysegment} in the cluster and determine the shortest path between them.
+
+
+no reboot required
 
 
 
@@ -228,6 +260,9 @@ mriov in software
 % Refer back to the main research question
 % How does this move the world forward?
 
+
+SmartIO also supports mapping the \glspl{bar} of \emph{other devices}, even when these devices reside in different \glspl{lendermachine}, as we explain in \cref{tocs:lending-p2p}.
+%
 
 \section{Future work}\label{sec:fw}
 
