@@ -110,7 +110,7 @@ leveraging the memory mapping capabilities of \glspl{ntb} to unify traditional d
 %
 Such a solution should allow the inner devices and memory of machines to be shared with, and used by, remote machines in a cluster, as if these resources were local to the remote machines using them.
 %
-In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange{obj:distributed}{obj:experiments}:
+In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange*{obj:distributed}{obj:experiments}:
 
 
 
@@ -128,54 +128,80 @@ A \gls{lender} registers one or more of its devices with SmartIO, allowing these
 %
 A \gls{borrower} is a system that is currently using such a device.
 %
-Any \gls{pcie} device may be registered with SmartIO and shared, as demonstrated particularly by our extensive performance evaluation in \paperref{tocs:eval}.
+Any \gls{pcie} device may be registered with SmartIO and shared, as demonstrated by our comprehensive performance evaluation in \paperref{tocs:eval}.
 %
-We implemented three different sharing methods for our solution, namely \gls{dl}, \gls{mdev}, and the \gls{exttosisciapi}.
-%
-These sharing methods are detailed in \cref{nossdav,srmpds,cc,tocs}.
-%
-SmartIO is fully distributed, allowing any machine to act as \gls{lender} or \gls{borrower}, or even acting as both at the same time.
-%
-As such, SmartIO enables a peer-to-peer sharing model, where all machines in the cluster can participate in the sharing through contributing their own resources and using resources shared by others.
-%
-This sets SmartIO apart from existing \gls{pcie}-based solutions (including Ladon~\cite{Tu2013}), as these are only able to share devices in dedicated servers.
-
-
-
-\objtransparent*%
-%
-As mentioned above, our SmartIO framework includes three sharing methods:
+We implemented three different sharing methods for our solution: 
 %
 \begin{itemize}
-    \item The \gls{dl} sharing method inserts a remote device into the local device tree of the \gls{host}~\gls{os} by using a ``\gls{shadowdev}'', as described in \cref{sec:lending}.
-        %
-        This allows device drivers, application software, and even the \gls{os} itself to use the remote device through \emph{native} \gls{os} interfaces, in the same way they would use a local device.
+    \item The \gls{dl} sharing method, explained in \cref{sec:lending}, makes it possible to distribute devices to remote machines.
         %
         The initial \gls{dl} is described in \cref{nossdav}. Subsequent improvements, such as supporting borrowing devices from several \glspl{lender}, are detailed in \cref{srmpds,cc,tocs}.
-    
 
 
-    \item The \gls{mdev} extension to the \gls{kvm} makes it possible to \gls{passthrough} remote devices to a \gls{vm}, as detailed in \cref{sec:mdev}.
-        %
-        Software running in the \gls{guest}, including device drivers and the \gls{guest}~\gls{os}, may interact with the physical devices directly, without escaping the virtualized environment.
-        %
-        To the \gls{vmguest}, the devices appear as locally installed devices.
+
+    \item The \gls{mdev} extension to the \gls{kvm} makes it possible to distribute devices to \glspl{vm} running on remote machines, as detailed in \cref{sec:mdev}.
         %
         The initial \gls{mdev} is described in \cref{srmpds}, and an improved version with a mechanism for discovering \gls{guestphys} memory layout is described in \cref{cc,tocs}.
+
 
 
     \item The \gls{apiext} brings device-oriented programming semantics and device driver support functions to the \gls{sisciapi}.
         %
         Using the \gls{apiext}, \gls{userspace} device drivers can be implemented using the same \gls{api} used to implement shared-memory communication using \glspl{ntb}, as explained in \cref{sec:api}.
         %
-        As the physical location of devices and \glspl{memorysegment} is abstracted away, \gls{userspace} device driver using our extension can be written as if all resources are local.
+        The \gls{apiext} is described in \cref{tocs}.
+\end{itemize}
+%
+SmartIO is fully distributed, allowing \emph{any} machine in the cluster to act as \gls{lender} or \gls{borrower}, or even acting as both at the same time.
+%
+As such, SmartIO enables a peer-to-peer sharing model, where all machines in the cluster can participate in the sharing through contributing their own resources and using resources shared by others.
+%
+The sharing capabilities of SmartIO sets our solution apart from existing \gls{pcie}-based \gls{disaggregation} solutions (including Ladon~\cite{Tu2013}), as these solutions are only able to share devices in dedicated servers.
+
+
+
+\objtransparent*%
+%
+Our three sharing methods solve this objective in the following ways:
+%
+\begin{itemize}
+    \item \Gls{dl} inserts a remote device into the local device tree of the \gls{host}~\gls{os} by using a ``\gls{shadowdev}'', as described in \cref{sec:lending}.
+        %
+        This allows device drivers, application software, and even the (\gls{host})~\gls{os} itself to use the remote device through \emph{native} \gls{os} interfaces, in the same way they would use a local device.
+        %
+        No adaptations to existing software is required.
+        %
+        We describe this in further detail in \cref{nossdav,srmpds,cc,tocs}.
+    
+
+
+    \item \Gls{mdev} enables \gls{passthrough} of a remote device to a \gls{vm}, as detailed in \cref{sec:mdev}.
+        %
+        Software running in the \gls{guest}, including device drivers and the \gls{guest}~\gls{os}, may interact with the physical device directly, without escaping the virtualized environment.
+        %
+        To the \gls{vmguest}, the device appear as locally installed devices.
+        %
+        No modifications to \gls{vmemulator} software or \gls{host}~\gls{os} is necessary.
+        %
+        \Gls{mdev} is described in detail in \cref{srmpds,cc,tocs}.
+
+
+    \item Using the \gls{sisciapi}, remote \glspl{memorysegment} are mapped directly into the virtual address space of a local application.
+        %
+        Our \gls{exttosisciapi} makes it possible to map such \glspl{segment} for \emph{devices} as well.
+        %
+        This enables native \gls{dma} to remote memory resources, as if both the device and the memory being accessed were both installed in the same, local machine.
+        %
+        Moreover, using our \gls{apiext}, the physical location of both devices and \glspl{memorysegment} is abstracted away.
+        %
+        \Gls{userspace} device drivers implemented using our extension can be written as if all resources are local, similarly to how a local \gls{userspace} device driver (for a local device) would be implemented.
         %
         The \gls{apiext} is described in \cref{tocs}.
 \end{itemize}
 %
-These three sharing methods set SmartIO apart from existing \gls{disaggregation} solutions.
+By making remote devices and memory resources both appear and behave as if they are locally installed, SmartIO differs from existing \gls{disaggregation} solutions based on \gls{rdma}.
 %
-Contrary to \gls{rdma}-based solutions, we do not require any \glspl{middlewareservice} and avoid any adaptations to existing software.
+Contrary to these solutions, we do not require interacting with a device driver running on the remote system, thus avoiding any \glspl{middlewareservice} or specialized adaptations to existing software.
 %
 Scaling out becomes significantly easier, as SmartIO allows remote resources to be used natively instead.
 
@@ -183,7 +209,7 @@ Scaling out becomes significantly easier, as SmartIO allows remote resources to 
 
 \objperformance*%
 %
-With SmartIO, it is not necessary to interact with a device driver running on the remote system, as remote resources can be mapped using the \gls{ntb} and accessed over standard \gls{pcie}.
+With SmartIO, remote resources can be mapped using the \gls{ntb} and accessed over standard \gls{pcie}.
 %
 However, one of the main challenges for our \gls{dl} and \gls{mdev} sharing methods is that local \gls{ram} must be mapped ahead of time in order to avoid communication overhead in the performance-critical path, yet memory used by a device driver can not be known in advance.
 %
