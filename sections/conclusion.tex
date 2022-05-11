@@ -124,7 +124,7 @@ In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange
 %
 Using SmartIO, machines act as ``\emph{\glspl{lender}}'' and ``\emph{\glspl{borrower}}''. 
 %
-\Gls{lender} registers one or more of its devices with SmartIO, allowing these devices to be used by remote machines.
+A \gls{lender} registers one or more of its devices with SmartIO, allowing these devices to be used by remote machines.
 %
 A \gls{borrower} is a system that is currently using such a device.
 %
@@ -187,7 +187,7 @@ With SmartIO, it is not necessary to interact with a device driver running on th
 %
 However, one of the main challenges for our \gls{dl} and \gls{mdev} sharing methods is that local \gls{ram} must be mapped ahead of time in order to avoid communication overhead in the performance-critical path, yet memory used by a device driver can not be known in advance.
 %
-To overcome this, our SmartIO implementation supports using the \gls{borrower}'s \gls{iommu} to create continuous memory ranges that can be mapped as ``\glspl{dmawindow}'' through the \gls{lender}'s \glspl{ntb} in advance of use.
+To overcome this, our SmartIO implementation supports using the \gls{borrower}'s \gls{iommu} to create continuous memory ranges that can be mapped as ``\glspl{dmawindow}'' through the \gls{lender}'s \glspl{ntb} before use.
 %
 Memory pages can then be dynamically added and removed from these \gls{iommu} ranges locally on the \gls{borrower}, and communication with a remote system in the critical path is avoided.
 %
@@ -232,7 +232,7 @@ As such, there are some caveats that must be considered:
         In the case where device drivers are implemented using the \gls{apiext}, an \gls{iommu} is entirely optional on \emph{both} the \gls{lender} and the \gls{borrower}.
 \end{itemize}
 %
-Improving performance issues involving \glspl{iommu} is a candidate for future improvements, particularly implementing support for \gls{ats}~\cite{spec:ATS} which allow devices (and \gls{pcie} switch chips) to cache resolved \gls{io}~addresses.
+Improving performance issues involving \glspl{iommu} is a candidate for future improvements, particularly implementing support for \gls{ats}~\cite{spec:ATS}, which allows devices (and \gls{pcie} switch chips) to cache resolved \gls{io}~addresses.
 %
 However, as \gls{ats} requires support in both devices and \glspl{iommu}, it appears not to be widely adopted, especially for commodity hardware.
 
