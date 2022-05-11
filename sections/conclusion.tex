@@ -156,7 +156,7 @@ SmartIO is fully distributed, allowing \emph{any} machine in the cluster to act 
 %
 As such, SmartIO enables a peer-to-peer sharing model, where all machines in the cluster can participate in the sharing through contributing their own resources and using resources shared by others.
 %
-The sharing capabilities of SmartIO sets our solution apart from existing \gls{pcie}-based \gls{disaggregation} solutions (including Ladon~\cite{Tu2013}), as these solutions are only able to share devices in dedicated servers.
+Our sharing capabilities set SmartIO apart from existing \gls{pcie}-based \gls{disaggregation} solutions (including Ladon~\cite{Tu2013}), as these solutions are only able to share devices in dedicated servers.
 
 
 
@@ -171,7 +171,7 @@ Our three sharing methods solve this objective in the following ways:
         %
         No adaptations to existing software is required.
         %
-        We describe this in further detail in \cref{nossdav,srmpds,cc,tocs}.
+        \Gls{dl} is explained in further detail in \cref{nossdav,srmpds,cc,tocs}.
     
 
 
@@ -199,7 +199,9 @@ Our three sharing methods solve this objective in the following ways:
         The \gls{apiext} is described in \cref{tocs}.
 \end{itemize}
 %
-By making remote devices and memory resources both appear and behave as if they are locally installed, SmartIO differs from existing \gls{disaggregation} solutions based on \gls{rdma}.
+Whether resources are remote or local is made transparent by SmartIO, as remote devices and memory resources both appear and behave as if they are locally installed.
+%
+In this regard, SmartIO differs from existing \gls{disaggregation} solutions based on \gls{rdma}.
 %
 Contrary to these solutions, we do not require interacting with a device driver running on the remote system, thus avoiding any \glspl{middlewareservice} or specialized adaptations to existing software.
 %
@@ -217,9 +219,6 @@ To overcome this, our SmartIO implementation supports using the \gls{borrower}'s
 %
 Memory pages can then be dynamically added and removed from these \gls{iommu} ranges locally on the \gls{borrower}, and communication with a remote system in the critical path is avoided.
 %
-%As described in \cref{sec:lending}, the \gls{dl} sharing method uses the \gls{shadowdev} to intercept when a device driver on the \gls{borrower} allocates \gls{dma} buffers, in order to add pages to an \gls{iommu} range.
-%
-%For the \gls{mdev} sharing method, SmartIO uses the \gls{lender}'s \gls{iommu} in addition to the \gls{borrower}'s, in order to map the device to the same \gls{guestphys} memory layout as the \gls{vmguest} as explained in \cref{sec:mdev}.
 
 
 
@@ -266,10 +265,52 @@ However, as \gls{ats} requires support in both devices and \glspl{iommu}, it app
 
 \objdynamic*%
 %
-Our SmartIO driver, described in \cref{sec:smartio-driver}, is able to locate devices and \glspl{memorysegment} in the cluster and determine the shortest path between them.
+A device registered with SmartIO can be borrowed by any machine (which then becomes a \gls{borrower}) at any time, while systems are running.
+%
+A device may be borrowed by several machines simultaneously, as devices can be borrowed either exclusively or non-exclusively.
+%
+When the device is no longer needed, it can be returned.
+%
+\Glspl{lender} may even forcefully reclaim their devices, should it be necessary.
+%
+No rebooting is required, and a device may be borrowed and returned many times.
 
 
-no reboot required
+
+The three sharing methods are able to memory map resources dynamically:
+%
+\begin{itemize}
+    \item As we explain in \cref{nossdav,cc,tocs}, a remote device appears \gls{hotadded} to the local system when \gls{dl} inserts a \gls{shadowdev} into the local \gls{pcie} device tree.
+        %
+        When the device is borrowed, SmartIO configures a static \gls{dmawindow} to a local \gls{iommu} range.
+        %
+        The \gls{shadowdev} intercepts when a device driver on the \gls{borrower} allocates \gls{dma} buffers, in order to dynamically add memory pages to the local \gls{iommu} range.
+        %
+        This way, we are able to dynamically detect system memory used by a device driver running on the \gls{borrower}.
+        %
+        When a device is returned (or reclaimed), the \gls{shadowdev} is removed from the local device tree and the device appears hot-removed.
+
+
+    \item Using our \gls{mdev} method, explained in \cref{srmpds,cc,tocs},
+
+\end{itemize}
+%%
+%%For the \gls{mdev} sharing method, SmartIO uses the \gls{lender}'s \gls{iommu} in addition to the \gls{borrower}'s, in order to map the device to the same \gls{guestphys} memory layout as the \gls{vmguest} as explained in \cref{sec:mdev}.
+%
+%Using \gls{dl}, the remote device appears \gls{hotadded} when the \gls{shadowdev} is added to the local \gls{pcie} device tree.
+%%
+%When the device is returned (or reclaimed), the \gls{shadowdev} is removed from the device tree and the device appears hot-removed.
+%%
+%No rebooting is required.
+%
+%%
+%It is also possible to \gls{hotadd} and hot-remove devices to a running \gls{vm}, if the \gls{vmemulator} supports this for \gls{passthrough} devices.
+%
+
+%As described in \cref{sec:smartio-driver}, SmartIO keeps track of the location of \glspl{memorysegment} and devices, and is able to determine the shortest path in the cluster without requiring that the user knows anything about the underlying network topology.
+%%
+
+
 
 
 
