@@ -192,7 +192,7 @@ Our three sharing methods solve this objective in the following ways:
         %
         This enables native \gls{dma} to remote memory resources, as if both the device and the memory being accessed were both installed in the same, local machine.
         %
-        Moreover, using our \gls{apiext}, the physical location of both devices and \glspl{memorysegment} is abstracted away.
+        Moreover, using the \gls{apiext}, the physical location of both devices and \glspl{memorysegment} are abstracted away.
         %
         \Gls{userspace} device drivers implemented using our extension can be written as if all resources are local, similarly to how a local \gls{userspace} device driver (for a local device) would be implemented.
         %
@@ -252,7 +252,7 @@ As such, there are some caveats that must be considered:
         %
         However, the use of an \gls{iommu} on the \gls{borrower} is necessary (except in a few scenarios where it is possible to map the entire \gls{ram} of the \gls{borrower}). 
         %
-        Consequently, this may introduce limitations on scenarios where machines act as both \glspl{lender} and \glspl{borrower}, if maximizing \gls{dma} performance is a requirement.
+        Consequently, this may introduce limitations on scenarios where machines act as both \glspl{lender} and \glspl{borrower}, where maximizing \gls{dma} performance is a requirement.
         %
         In the case where device drivers are implemented using the \gls{apiext}, an \gls{iommu} is entirely optional on \emph{both} the \gls{lender} and the \gls{borrower}.
 \end{itemize}
@@ -267,51 +267,77 @@ However, as \gls{ats} requires support in both devices and \glspl{iommu}, it app
 %
 A device registered with SmartIO can be borrowed by any machine (which then becomes a \gls{borrower}) at any time, while systems are running.
 %
-A device may be borrowed by several machines simultaneously, as devices can be borrowed either exclusively or non-exclusively.
+A device may be borrowed by several machines simultaneously, or borrowed exclusively by a single \gls{borrower}.
 %
 When the device is no longer needed, it can be returned.
 %
 \Glspl{lender} may even forcefully reclaim their devices, should it be necessary.
 %
-No rebooting is required, and a device may be borrowed and returned many times.
+Devices may be borrowed and returned many times, allowing systems to scale devices up or down dynamically based on immediate workload requirements.
 
 
-
-The three sharing methods are able to memory map resources dynamically:
+As explained in \cref{sec:smartio-driver}, SmartIO uses device identifiers to look up \glspl{lendermachine} and which \glspl{ntb} to use.
+%
+By keeping track of both \glspl{memorysegment} and devices, we are able to resolve the location of resources. 
+%
+This allows software to be moved to any machine in the cluster while all systems are running, as SmartIO is able to locate devices and distribute them to \glspl{borrower}:
 %
 \begin{itemize}
-    \item As we explain in \cref{nossdav,cc,tocs}, a remote device appears \gls{hotadded} to the local system when \gls{dl} inserts a \gls{shadowdev} into the local \gls{pcie} device tree.
+    \item
+        Our \gls{dl} method distributes devices to physical \glspl{hostmachine}.
         %
-        When the device is borrowed, SmartIO configures a static \gls{dmawindow} to a local \gls{iommu} range.
+        As we explain in \cref{nossdav,cc,tocs}, a remote device appears \gls{hotadded} to the local system by inserting a \gls{shadowdev} into the local \gls{pcie} device tree.
         %
-        The \gls{shadowdev} intercepts when a device driver on the \gls{borrower} allocates \gls{dma} buffers, in order to dynamically add memory pages to the local \gls{iommu} range.
+        When the device is borrowed, SmartIO configures a \gls{dmawindow} to a local \gls{iommu} range.
         %
-        This way, we are able to dynamically detect system memory used by a device driver running on the \gls{borrower}.
+        The \gls{shadowdev} intercepts when a device driver on the \gls{borrower} allocates \gls{dma} buffers, in order to add memory pages to the local \gls{iommu} range.
+        %
+        This way, we are able to detect system memory used by a device driver running on the \gls{borrower} and map it for the device.
         %
         When a device is returned (or reclaimed), the \gls{shadowdev} is removed from the local device tree and the device appears hot-removed.
 
 
-    \item Using our \gls{mdev} method, explained in \cref{srmpds,cc,tocs},
+    \item Our \gls{mdev} method distributes devices to \glspl{vm}.
+        %
+        Using device identifiers, we can assign device identifiers to \glspl{vm} as part of their configuration.
+        %
+        When a \gls{vm} boots up, any assigned devices are located in the cluster by SmartIO, and automatically borrowed. 
+        %
+        As outlined in \cref{cc,tocs}, our \gls{mdev} implementation is able to detect the \gls{vm}'s memory layout by probing \gls{kvm}.
+        %
+        This way, we are able to configure \glspl{dmawindow} and map devices to the \gls{guestphys} address space by using the \gls{lender}'s \gls{iommu}.
+        %
+        Devices remain borrowed as long as the \gls{vm} is running, and are returned when the \gls{vm} shuts down.
+        %
+        This dynamic borrowing and returning of devices allows \glspl{vm} to be migrated to any machine in the cluster.
+        %
+        It is also possible to \gls{hotadd} devices to a running \gls{vm}, if the \gls{vmemulator} supports this for \gls{passthrough} devices.
+        
 
+    \item Using our \gls{sisciapiext}, borrowing and returning devices is done explicitly through the \gls{api}.
+        %
+        A device is borrowed (or returned) at any point in the program being executed, as determined by the programmer.
+        %
+        Mapping resources are similarly explicit: SmartIO automatically exports \glspl{devicebar} as \glspl{sharedsegment} that can be mapped for the local application.
+        %
+        Similarly, any \glspl{sharedsegment} anywhere in the cluster can be mapped for a device, including the \glspl{bar} of other devices and even \gls{multicasting} \glspl{segment}.
+        %
+        SmartIO also supports associating \glspl{segment} with a device (rather than a machine in the cluster), allowing the location of \glspl{memorysegment} to be abstracted by SmartIO in a similar fashion to devices.
+        %
+        This way, a device driver implemented using the \gls{apiext} can be moved to any machine in the cluster.
+        %
+        Our proof-of-concept \gls{nvme} driver, presented in \cref{tocs}, is an example of this, as the same application process can run on any machine in the cluster.
 \end{itemize}
-%%
-%%For the \gls{mdev} sharing method, SmartIO uses the \gls{lender}'s \gls{iommu} in addition to the \gls{borrower}'s, in order to map the device to the same \gls{guestphys} memory layout as the \gls{vmguest} as explained in \cref{sec:mdev}.
 %
-%Using \gls{dl}, the remote device appears \gls{hotadded} when the \gls{shadowdev} is added to the local \gls{pcie} device tree.
-%%
-%When the device is returned (or reclaimed), the \gls{shadowdev} is removed from the device tree and the device appears hot-removed.
-%%
-%No rebooting is required.
+Finally, SmartIO also supports borrowing devices from multiple \glspl{lender} and enabling \gls{p2pdma} transfers between them, as we explain in \paperref{tocs:lending-p2p}.
 %
-%%
-%It is also possible to \gls{hotadd} and hot-remove devices to a running \gls{vm}, if the \gls{vmemulator} supports this for \gls{passthrough} devices.
+\Gls{p2p} between devices can be enabled when a device is borrowed, for example when borrowing devices using \gls{dl} or \gls{mdev}.
 %
-
-%As described in \cref{sec:smartio-driver}, SmartIO keeps track of the location of \glspl{memorysegment} and devices, and is able to determine the shortest path in the cluster without requiring that the user knows anything about the underlying network topology.
-%%
-
-
-
+This is demonstrated in the various \gls{p2p} experiments presented in \paperref{cc:eval,tocs:eval}.
+%
+\Gls{p2p} is also enabled when one or more \gls{devicebar} are mapped for another device using the \gls{sisciapiext}, as shown in \cref{sec:eval-nvme}.
+%
+As SmartIO keeps track of the location of resources in the cluster, it is able to determine the shortest path in the cluster network and configure the appropriate \glspl{ntb} along that path.
 
 
 
@@ -328,7 +354,9 @@ mriov in software
 % How does this move the world forward?
 
 
-SmartIO also supports mapping the \glspl{bar} of \emph{other devices}, even when these devices reside in different \glspl{lendermachine}, as we explain in \cref{tocs:lending-p2p}.
+SmartIO also supports mapping the \glspl{bar} of \emph{other devices}, even when these devices reside in different \glspl{lendermachine}, as 
+%
+demonstrated in \cref{sec:eval-nvme}
 %
 
 \section{Future work}\label{sec:fw}
