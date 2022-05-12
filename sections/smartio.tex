@@ -391,7 +391,9 @@ Whereas \gls{dl} is only supported for machines running Linux, \gls{mdev} makes 
 %
 Using \gls{mdev}, devices are no longer tightly coupled with the \glspl{hostmachine} they are installed in, allowing \glspl{vm} to be distributed across different \glspl{host} in the cluster while benefiting from the bare-metal performance of direct access to physical hardware.
 %
-It is even possible to migrate \glspl{vm} any \gls{host} in the cluster, as devices are assigned to \glspl{vm} using device identifiers and dynamically borrowed and returned.
+\Glspl{vm} can be migrated to any \gls{host} in the cluster, as devices are assigned to \glspl{vm} using device identifiers and dynamically borrowed and returned on boot and shutdown.
+%
+It is even possible to \gls{hotadd} devices to a running \gls{vm}, if the \gls{vmemulator} supports this for \gls{passthrough} devices.
 
 
 \begin{figure}

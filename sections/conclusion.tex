@@ -289,7 +289,7 @@ Through borrowing and returning devices, systems may scale \gls{io} resources up
 
 SmartIO keeps track of both \glspl{memorysegment} and devices, and is able to locate resources in the cluster, without requiring that the user knows anything about the underlying \gls{pcie} topology.
 %
-Devices are logically decoupled from the machines they are physically installed in. 
+Devices are logically decoupled from the machines they are physically installed in, allowing software to be moved to any machine in the cluster.
 %
 The shortest path between devices, \glspl{cpu}, and \glspl{memorysegment} is determined automatically, and SmartIO configures \glspl{ntb} along that path in order to map remote memory resources for \glspl{cpu} and devices.
 %
