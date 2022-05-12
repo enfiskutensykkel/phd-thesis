@@ -122,26 +122,34 @@ In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange
 
 \objdistributed*%
 %
-Using SmartIO, machines act as ``\emph{\glspl{lender}}'' and ``\emph{\glspl{borrower}}''. 
+%Using SmartIO, machines act as ``\emph{\glspl{lender}}'' and ``\emph{\glspl{borrower}}''. 
 %
-A \gls{lender} registers one or more of its devices with SmartIO, allowing these devices to be used by remote machines.
+%A \gls{lender} registers one or more of its devices with SmartIO, allowing these devices to be used by remote machines.
+%%
+%A \gls{borrower} is a system or software process that is currently using such a device.
 %
-A \gls{borrower} is a system or software process that is currently using such a device.
+SmartIO is fully distributed, allowing \emph{any} machine in the cluster to act as a ``\emph{\gls{lender}}'' or a ``\emph{\gls{borrower}}'', or even acting as both at the same time.
 %
 Any \gls{pcie} device may be registered with SmartIO and shared, as demonstrated by our comprehensive performance evaluation in \paperref{tocs:eval}.
 %
+As such, we enable a peer-to-peer sharing model, where all machines in the cluster can participate in the sharing through contributing their own resources and using resources shared by others.
+
+
 We implemented three different sharing methods for our solution: 
 %
 \begin{itemize}
     \item The \gls{dl} sharing method, explained in \cref{sec:lending}, makes it possible to distribute devices to remote machines.
         %
-        The initial \gls{dl} is described in \cref{nossdav}. Subsequent improvements, such as supporting borrowing devices from several \glspl{lender}, are detailed in \cref{srmpds,cc,tocs}.
+        %The initial \gls{dl} is described in \cref{nossdav}. Subsequent improvements, such as supporting borrowing devices from several \glspl{lender}, are detailed in \cref{srmpds,cc,tocs}.
+        The initial \gls{dl} method is presented in \cref{nossdav}. Subsequent improvements are presented in \cref{srmpds,cc,tocs}.
 
 
 
     \item The \gls{mdev} extension to the \gls{kvm} makes it possible to distribute devices to \glspl{vm} running on remote machines, as detailed in \cref{sec:mdev}.
         %
-        The initial \gls{mdev} is described in \cref{srmpds}, and an improved version with a mechanism for discovering \gls{guestphys} memory layout is described in \cref{cc,tocs}.
+        The initial \gls{mdev} method is presented in \cref{srmpds}, and improved versions are presented in \cref{cc,tocs}.
+        %
+        %The initial \gls{mdev} is described in \cref{srmpds}, and an improved version with a mechanism for discovering \gls{guestphys} memory layout is described in \cref{cc,tocs}.
 
 
 
@@ -149,14 +157,11 @@ We implemented three different sharing methods for our solution:
         %
         Using the \gls{apiext}, \gls{userspace} device drivers can be implemented using the same \gls{api} used to implement shared-memory communication using \glspl{ntb}, as explained in \cref{sec:api}.
         %
-        The \gls{apiext} is described in \cref{tocs}.
+        The \gls{apiext} is presented in \cref{tocs}.
 \end{itemize}
 %
-SmartIO is fully distributed, allowing \emph{any} machine in the cluster to act as \gls{lender} or \gls{borrower}, or even acting as both at the same time.
-%
-As such, SmartIO enables a peer-to-peer sharing model, where all machines in the cluster can participate in the sharing through contributing their own resources and using resources shared by others.
-%
-Our sharing capabilities set SmartIO apart from existing \gls{pcie}-based \gls{disaggregation} solutions (including Ladon~\cite{Tu2013}), as these solutions are only able to share devices in dedicated servers.
+These sharing capabilities set SmartIO apart from existing \gls{pcie}-based \gls{disaggregation} solutions (including Ladon~\cite{Tu2013}), as these solutions are only able to share devices in dedicated servers.
+
 
 
 
@@ -165,17 +170,17 @@ Our sharing capabilities set SmartIO apart from existing \gls{pcie}-based \gls{d
 Our three sharing methods solve this objective in the following ways:
 %
 \begin{itemize}
-    \item \Gls{dl} inserts a remote device into the local device tree of the \gls{host}~\gls{os} by using a ``\gls{shadowdev}'', as described in \cref{sec:lending}.
+    \item \Gls{dl} inserts a remote device into the local device tree of the \gls{host}~\gls{os} by using a ``\gls{shadowdev}''.
         %
         This allows device drivers, application software, and even the (\gls{host})~\gls{os} itself to use the remote device through \emph{native} \gls{os} interfaces, in the same way they would use a local device.
         %
         No adaptations to existing software is required.
         %
-        \Gls{dl} is explained in further detail in \cref{nossdav,srmpds,cc,tocs}.
+        This is further explained \gls{dl} in \cref{nossdav,srmpds,cc,tocs}.
     
 
 
-    \item \Gls{mdev} enables \gls{passthrough} of a remote device to a \gls{vm}, as detailed in \cref{sec:mdev}.
+    \item \Gls{mdev} enables \gls{passthrough} of a remote device to a \gls{vm}.
         %
         Software running in the \gls{guest}, including device drivers and the \gls{guest}~\gls{os}, may interact with the physical device directly, without escaping the virtualized environment.
         %
@@ -183,7 +188,7 @@ Our three sharing methods solve this objective in the following ways:
         %
         No modifications to \gls{vmemulator} software or \gls{host}~\gls{os} is necessary.
         %
-        \Gls{mdev} is described in detail in \cref{srmpds,cc,tocs}.
+        \Gls{mdev} is described in further detail in \cref{srmpds,cc,tocs}.
 
 
     \item Using the \gls{sisciapi}, remote \glspl{memorysegment} are mapped directly into the virtual address space of a local application.
@@ -211,9 +216,9 @@ Scaling out becomes significantly easier, as SmartIO allows remote resources to 
 
 \objperformance*%
 %
-With SmartIO, remote resources can be mapped using the \gls{ntb} and accessed over standard \gls{pcie}.
+%With SmartIO, remote resources can be mapped using the \gls{ntb} and accessed over standard \gls{pcie}.
 %
-However, one of the main challenges for our \gls{dl} and \gls{mdev} sharing methods is that local \gls{ram} must be mapped ahead of time in order to avoid communication overhead in the performance-critical path, yet memory used by a device driver can not be known in advance.
+One of the main challenges for our \gls{dl} and \gls{mdev} sharing methods was that local \gls{ram} must be mapped ahead of time in order to avoid communication overhead in the performance-critical path, yet memory used by a device driver can not be known in advance.
 %
 To overcome this, our SmartIO implementation supports using the \gls{borrower}'s \gls{iommu} to create continuous memory ranges that can be mapped as ``\glspl{dmawindow}'' through the \gls{lender}'s \glspl{ntb} before use.
 %
@@ -265,66 +270,71 @@ However, as \gls{ats} requires support in both devices and \glspl{iommu}, it app
 
 \objdynamic*%
 %
-Devices registered with SmartIO can be borrowed by any machine, at any time.
+%\Glspl{lender} may even forcefully reclaim their devices, should it be necessary.
 %
-A device may be borrowed by several machines simultaneously, or borrowed exclusively by a single \gls{borrower}.
 %
-When the device is no longer needed, it can be returned.
+Using SmartIO, resources may be shared without requiring machines to be rebooted.
 %
-\Glspl{lender} may even forcefully reclaim their devices, should it be necessary.
+Devices registered with SmartIO can be borrowed by any machine, at any time, using any of the three sharing methods.
 %
-Devices can be borrowed and returned many times, allowing systems to scale devices up and down based on current workload demands.
+For example, a machine may borrow a device using \gls{dl} and at the same time run a \gls{vm} that is borrowing another device using \gls{mdev}.
+%
+The different sharing methods can also be combined, as demonstrated by the proof-of-concept NVMe driver experiment presented in \cref{sec:eval-nvme}.
+%
+When the device is no longer needed, it can be returned so it may be used by another \gls{borrower}.
+%
+Through borrowing and returning devices, systems may scale \gls{io} resources up or down based on current workload demands.
 
 
 
-Borrowing and returning devices is done dynamically while machines are running:
+SmartIO keeps track of both \glspl{memorysegment} and devices, and is able to locate resources in the cluster, without requiring that the user knows anything about the underlying \gls{pcie} topology.
 %
-\begin{itemize}
-    \item Devices can be distributed to physical \glspl{hostmachine} during run-time using \gls{dl}.
-        %
-        No reboot or \gls{bios} (re-)configuration is needed.
-        %
-        As explained in \cref{sec:lending}, devices borrowed with \gls{dl} appears to be \gls{hotadded} to the local system by using a \gls{shadowdev}.
-        %
-        Using the \gls{shadowdev}, we are able to detect when a device driver is loaded and allocates memory, in order to map it for the device. 
-        %
-        When a device is returned (or reclaimed), the \gls{shadowdev} is removed and the device appears to have been hot-removed.
-        %
-        We outline this in \cref{nossdav,cc,tocs}.
-
-
-    \item Devices can also be distributed to \glspl{vm} using the \gls{mdev} sharing method.
-        %
-        Devices assigned to a \gls{vm} are automatically borrowed when the \gls{vmguest} boots, and returned when the \gls{vm} shuts down.
-        %
-        This dynamic borrowing and returning of devices allows \glspl{vm} to be migrated to any machine in the cluster.
-        %
-        It is also possible to \gls{hotadd} devices to a running \gls{vm}, if the \gls{vmemulator} supports this for \gls{passthrough} devices.
-        %
-        As outlined in \cref{cc,tocs}, we probe the \gls{kvm} to dynamically detect the \gls{guest}'s memory layout, which is then used when mapping the device to the same \gls{guestphys} address space as the \gls{vm}.
-        %
-
-
-    \item Using our \gls{sisciapiext}, borrowing and returning devices is done explicitly through the \gls{api}.
-        %
-        A device is borrowed (or returned) at any point in the program being executed, as determined by the programmer.
-        %
-        Our extension also provides \gls{api} functions for mapping \gls{sharedsegment} for a device, as well as mapping \glspl{devicebar} for the local application process.
-        %
-        These \gls{api} functions are described in further detail in \paperref{tocs:api}.
-\end{itemize}
+Devices are logically decoupled from the machines they are physically installed in. 
 %
-SmartIO also supports borrowing devices from multiple \glspl{lender} and enabling \gls{p2pdma} transfers between them, as we explain in \paperref{tocs:lending-p2p}.
+The shortest path between devices, \glspl{cpu}, and \glspl{memorysegment} is determined automatically, and SmartIO configures \glspl{ntb} along that path in order to map memory resources for \glspl{cpu} and devices.
 %
-\Gls{p2p} can be enabled when borrowing devices using \gls{dl} or \gls{mdev}.
+SmartIO also supports borrowing devices from multiple \glspl{lender} and enabling \gls{p2pdma} transfers between them, as we explain in \paperref{tocs:lending-p2p,tocs:mdev-p2p}.
 %
-This is demonstrated in the various \gls{p2p} experiments presented in \paperref{cc:eval,tocs:eval}.
+\Gls{p2p} can be enabled when borrowing devices using \gls{dl} or \gls{mdev}, which is demonstrated in the various \gls{p2p} experiments presented in \paperref{cc:eval,tocs:eval}.
 %
-\Gls{p2p} can also be enabled by using the \gls{apiext}, by mapping \glspl{devicebar} of \emph{other devices} for the device.
+\Gls{p2p} can also be enabled by using the \gls{apiext}, which we demonstrate in the proof-of-concept \gls{nvme} driver experiment (\cref{sec:eval-nvme}).
 %
-The proof-of-concept \gls{nvme} driver experiment presented in \cref{sec:eval-nvme} demonstrates this.
+\Cref{nossdav,srmpds,cc,tocs} outline how our SmartIO framework has become gradually more dynamic and flexible with subsequent improvements and support for \gls{p2p}.
 
-
+%
+%
+%%Borrowing and returning devices is dynamic, as SmartIO distributes devices while all systems are running:
+%%
+%\begin{itemize}
+%    \item Our \gls{dl} sharing method \gls{hotadds} devices to a local system by using a \gls{shadowdev}, as outlined in \cref{nossdav,cc,tocs}.
+%        %
+%        When a device is returned (or reclaimed), the \gls{shadowdev} is hot-removed.
+%        %
+%        The \gls{shadowdev} also makes it possible to detect when a device driver is loaded and allocates \gls{dma} buffers, in order to map them for the device. 
+%        %
+%        This way, \gls{dl} is able to dynamically distribute devices to physical \glspl{hostmachine} at run-time, without requiring a reboot or \gls{bios} (re-)configuration is needed.
+%
+%
+%    \item Devices can also be distributed to \glspl{vm} using the \gls{mdev} sharing method.
+%        %
+%        %\glspl{vm} can be migrated to any machine in the cluster.
+%        %
+%        Devices assigned to a \gls{vm} are automatically borrowed when the \gls{vmguest} boots, and returned when the \gls{vm} shuts down.
+%        %
+%        It is also possible to \gls{hotadd} devices to a running \gls{vm}, if the \gls{vmemulator} supports this for \gls{passthrough} devices.
+%        %
+%        As outlined in \cref{cc,tocs}, we probe the \gls{kvm} to dynamically detect the \gls{guest}'s memory layout, which is then used when mapping the device to the same \gls{guestphys} address space as the \gls{vm}.
+%        %
+%
+%
+%    \item Our \gls{sisciapiext} provides functions for borrowing and returning devices, mapping \glspl{sharedsegment} for devices, and mapping \glspl{devicebar} for the application process or for other devices.
+%        %
+%        A device is borrowed (or returned) at any point in the program being executed, as determined by the programmer.
+%        %
+%        These \gls{api} functions are described in further detail in \paperref{tocs:api}.
+%\end{itemize}
+%%
+%
 %
 %As explained in \cref{sec:smartio-driver}, we use device identifiers to locate devices.
 %%
@@ -389,6 +399,8 @@ The proof-of-concept \gls{nvme} driver experiment presented in \cref{sec:eval-nv
 
 
 \objdisaggregation*%
+A device may be borrowed by several machines simultaneously, or borrowed exclusively by a single \gls{borrower}.
+%
         %
         Device memory regions are exported as \glspl{sharedsegment} that can be mapped directly into local address space, similar to how a local application would map device memory on a local system.
         %
@@ -397,6 +409,8 @@ The proof-of-concept \gls{nvme} driver experiment presented in \cref{sec:eval-nv
     dl mdev = more general than rdma, any pcie device shared and appear local
 mriov in software
 
+The \gls{apiext} supports associating \glspl{sharedsegment} with devices (rather than machines in the cluster).
+%
 
         Mapping resources are similarly explicit: SmartIO automatically exports \glspl{devicebar} as \glspl{sharedsegment} that can be mapped for the local application.
         %
