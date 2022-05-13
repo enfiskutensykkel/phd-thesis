@@ -94,17 +94,18 @@ Finally, our exhaustive performance test suite also includes tests using our pro
 
 
 \section{Revisiting the problem statement}\label{sec:discussion}
-Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate as discussed in \cref{sec:rw}. 
-%%
-For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that lead to a disparity in performance, compared to a local machine using local resources. 
-%%
-\Gls{pcie}-based \gls{disaggregation} solutions do not have such performance issues, since they facilitate the use of resources using native \gls{pcie}.
-%%
-However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines. 
-
-
-
-Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution with zero overhead by taking a novel approach:
+%Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate as discussed in \cref{sec:rw}. 
+%%%
+%For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that lead to a disparity in performance, compared to a local machine using local resources. 
+%%%
+%\Gls{pcie}-based \gls{disaggregation} solutions do not have such performance issues, since they facilitate the use of resources using native \gls{pcie}.
+%%%
+%However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines. 
+%
+%
+%
+%Thus, 
+The main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution with zero overhead by taking a novel approach:
 %
 leveraging the memory mapping capabilities of \glspl{ntb} to unify traditional device \gls{io} with distributed, shared-memory computing.
 %
@@ -130,7 +131,7 @@ In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange
 %
 SmartIO is fully distributed, allowing \emph{any} machine in the cluster to act as a ``\emph{\gls{lender}}'' or a ``\emph{\gls{borrower}}'', or even acting as both at the same time.
 %
-Any \gls{pcie} device may be registered with SmartIO and shared, as demonstrated by our comprehensive performance evaluation in \paperref{tocs:eval}.
+Any \gls{pcie} device may be registered with SmartIO and shared, as demonstrated by our comprehensive performance evaluation in \cref{tocs}.
 %
 As such, we enable a peer-to-peer sharing model, where all machines in the cluster can participate in the sharing through contributing their own resources and using resources shared by others.
 
@@ -161,6 +162,9 @@ We implemented three different sharing methods for our solution:
 \end{itemize}
 %
 These sharing capabilities set SmartIO apart from existing \gls{pcie}-based \gls{disaggregation} solutions (including Ladon~\cite{Tu2013}), as these solutions are only able to share devices in dedicated servers.
+%
+Thus, our sharing methods solves \cref*{obj:distributed}.
+
 
 
 
@@ -211,6 +215,8 @@ In this regard, SmartIO differs from existing \gls{disaggregation} solutions bas
 Contrary to these solutions, we do not require interacting with a device driver running on the remote system, thus avoiding any \glspl{middlewareservice} or specialized adaptations to existing software.
 %
 Scaling out becomes significantly easier, as SmartIO allows remote resources to be used natively instead.
+%
+Thus, this aspect of SmartIO solves \cref*{obj:transparent}.
 
 
 
@@ -228,7 +234,7 @@ Memory pages can then be dynamically added and removed from these \gls{iommu} ra
 
 Once mapped, remote resources are accessed with native \gls{pcie} performance, as all address translations are done in \gls{ntb} (and \gls{iommu}) hardware.
 %
-In fact, our evaluation in \paperref{tocs:eval} prove that, when conditions are similar, SmartIO allows remote resources to be used \emph{without any performance overhead} compared to using local resources.
+In fact, our evaluation in \cref{tocs} prove that, when conditions are similar, SmartIO allows remote resources to be used \emph{without any performance overhead} compared to using local resources.
 %
 Nevertheless, using remote resources may lead to a longer distance between resources.
 %
@@ -261,9 +267,9 @@ As such, there are some caveats that must be considered:
         In the case where device drivers are implemented using the \gls{apiext}, an \gls{iommu} is entirely optional on \emph{both} the \gls{lender} and the \gls{borrower}.
 \end{itemize}
 %
-Improving performance issues involving \glspl{iommu} is a candidate for future improvements, particularly implementing support for \gls{ats}~\cite{spec:ATS}, which allows devices (and \gls{pcie} switch chips) to cache resolved \gls{io}~addresses.
+By making it possible for remote resources to be accessed over native \gls{pcie}, \cref*{obj:performance} is solved.
 %
-However, as \gls{ats} requires support in both devices and \glspl{iommu}, it appears not to be widely adopted, especially for commodity hardware.
+Improving performance issues involving \glspl{iommu} is a candidate for future work.
 
 
 
@@ -292,13 +298,13 @@ SmartIO keeps track of both \glspl{memorysegment} and devices, and is able to lo
 %
 The shortest path between devices, \glspl{cpu}, and \glspl{memorysegment} is determined automatically, and SmartIO configures \glspl{ntb} along that path in order to map remote memory resources for \glspl{cpu} and devices.
 %
-Moreover, SmartIO also supports borrowing devices from multiple \glspl{lender} and enabling \gls{p2pdma} transfers between them, as we explain in \paperref{tocs:lending-p2p,tocs:mdev-p2p}.
+Moreover, SmartIO also supports borrowing devices from multiple \glspl{lender} and enabling \gls{p2pdma} transfers between them, as we explain in \cref{tocs}.
 %
-\Gls{p2p} can be enabled when borrowing devices using \gls{dl} or \gls{mdev}, which is demonstrated in the various \gls{p2p} experiments presented in \paperref{cc:eval,tocs:eval}.
+\Gls{p2p} can be enabled when borrowing devices using \gls{dl} or \gls{mdev}, which is demonstrated in the various \gls{p2p} experiments presented in \cref{cc,tocs}.
 %
 \Gls{p2p} is also supported when using the \gls{apiext}, which we demonstrate in the proof-of-concept \gls{nvme} driver experiment (\cref{sec:eval-nvme}).
 %
-\Cref{nossdav,srmpds,cc,tocs} outline how our SmartIO framework has become gradually more dynamic and flexible with subsequent improvements and support for \gls{p2p}.
+\Cref{nossdav,srmpds,cc,tocs} show how our sharing methods make SmartIO a dynamic and flexible sharing framework, thus solving \cref*{obj:dynamic}.
 
 %
 %
@@ -401,13 +407,13 @@ Moreover, SmartIO also supports borrowing devices from multiple \glspl{lender} a
 %
 SmartIO is able to \gls{disaggregate} multi-function devices, such as devices capable of \gls{sriov}, and distribute individual \glspl{devicefunction} to different \glspl{borrower}.
 %
-An experiment demonstrating this is presented in \paperref{tocs:eval-sriov}.
+An experiment demonstrating this is presented in \cref{tocs}.
 %
 Devices that do not support \gls{sriov} may be \gls{disaggregated} in \emph{software} instead, using our \gls{exttosisciapi}.
 %
 Using the \gls{apiext}, a device may be borrowed exclusively by a single \gls{borrower}, or it can be borrowed by several machines simultaneously.
 %
-Our proof-of-concept \gls{nvme} driver presented in \paperref{tocs:nvme} demonstrate this, where several \glspl{borrower} share the same (non-\gls{sriov}) \gls{nvme}.
+Our proof-of-concept \gls{nvme} driver presented in \cref{tocs} demonstrate this, where several \glspl{borrower} share the same (non-\gls{sriov}) \gls{nvme}.
 %
 In other words, the \gls{apiext} enables ``\gls{mriov} in software''.
 
@@ -431,7 +437,7 @@ Not only does this allow software to be moved to any machine in the cluster, but
 %
 SmartIO is able to optimize memory locations without requiring that the user is aware of the underlying \gls{pcie} network topology.
 %
-The proof-of-concept \gls{nvme} driver experiment presented in \cref{sec:eval-nvme} demonstrates all of these capabilities.
+The proof-of-concept \gls{nvme} driver experiment presented in \cref{sec:eval-nvme} demonstrates all of these capabilities, proving that \cref*{obj:disaggregation} is solved.
 
 
 
@@ -449,6 +455,10 @@ For example, CUDA, argue that making use of
 
 
 \section{Future work}\label{sec:fw}
+%, particularly implementing support for \gls{ats}~\cite{spec:ATS}, which allows devices (and \gls{pcie} switch chips) to cache resolved \gls{io}~addresses.
+%
+%However, as \gls{ats} requires support in both devices and \glspl{iommu}, it appears not to be widely adopted, especially for commodity hardware.
+%
 
 mention new NVMe kernel space driver here
 
