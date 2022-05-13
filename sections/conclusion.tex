@@ -306,6 +306,88 @@ Moreover, SmartIO also supports borrowing devices from multiple \glspl{lender} a
 %
 \Cref{nossdav,srmpds,cc,tocs} show how our sharing methods make SmartIO a dynamic and flexible sharing framework, thus solving \cref*{obj:dynamic}.
 
+
+
+
+\objdisaggregation*%
+%
+SmartIO is able to \gls{disaggregate} multi-function devices, such as devices capable of \gls{sriov}, and distribute individual \glspl{devicefunction} to different \glspl{borrower}.
+%
+An experiment demonstrating this is presented in \cref{tocs}.
+%
+Devices that do not support \gls{sriov} may be \gls{disaggregated} in \emph{software} instead, using our \gls{exttosisciapi}.
+%
+Using the \gls{apiext}, a device may be borrowed exclusively by a single \gls{borrower}, or it can be borrowed by several machines simultaneously.
+%
+Our proof-of-concept \gls{nvme} driver presented in \cref{tocs} demonstrate this, where several \glspl{borrower} share the same (non-\gls{sriov}) \gls{nvme}.
+%
+In other words, the \gls{apiext} enables ``\gls{mriov} in software''.
+
+
+
+%The \gls{apiext} provides functions for borrowing and returning devices, mapping \glspl{devicebar} for the application process, as well as mapping \glspl{sharedsegment} for devices.
+%
+The \gls{apiext} makes it possible to implement device drivers as part of distributed, shared-memory cluster applications. 
+%
+Any \gls{memorysegment} anywhere in the cluster can be mapped for devices, so they may access them directly, including \glspl{segment} in local \gls{ram} on the \gls{borrower}, \glspl{segment} in \gls{ram} on the \gls{lender}, and even \glspl{segment} in memory of a different cluster machine altogether.
+%
+\Glspl{devicebar} are also automatically exported by SmartIO as \glspl{sharedsegment}, allowing device memory to be mapped for the application process or even for \emph{other devices} (thus enabling \gls{p2p}).
+%
+As such, SmartIO supports \gls{disaggregating} device memory.
+%
+It is even possible to map \gls{multicasting} \glspl{segment} for a device, allowing a device to stream data to multiple destinations in a single operation.
+%
+Moreover, SmartIO makes it possible to associate \glspl{memorysegment} with a device (rather than a machine in the cluster), allowing the location of \glspl{memorysegment} to be abstracted away in a similar fashion to devices.
+%
+Not only does this allow software to be moved to any machine in the cluster, but the implementation of device drivers becomes easier as well as they can be written as if all resources are local.
+%
+SmartIO is able to optimize memory locations without requiring that the user is aware of the underlying \gls{pcie} network topology.
+%
+The proof-of-concept \gls{nvme} driver experiment presented in \cref{sec:eval-nvme} demonstrates all of these capabilities, proving that \cref*{obj:disaggregation} is solved.
+
+
+
+\objexperiments*%
+%
+We have performed extensive 
+
+As remote devices, standard device drivers and benchmarking software
+For example, CUDA, argue that making use of 
+
+
+% Refer back to the main research question
+% How does this move the world forward?
+
+
+
+\section{Future work}\label{sec:fw}
+%, particularly implementing support for \gls{ats}~\cite{spec:ATS}, which allows devices (and \gls{pcie} switch chips) to cache resolved \gls{io}~addresses.
+%
+%However, as \gls{ats} requires support in both devices and \glspl{iommu}, it appears not to be widely adopted, especially for commodity hardware.
+%
+
+mention new NVMe kernel space driver here
+
+security / safety
+
+disaggregated memory - new interconnects
+%gen z interconnect data center level, cxl -> rack interconnect
+
+iommu in tree structures is a challenge - ats? other solutions?
+
+
+scaling 
+
+%With SmartIO, the hard separation between local and remote is blurred, as remote resources can be used as if they were locally installed and with native PCIe performance.
+
+
+%Using the \gls{sisciapi}, application memory can be exported as \glspl{sharedsegment}, and \glspl{segment} in remote machines can be mapped into a local application process' virtual address space.
+%By building on these concepts, our \lgls{apiext}{extension} makes it possible for a device driver implementation to use all the memory \gls{disaggregation} capabilities of \gls{sisci}, while also providing functionality for abstracting away the location of memory resources and resolving addresses between different address spaces.
+%
+%A device driver implemented using our \gls{apiext} can be agnostic about the underlying \gls{pcie} network topology, as devices may \gls{dma} directly to \glspl{sharedsegment}, regardless of whether they are local or remote.
+%
+%It is even possible to map device memory of other devices registered with SmartIO, for example devices borrowed using \gls{dl}.
+
 %
 %
 %%Borrowing and returning devices is dynamic, as SmartIO distributes devices while all systems are running:
@@ -400,84 +482,3 @@ Moreover, SmartIO also supports borrowing devices from multiple \glspl{lender} a
 %        Our proof-of-concept \gls{nvme} driver, presented in \cref{tocs}, is an example of this, as the same application process can run on any machine in the cluster.
 %\end{itemize}
 %
-
-
-
-\objdisaggregation*%
-%
-SmartIO is able to \gls{disaggregate} multi-function devices, such as devices capable of \gls{sriov}, and distribute individual \glspl{devicefunction} to different \glspl{borrower}.
-%
-An experiment demonstrating this is presented in \cref{tocs}.
-%
-Devices that do not support \gls{sriov} may be \gls{disaggregated} in \emph{software} instead, using our \gls{exttosisciapi}.
-%
-Using the \gls{apiext}, a device may be borrowed exclusively by a single \gls{borrower}, or it can be borrowed by several machines simultaneously.
-%
-Our proof-of-concept \gls{nvme} driver presented in \cref{tocs} demonstrate this, where several \glspl{borrower} share the same (non-\gls{sriov}) \gls{nvme}.
-%
-In other words, the \gls{apiext} enables ``\gls{mriov} in software''.
-
-
-
-%The \gls{apiext} provides functions for borrowing and returning devices, mapping \glspl{devicebar} for the application process, as well as mapping \glspl{sharedsegment} for devices.
-%
-The \gls{apiext} makes it possible to implement device drivers as part of distributed, shared-memory cluster applications. 
-%
-Any \gls{memorysegment} anywhere in the cluster can be mapped for devices, so they may access them directly, including \glspl{segment} in local \gls{ram} on the \gls{borrower}, \glspl{segment} in \gls{ram} on the \gls{lender}, and even \glspl{segment} in memory of a different cluster machine altogether.
-%
-\Glspl{devicebar} are also automatically exported by SmartIO as \glspl{sharedsegment}, allowing device memory to be mapped for the application process or even for \emph{other devices} (thus enabling \gls{p2p}).
-%
-As such, SmartIO supports \gls{disaggregating} device memory.
-%
-It is even possible to map \gls{multicasting} \glspl{segment} for a device, allowing a device to stream data to multiple destinations in a single operation.
-%
-Moreover, SmartIO makes it possible to associate \glspl{memorysegment} with a device (rather than a machine in the cluster), allowing the location of \glspl{memorysegment} to be abstracted away in a similar fashion to devices.
-%
-Not only does this allow software to be moved to any machine in the cluster, but the implementation of device drivers becomes easier as well as they can be written as if all resources are local.
-%
-SmartIO is able to optimize memory locations without requiring that the user is aware of the underlying \gls{pcie} network topology.
-%
-The proof-of-concept \gls{nvme} driver experiment presented in \cref{sec:eval-nvme} demonstrates all of these capabilities, proving that \cref*{obj:disaggregation} is solved.
-
-
-
-\objexperiments*%
-%
-We have performed extensive 
-
-As remote devices, standard device drivers and benchmarking software
-For example, CUDA, argue that making use of 
-
-
-% Refer back to the main research question
-% How does this move the world forward?
-
-
-
-\section{Future work}\label{sec:fw}
-%, particularly implementing support for \gls{ats}~\cite{spec:ATS}, which allows devices (and \gls{pcie} switch chips) to cache resolved \gls{io}~addresses.
-%
-%However, as \gls{ats} requires support in both devices and \glspl{iommu}, it appears not to be widely adopted, especially for commodity hardware.
-%
-
-mention new NVMe kernel space driver here
-
-security / safety
-
-disaggregated memory - new interconnects
-%gen z interconnect data center level, cxl -> rack interconnect
-
-iommu in tree structures is a challenge - ats? other solutions?
-
-
-scaling 
-
-%With SmartIO, the hard separation between local and remote is blurred, as remote resources can be used as if they were locally installed and with native PCIe performance.
-
-
-%Using the \gls{sisciapi}, application memory can be exported as \glspl{sharedsegment}, and \glspl{segment} in remote machines can be mapped into a local application process' virtual address space.
-%By building on these concepts, our \lgls{apiext}{extension} makes it possible for a device driver implementation to use all the memory \gls{disaggregation} capabilities of \gls{sisci}, while also providing functionality for abstracting away the location of memory resources and resolving addresses between different address spaces.
-%
-%A device driver implemented using our \gls{apiext} can be agnostic about the underlying \gls{pcie} network topology, as devices may \gls{dma} directly to \glspl{sharedsegment}, regardless of whether they are local or remote.
-%
-%It is even possible to map device memory of other devices registered with SmartIO, for example devices borrowed using \gls{dl}.
