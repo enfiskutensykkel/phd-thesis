@@ -413,19 +413,19 @@ In other words, the \gls{apiext} enables ``\gls{mriov} in software''.
 
 
 
-The \gls{apiext} provides functions for borrowing and returning devices, mapping \glspl{devicebar} for the application process, as well as mapping \glspl{sharedsegment} for devices.
+%The \gls{apiext} provides functions for borrowing and returning devices, mapping \glspl{devicebar} for the application process, as well as mapping \glspl{sharedsegment} for devices.
 %
-As such, the \gls{apiext} makes it possible to implement device drivers as part of distributed, shared-memory cluster applications. 
+The \gls{apiext} makes it possible to implement device drivers as part of distributed, shared-memory cluster applications. 
 %
-Any \gls{memorysegment} anywhere in the cluster can be mapped for the device so it may use native \gls{dma} to them, including \glspl{segment} in local \gls{ram} on the \gls{borrower}, \glspl{segment} in \gls{ram} on the \gls{lender}, or even \glspl{segment} in memory of a different cluster machine altogether.
+Any \gls{memorysegment} anywhere in the cluster can be mapped for devices, so they may access them directly, including \glspl{segment} in local \gls{ram} on the \gls{borrower}, \glspl{segment} in \gls{ram} on the \gls{lender}, and even \glspl{segment} in memory of a different cluster machine altogether.
 %
-It is also possible to map \gls{multicasting} \glspl{segment} for a device.
+\Glspl{devicebar} are also automatically exported by SmartIO as \glspl{sharedsegment}, allowing device memory to be mapped for the application process or even for \emph{other devices} (thus enabling \gls{p2p}).
 %
-Furthermore, SmartIO also supports \gls{disaggregating} device memory.
+As such, SmartIO supports \gls{disaggregating} device memory.
 %
-\Glspl{devicebar} are automatically exported by SmartIO as \glspl{sharedsegment}, which can be mapped for \glspl{cpu} as well as \emph{other devices} (enabling \gls{p2p}).
+It is even possible to map \gls{multicasting} \glspl{segment} for a device, allowing a device to stream data to multiple destinations in a single operation.
 %
-Finally, SmartIO makes it possible to associate \glspl{memorysegment} with a device (rather than a machine in the cluster), allowing the location of \glspl{memorysegment} to be abstracted away in a similar fashion to devices.
+Moreover, SmartIO makes it possible to associate \glspl{memorysegment} with a device (rather than a machine in the cluster), allowing the location of \glspl{memorysegment} to be abstracted away in a similar fashion to devices.
 %
 Not only does this allow software to be moved to any machine in the cluster, but the implementation of device drivers becomes easier as well as they can be written as if all resources are local.
 %
@@ -437,7 +437,10 @@ The proof-of-concept \gls{nvme} driver experiment presented in \cref{sec:eval-nv
 
 \objexperiments*%
 %
-t
+We have performed extensive 
+
+As remote devices, standard device drivers and benchmarking software
+For example, CUDA, argue that making use of 
 
 
 % Refer back to the main research question
