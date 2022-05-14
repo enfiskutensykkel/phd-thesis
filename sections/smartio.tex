@@ -1273,6 +1273,15 @@ However, by being implemented on top of \gls{pcie} cluster networking, SmartIO i
 
 \end{itemize}
 
+
+
+% existing \gls{disaggregation} solutions are inadequate compared to the sharing capabilities of SmartIO.
+In short, our SmartIO framework provides several advantages over existing \gls{disaggregation} solutions.
+%%
+\Gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that lead to a disparity in performance, compared to using resources over native \gls{pcie}. 
+%
+\Gls{pcie}-based \gls{disaggregation} solutions do not have such performance issues, but are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines.
+%
 We present a more technically detailed comparison between specific solutions and our own SmartIO implementation in the published papers, particularly in \paperref{tocs:rw}.
 
 

@@ -347,16 +347,6 @@ All of the published papers contributed towards solving this objective (\crefran
 % How does this move the world forward?
 By solving all of our six research objectives, we have answered the central research question of this dissertation:
 \researchquestion*%
-%
-%Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate (as discussed in \cref{sec:rw}). 
-%%
-%For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that lead to a disparity in performance, compared to a local machine using local resources. 
-%%%
-%\Gls{pcie}-based \gls{disaggregation} solutions do not have such performance issues, since they facilitate the use of resources using native \gls{pcie}.
-%%%
-%However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines. 
-%
-%Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution by taking a novel approach:
 %%
 We have not just implemented yet another \gls{disaggregation} solution, but developed a new and more flexible solution by taking a novel approach:
 %
@@ -366,7 +356,7 @@ Our implementation makes it possible for machines to share their inner devices a
 %
 By making it possible to use remote resources over native \gls{pcie}, our SmartIO framework is a zero-overhead solution for scaling out and using more hardware resources than there are available in a single machine.
 %
-Thus, we have shown that we can leverage \glspl{ntb} to develop a solution where resources can be freely shared in a \gls{pcie}-networked cluster.
+Thus, we have shown that we can leverage \glspl{ntb} to develop a solution where resources can be freely shared and transparently used in a \gls{pcie}-networked cluster.
 
 
 \section{Future work}\label{sec:fw}
