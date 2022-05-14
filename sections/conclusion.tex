@@ -94,22 +94,7 @@ Finally, our exhaustive performance test suite also includes tests using our pro
 
 
 \section{Revisiting the problem statement}\label{sec:discussion}
-%Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate as discussed in \cref{sec:rw}. 
-%%%
-%For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that lead to a disparity in performance, compared to a local machine using local resources. 
-%%%
-%\Gls{pcie}-based \gls{disaggregation} solutions do not have such performance issues, since they facilitate the use of resources using native \gls{pcie}.
-%%%
-%However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines. 
-%
-%
-%
-%Thus, 
-The main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution with zero overhead by taking a novel approach:
-%
-leveraging the memory mapping capabilities of \glspl{ntb} to unify traditional device \gls{io} with distributed, shared-memory computing.
-%
-Such a solution should allow the inner devices and memory of machines to be shared with, and used by, remote machines in a cluster, as if these resources were local to the remote machines using them.
+The main goal of this dissertation was to use \glspl{ntb} to develop a solution that allows the internal \gls{io} resources of machines to be shared with, and used by, remote machines in a cluster, as if these resources were local to the remote machines using them.
 %
 In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange*{obj:distributed}{obj:experiments}:
 
@@ -362,8 +347,24 @@ All of the published papers contributed towards solving this objective (\crefran
 
 % Refer back to the main research question
 % How does this move the world forward?
-
-
+By solving all of our six research objectives, we have answered the central research question of this dissertation:
+\researchquestion*%
+%
+Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate (as discussed in \cref{sec:rw}). 
+%%
+%For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that lead to a disparity in performance, compared to a local machine using local resources. 
+%%%
+%\Gls{pcie}-based \gls{disaggregation} solutions do not have such performance issues, since they facilitate the use of resources using native \gls{pcie}.
+%%%
+%However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines. 
+%
+Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution by taking a novel approach:
+%%
+leveraging the memory mapping capabilities of \glspl{ntb} to unify traditional device \gls{io} with distributed, shared-memory computing.
+%
+Our implementation makes it possible for machines to share their inner devices and memory with other machines in a \gls{pcie} cluster.
+%
+By making it possible to use remote resources over native \gls{pcie}, our SmartIO framework is a zero-overhead solution for scaling out and using more hardware resources than there are available in a single machine.
 
 
 
