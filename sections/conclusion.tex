@@ -54,7 +54,7 @@ SmartIO supports three different methods of device sharing:
 \begin{itemize}
     \item Our \textbf{\gls{dl}} sharing method makes it possible to dynamically assign a \gls{pcie} device to a remote \gls{borrowermachine}.
         %
-        By using a ``\gls{shadowdev}'', the device appears \gls{hotadded} to the local device tree on the \gls{borrower}.
+        %By using a ``\gls{shadowdev}'', the device appears \gls{hotadded} to the local device tree on the \gls{borrower}.
         %
         The fact that the device is remote is made transparent to the system, allowing the device to be used by native device drivers and application software as if it was locally installed.
 
@@ -66,9 +66,9 @@ SmartIO supports three different methods of device sharing:
 
     \item Our \textbf{\gls{sisciapiext}} makes it possible to \gls{disaggregate} devices and memory resources in software.
         %
-        We have extended the \gls{sisciapi} with device-oriented programming semantics and device driver support functionality, making core SmartIO capabilities available through the same shared-memory \gls{api} used to write cluster applications.
+        %We have extended the \gls{sisciapi} with device-oriented programming semantics and device driver support functionality, making core SmartIO capabilities available through the same shared-memory \gls{api} used to write cluster applications.
         %
-        Using this \gls{apiext}, we have also implemented a \textbf{proof-of-concept \gls{nvme} driver} that demonstrates how devices can be \gls{disaggregated} and shared with multiple machines at the same time.
+        Using this \gls{apiext}, we have also implemented a \textbf{proof-of-concept \gls{nvme} driver} that demonstrates sharing \glspl{nvme} with multiple machines at the same time.
         
 \end{itemize}
 
@@ -167,9 +167,7 @@ Our three sharing methods address this objective in the following ways:
 
     \item \Gls{mdev} enables \gls{passthrough} of a remote device to a \gls{vm}.
         %
-        Software running in the \gls{guest}, including device drivers and the \gls{guest}~\gls{os}, may interact with the physical device directly, without escaping the virtualized environment.
-        %
-        To the \gls{vmguest}, the device appear as locally installed devices.
+        Software running in the \gls{guest}, including device drivers and the \gls{guest}~\gls{os}, may interact with the physical device directly, as if the device was locally installed.
         %
         No modifications to \gls{vmemulator} software or \gls{host}~\gls{os} is necessary.
         %
@@ -350,7 +348,7 @@ All of the published papers contributed towards solving this objective (\crefran
 By solving all of our six research objectives, we have answered the central research question of this dissertation:
 \researchquestion*%
 %
-Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate (as discussed in \cref{sec:rw}). 
+%Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate (as discussed in \cref{sec:rw}). 
 %%
 %For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that lead to a disparity in performance, compared to a local machine using local resources. 
 %%%
@@ -358,14 +356,17 @@ Although many \gls{disaggregation} solutions for sharing resources over a networ
 %%%
 %However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines. 
 %
-Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution by taking a novel approach:
+%Thus, the main goal of this dissertation was not simply to implement yet another \gls{disaggregation} solution, but developing a new, more flexible solution by taking a novel approach:
 %%
+We have not just implemented yet another \gls{disaggregation} solution, but developed a new and more flexible solution by taking a novel approach:
+%
 leveraging the memory mapping capabilities of \glspl{ntb} to unify traditional device \gls{io} with distributed, shared-memory computing.
 %
 Our implementation makes it possible for machines to share their inner devices and memory with other machines in a \gls{pcie} cluster.
 %
 By making it possible to use remote resources over native \gls{pcie}, our SmartIO framework is a zero-overhead solution for scaling out and using more hardware resources than there are available in a single machine.
-
+%
+Thus, we have shown that we can leverage \glspl{ntb} to develop a solution where resources can be freely shared in a \gls{pcie}-networked cluster.
 
 
 \section{Future work}\label{sec:fw}
