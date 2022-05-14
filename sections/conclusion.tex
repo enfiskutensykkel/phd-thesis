@@ -350,11 +350,11 @@ By solving all of our six research objectives, we have answered the central rese
 %%
 We have not just implemented yet another \gls{disaggregation} solution, but developed a new and more flexible solution by taking a novel approach:
 %
-leveraging the memory mapping capabilities of \glspl{ntb} to unify traditional device \gls{io} with distributed, shared-memory computing.
+utilizing the memory mapping capabilities of \glspl{ntb} to unify traditional device \gls{io} with distributed, shared-memory computing.
 %
 Our implementation makes it possible for machines to share their inner devices and memory with other machines in a \gls{pcie} cluster.
 %
-By making it possible to use remote resources over native \gls{pcie}, our SmartIO framework is a zero-overhead solution for scaling out and using more hardware resources than there are available in a single machine.
+By making it possible to use remote resources over standard \gls{pcie}, our SmartIO framework is a zero-overhead solution for scaling out and using more hardware resources than there are available in a single machine.
 %
 Thus, we have shown that we can leverage \glspl{ntb} to develop a solution where resources can be freely shared and transparently used in a \gls{pcie}-networked cluster.
 
@@ -481,4 +481,6 @@ scaling
 %        %
 %        Our proof-of-concept \gls{nvme} driver, presented in \cref{tocs}, is an example of this, as the same application process can run on any machine in the cluster.
 %\end{itemize}
+%\footnote{Many \glspl{vmemulator} support \gls{hotadding} \emph{virtual} devices to running \gls{vm}, but few support this for \emph{\gls{passthrough}} devices.}
+
 %
