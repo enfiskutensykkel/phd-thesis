@@ -28,7 +28,7 @@ Being able to share and partition devices between cluster machines at run-time l
 
 
 
-In order to meet the latency and throughput requirements of data-driven and compute-heavy workloads, there is a need for flexible, yet efficient, sharing of \gls{io} resources in a networked computing cluster.
+In order to meet the latency and throughput requirements of data-driven and compute-heavy workloads, there is a need for flexible, yet efficient, sharing of \gls{io} resources in computing clusters.
 %
 This dissertation contributes to this goal by presenting a solution that enables distributing devices and sharing memory resources between machines interconnected with \gls{pcie}~\cite{spec:PCIe}.
 %
@@ -41,9 +41,9 @@ Existing device drivers and application software may use remote resources withou
 Not only does this make it easier to increase the overall resource utilization in the cluster, but it also becomes easier to design and implement distributed applications as software no longer needs to be written with accessing remote resources in mind,
 but can instead be implemented as if all resources are local.
 %
-Using our solution, \gls{io} resources are no longer locked to individual machines, and memory and devices can be shared freely with other machines in the cluster.
+Using our solution, \gls{io} resources are no longer locked to individual machines, and can instead be shared freely with other machines in the cluster.
 %
-Scaling out and using more hardware resources than there are available in a single machine becomes easier, and our solution improves both the performance of individual machines and the entire cluster as a whole.
+%Scaling out and using more hardware resources than there are available in a single machine becomes easier, and our solution improves both the performance of individual machines and the entire cluster as a whole.
 
 
 
@@ -380,11 +380,11 @@ It should also be noted that for \glspl{vm}, there are no limitations for which 
 
 
 
-As per \cref{obj:distributed}, sharing of any \gls{pcie} device should be supported, from \gls{pcie}~1.0 devices up to \gls{pcie}~4.0 devices.
+As per our objectives, sharing of any \gls{pcie} device should be supported, from \gls{pcie}~1.0 devices up to \gls{pcie}~4.0 devices.
 %
 Our evaluation includes a wide range of common (and commodity) devices, like \glspl{nvme}, Ethernet~\glspl{nic}, and \glspl{gpu}.
 %
-However, the framework should also not require any modifications to existing device driver implementations or device hardware~(\cref{obj:transparent}).
+However, the framework should also not require any modifications to existing device driver implementations or device hardware.
 %
 While \gls{ntb} clusters can be anywhere from 2 up to 60~machines, in many different network topologies, a limitation of the evaluation of our implementation is that it for the most part includes scenarios with cluster networks of only a few machines, since devices can only be used by one machine at the time.
 %

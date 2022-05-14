@@ -42,3 +42,10 @@ Thus, compared to existing device distribution mechanisms, SmartIO provides more
 %Another example is \gls{pcie}-based \gls{disaggregation} solutions, where the resources that can shared are limited to devices installed in dedicated servers, as these solutions lack the shared-memory capabilities necessary for sharing the inner resources of individual machines.
 %
 
+%Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate as discussed in \cref{sec:rw}. 
+%%%
+%For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that lead to a disparity in performance, compared to a local machine using local resources. 
+%%%
+%\Gls{pcie}-based \gls{disaggregation} solutions do not have such performance issues, since they facilitate the use of resources using native \gls{pcie}.
+%%%
+%However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines. 

@@ -141,7 +141,6 @@ We implemented three different sharing methods for our solution:
 \begin{itemize}
     \item The \gls{dl} sharing method, explained in \cref{sec:lending}, makes it possible to distribute devices to remote machines.
         %
-        %The initial \gls{dl} is described in \cref{nossdav}. Subsequent improvements, such as supporting borrowing devices from several \glspl{lender}, are detailed in \cref{srmpds,cc,tocs}.
         The initial \gls{dl} method is presented in \cref{nossdav}. Subsequent improvements are presented in \cref{srmpds,cc,tocs}.
 
 
@@ -149,9 +148,6 @@ We implemented three different sharing methods for our solution:
     \item The \gls{mdev} extension to the \gls{kvm} makes it possible to distribute devices to \glspl{vm} running on remote machines, as detailed in \cref{sec:mdev}.
         %
         The initial \gls{mdev} method is presented in \cref{srmpds}, and improved versions are presented in \cref{cc,tocs}.
-        %
-        %The initial \gls{mdev} is described in \cref{srmpds}, and an improved version with a mechanism for discovering \gls{guestphys} memory layout is described in \cref{cc,tocs}.
-
 
 
     \item The \gls{apiext} brings device-oriented programming semantics and device driver support functions to the \gls{sisciapi}.
@@ -288,7 +284,7 @@ The different sharing methods can also be combined, as demonstrated by the proof
 %
 When the device is no longer needed, it can be returned so it may be used by another \gls{borrower}.
 %
-Through borrowing and returning devices, systems may scale \gls{io} resources up or down based on current workload demands.
+Through borrowing and returning devices, systems may dynamically scale \gls{io} resources up or down based on current workload demands.
 
 
 
@@ -298,13 +294,13 @@ SmartIO keeps track of both \glspl{memorysegment} and devices, and is able to lo
 %
 The shortest path between devices, \glspl{cpu}, and \glspl{memorysegment} is determined automatically, and SmartIO configures \glspl{ntb} along that path in order to map remote memory resources for \glspl{cpu} and devices.
 %
-Moreover, SmartIO also supports borrowing devices from multiple \glspl{lender} and enabling \gls{p2pdma} transfers between them, as we explain in \cref{tocs}.
+Moreover, SmartIO also supports borrowing devices from multiple \glspl{lender} and enabling \gls{p2pdma} transfers between them, as we explain in \cref{srmpds,cc,tocs}.
 %
-\Gls{p2p} can be enabled when borrowing devices using \gls{dl} or \gls{mdev}, which is demonstrated in the various \gls{p2p} experiments presented in \cref{cc,tocs}.
+\Gls{p2p} can be enabled when borrowing devices using \gls{dl} or \gls{mdev}, which is demonstrated in the various \gls{p2p} experiments presented in these papers.
 %
 \Gls{p2p} is also supported when using the \gls{apiext}, which we demonstrate in the proof-of-concept \gls{nvme} driver experiment (\cref{sec:eval-nvme}).
 %
-\Cref{nossdav,srmpds,cc,tocs} show how our sharing methods make SmartIO a dynamic and flexible sharing framework, thus solving \cref*{obj:dynamic}.
+Our various performance experiments demonstrate that SmartIO is a dynamic and flexible sharing framework, thus solving \cref*{obj:dynamic}.
 
 
 
@@ -325,8 +321,6 @@ In other words, the \gls{apiext} enables ``\gls{mriov} in software''.
 
 
 
-%The \gls{apiext} provides functions for borrowing and returning devices, mapping \glspl{devicebar} for the application process, as well as mapping \glspl{sharedsegment} for devices.
-%
 The \gls{apiext} makes it possible to implement device drivers as part of distributed, shared-memory cluster applications. 
 %
 Any \gls{memorysegment} anywhere in the cluster can be mapped for devices, so they may access them directly, including \glspl{segment} in local \gls{ram} on the \gls{borrower}, \glspl{segment} in \gls{ram} on the \gls{lender}, and even \glspl{segment} in memory of a different cluster machine altogether.
@@ -339,7 +333,9 @@ It is even possible to map \gls{multicasting} \glspl{segment} for a device, allo
 %
 Moreover, SmartIO makes it possible to associate \glspl{memorysegment} with a device (rather than a machine in the cluster), allowing the location of \glspl{memorysegment} to be abstracted away in a similar fashion to devices.
 %
-Not only does this allow software to be moved to any machine in the cluster, but the implementation of device drivers becomes easier as well as they can be written as if all resources are local.
+This allows software to be written as if all resources are local, and can run on any machine in the cluster.
+%
+%Not only does this allow software to be moved to any machine in the cluster, but the implementation of device drivers becomes easier as well as they can be written as if all resources are local.
 %
 SmartIO is able to optimize memory locations without requiring that the user is aware of the underlying \gls{pcie} network topology.
 %
@@ -349,20 +345,25 @@ The proof-of-concept \gls{nvme} driver experiment presented in \cref{sec:eval-nv
 
 \objexperiments*%
 %
-To prove that SmartIO is a viable and efficient solution for real-world scenarios, we have used a \gls{gpu}-based image processing workload in \cref{mmsys} to show that \gls{dl} is able to 
+To prove that SmartIO is an efficient solution for real-world applications, we have performed a comprehensive performance evaluation consisting of both synthetic microbencmarks and realistic, large-scale workloads.
 %
-In \cref{cc,tocs}, we
-
-We have performed a comprehensive performance evaluation of all components of SmartIO, consisting of both realistic workloads as well as synthetic benchmarks.
+As SmartIO makes it possible to use remote devices as if they were local, we make a point out of using standard and unmodified benchmarking tools and device drivers, as well as commodity \gls{pcie} devices.
 %
-two different image classification workloads relying on multiple \glspl{gpu} and \gls{nvme} storage have also been tested.
+We have evaluated all parts of our SmartIO implementation, and show through comparison testing that SmartIO does not add any performance overhead compared to using local resources, in terms of latency and throughput.
+%
+In order to demonstrate the completeness of our solution, several sharing scenarios and network topologies have been evaluated, as well as a wide range of different devices like \glspl{gpu}, \glspl{nic}, and \glspl{nvme}.
+%
+In addition, we have developed a proof-of-concept \gls{nvme} driver in order to evaluate our \gls{apiext}, and prove that we are able to \gls{disaggregate} a non-\gls{sriov} device and share it with multiple machines. 
+%
+All of the published papers contributed towards solving this objective (\crefrange{nossdav}{tocs}).
 
-As remote devices, standard device drivers and benchmarking software
-For example, CUDA, argue that making use of 
+
 
 
 % Refer back to the main research question
 % How does this move the world forward?
+
+
 
 
 
