@@ -5,13 +5,17 @@ For example, in a heterogeneous computing cluster, different machines may have d
 %
 To facilitate device sharing and memory disaggregation among machines connected using PCIe non-transparent bridges, we present SmartIO.
 %
-SmartIO makes all machines in the cluster, including their internal devices and memory, part of a common PCIe domain, where resources may be used directly by remote machines, as if these resources were local to the remote machines using them.
+SmartIO makes all machines in the cluster, including their internal devices and memory, part of a common PCIe domain.
 %
-NVMes, GPUs, FPGAs, NICs, and any other PCIe device can be shared with and distributed to remote machines, and it is even possible to disaggregate devices and memory, in order to share component parts with multiple machines at the same time.
+By leveraging the memory mapping capabilities of non-transparent bridges, remote resources may be used directly, as if these resources were local to the machines using them.
+%
+Whether devices are local or remote is made transparent by SmartIO.
+%
+NVMes, GPUs, FPGAs, NICs, and any other PCIe device can be dynamically shared with and distributed to remote machines, and it is even possible to disaggregate devices and memory, in order to share component parts with multiple machines at the same time.
 %
 Software is entirely removed from the performance-critical path, allowing remote resources to be used with native PCIe performance. 
 %
-To demonstrate that SmartIO is an efficient solution, we have performed a comprehensive evaluation consisting a wide range of performance experiments, including synthetic benchmarks and realistic, large-scale workloads.
+To demonstrate that SmartIO is an efficient solution, we have performed a comprehensive evaluation consisting of a wide range of performance experiments, including both synthetic benchmarks and realistic, large-scale workloads.
 %
 Our experimental results show that remote resources can be used without any performance overhead compared to using local resources, in terms of throughput and latency.
 %
