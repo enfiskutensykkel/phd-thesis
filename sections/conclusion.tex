@@ -13,7 +13,7 @@ In this dissertation, we have addressed this challenge and presented our SmartIO
 %
 Our SmartIO framework effectively makes all machines, including their internal devices and memory, part of a common \gls{pcie} domain.
 %
-Resources in remote machines can be used as if they were installed locally, without any performance degradation compared to local access and without requiring adaptions to device drivers or application software.
+Resources in remote machines can be used as if they were installed locally, without any performance degradation compared to local access, and without requiring adaptions to device drivers or application software.
 %
 The hard separation between local and remote is blurred out, as machines can freely share their internal devices and memory resources with other machines in the cluster. 
 
@@ -354,9 +354,11 @@ utilizing the memory mapping capabilities of \glspl{ntb} to unify traditional de
 %
 Our implementation makes it possible for machines to share their inner devices and memory with other machines in a \gls{pcie} cluster.
 %
-By making it possible to use remote resources over standard \gls{pcie}, our SmartIO framework is a zero-overhead solution for scaling out and using more hardware resources than there are available in a single machine.
+Remote resources can be used over standard \gls{pcie}, making our SmartIO framework a zero-overhead solution for scaling out and transparently using more hardware resources than there are available in a single machine.
 %
-Thus, we have shown that we can leverage \glspl{ntb} to develop a solution where resources can be freely shared and transparently used in a \gls{pcie}-networked cluster.
+Through a process of borrowing and returning devices, machines take part in a dynamic and composable \gls{io} infrastructure.
+%
+Thus, we have shown that we can leverage \glspl{ntb} to develop a solution where resources can be freely shared in a \gls{pcie}-networked cluster.
 
 
 \section{Future work}\label{sec:fw}
