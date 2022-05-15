@@ -434,6 +434,11 @@ Here, we highlight some areas that warrant further investigations and outline so
         This new \gls{kernelspace} implementation could  co-exist with the existing \gls{userspace} implementation, as queues can be assigned to application processes and kernel modules alike.
 
 \end{itemize}
+%
+Finally, possibilities that become enabled by future interconnection technologies that are built on \gls{pcie} should be explored once they become widely available.
+%
+Particularly \gls{cxl} is interesting with regard to memory \gls{disaggregation}, as it provides new cache-coherent protocols for accessing system and device memory.
+
 
 
 Our critical review of the goals and objectives showed that such sharing of resources across cluster machines is possible.
@@ -441,11 +446,3 @@ Our critical review of the goals and objectives showed that such sharing of reso
 However, there also are unsolved questions, and we have presented some additional potential directions. 
 %
 Nevertheless, we believe that our research results are a step in the right direction and should be a sound foundation for further research activities.
-
-
-%    \item disaggregated memory - new interconnects
-%        gen z interconnect data center level, cxl -> rack interconnect
-%        scaling issues
-%       cache coherent
-%       nvlink
-%

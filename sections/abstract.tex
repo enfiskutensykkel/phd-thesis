@@ -1,51 +1,15 @@
 \chapter{Abstract}
-% TODO slightly rewrite this and use different phrases and terms consistent with rest of dissertation
-% For example, use "machine" instead of "host"
-
-The large variety of compute-heavy and data-driven applications accelerate the need for a distributed \glsfmtshort{nolist-io} solution that enables cost-effective scaling of resources between networked hosts. 
+Distributed and parallel computing applications are becoming increasingly compute-heavy and data-driven, accelerating the need for disaggregation solutions that enable scaling of I/O resources between networked machines.
 %
-For example, in a cluster network, different machines may have various devices available at different times, but moving workloads to remote units over the network is often costly and introduce large overheads compared to accessing local resources. 
+For example, in a heterogeneous computing cluster, different machines may have different devices available to them, but distributing I/O resources in a way that maximizes both resource utilization and overall cluster performance is a challenge.
 %
-To facilitate \glsfmtshort{nolist-io} \glsfmttext{disaggregation} and device sharing among hosts connected using \glsfmtshort{pcie} \glsfmtshortpl{nolist-ntb}, we present SmartIO.
+To facilitate device sharing and memory disaggregation among machines connected using PCIe non-transparent bridges, we present SmartIO.
 %
-\Glsfmtshortpl{nvme}, \glsfmtshortpl{gpu}, network adapters, or any other standard \glsfmtshort{pcie} device may be borrowed and accessed directly, as if they were local to the remote machines. %FPGAs? NIC instead of network adapter?
+SmartIO makes all machines in the cluster, including their internal devices and memory, part of a common PCIe domain, where resources may be used directly by remote machines, as if these resources were local to the remote machines using them.
 %
-We provide capabilities beyond existing \glsfmttext{disaggregation} solutions by combining traditional \glsfmtshort{nolist-io} with distributed shared-memory functionality, allowing devices to become part of the same global address space as cluster applications. 
-%This unlocks a new potential in PCIe-connected cluster systems, as application software no longer needs to be written with accessing remote resources in mind, but can be implemented as if resources are local.
-Software is entirely removed from the data path, and simultaneous sharing of a device among application processes running on remote hosts is enabled.
+NVMes, GPUs, FPGAs, NICs, and any other PCIe device can be shared with and distributed to remote machines, and it is even possible to disaggregate devices and memory, in order to share component parts with multiple machines at the same time.
 %
-Our experimental results show that \glsfmtshort{nolist-io} devices can be shared with remote hosts, achieving native \glsfmtshort{pcie} performance.
+Software is entirely removed from the performance-critical path, and our experimental results show that remote resources can be used without any performance overhead compared to using local resources.
 %
-Thus, compared to existing device distribution mechanisms, SmartIO provides more efficient, low-cost resource sharing, increasing the overall system performance.
+Thus, compared to existing disaggregation solutions, SmartIO provides more efficient, low-cost resource sharing, increasing the overall system performance and resource utilization.
 
-%Remote resources can be accessed directly over native \gls{pcie}, without requiring any software in the critical path or network protocol translation.
-%%
-%SmartIO seamlessly combines traditional \gls{io} with distributed shared-memory functionality, and is able to provide sharing and disaggregation capabilities at multiple abstraction levels:
-%distributing devices to physical hosts, distributing devices to \glspl{vm}, and enabling disaggregation of devices and memory resources in software.
-%%
-%Furthermore, by using \gls{pcie} shared memory techniques, SmartIO is able to abstract away the physical location of devices and memory resources. 
-%Our implementation translates memory addresses between different address domains and resolves paths through the \gls{pcie} network in a manner that is transparent to application software, device drivers, and even the \gls{os}.
-
-%%without requiring
-
-%minimize data movement
-
-%allow all host to contribute their own/local resources
-%abstract away resources, blur the distinction. unlock new potential, in a manner that is transparent
-%unlocks a new potential (for abstract maybe?)
-
-
-%While many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate.
-%%
-%One example is \gls{disaggregation} solutions based on \gls{rdma}, which introduce additional software complexity that leads to a disparity in performance, compared to a local machine using local resources.
-%%
-%Another example is \gls{pcie}-based \gls{disaggregation} solutions, where the resources that can shared are limited to devices installed in dedicated servers, as these solutions lack the shared-memory capabilities necessary for sharing the inner resources of individual machines.
-%
-
-%Although many \gls{disaggregation} solutions for sharing resources over a network already exist, these solutions are often inadequate as discussed in \cref{sec:rw}. 
-%%%
-%For instance, \gls{disaggregation} solutions based on \gls{rdma} introduce additional software complexity and indirections that lead to a disparity in performance, compared to a local machine using local resources. 
-%%%
-%\Gls{pcie}-based \gls{disaggregation} solutions do not have such performance issues, since they facilitate the use of resources using native \gls{pcie}.
-%%%
-%However, \gls{pcie}-based \gls{disaggregation} solutions are limited to sharing devices installed in dedicated servers, as they lack the shared-memory capabilities necessary for sharing the \emph{inner} resources of individual machines. 
