@@ -96,7 +96,7 @@ Finally, our exhaustive performance test suite also includes tests using our pro
 \section{Revisiting the problem statement}\label{sec:discussion}
 The main goal of this dissertation was to use \glspl{ntb} to develop a solution that allows the internal \gls{io} resources of machines to be shared with, and used by, remote machines in a cluster, as if these resources were local to the remote machines using them.
 %
-In \cref{sec:problem}, we broke down the challenges of this goal into \crefrange*{obj:distributed}{obj:experiments}:
+In \cref{sec:problem}, we broke down the challenges of this goal into six objectives: %\crefrange*{obj:distributed}{obj:experiments}:
 
 
 
@@ -356,9 +356,11 @@ Our implementation makes it possible for machines to share their inner devices a
 %
 Remote resources can be used over standard \gls{pcie}, making our SmartIO framework a zero-overhead solution for scaling out and transparently using more hardware resources than there are available in a single machine.
 %
-Through a process of borrowing and returning devices, machines take part in a dynamic and composable \gls{io} infrastructure.
+By lending out their own local resources and borrowing remote resources, machines take part in a dynamic and composable \gls{io} infrastructure.
+%Through a process of borrowing and returning devices, machines take part in a dynamic and composable \gls{io} infrastructure.
 %
-Thus, we have shown that we can leverage \glspl{ntb} to develop a solution where resources can be freely shared in a \gls{pcie}-networked cluster.
+Thus, we have shown that we can leverage \glspl{ntb} to develop a solution where resources are freely shared in a \gls{pcie}-networked cluster.
+
 
 
 \section{Future work}\label{sec:fw}
