@@ -376,7 +376,7 @@ Here, we highlight some potential improvements and areas that require further in
         %
         By lending away local devices, the \gls{lender} effectively yields control over it to software running on a remote system.
         %
-        A flawed device driver may cause a device to read from and write to rogue memory addresses, causing the system to crash.
+        A flawed device driver may cause a device to read from and write to rogue memory addresses, potentially crashing the system.
         %
         A malicious driver may even \emph{intentionally} overwrite memory, or misuse \gls{dma} in order to snoop data from memory on the \gls{lender}.
         %
@@ -384,9 +384,22 @@ Here, we highlight some potential improvements and areas that require further in
         %
         Using an \gls{iommu} on the \gls{lender} offers some protection against undesired memory accesses, as devices are isolated in their own virtual address space.
         %
-        However, as \gls{iommu} domains only isolate \emph{per device}, it could still be possible for a malicious program to interfere while others are using the device, and something like \gls{pasid}~\cite{spec:PASID} may be required.
+        However, as \gls{iommu} domains only isolate \emph{per device}, it could still be possible for a malicious program to interfere while others are using a device, and something like \gls{pasid}~\cite{spec:PASID} may be required.
         %
         The security challenges of one-sided initiated \gls{io} is an understudied topic in general~\cite{Shinyeh2019}, so any work in this area would likely be a significant contribution.
+
+    
+    \item Our performance experiments presented in \cref{srmpds,cc,tocs} show that a combination of using the \gls{lender}-side \gls{iommu} and long \gls{pcie} paths may severely impair \gls{dma} performance.
+        %
+        While the use of an \gls{iommu} on the lender is optional for \gls{dl}, it is a requirement when using our \gls{mdev} sharing method.
+        %
+        Additionally, since using an \gls{iommu} on the \gls{borrower} is required by \gls{dl} in most scenarios, the \gls{iommu} will be present in machines that are \emph{both} \glspl{lender} and \glspl{borrower}.
+        %
+        The \gls{iommu} performance penalty is a strong candidate for future improvements, and should investigate if alternative \gls{iommu}/\gls{cpu} have similar effects on performance.
+        %
+        Implementing support for \gls{ats}~\cite{spec:ATS} should also be considered, as \gls{ats} allows devices (and \gls{pcie} switch chips) to cache \gls{io}~addresses resolved by an \gls{iommu}.
+        %
+        However, as \gls{ats} requires support in both devices and \glspl{iommu}, it appears not to be widely adopted, especially for commodity hardware.
 
 \end{itemize}
 %
@@ -398,11 +411,9 @@ Here, we highlight some potential improvements and areas that require further in
 %unexplored avenues of investigation
 %emerged
 %        %
-%        Additionally, our performance experiments show a combination of using the \gls{lender}-side \gls{iommu} and long \gls{pcie} paths may severely impair \gls{dma} performance.
 
 %, particularly implementing support for \gls{ats}~\cite{spec:ATS}, which allows devices (and \gls{pcie} switch chips) to cache resolved \gls{io}~addresses.
 %
-%However, as \gls{ats} requires support in both devices and \glspl{iommu}, it appears not to be widely adopted, especially for commodity hardware.
 %
 
 mention new NVMe kernel space driver here
