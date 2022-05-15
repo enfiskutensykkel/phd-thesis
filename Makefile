@@ -37,6 +37,7 @@ $(MAIN).bbl: bibliography.bib papers.bib
 	$(info **** BIBLIOGRAPHY ****)
 	pdflatex $(OPTIONS) $(MAIN)
 	biber $(MAIN)
+	pdflatex $(OPTIONS) $(MAIN)
 
 
 clean:
