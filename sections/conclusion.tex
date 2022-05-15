@@ -369,7 +369,7 @@ Thus, we have shown that we can leverage \glspl{ntb} to develop a solution where
 %
 During the development of SmartIO, several ideas for improvements and directions for future work emerged.
 %
-Here, we highlight some potential improvements and areas that require further investigations:
+Here, we highlight some potential improvements and areas that warrant further investigations:
 %
 \begin{itemize}
     \item The security implications of allowing remote machines to use and control internal system resources is something that should be addressed.
@@ -404,7 +404,21 @@ Here, we highlight some potential improvements and areas that require further in
         However, it should be mentioned that since \gls{ats} requires support in both devices and \glspl{iommu}, it appears to not be widely adopted, especially for commodity hardware.
 
 
-    \item Migrating VMs
+    \item Our \gls{mdev} implementation currently supports so-called ``cold migration''.
+        %
+        \Glspl{vm} can shut down, migrate, and restart on a different \gls{host}, while keeping the same \lgls{passthrough}{passed-through} devices.
+        %
+        %\Gls{vm} are assigned device identifiers in their configuration, and devices are borrowed and returned on boot and shutdown. 
+        %
+        If the \gls{vmemulator} supports it, it could also be possible to support \gls{hotadding} and hot-removing devices to a running \gls{vm}, making live migration theoretically possible by first removing all devices, migrating, and then re-attaching them afterwards.
+        %
+        However, this would temporarily disrupt device \gls{io} and force guest drivers to reset all devices.
+        %
+        Supporting real ``hot migration'', remapping devices while they are in use, with minimal disruption, is something we wish to implement in future work.
+        %
+        Not only would such a solution require keeping memory consistent during the migration warm-up, but a solution would also need to consider \gls{dma} transactions in-flight during the migration.
+        %
+        A mechanism for re-routing transactions, without violating the strict ordering required by \gls{pcie}, should be implemented, and would most likely require hardware support that does not exist today.
 
 
     \item kernel space nvme driver
