@@ -1,5 +1,5 @@
 \chapter{Abstract}
-Distributed and parallel computing applications are becoming increasingly compute-heavy and data-driven, accelerating the need for disaggregation solutions that enable scaling of I/O resources between networked machines.
+Distributed and parallel computing applications are becoming increasingly compute-heavy and data-driven, accelerating the need for disaggregation solutions that enable sharing of I/O resources between networked machines.
 %
 For example, in a heterogeneous computing cluster, different machines may have different devices available to them, but distributing I/O resources in a way that maximizes both resource utilization and overall cluster performance is a challenge.
 %
@@ -9,7 +9,11 @@ SmartIO makes all machines in the cluster, including their internal devices and 
 %
 NVMes, GPUs, FPGAs, NICs, and any other PCIe device can be shared with and distributed to remote machines, and it is even possible to disaggregate devices and memory, in order to share component parts with multiple machines at the same time.
 %
-Software is entirely removed from the performance-critical path, and our experimental results show that remote resources can be used without any performance overhead compared to using local resources.
+Software is entirely removed from the performance-critical path, allowing remote resources to be used with native PCIe performance. 
+%
+To demonstrate that SmartIO is an efficient solution, we have performed a comprehensive evaluation consisting a wide range of performance experiments, including synthetic benchmarks and realistic, large-scale workloads.
+%
+Our experimental results show that remote resources can be used without any performance overhead compared to using local resources, in terms of throughput and latency.
 %
 Thus, compared to existing disaggregation solutions, SmartIO provides more efficient, low-cost resource sharing, increasing the overall system performance and resource utilization.
 
