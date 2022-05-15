@@ -330,13 +330,15 @@ The proof-of-concept \gls{nvme} driver experiment presented in \cref{sec:eval-nv
 %
 To prove that SmartIO is an efficient solution for real-world applications, we have performed a comprehensive performance evaluation consisting of both synthetic microbencmarks and realistic, large-scale workloads.
 %
-As SmartIO makes it possible to use remote devices as if they were local, we make a point out of using standard and unmodified benchmarking tools and device drivers, as well as commodity \gls{pcie} devices.
+All parts of our SmartIO implementation have been evaluated, and we have included several sharing scenarios and network topologies have been evaluated, as well as a wide range of standard and commodity \gls{pcie} devices like \glspl{gpu}, \glspl{nic}, and \glspl{nvme}.
 %
-We have evaluated all parts of our SmartIO implementation, and show through comparison testing that SmartIO does not add any performance overhead compared to using local resources, in terms of latency and throughput.
+As SmartIO makes it possible to use remote devices as if they were local, we have used standard and unmodified benchmarking tools and device drivers.
 %
-In order to demonstrate the completeness of our solution, several sharing scenarios and network topologies have been evaluated, as well as a wide range of different devices like \glspl{gpu}, \glspl{nic}, and \glspl{nvme}.
+Through comparison testing, we prove that SmartIO does not add any performance overhead compared to using local resources, in terms of latency and throughput.
 %
-In addition, we have developed a proof-of-concept \gls{nvme} driver in order to evaluate our \gls{apiext}, and prove that we are able to \gls{disaggregate} a non-\gls{sriov} device and share it with multiple machines. 
+We have also explored the performance effects of moving resources further away, and present a thourough analysis of this.
+%
+Finally, a proof-of-concept \gls{nvme} driver was developed in order to evaluate our \gls{apiext} and the \gls{disaggregation} possibilities enabled by SmartIO.
 %
 All of the published papers contributed towards solving this objective (\crefrange{nossdav}{tocs}).
 
