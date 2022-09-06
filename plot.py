@@ -13,6 +13,47 @@ mpl.rcParams['ps.fonttype'] = 42
 plt.rcParams['figure.dpi'] = 200
 
 
+scipp_data = """1300,3
+1320,164
+1340,387
+1360,39
+1380,76
+1400,175
+1420,24219
+1440,217860
+1460,7402107
+1480,726029
+1500,219091
+1520,106858
+1540,31043
+1560,19714
+1580,39411
+1600,68654
+1620,87174
+1640,95791
+1660,102404
+1680,96257
+1700,95016
+1720,100485
+1740,103312
+1760,102195
+1780,101099
+1800,95017
+1820,47429
+1840,1996
+1860,6765
+1880,1452
+1900,2307
+1920,10614
+1940,29050
+1960,43068
+1980,17153
+2000,1292
+2020,724
+2040,885
+2060,283
+1000000000,2402"""
+
 def pt2in(pt):
     return float(pt) / 72.0
 
@@ -460,8 +501,85 @@ def lending_gpu():
     save_figure("lending-gpu")
 
 
+def scipp():
+    buckets = []
+    counts = []
+
+    for line in scipp_data.split('\n')[:-1]:
+        bucket, count = [int(d) for d in line.split(',')]
+        buckets.append(bucket)
+        counts.append(count)
+
+    print(buckets[counts.index(max(counts))])
+
+    fig = plt.figure(figsize=(pt2in(300), pt2in(160)))
+    ax = fig.subplots(1, 1)
+
+    prepare_axis(ax)
+
+    ax.set_xlim(buckets[0], buckets[-1])
+    ax.set_xlabel("Ping-pong latency (nanoseconds)")
+
+    ax.set_ylim(0, 8*10**6)
+    ax.set_ylabel("Number of ping-pongs (in millions)")
+    ax.set_yticks([i * 10**6 for i in range(9)])
+    ax.set_yticklabels(range(9))
+
+    ax.bar(buckets, counts, width=20, color="#2ad4ff", ec="#303030")
+    fig.tight_layout()
+
+    plt.savefig("scipp.png", dpi=600, format='png', bbox_inches='tight')
+
+
+def lending_gpu_slides():
+    local1_fname = 'results/zero-overhead/local-vs-remote/bw-topo=local-gpu0=P4000-gpu1=P4000-switch=yes-borrower=petty-borrower_iommu=yes-lender_a=-lender_b=-lender_a_iommu=no-lender_b_iommu=no-p2p=no-dtoh=yes-htod=yes.txt'
+    local2_fname = 'results/zero-overhead/local-vs-remote/bw-topo=local-gpu0=P4000-gpu1=P4000-switch=yes-borrower=petty-borrower_iommu=yes-lender_a=-lender_b=-lender_a_iommu=no-lender_b_iommu=no-p2p=no-dtoh=yes-htod=yes.txt'
+
+    remote1_fname = 'results/zero-overhead/local-vs-remote/bw-topo=1L-gpu0=P4000-gpu1=P4000-switch=yes-borrower=petty-borrower_iommu=yes-lender_a=betty-lender_b=-lender_a_iommu=no-lender_b_iommu=no-p2p=no-dtoh=yes-htod=yes.txt'
+    remote2_fname = 'results/zero-overhead/local-vs-remote/bw-topo=1L-gpu0=P4000-gpu1=P4000-switch=yes-borrower=petty-borrower_iommu=yes-lender_a=betty-lender_b=-lender_a_iommu=no-lender_b_iommu=no-p2p=no-dtoh=yes-htod=yes.txt'
+
+    local_htod1, local_dtoh1 = parse_gpu_bench(local1_fname, gpu=0)
+    #local_htod2, local_dtoh2 = parse_gpu_bench(local2_fname, gpu=1)
+    remote_htod1, remote_dtoh1 = parse_gpu_bench(remote1_fname, gpu=0)
+    #remote_htod2, remote_dtoh2 = parse_gpu_bench(remote2_fname, gpu=1)
+
+    keys = [(1 << n) for n in range(12, 28)]
+
+    grouping = [groups['local'], groups['remote']]
+    labels = ["Local Baseline", "Device Lending"]
+
+    fig = plt.figure(figsize=(pt2in(540), pt2in(160)))
+
+    ax = fig.subplots(1, 1)
+
+    prepare_axis(ax)
+
+    ax.set_xscale('log', base=2)
+    ax.set_xlim(keys[0] - (keys[0] >> 2), keys[-1] + keys[-2])
+    ax.set_xticks(keys)
+    ax.set_xticklabels((unit(size)+"B" for size in keys), rotation=0)
+    #ax.set_xlabel("Transfer size (B)")
+
+    ax.set_ylabel("DMA throughput (GB/s)")
+
+    ax.set_ylim(0, 13 * 1024)
+    yticks = range(0, 14 * 1024, 2048)
+    ax.set_yticks(yticks)
+    ax.set_yticklabels((int(i // 1024) for i in yticks))
+
+    plot_median_line(ax, [local_dtoh1, remote_dtoh1], grouping, labels)
+
+    fig.tight_layout()
+    fig.subplots_adjust(hspace=0.4)
+
+    plt.savefig("lending.png", dpi=600, format='png', bbox_inches='tight')
+    #save_figure("lending-gpu")
 
 #lending_nvme()
-smartio_driver_sq_figure()
+#smartio_driver_sq_figure()
 #lending_gpu()
+#lending_gpu_slides()
+
+scipp()
+
 plt.show()
