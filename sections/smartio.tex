@@ -239,14 +239,14 @@ The SmartIO driver, shown as layer \textbf{(B)} in \cref{fig:architecture}, runs
 %
 It acts as an abstraction layer, providing a logical decoupling of devices and which physical machines they are installed in (\glspl{lender}).
 %
-Neither devices nor software need to consider where resources physically reside, since SmartIO resolves this on behalf of both devices and a machines using them (\glspl{borrower}).
+Neither devices nor software need to consider where resources physically reside, since SmartIO resolves this on behalf of both devices and machines using them (\glspl{borrower}).
 %
-By providing this abstraction, the SmartIO driver is the first step towards \gls{dl}, \gls{mdev}, and the \gls{sisciapiext}, presented in \cref{sec:lending,sec:mdev,sec:api} respectively.
+By providing this abstraction, the SmartIO driver is the first step towards the sharing methods presented in \cref{sec:lending,sec:mdev,sec:api}, namely \gls{dl}, \gls{mdev}, and the \gls{sisciapiext}.
 
 
 Devices registered with SmartIO are assigned a unique identifier which allows machines to refer to a device without needing to specify the \gls{lendermachine}.
 %
-Internally, the SmartIO driver keeps track of devices and \glspl{lender}, and uses this device identifier to look up machines, devices, and which \gls{ntb} to use.
+Internally, the SmartIO driver keeps track of devices and \glspl{lender}, and uses this device identifier to look up devices and machines, and which \glspl{ntb} to use.
 %
 The SmartIO driver is also responsible for making \glspl{devicebar} available as \glspl{sharedsegment}, making it possible for \glspl{borrowermachine} to memory map remote device memory into their local address space (\gls{mmio}).
 
