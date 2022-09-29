@@ -15,11 +15,14 @@ main.acn
 main.acr
 main.alg
 main.ptc
+main.info
 *-blx.bib
 *.cut
 main.pdf
 main.out
 main.nolist*
+temp.pdf
+temp-a4.pdf
 
 results/*
 .DS_Store
