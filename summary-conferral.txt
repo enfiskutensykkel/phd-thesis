@@ -1,0 +1,1 @@
+Som sitt arbeid har kandidaten utviklet et rammeverk kalt SmartIO. SmartIO gjør det mulig for maskiner koblet sammen i et nettverk å effektivt dele sine indre ressurser med hverandre, på en slik måte at ressurser i andre maskiner ser ut som om de var lokalt installert i maskinen som bruker dem.
