@@ -553,10 +553,10 @@
 
 
 %% Specify production credits
-\newcommand{\cover}[1]{ \def \phduio@cover{#1} }
+%\newcommand{\cover}[1]{ \def \phduio@cover{#1} }
 \newcommand{\printinghouse}[1]{ \def \phduio@printinghouse{#1} }
-\cover{Hanne Baadsgaard Utigard}
-\printinghouse{Reprosentralen, University of Oslo}
+%\cover{Hanne Baadsgaard Utigard}
+\printinghouse{Graphics Center, University of Oslo}
 
 
 %% Print colophon
@@ -585,7 +585,7 @@
             in any form or by any means,
             without permission.
             \vskip7\baselineskip
-            Cover: \phduio@cover.
+            %Cover: \phduio@cover.
             \par
             Print production: \phduio@printinghouse.
     \end{flushleft}
