@@ -51,10 +51,10 @@ $(DELIVERY).pdf: $(MAIN).pdf $(MAIN).info
 	pdftk temp.pdf update_info $(MAIN).info output $@
 
 
-$(DELIVERY)-a4.pdf: $(DELIVERY).pdf $(MAIN).info
-	pdfjam -o $@ --paper a4paper -- $<
-	#pdfjam -o temp-a4.pdf --paper a4paper -- $<
-	#pdftk temp-a4.pdf update_info $(MAIN).info output $@
+#$(DELIVERY)-a4.pdf: $(DELIVERY).pdf $(MAIN).info
+#	pdfjam -o $@ --paper a4paper -- $<
+#	#pdfjam -o temp-a4.pdf --paper a4paper -- $<
+#	#pdftk temp-a4.pdf update_info $(MAIN).info output $@
 
 clean:
 	-$(RM) $(TEXFILES:%.tex=%.aux)

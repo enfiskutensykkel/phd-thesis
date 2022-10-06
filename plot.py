@@ -125,13 +125,14 @@ palette = {'orange': Palette('#ffccaa', '#d45500', '#ff7f2a'),
            'blue': Palette('#b0c4de', '#0055d4', '#5599ff'),
            'purple': Palette('#e5d5ff', '#8e1e92', '#da80f0'),
            'green': Palette('#e3f4d7', '#5aa02c', '#8dd35f'),
+           'cyan': Palette('#d8ffff', '#006680', '#70c4d5'),
           }
 
 groups = {}
 groups['local'] = DataGroup(palette['orange'], "solid", 'D', '////')
-groups['local-alt'] = DataGroup(palette['yellow'], "densely dashdotted", 'D', '////')
 groups['remote'] = DataGroup(palette['blue'], "dashed", 'x', '\\\\\\\\')
-groups['remote-alt'] = DataGroup(palette['purple'], "dashed", 'x', '\\\\\\\\')
+groups['remote-alt'] = DataGroup(palette['purple'], "solid", 'D', '////')
+groups['mdev'] = DataGroup(palette['cyan'], "dashed", 'x', '\\\\\\\\')
 groups['gpu'] = DataGroup(palette['green'], "densely dotted", 'o', '+++')
 
 maxwidth = pt2in(345)
@@ -278,7 +279,7 @@ def parse_fio_log(path, datacol=1):
     return np.array(dataset)
 
 
-def parse_gpu_bench(path, datacol='bandwidth', gpu=0):
+def parse_gpu_bench(path, datacol='bandwidth', gpu=0, target="host"):
     """
     Parse GPU bandwidth measurements.
     """
@@ -314,9 +315,9 @@ def parse_gpu_bench(path, datacol='bandwidth', gpu=0):
             if not match:
                 continue
 
-            if match.group('src') == str(gpu) and match.group('dst') == "host":
+            if match.group('src') == str(gpu) and match.group('dst') == str(target):
                 ds = dataset_dtoh
-            elif match.group('dst') == str(gpu) and match.group('src') == "host":
+            elif match.group('dst') == str(gpu) and match.group('src') == str(target):
                 ds = dataset_htod
             else:
                 continue
@@ -575,11 +576,51 @@ def lending_gpu_slides():
     plt.savefig("lending.png", dpi=600, format='png', bbox_inches='tight')
     #save_figure("lending-gpu")
 
+
+def lending_mdev():
+    mdev_fname = 'results/mdev/mdev.txt'
+    baremetal_fname = 'results/mdev/baremetal.txt'
+
+    mdev_htod, mdev_dtoh = parse_gpu_bench(mdev_fname, gpu=0)
+    baremetal_htod, baremetal_dtoh = parse_gpu_bench(baremetal_fname, gpu=0)
+
+    keys = [(1 << n) for n in range(12, 28)]
+
+    grouping = [groups['remote-alt'], groups['mdev']]
+    labels = ["Bare-Metal", "MDEV"]
+
+    fig = plt.figure(figsize=(pt2in(540), pt2in(160)))
+
+    ax = fig.subplots(1, 1)
+
+    prepare_axis(ax)
+
+    ax.set_xscale('log', base=2)
+    ax.set_xlim(keys[0] - (keys[0] >> 2), keys[-1] + keys[-2])
+    ax.set_xticks(keys)
+    ax.set_xticklabels((unit(size)+"B" for size in keys), rotation=0)
+    #ax.set_xlabel("Transfer size (B)")
+
+    ax.set_ylabel("DMA throughput (GB/s)")
+
+    ax.set_ylim(0, 7.5 * 1024)
+    yticks = range(0, 8 * 1024, 1024)
+    ax.set_yticks(yticks)
+    ax.set_yticklabels((int(i // 1024) for i in yticks))
+
+    plot_median_line(ax, [baremetal_dtoh, mdev_dtoh], grouping, labels)
+
+    fig.tight_layout()
+    fig.subplots_adjust(hspace=0.4)
+
+    plt.savefig("presentation/mdev-vs-baremetal.png", dpi=600, format='png', bbox_inches='tight')
+
 #lending_nvme()
 #smartio_driver_sq_figure()
 #lending_gpu()
 #lending_gpu_slides()
 
-scipp()
+#scipp()
+lending_mdev()
 
 plt.show()
